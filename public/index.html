@@ -213,8 +213,9 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 .card-tick{position:absolute;right:2.4%;top:6%;font-size:var(--micro);color:var(--faint);letter-spacing:.09em;font-variant-numeric:tabular-nums}
 .card-h{position:absolute;left:5.6%;top:15%;width:38%;font-size:var(--title);color:var(--ink)}
 .card-eyebrow{font-size:var(--micro);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.7em;display:block;font-weight:500}
-.card-methods{position:absolute;left:5.6%;top:49%;width:38%;display:flex;flex-wrap:wrap;gap:.5em .9em}
+.card-methods{position:absolute;left:5.6%;top:49%;width:38%;display:flex;flex-wrap:wrap;gap:.35em .9em}
 .card-methods li{list-style:none;font-size:var(--micro);color:var(--copy);letter-spacing:.05em;text-transform:uppercase}
+.card-methods li+li::before{content:"·";margin-right:.9em;color:var(--faint)}
 .card-schema{position:absolute;left:var(--col2);top:3.8%;width:44.5%;height:51%}
 .card-schema svg{width:100%;height:100%;display:block;overflow:visible}
 .card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
@@ -228,9 +229,62 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 .card-open::after{content:"↗";transition:translate var(--out) var(--ease)}
 .card:hover .card-open::after{translate:2px -2px;transition-duration:var(--in)}
 .card[data-href]:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
-/* compact variant — client work: no schematic, image fills that slot */
-.card--compact .card-media{position:absolute;left:var(--col2);top:3.8%;width:44.5%;height:51%;display:flex;align-items:center;justify-content:center}
-.card--compact .card-media img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:var(--r-lg)}
+
+/* ---------- client work: accordion ---------- */
+.more{padding-bottom:calc(var(--ctrl)*1.6)}
+.acc{
+  container-type:inline-size;
+  background-color:var(--card);
+  background-image:radial-gradient(var(--lattice) 1px, transparent 1px);
+  background-size:1.6cqw 1.6cqw;
+  border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  overflow:hidden;
+}
+.acc-item+.acc-item{border-top:1px solid var(--edge)}
+.acc-h{margin:0;font-weight:400;letter-spacing:0;line-height:inherit}
+.acc-head{
+  width:100%;display:grid;
+  grid-template-columns:1fr auto;grid-template-areas:"eyebrow ico" "title ico";
+  align-items:center;gap:.15em 1.4em;
+  padding:calc(var(--ctrl)*.62) 5.6%;
+  background:none;border:0;text-align:left;cursor:pointer;
+  color:var(--ink);font:inherit;
+  transition:background var(--out) var(--ease);
+}
+.acc-head:hover{background:rgba(25,21,23,.03);transition-duration:var(--in)}
+.acc-eyebrow{grid-area:eyebrow;font-size:var(--micro);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+.acc-title{grid-area:title;font-size:var(--body);color:var(--ink)}
+.acc-ico{
+  grid-area:ico;width:var(--ctrl);height:var(--ctrl);flex:0 0 auto;
+  border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  position:relative;transition:background var(--out) var(--ease),border-color var(--out) var(--ease);
+}
+.acc-ico::before,.acc-ico::after{
+  content:"";position:absolute;inset:50% 32%;
+  border-top:1px solid var(--muted);
+  transition:transform var(--out) var(--ease),border-color var(--out) var(--ease);
+}
+.acc-ico::after{transform:rotate(90deg)}
+.acc-head[aria-expanded="true"] .acc-ico{background:var(--ink);border-color:var(--ink)}
+.acc-head[aria-expanded="true"] .acc-ico::before,
+.acc-head[aria-expanded="true"] .acc-ico::after{border-top-color:var(--page)}
+.acc-head[aria-expanded="true"] .acc-ico::after{transform:rotate(0deg)}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
+.acc-body[data-open="true"]{grid-template-rows:1fr}
+.acc-inner{overflow:hidden;min-height:0}
+.acc-inner>*{margin-inline:5.6%}
+.acc-inner>:first-child{padding-top:calc(var(--ctrl)*.1)}
+.acc-inner>:last-child{margin-bottom:calc(var(--ctrl)*.7)}
+.acc-inner p{color:var(--copy);max-width:62ch}
+.acc-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.9em}
+.acc-tags span{font-size:var(--micro);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.acc-tags span+span::before{content:"·";margin-right:.5em;color:var(--faint)}
+.acc-media{display:flex;flex-wrap:wrap;gap:calc(var(--ctrl)*.4);margin-top:calc(var(--ctrl)*.5);align-items:flex-end}
+.acc-media img{width:auto;height:calc(var(--ctrl)*4.6);max-width:100%;object-fit:contain;border-radius:var(--r-lg)}
+.acc-link{display:inline-block;margin-top:calc(var(--ctrl)*.5);font-size:var(--micro);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);font-weight:500;text-decoration:none}
+.acc-link:hover{text-decoration:underline}
+[data-motion="off"] .acc-body{transition:none}
 
 /* 3 photo band — full bleed, no gaps */
 .band{display:grid;grid-template-columns:repeat(5,1fr);gap:0;width:100%;margin-block:calc(var(--ctrl)*1.4)}
@@ -311,10 +365,10 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
     padding:calc(var(--ctrl)*.9) calc(var(--ctrl)*.8) 0;align-content:start;
   }
   .card-tick{right:3.2%;top:4.4%}
-  .card-h,.card-methods,.card-schema,.card-shot,.card-copy,.card--compact .card-media{position:static;width:auto;left:auto;top:auto}
+  .card-h,.card-methods,.card-schema,.card-shot,.card-copy{position:static;width:auto;left:auto;top:auto}
   .card-h{grid-column:1/-1;grid-row:1;display:flex;flex-direction:column}
   .card-methods{grid-column:1/-1;grid-row:1;align-self:end;margin-top:.6em}
-  .card-schema,.card--compact .card-media{grid-column:1/-1;grid-row:2;height:100%;width:100%}
+  .card-schema{grid-column:1/-1;grid-row:2;height:100%;width:100%}
   .card-shot{grid-column:1;grid-row:3;align-self:end}
   .card-copy{grid-column:2;grid-row:3}
   .stack>.card-sticky:nth-child(2){top:calc(var(--ctrl) + 36px)}
@@ -337,7 +391,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
   .card-tick{position:static;order:1}
   .card-h{order:2;font-size:var(--title);margin:0}
   .card-methods{order:3;margin:0}
-  .card-schema,.card--compact .card-media{order:4;height:160px;width:100%}
+  .card-schema{order:4;height:160px;width:100%}
   .card-copy{order:5}
   .card-shot{order:6;width:70%;align-self:flex-start}
   .disc{display:none}
@@ -467,7 +521,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 
       <!-- 01 Tribe -->
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="tribe/tribe-case-study-final.html">
-        <span class="card-tick">01 / 07</span>
+        <span class="card-tick">01 / 04</span>
         <h2 class="card-h"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
         <ul class="card-methods"><li>Literature-grounded design</li><li>Three generations of validation</li><li>Developer feasibility synch</li></ul>
         <div class="card-schema"><svg width="100%" viewBox="21 0 579 120" class="schema" aria-hidden="true" fill="none">
@@ -528,7 +582,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 
       <!-- 02 Guardrail — in progress, no case study page exists -->
       <div class="card-sticky"><article class="card">
-        <span class="card-tick">02 / 07</span>
+        <span class="card-tick">02 / 04</span>
         <h2 class="card-h"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2>
         <div class="card-schema"><svg width="100%" viewBox="16 0 584 120" class="schema" aria-hidden="true" fill="none">
               <circle cx="40" cy="60" r="24" stroke="var(--stroke)" stroke-width="1.4" class="draw"/>
@@ -555,7 +609,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 
       <!-- 03 Mindure -->
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="case-study-mindure-v3.html">
-        <span class="card-tick">03 / 07</span>
+        <span class="card-tick">03 / 04</span>
         <h2 class="card-h"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
         <ul class="card-methods"><li>Secondary research</li><li>Constraint-system design</li><li>AI vs. human comparison</li></ul>
         <div class="card-schema"><svg width="100%" viewBox="12 0 414 120" class="schema" aria-hidden="true" fill="none">
@@ -580,7 +634,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 
       <!-- 04 Ness -->
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="ness/ness-creative-therapy.html">
-        <span class="card-tick">04 / 07</span>
+        <span class="card-tick">04 / 04</span>
         <h2 class="card-h"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
         <ul class="card-methods"><li>User survey, n=16</li><li>Usability test 1, 5 participants</li><li>Usability test 2</li></ul>
         <div class="card-schema"><svg width="100%" viewBox="14 0 412 120" class="schema" fill="none" role="img">
@@ -614,43 +668,56 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
         </div>
       </article></div>
 
-      <!-- 05 Leica -->
-      <div class="card-sticky"><article class="card card--compact">
-        <span class="card-tick">05 / 07</span>
-        <h2 class="card-h"><span class="card-eyebrow">Physical Product · Client Work · Leica</span>The third version wasn't asked for. It was the one manufactured.</h2>
-        <div class="card-media"><img src="snippets_leica__technical_drawing_1.png" alt="Leica component technical drawing" loading="lazy" decoding="async"></div>
-        <div class="card-shot"><img src="leica-thumbnail.png" alt="Leica manufactured component" loading="lazy" decoding="async"></div>
-        <div class="card-copy">
-          <p>Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
-          <div class="card-tags"><span>Client work</span><span>Physical product</span></div>
-        </div>
-      </article></div>
+    </div>
+  </section>
 
-      <!-- 06 Puzled -->
-      <div class="card-sticky"><article class="card card--compact">
-        <span class="card-tick">06 / 07</span>
-        <h2 class="card-h"><span class="card-eyebrow">Client Work · Puzled · 0→1</span>B2B Registration + Dashboard</h2>
-        <div class="card-media"><img src="snippets_puzled_onboarding_thumbnail.png" alt="Puzled onboarding flow" loading="lazy" decoding="async"></div>
-        <div class="card-shot"><img src="Puzled_logo_light_background-05.png" alt="Puzled logo" loading="lazy" decoding="async"></div>
-        <div class="card-copy">
-          <p>No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
-          <div class="card-tags"><span>Client work</span><span>0→1</span><span>B2B</span></div>
+  <!-- CLIENT WORK — accordion -->
+  <section class="more" id="more">
+    <p class="sec-label">Also shipped</p>
+    <div class="acc">
+      <div class="acc-item">
+        <h3 class="acc-h"><button class="acc-head" id="btn-lc" aria-expanded="false" aria-controls="panel-lc">
+          <span class="acc-eyebrow">Physical Product · Client Work · Leica</span>
+          <span class="acc-title">The third version wasn't asked for. It was the one manufactured.</span>
+          <span class="acc-ico" aria-hidden="true"></span>
+        </button></h3>
+        <div class="acc-body" id="panel-lc" role="region" aria-labelledby="btn-lc">
+          <div class="acc-inner">
+            <p>Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
+            <div class="acc-tags"><span>Client work</span><span>Physical product</span></div>
+            <div class="acc-media"><img src="snippets_leica__technical_drawing_1.png" alt="Leica technical drawing, variant one" loading="lazy" decoding="async"><img src="snippets_leica__technical_drawing_2.png" alt="Leica technical drawing, variant two" loading="lazy" decoding="async"><img src="snippets_leica__technical_drawing_3.png" alt="Leica technical drawing, variant three" loading="lazy" decoding="async"></div>
+          </div>
         </div>
-      </article></div>
-
-      <!-- 07 Civic -->
-      <div class="card-sticky"><article class="card card--compact" role="link" tabindex="0" data-href="https://csaladjainkertalapitvany.hu/" data-external="1">
-        <span class="card-tick">07 / 07</span>
-        <h2 class="card-h"><span class="card-eyebrow">Civic Design · Nonprofit</span>Making public grant eligibility readable by the people it was written for</h2>
-        <div class="card-media"><img src="workcard3_thumbnail.png" alt="Civic grant eligibility interface" loading="lazy" decoding="async"></div>
-        <div class="card-shot"><img src="CSA-emblema_pozitiv.png" alt="Családjainkért Alapítvány emblem" loading="lazy" decoding="async"></div>
-        <div class="card-copy">
-          <p>Making legal frameworks and public grants approachable for the families who need them the most — but get lost before they ever reach the application.</p>
-          <div class="card-tags"><span>Civic design</span><span>Nonprofit</span></div>
-          <span class="card-open">Visit live site</span>
+      </div>
+      <div class="acc-item">
+        <h3 class="acc-h"><button class="acc-head" id="btn-pz" aria-expanded="false" aria-controls="panel-pz">
+          <span class="acc-eyebrow">Client Work · Puzled · 0→1</span>
+          <span class="acc-title">B2B Registration + Dashboard</span>
+          <span class="acc-ico" aria-hidden="true"></span>
+        </button></h3>
+        <div class="acc-body" id="panel-pz" role="region" aria-labelledby="btn-pz">
+          <div class="acc-inner">
+            <p>No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
+            <div class="acc-tags"><span>Client work</span><span>0→1</span><span>B2B</span></div>
+            <div class="acc-media"><img src="snippets_puzled_onboarding_thumbnail.png" alt="Puzled onboarding flow" loading="lazy" decoding="async"><img src="Puzled_logo_light_background-05.png" alt="Puzled logo" loading="lazy" decoding="async"></div>
+          </div>
         </div>
-      </article></div>
-
+      </div>
+      <div class="acc-item">
+        <h3 class="acc-h"><button class="acc-head" id="btn-cv" aria-expanded="false" aria-controls="panel-cv">
+          <span class="acc-eyebrow">Civic Design · Nonprofit</span>
+          <span class="acc-title">Making public grant eligibility readable by the people it was written for</span>
+          <span class="acc-ico" aria-hidden="true"></span>
+        </button></h3>
+        <div class="acc-body" id="panel-cv" role="region" aria-labelledby="btn-cv">
+          <div class="acc-inner">
+            <p>Making legal frameworks and public grants approachable for the families who need them the most — but get lost before they ever reach the application.</p>
+            <div class="acc-tags"><span>Civic design</span><span>Nonprofit</span></div>
+            <div class="acc-media"><img src="workcard3_thumbnail.png" alt="Grant eligibility interface" loading="lazy" decoding="async"><img src="CSA-emblema_pozitiv.png" alt="Családjainkért Alapítvány emblem" loading="lazy" decoding="async"></div>
+            <a class="acc-link" href="https://csaladjainkertalapitvany.hu/" target="_blank" rel="noopener">Visit live site ↗</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </div>
@@ -938,6 +1005,16 @@ abs.forEach(function(b){
     document.querySelectorAll('[data-ap]').forEach(function(p){
       p.setAttribute('data-on',p.getAttribute('data-ap')===b.getAttribute('data-ab')?'true':'false');
     });
+  });
+});
+
+/* ---- client-work accordion ---- */
+document.querySelectorAll(".acc-head").forEach(function(btn){
+  var panel=document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click",function(){
+    var open=btn.getAttribute("aria-expanded")==="true";
+    btn.setAttribute("aria-expanded",open?"false":"true");
+    panel.setAttribute("data-open",open?"false":"true");
   });
 });
 
