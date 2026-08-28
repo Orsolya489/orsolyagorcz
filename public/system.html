@@ -131,20 +131,15 @@ em{font-style:italic}
 /* ═══ 6 · DIAGRAM ANIMATION — one behaviour ═══ */
 .plane .soft,
 .plane .constr{opacity:0;transition:opacity 600ms var(--ease)}
-.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1100ms var(--ease)}
+.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1100ms var(--ease) var(--d,150ms)}
 .plane .dot{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;
   transition:opacity 500ms var(--ease) 1050ms, transform 500ms var(--ease) 1050ms}
 .plane text{opacity:0;transform:translateY(10px);
-  transition:opacity 450ms var(--ease), transform 450ms var(--ease)}
+  transition:opacity 450ms var(--ease) var(--d,1200ms), transform 450ms var(--ease) var(--d,1200ms)}
 .plane.go .soft,.plane.go .constr{opacity:1}
-.plane.go .hard{stroke-dashoffset:0;transition-delay:150ms}
-.plane.go .hard:nth-of-type(2){transition-delay:290ms}
-.plane.go .hard:nth-of-type(3){transition-delay:430ms}
+.plane.go .hard{stroke-dashoffset:0}
 .plane.go .dot{opacity:1;transform:scale(1)}
-.plane.go text{opacity:1;transform:translateY(0);transition-delay:1200ms}
-.plane.go text:nth-of-type(2){transition-delay:1300ms}
-.plane.go text:nth-of-type(3){transition-delay:1400ms}
-.plane.go text:nth-of-type(4){transition-delay:1500ms}
+.plane.go text{opacity:1;transform:translateY(0)}
 .plane.go .node{transition-delay:1100ms}
 
 @media (prefers-reduced-motion: reduce){
@@ -593,6 +588,13 @@ if(gv){for(var i=0;i<12;i++){var s=document.createElement('span');
 
 /* §6 — one animation behaviour, fires once, never loops */
 var planes=[].slice.call(document.querySelectorAll('.plane'));
+planes.forEach(function(pl){
+  pl.querySelectorAll('.hard').forEach(function(el,i){
+    if(el.getAttribute('pathLength')===null)el.setAttribute('pathLength','1');
+    el.style.setProperty('--d',(150+i*140)+'ms');});
+  pl.querySelectorAll('.soft,.node').forEach(function(el){el.style.setProperty('--d','0ms');});
+  pl.querySelectorAll('text').forEach(function(el,i){el.style.setProperty('--d',(1200+i*100)+'ms');});
+});
 if('IntersectionObserver' in window){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('go'); io.unobserve(e.target); } });

@@ -253,75 +253,76 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .plane svg .in-node{fill:var(--page)}
 @media (max-width:767px){ .plane svg .hard,.plane svg .soft{stroke-width:2px} }
 
-/* ═══ 7 · motion — design-system.md §6, 1600ms total ═══ */
-.plane .soft{opacity:0;transition:opacity 600ms var(--ease)}
-.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1100ms var(--ease)}
-.plane .node{opacity:0;transition:opacity 600ms var(--ease)}
+/* ═══ 7 · motion — design-system.md §6. 1600ms total, one decelerating tail,
+   no spring, no overshoot. Per-sibling delays are set in JS. ═══ */
+.plane .soft{opacity:0;transition:opacity 600ms var(--ease) var(--d,0ms)}
+.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;
+  transition:stroke-dashoffset 1100ms var(--ease) var(--d,150ms)}
+.plane .node{opacity:0;transition:opacity 600ms var(--ease) var(--d,0ms)}
 .plane .dot{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;
   transition:opacity 500ms var(--ease) 1050ms, transform 500ms var(--ease) 1050ms}
 .plane text{opacity:0;transform:translateY(10px);
-  transition:opacity 450ms var(--ease), transform 450ms var(--ease)}
+  transition:opacity 450ms var(--ease) var(--d,1200ms), transform 450ms var(--ease) var(--d,1200ms)}
 .card.is-seen .plane .soft,.card.is-seen .plane .node{opacity:1}
-.card.is-seen .plane .hard{stroke-dashoffset:0;transition-delay:150ms}
-.card.is-seen .plane .hard:nth-of-type(2){transition-delay:290ms}
-.card.is-seen .plane .hard:nth-of-type(3){transition-delay:430ms}
+.card.is-seen .plane .hard{stroke-dashoffset:0}
 .card.is-seen .plane .dot{opacity:1;transform:scale(1)}
-.card.is-seen .plane text{opacity:1;transform:translateY(0);transition-delay:1200ms}
-.card.is-seen .plane text:nth-of-type(2){transition-delay:1300ms}
-.card.is-seen .plane text:nth-of-type(3){transition-delay:1400ms}
-.card.is-seen .plane text:nth-of-type(4){transition-delay:1500ms}
+.card.is-seen .plane text{opacity:1;transform:translateY(0)}
 
-/* client work — accordion */
+/* client work — three cards in a row, images open underneath */
 .more{padding-bottom:var(--section)}
-.acc{container-type:inline-size;background-color:var(--card);
+.cw-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
+.cw-card{
+  display:flex;flex-direction:column;align-items:flex-start;gap:.5em;
+  padding:var(--stack) var(--stack) calc(var(--stack)*1.4);
+  text-align:left;cursor:pointer;position:relative;
+  background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);background-size:1.6cqw 1.6cqw;
-  border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden}
-.acc-item+.acc-item{border-top:1px solid var(--edge)}
-.acc-h{margin:0}
-.acc-head{width:100%;display:grid;grid-template-columns:1fr auto;
-  grid-template-areas:"eyebrow ico" "title ico";align-items:center;gap:.2em 1.4em;
-  padding:calc(var(--stack)*.7) 5.6%;background:none;border:0;text-align:left;cursor:pointer;
-  min-height:var(--control);transition:background var(--out) var(--ease)}
-.acc-head:hover{background:rgba(25,21,23,.03);transition-duration:var(--in)}
-.acc-eyebrow{grid-area:eyebrow;font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.acc-title{grid-area:title;font-family:var(--sans);font-weight:500;font-size:var(--body);
-  line-height:1.35;color:var(--ink)}
-.acc-ico{grid-area:ico;width:var(--control);height:var(--control);border:1px solid var(--edge-ctrl);
-  border-radius:var(--r-pill);position:relative;
+  border:0;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);
+  transition:box-shadow var(--out) var(--ease);
+}
+.cw-card:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl);transition-duration:var(--in)}
+.cw-eyebrow{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted)}
+.cw-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
+.cw-ico{position:absolute;right:var(--stack);bottom:var(--stack);
+  width:var(--control);height:var(--control);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
-.acc-ico::before,.acc-ico::after{content:"";position:absolute;inset:50% 32%;
+.cw-ico::before,.cw-ico::after{content:"";position:absolute;inset:50% 32%;
   border-top:1px solid var(--muted);transition:transform var(--out) var(--ease),border-color var(--out) var(--ease)}
-.acc-ico::after{transform:rotate(90deg)}
-.acc-head[aria-expanded="true"] .acc-ico{background:var(--ink);border-color:var(--ink)}
-.acc-head[aria-expanded="true"] .acc-ico::before,
-.acc-head[aria-expanded="true"] .acc-ico::after{border-top-color:var(--page)}
-.acc-head[aria-expanded="true"] .acc-ico::after{transform:rotate(0)}
-.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
-.acc-body[data-open="true"]{grid-template-rows:1fr}
-.acc-inner{overflow:hidden;min-height:0}
-.acc-inner>*{margin-inline:5.6%}
-.acc-inner>:last-child{margin-bottom:var(--stack)}
-.acc-media{display:flex;flex-wrap:wrap;gap:calc(var(--gutter)*.5);margin-top:var(--stack);align-items:flex-end}
-.acc-media img{width:auto;height:calc(var(--control)*4);max-width:100%;object-fit:contain;border-radius:var(--r-lg)}
-.acc-link{display:inline-flex;align-items:center;min-height:var(--control);margin-top:var(--stack);
+.cw-ico::after{transform:rotate(90deg)}
+.cw-card[aria-expanded="true"]{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+.cw-card[aria-expanded="true"] .cw-ico{background:var(--ink);border-color:var(--ink)}
+.cw-card[aria-expanded="true"] .cw-ico::before,
+.cw-card[aria-expanded="true"] .cw-ico::after{border-top-color:var(--page)}
+.cw-card[aria-expanded="true"] .cw-ico::after{transform:rotate(0)}
+.cw-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
+.cw-panel[data-open="true"]{grid-template-rows:1fr}
+.cw-inner{overflow:hidden;min-height:0;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:var(--gutter);align-items:start}
+.cw-panel[data-open="true"] .cw-inner{padding-top:var(--stack)}
+.cw-media img{width:100%;height:auto;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge)}
+.cw-link{display:inline-flex;align-items:center;min-height:var(--control);margin-top:var(--stack);
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink);text-decoration:none}
-.acc-link:hover{text-decoration:underline}
+.cw-link:hover{text-decoration:underline}
+@media (max-width:1023px){.cw-row{grid-template-columns:1fr}.cw-inner{grid-template-columns:1fr}}
+[data-motion="off"] .cw-panel{transition:none}
 
 /* 3 · photo band — full bleed, no gaps */
-.band{display:grid;grid-template-columns:repeat(5,1fr);gap:0;width:100%;margin-block:var(--section)}
-.band button{padding:0;border:0;background:none;cursor:zoom-in;display:block}
-.band img{width:100%;height:100%;aspect-ratio:4/5;object-fit:cover;max-height:clamp(260px,30vw,520px)}
+.band{width:100%;margin-block:var(--section)}
+.band button{padding:0;border:0;background:none;cursor:zoom-in;display:block;width:100%}
+.band img{width:100%;height:auto;aspect-ratio:21/9;object-fit:cover;
+  max-height:clamp(300px, 52vh, 620px)}
+@media (max-width:767px){.band img{aspect-ratio:4/3}}
 
 /* 4 · about, Lens inside */
 .about{padding-block:var(--section)}
 .about-lede{margin:0 0 var(--stack)}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--section) var(--gutter)}
-.tabrow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--stack)}
-.about-panel{display:none}
-.about-panel[data-on="true"]{display:block}
-.about-panel p+p{margin-top:.9em}
+.about-stack{display:grid;grid-template-columns:1fr 1fr;gap:var(--section) var(--gutter)}
+.ab-item>*+*{margin-top:.9em}
+.col-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
+@media (max-width:767px){.about-stack{grid-template-columns:1fr;gap:var(--stack)}}
 .cert-item{padding-bottom:var(--stack);margin-bottom:var(--stack);border-bottom:1px solid var(--edge)}
 .cert-name{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink)}
 .cert-meta{display:flex;justify-content:space-between;gap:1em;align-items:baseline;margin-top:.5em}
@@ -407,8 +408,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .bar-extra{display:flex;gap:4px;align-items:center;margin-left:auto}
   .tab{padding:0 calc(var(--control)*.24)}
   .hero{padding-top:96px;min-height:auto;padding-bottom:var(--section)}
-  .band{grid-template-columns:repeat(3,1fr)}
-  .band button:nth-child(4),.band button:nth-child(5){display:none}
   .panel{right:8px;left:8px;width:auto;
     bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control)*1.35 + 12px)}
   .contact{padding-bottom:calc(var(--control)*1.35 + 40px)}
@@ -637,63 +636,52 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <section class="more" id="more">
     <p class="sec-label">Also shipped</p>
-    <div class="acc">
-      <div class="acc-item">
-        <h3 class="acc-h"><button class="acc-head" id="btn-lc" aria-expanded="false" aria-controls="panel-lc">
-          <span class="acc-eyebrow">Physical Product · Client Work · Leica</span>
-          <span class="acc-title">The third version wasn't asked for. It was the one manufactured.</span>
-          <span class="acc-ico" aria-hidden="true"></span>
-        </button></h3>
-        <div class="acc-body" id="panel-lc" role="region" aria-labelledby="btn-lc"><div class="acc-inner">
-          <p class="t-body">Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
-          <div class="acc-media">
-            <img src="snippets_leica__technical_drawing_1.png" alt="Leica technical drawing, variant one" loading="lazy" decoding="async">
-            <img src="snippets_leica__technical_drawing_2.png" alt="Leica technical drawing, variant two" loading="lazy" decoding="async">
-            <img src="snippets_leica__technical_drawing_3.png" alt="Leica technical drawing, variant three" loading="lazy" decoding="async">
-          </div>
-        </div></div>
-      </div>
-      <div class="acc-item">
-        <h3 class="acc-h"><button class="acc-head" id="btn-pz" aria-expanded="false" aria-controls="panel-pz">
-          <span class="acc-eyebrow">Client Work · Puzled · 0→1</span>
-          <span class="acc-title">B2B Registration + Dashboard</span>
-          <span class="acc-ico" aria-hidden="true"></span>
-        </button></h3>
-        <div class="acc-body" id="panel-pz" role="region" aria-labelledby="btn-pz"><div class="acc-inner">
-          <p class="t-body">No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
-          <div class="acc-media">
-            <img src="snippets_puzled_onboarding_thumbnail.png" alt="Puzled onboarding flow" loading="lazy" decoding="async">
-            <img src="Puzled_logo_light_background-05.png" alt="Puzled logo" loading="lazy" decoding="async">
-          </div>
-        </div></div>
-      </div>
-      <div class="acc-item">
-        <h3 class="acc-h"><button class="acc-head" id="btn-cv" aria-expanded="false" aria-controls="panel-cv">
-          <span class="acc-eyebrow">Civic Design · Nonprofit</span>
-          <span class="acc-title">Making public grant eligibility readable by the people it was written for</span>
-          <span class="acc-ico" aria-hidden="true"></span>
-        </button></h3>
-        <div class="acc-body" id="panel-cv" role="region" aria-labelledby="btn-cv"><div class="acc-inner">
-          <p class="t-body">Making legal frameworks and public grants approachable for the families who need them the most — but get lost before they ever reach the application.</p>
-          <div class="acc-media">
-            <img src="workcard3_thumbnail.png" alt="Grant eligibility interface" loading="lazy" decoding="async">
-            <img src="CSA-emblema_pozitiv.png" alt="Családjainkért Alapítvány emblem" loading="lazy" decoding="async">
-          </div>
-          <a class="acc-link" href="https://csaladjainkertalapitvany.hu/" target="_blank" rel="noopener">Visit live site ↗</a>
-        </div></div>
-      </div>
+    <div class="cw-row">
+        <button class="cw-card" id="cw-lc" aria-expanded="false" aria-controls="cwp-lc">
+          <span class="cw-eyebrow">Physical Product · Client Work · Leica</span>
+          <span class="cw-title">The third version wasn't asked for. It was the one manufactured.</span>
+          <span class="cw-ico" aria-hidden="true"></span>
+        </button>
+        <button class="cw-card" id="cw-pz" aria-expanded="false" aria-controls="cwp-pz">
+          <span class="cw-eyebrow">Client Work · Puzled · 0→1</span>
+          <span class="cw-title">B2B Registration + Dashboard</span>
+          <span class="cw-ico" aria-hidden="true"></span>
+        </button>
+        <button class="cw-card" id="cw-cv" aria-expanded="false" aria-controls="cwp-cv">
+          <span class="cw-eyebrow">Civic Design · Nonprofit</span>
+          <span class="cw-title">Making public grant eligibility readable by the people it was written for</span>
+          <span class="cw-ico" aria-hidden="true"></span>
+        </button>
     </div>
+      <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner">
+        <div class="cw-body">
+          <p class="t-body">Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
+        </div>
+        <div class="cw-media"><img src="snippets_leica__technical_drawing_1.png" alt="Leica technical drawing" loading="lazy" decoding="async"></div>
+      </div></div>
+      <div class="cw-panel" id="cwp-pz" role="region" aria-labelledby="cw-pz"><div class="cw-inner">
+        <div class="cw-body">
+          <p class="t-body">No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
+        </div>
+        <div class="cw-media"><img src="snippets_puzled_onboarding_thumbnail.png" alt="Puzled onboarding flow" loading="lazy" decoding="async"></div>
+      </div></div>
+      <div class="cw-panel" id="cwp-cv" role="region" aria-labelledby="cw-cv"><div class="cw-inner">
+        <div class="cw-body">
+          <p class="t-body">Making legal frameworks and public grants approachable for the families who need them the most — but get lost before they ever reach the application.</p>
+            <a class="cw-link" href="https://csaladjainkertalapitvany.hu/" target="_blank" rel="noopener">Visit live site ↗</a>
+        </div>
+        <div class="cw-media"><img src="workcard3_thumbnail.png" alt="Grant eligibility interface" loading="lazy" decoding="async"></div>
+      </div></div>
   </section>
 </div>
 
-<!-- 3 · PHOTO BAND -->
+<!-- 3 · ONE IMAGE -->
 <section class="band" aria-label="Outside work">
-  <button type="button" data-full="about_me_image_1_main.png" aria-label="Open photo 1 of 5"><img src="about_me_image_1_main.png" alt="Outside work, one" loading="lazy" decoding="async"></button>
-  <button type="button" data-full="about_me_ducks.jpg" aria-label="Open photo 2 of 5"><img src="about_me_ducks.jpg" alt="Outside work, two" loading="lazy" decoding="async"></button>
-  <button type="button" data-full="about_me_ha_giang_lookout.jpg" aria-label="Open photo 3 of 5"><img src="about_me_ha_giang_lookout.jpg" alt="Outside work, three" loading="lazy" decoding="async"></button>
-  <button type="button" data-full="about_me_image_2.png" aria-label="Open photo 4 of 5"><img src="about_me_image_2.png" alt="Outside work, four" loading="lazy" decoding="async"></button>
-  <button type="button" data-full="about_me_terrain.jpeg" aria-label="Open photo 5 of 5"><img src="about_me_terrain.jpeg" alt="Outside work, five" loading="lazy" decoding="async"></button>
+  <button type="button" aria-label="Open photo larger" data-full="about_me_image_1_main.png">
+    <img src="about_me_image_1_main.png" alt="Outside work" loading="lazy" decoding="async">
+  </button>
 </section>
+
 
 <div class="wrap">
   <!-- 4 · ABOUT, Lens inside -->
@@ -702,28 +690,27 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     <h2 class="about-lede t-title">Lens — what shapes the way I design</h2>
     <div class="about-grid">
       <div>
-        <div class="tabrow" role="tablist" aria-label="About me">
-          <button class="btn btn--sel" role="tab" aria-selected="true" data-ab="0">Who I am</button>
-          <button class="btn" role="tab" aria-selected="false" data-ab="1">My focus</button>
-          <button class="btn" role="tab" aria-selected="false" data-ab="2">Working with me</button>
-          <button class="btn" role="tab" aria-selected="false" data-ab="3">What I believe</button>
-        </div>
-        <div class="about-panel" data-on="true" data-ap="0">
-          <p class="t-body">My background runs through graphic design, live broadcasting, and spatial motion in AR/VR — environments where cognitive load is real, timing is everything, and there's no room for error.</p>
-          <p class="t-body">Somewhere in the middle of that, I spent years moving through Europe, Asia and Australia with a backpack — living alongside indigenous communities where the relationship between people and their environment was immediate and unfiltered. That became my first education in human factors.</p>
-        </div>
-        <div class="about-panel" data-ap="1">
-          <p class="t-body">What pulls me in are the small things — the half-second a screen hesitates, a word that lands slightly off, the moment you can feel someone quietly start to give up. One little thing nudges the next, and usually no one can point to what actually went wrong. I love following that thread back to where it started, and making the whole thing feel calmer and more human to use.</p>
-          <p class="t-body">I go deep before I go wide. I need to understand how a problem behaves in the real world before I start shaping a solution.</p>
-        </div>
-        <div class="about-panel" data-ap="2">
-          <p class="t-body">I find honest collaboration easier than polite collaboration. Not blunt — just direct.</p>
-          <p class="t-body">If I go quiet in a meeting, I'm not disengaged. I'm mapping the logic in my head, finding where it breaks.</p>
-        </div>
-        <div class="about-panel" data-ap="3">
-          <p class="t-body">When I lived in remote villages across Australia and Asia, I watched how people built their tools. Nobody designed for a perfect scenario — they designed for the actual mud, heat, and exhaustion they dealt with every day.</p>
-          <p class="t-body">Software should do the same. When someone struggles with an app, they're not stupid. The interface was just built for someone sitting at a quiet desk — not someone on a slow connection, in a noisy room, on a hard day.</p>
-          <p class="t-body">I believe every design decision revolves around this reality. At least this is what I design for.</p>
+        <div class="about-stack">
+          <div class="ab-item">
+            <p class="col-title">Who I am</p>
+            <p class="t-body">My background runs through graphic design, live broadcasting, and spatial motion in AR/VR — environments where cognitive load is real, timing is everything, and there's no room for error.</p>
+            <p class="t-body">Somewhere in the middle of that, I spent years moving through Europe, Asia and Australia with a backpack — living alongside indigenous communities where the relationship between people and their environment was immediate and unfiltered. That became my first education in human factors.</p>
+          </div>
+          <div class="ab-item">
+            <p class="col-title">My focus</p>
+            <p class="t-body">What pulls me in are the small things — the half-second a screen hesitates, a word that lands slightly off, the moment you can feel someone quietly start to give up. One little thing nudges the next, and usually no one can point to what actually went wrong.</p>
+            <p class="t-body">I go deep before I go wide. I need to understand how a problem behaves in the real world before I start shaping a solution.</p>
+          </div>
+          <div class="ab-item">
+            <p class="col-title">Working with me</p>
+            <p class="t-body">I find honest collaboration easier than polite collaboration. Not blunt — just direct.</p>
+            <p class="t-body">If I go quiet in a meeting, I'm not disengaged. I'm mapping the logic in my head, finding where it breaks.</p>
+          </div>
+          <div class="ab-item">
+            <p class="col-title">What I believe</p>
+            <p class="t-body">When I lived in remote villages across Australia and Asia, I watched how people built their tools. Nobody designed for a perfect scenario — they designed for the actual mud, heat, and exhaustion they dealt with every day.</p>
+            <p class="t-body">Software should do the same. When someone struggles with an app, they're not stupid. The interface was just built for someone sitting at a quiet desk — not someone on a slow connection, in a noisy room, on a hard day.</p>
+          </div>
         </div>
       </div>
       <div>
@@ -801,8 +788,13 @@ document.querySelectorAll('.card[data-href]').forEach(function(c){
 });
 
 /* diagram draw-in — design-system.md §6, fires once, threshold .35 */
-document.querySelectorAll('.plane .hard').forEach(function(p){
-  if(p.getAttribute('pathLength')===null)p.setAttribute('pathLength','1');});
+document.querySelectorAll('.plane').forEach(function(pl){
+  pl.querySelectorAll('.hard').forEach(function(el,i){
+    if(el.getAttribute('pathLength')===null)el.setAttribute('pathLength','1');
+    el.style.setProperty('--d',(150+i*140)+'ms');});
+  pl.querySelectorAll('.soft,.node').forEach(function(el){el.style.setProperty('--d','0ms');});
+  pl.querySelectorAll('text').forEach(function(el,i){el.style.setProperty('--d',(1200+i*100)+'ms');});
+});
 if('IntersectionObserver' in window){
   var seen=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('is-seen');seen.unobserve(e.target);}});},{threshold:.35});
@@ -881,19 +873,18 @@ function noise(on){
       o.setAttribute('aria-pressed',on?'false':'true');o.classList.toggle('btn--on',!on);
       o.setAttribute('aria-label',on?'Play brown noise':'Stop brown noise');});});});
 
-/* about tabs */
-var abs=[].slice.call(document.querySelectorAll('[data-ab]'));
-abs.forEach(function(b){b.addEventListener('click',function(){
-  abs.forEach(function(x){x.setAttribute('aria-selected','false');x.classList.remove('btn--sel');});
-  b.setAttribute('aria-selected','true');b.classList.add('btn--sel');
-  document.querySelectorAll('[data-ap]').forEach(function(p){
-    p.setAttribute('data-on',p.getAttribute('data-ap')===b.getAttribute('data-ab')?'true':'false');});});});
 
-/* accordion */
-document.querySelectorAll('.acc-head').forEach(function(btn){
-  var p=document.getElementById(btn.getAttribute('aria-controls'));
-  btn.addEventListener('click',function(){var open=btn.getAttribute('aria-expanded')==='true';
-    btn.setAttribute('aria-expanded',open?'false':'true');p.setAttribute('data-open',open?'false':'true');});});
+/* client work — one open at a time, panel sits under the row */
+var cwCards=[].slice.call(document.querySelectorAll('.cw-card'));
+cwCards.forEach(function(btn){
+  var panel=document.getElementById(btn.getAttribute('aria-controls'));
+  btn.addEventListener('click',function(){
+    var open=btn.getAttribute('aria-expanded')==='true';
+    cwCards.forEach(function(o){
+      o.setAttribute('aria-expanded','false');
+      document.getElementById(o.getAttribute('aria-controls')).setAttribute('data-open','false');});
+    if(!open){btn.setAttribute('aria-expanded','true');panel.setAttribute('data-open','true');}
+  });});
 
 /* lightbox — Escape closes, focus trapped, focus returns to the trigger */
 var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),
