@@ -183,8 +183,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* 1 · hero */
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
   padding-block:calc(var(--section)*1.1) var(--section)}
-.hero-loc{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:var(--stack)}
+.hero-labels{display:flex;flex-wrap:wrap;align-items:center;gap:calc(var(--control)*.26);margin-bottom:var(--stack)}
+.hero-labels span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.hero-labels span+span::before{content:"·";margin-right:calc(var(--control)*.26);color:var(--line-soft)}
+.hero-sub{max-width:56ch}
 .hero h1{margin:0 0 var(--stack)}
 
 /* 2 · work — the card */
@@ -441,7 +444,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       </g>
     </svg></a>
   <div class="disc" aria-label="Disciplines">
-    <span>AI Product Designer</span><span>Human Factors</span><span>Human-AI Interaction</span>
+    <span>Product Design</span><span>Human-AI Interaction</span><span>Human Factors</span>
   </div>
 </nav>
 
@@ -516,9 +519,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <!-- 1 · HERO -->
   <section class="hero" id="home">
-    <p class="hero-loc">Based in Hungary · Open to remote &amp; relocation</p>
+    <p class="hero-labels"><span>Product Design</span><span>Human-AI Interaction</span><span>Human Factors</span></p>
     <h1 class="t-hero">I help people feel safe in systems they don't trust yet.</h1>
-    <p class="t-lead">I design the behavior and systems layer — for the moments products forget people exist, and for the problems nobody has named yet. From research to prototype.</p>
+    <p class="t-body hero-sub">I design for cognitive limits, not ideal users — the half-second a screen hesitates, the moment someone quietly gives up. From research to working prototype.</p>
   </section>
 
   <!-- 2 · WORK -->
@@ -697,7 +700,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="about-panel" data-on="true" data-ap="0">
           <p class="t-body">My background runs through graphic design, live broadcasting, and spatial motion in AR/VR — environments where cognitive load is real, timing is everything, and there's no room for error.</p>
           <p class="t-body">Somewhere in the middle of that, I spent years moving through Europe, Asia and Australia with a backpack — living alongside indigenous communities where the relationship between people and their environment was immediate and unfiltered. That became my first education in human factors.</p>
-          <p class="t-body">I'm based in Szombathely, Hungary, and I bring all of it into product design.</p>
         </div>
         <div class="about-panel" data-ap="1">
           <p class="t-body">What pulls me in are the small things — the half-second a screen hesitates, a word that lands slightly off, the moment you can feel someone quietly start to give up. One little thing nudges the next, and usually no one can point to what actually went wrong. I love following that thread back to where it started, and making the whole thing feel calmer and more human to use.</p>
