@@ -115,7 +115,12 @@ a{color:inherit}
 
 /* ═══ 3 · fixed chrome ═══ */
 .chrome{position:fixed;z-index:500;display:flex;align-items:center;gap:calc(var(--control)*.28)}
-.c-tl{top:var(--gutter);left:var(--gutter)}
+/* the brand sits on glass like every other chrome group, so scrolling copy
+   does not run underneath it. No border: it is not a control. */
+.c-tl{top:var(--gutter);left:var(--gutter);
+  padding:calc(var(--control)*.16) calc(var(--control)*.42);
+  background:var(--glass);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .c-tr{top:var(--gutter);right:var(--gutter)}
 .c-bc{bottom:max(var(--gutter), env(safe-area-inset-bottom));left:50%;translate:-50% 0}
 .c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--gutter)}
