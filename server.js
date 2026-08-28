@@ -8,7 +8,7 @@ http.createServer((req,res)=>{
   if(!f.startsWith(ROOT)){res.writeHead(403);return res.end('no');}
   fs.readFile(f,(e,d)=>{
     if(e){res.writeHead(404,{'Content-Type':'text/plain'});return res.end('404 '+p);}
-    res.writeHead(200,{'Content-Type':T[path.extname(f).toLowerCase()]||'application/octet-stream'});
+    res.writeHead(200,{'Content-Type':T[path.extname(f).toLowerCase()]||'application/octet-stream','Cache-Control':'no-store, no-cache, must-revalidate','Pragma':'no-cache'});
     res.end(d);
   });
 }).listen(4321,()=>console.log('serving public/ on 4321'));
