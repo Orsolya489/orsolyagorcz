@@ -218,11 +218,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-h{margin:0}
 .card-eyebrow{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.8em}
-.card-methods{margin-top:var(--stack);display:flex;flex-wrap:wrap;gap:.35em .9em}
-.card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+.card-methods{margin-top:calc(var(--stack)*.5);display:flex;flex-wrap:wrap;gap:.25em .9em}
+.card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
   letter-spacing:.07em;text-transform:uppercase;color:var(--body-c);overflow-wrap:break-word}
 .card-methods li+li::before{content:"·";margin-right:.9em;color:var(--line-soft)}
 .card-plane{position:absolute;left:50.2%;top:3.8%;width:44.5%;height:51%}
+.card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
+.card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
 .card-copy{position:absolute;left:50.2%;bottom:6%;width:36%}
 .card-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.9em}
 .card-tags span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
@@ -361,14 +363,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* Tablet 768–1023 */
 @media (max-width:1023px){
   .card{aspect-ratio:auto;display:grid;
-    grid-template-columns:1fr;grid-template-rows:auto auto auto auto;
+    grid-template-columns:40% 1fr;grid-template-rows:auto auto auto auto;
     gap:calc(var(--stack)*.5) var(--gutter);
     padding:var(--stack) var(--stack) 0;align-content:start}
   .card-tick{position:static;grid-column:1/-1;grid-row:1;justify-self:end}
-  .card-hblock,.card-plane,.card-copy{position:static;width:auto;left:auto;top:auto;height:auto}
+  .card-hblock,.card-plane,.card-copy,.card-shot{position:static;width:auto;left:auto;top:auto;height:auto}
   .card-hblock{grid-column:1/-1;grid-row:2}
+  .card-tick{grid-column:1/-1}
   .card-plane{grid-column:1/-1;grid-row:3;height:clamp(180px,26vw,320px)}
-  .card-copy{grid-column:1/-1;grid-row:4;padding-bottom:var(--stack)}
+  .card-shot{grid-column:1;grid-row:4;align-self:end;height:calc(var(--section)*1.8);
+    margin-bottom:calc(var(--section)*-.55);overflow:hidden}
+  .card-shot img{height:100%;object-fit:cover;object-position:top center}
+  .card-copy{grid-column:2;grid-row:4;padding-bottom:var(--stack)}
   .stack-cards>.card-sticky{top:calc(var(--control) + 24px)}
   .stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 30px)}
   .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 36px)}
@@ -390,6 +396,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-methods li+li::before{content:none}
   .card-plane{order:3;height:160px}
   .card-copy{order:4;padding-bottom:24px}
+  .card-shot{order:5;width:66%;height:150px;overflow:hidden}
+  .card-shot img{height:100%;object-fit:cover;object-position:top center}
   .disc{display:none}
   .btn-resume-txt{display:none}
   .btn-resume{padding:0;width:var(--control);flex:0 0 var(--control)}
@@ -546,6 +554,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="800" y="459" text-anchor="middle">Match</text>
 <text x="600" y="530" text-anchor="middle">Validation gap</text>
 </svg></div></div>
+        <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <p class="t-body">This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.</p>
           <div class="card-tags"><span>MVP</span><span>Product Design</span><span>Human-AI Interaction</span></div>
@@ -590,6 +599,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="120" y="550">Time in session</text>
 <text x="600" y="550" text-anchor="middle">Peak cognitive load</text>
 </svg></div></div>
+        <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <p class="t-body">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.</p>
           <div class="card-tags"><span>Research prototype</span><span>Human Factors</span><span>Human-AI Interaction</span></div>
@@ -614,6 +624,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="380" y="550">Defended</text>
 <text x="820" y="550">Disengaged</text>
 </svg></div></div>
+        <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <p class="t-body">The making is the session. Words come after.</p>
           <div class="card-tags"><span>Product Design</span><span>UX/UI</span><span>Branding</span></div>
