@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Building enough safety to type the thing you actually want — Orsolya G.</title>
+<meta name="description" content="Tribe: an intent-based social app where one prompt replaces the profile. Case study on designing psychological safety into a single text field.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#FAF5F3; --card:#F2E5E2; --recess:#EDDCD9;
+  --ink:#191517; --body-c:#4E4649; --muted:#6B5F62;
+  --line:#5B5257; --line-soft:#B3A5A3;
+  --edge:rgba(25,21,23,.09); --lattice:rgba(25,21,23,.06);
+  --edge-ctrl:rgba(25,21,23,.22); --glass:rgba(250,245,243,.90);
+
+  --margin:clamp(20px, 5.6vw, 140px);
+  --gutter:clamp(16px, 2.2vw, 48px);
+  --stack:clamp(16px, 2.2vw, 40px);
+  --section:clamp(72px, 9vw, 180px);
+  --control:clamp(44px, 3cqw, 52px);
+  --r-lg:20px; --r-pill:999px;
+  --ease:cubic-bezier(.16,1,.3,1); --in:180ms; --out:520ms;
+
+  --tscale:1;
+  --micro:calc(clamp(12px, 1.00cqw, 15px) * var(--tscale));
+  --body: calc(clamp(16px, 1.35cqw, 19px) * var(--tscale));
+  --title:calc(clamp(24px, 3.20cqw, 46px) * var(--tscale));
+  --hero: calc(clamp(32px, 5.40cqw, 76px) * var(--tscale));
+
+  --sans:"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --rail:200px;
+}
+[data-contrast="high"]{
+  --body-c:var(--ink); --muted:var(--ink); --line-soft:var(--line);
+  --edge:rgba(25,21,23,.34); --edge-ctrl:rgba(25,21,23,.58); --lattice:rgba(25,21,23,.14);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--body-c);
+  font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.70;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+img{max-width:100%;display:block}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit}
+
+.wrap{container-type:inline-size;max-width:1800px;margin-inline:auto;padding-inline:var(--margin)}
+
+.t-hero{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;letter-spacing:-.02em;color:var(--ink);max-width:24ch}
+.t-title{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.20;letter-spacing:-.01em;color:var(--ink);max-width:32ch}
+.t-body{font-family:var(--serif);font-weight:400;font-size:var(--body);line-height:1.70;color:var(--body-c);max-width:62ch}
+.t-micro{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.t-lead{font-family:var(--serif);font-weight:400;font-size:var(--title);line-height:1.35;color:var(--body-c);max-width:40ch}
+.lead-in{font-weight:500}
+em{font-style:italic}
+
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:var(--r-pill)}
+.skip{position:fixed;left:50%;translate:-50% -160%;top:12px;z-index:900;padding:0 1.2em;
+  height:var(--control);display:inline-flex;align-items:center;background:var(--ink);color:var(--page);
+  border-radius:var(--r-pill);font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:translate var(--in) var(--ease)}
+.skip:focus{translate:-50% 0}
+
+/* button — one component */
+.btn{height:var(--control);min-width:var(--control);padding:0 calc(var(--control)*.38);
+  display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--control)*.2);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  color:var(--muted);font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease),color var(--out) var(--ease)}
+.btn:hover{background:var(--page);border-color:rgba(25,21,23,.42);color:var(--ink);transition-duration:var(--in)}
+.btn--icon{padding:0;width:var(--control);flex:0 0 var(--control)}
+.btn--on{background:var(--ink);border-color:var(--ink);color:var(--page)}
+.btn svg{width:1.05em;height:1.05em}
+
+/* chrome */
+.chrome{position:fixed;z-index:500;display:flex;align-items:center;gap:calc(var(--control)*.28)}
+.c-tl{top:var(--gutter);left:var(--gutter)}
+.c-tr{top:var(--gutter);right:var(--gutter)}
+.brand{display:flex;align-items:center;min-height:var(--control);text-decoration:none;color:var(--ink)}
+.logo-mark{width:auto;display:block}
+
+/* ══ section index — always visible ══ */
+.index{position:fixed;z-index:400;left:var(--gutter);top:50%;translate:0 -50%;
+  width:var(--rail);display:flex;flex-direction:column;gap:2px}
+.index-label{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--line-soft);margin-bottom:calc(var(--stack)*.4)}
+.index a{position:relative;display:flex;align-items:center;gap:.7em;min-height:var(--control);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  transition:color var(--out) var(--ease)}
+.index a::before{content:"";width:14px;height:1px;background:var(--line-soft);flex:0 0 14px;
+  transition:width var(--out) var(--ease),background var(--out) var(--ease)}
+.index a:hover{color:var(--ink)}
+.index a[aria-current="true"]{color:var(--ink)}
+.index a[aria-current="true"]::before{width:28px;background:var(--ink)}
+
+/* accessibility panel + toast */
+.panel{position:fixed;z-index:600;right:var(--gutter);
+  bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 12px);
+  width:min(300px, calc(100vw - var(--gutter)*2));padding:calc(var(--stack)*.7);
+  background:var(--page);border:1px solid var(--edge-ctrl);border-radius:var(--r-lg);display:none}
+.panel[data-open="true"]{display:block}
+.panel h2{margin:0 0 calc(var(--stack)*.5);font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:calc(var(--stack)*.4)}
+.prow>span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--body-c)}
+.pgrp{display:flex;gap:6px}
+.c-br{position:fixed;z-index:500;bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--gutter);display:flex;gap:6px}
+.toast{position:fixed;z-index:700;top:calc(var(--gutter) + var(--control) + 10px);right:var(--gutter);
+  padding:0 1.1em;height:var(--control);display:inline-flex;align-items:center;background:var(--ink);
+  color:var(--page);border-radius:var(--r-pill);font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;opacity:0;translate:0 -6px;
+  pointer-events:none;transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
+.toast[data-show="true"]{opacity:1;translate:0 0}
+
+/* ══ grid + blocks ══ */
+main{padding-left:calc(var(--rail) + var(--gutter))}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);align-items:start}
+.s1{grid-column:1 / span 5}
+.s2{grid-column:7 / span 5}
+.sfull{grid-column:1 / -1}
+.c1-3{grid-column:1 / span 3}.c5-7{grid-column:5 / span 3}.c9-11{grid-column:9 / span 3}
+.c1-7{grid-column:1 / span 7}.c1-8{grid-column:1 / span 8}.c9-12{grid-column:9 / span 4}
+.c1-2{grid-column:1 / span 2}.c4-12{grid-column:4 / span 9}
+
+.blk{padding-block:var(--section)}
+.blk+.blk{padding-top:0}
+.blk-head{margin-bottom:calc(var(--section)*.6)}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:var(--stack)}
+.stackv>*+*{margin-top:var(--stack)}
+
+/* meta bar */
+.meta{display:flex;flex-wrap:wrap;gap:var(--stack) calc(var(--gutter)*1.4);
+  padding-block:var(--stack);border-block:1px solid var(--edge);margin-bottom:var(--section)}
+.meta div{display:flex;flex-direction:column;gap:.2em}
+.meta dt,.meta .k{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--line-soft)}
+.meta dd,.meta .v{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
+
+/* diagram plane */
+.plane{position:relative;background-color:var(--card);
+  background-image:radial-gradient(var(--lattice) 1px, transparent 1px);background-size:1.6cqw 1.6cqw;
+  border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden}
+.plane svg{display:block;width:100%;height:100%}
+.plane svg .hard,.plane svg .soft{stroke-width:2.4px;vector-effect:non-scaling-stroke;
+  stroke-linecap:round;stroke-linejoin:round;fill:none}
+.plane svg .soft{stroke:var(--line-soft);stroke-dasharray:6 16}
+.plane svg .hard{stroke:var(--line)}
+.plane svg .dot{fill:var(--ink);stroke:none}
+.plane svg .node{fill:var(--ink);stroke:none}
+.plane svg text{font-family:var(--sans);font-weight:500;font-size:26px;letter-spacing:1.8px;
+  text-transform:uppercase;fill:var(--muted)}
+.plane svg .in-node{fill:var(--page)}
+.plane--full{aspect-ratio:21/9}
+@media (max-width:1023px){.plane--full{aspect-ratio:16/9}}
+@media (max-width:767px){.plane--full{aspect-ratio:4/3}.plane svg .hard,.plane svg .soft{stroke-width:2px}}
+
+/* motion */
+.plane .soft{opacity:0;transition:opacity 600ms var(--ease)}
+.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1100ms var(--ease)}
+.plane .node{opacity:0;transition:opacity 600ms var(--ease)}
+.plane .dot{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;
+  transition:opacity 500ms var(--ease) 1050ms, transform 500ms var(--ease) 1050ms}
+.plane text{opacity:0;transform:translateY(10px);transition:opacity 450ms var(--ease),transform 450ms var(--ease)}
+.plane.go .soft,.plane.go .node{opacity:1}
+.plane.go .hard{stroke-dashoffset:0;transition-delay:150ms}
+.plane.go .dot{opacity:1;transform:scale(1)}
+.plane.go text{opacity:1;transform:translateY(0);transition-delay:1200ms}
+.plane.go text:nth-of-type(2){transition-delay:1300ms}
+.plane.go text:nth-of-type(3){transition-delay:1400ms}
+.plane.go text:nth-of-type(4){transition-delay:1500ms}
+
+/* B1 columns */
+.cols3[data-cols="2"]{grid-template-columns:repeat(2,1fr)}
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.col>*+*{margin-top:calc(var(--stack)*.6)}
+.col-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
+@media (max-width:1023px){.cols3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:767px){.cols3{grid-template-columns:1fr}}
+
+/* B3 media */
+.frame{border-radius:var(--r-lg);overflow:hidden;box-shadow:inset 0 0 0 1px var(--edge);background:var(--card)}
+.frame img{width:100%;height:auto}
+.frame--tall img{max-height:clamp(280px, 46vh, 520px);object-fit:cover;object-position:top}
+.opt .frame img{max-height:clamp(200px, 30vh, 340px);object-fit:cover;object-position:top}
+.figcap{margin-top:calc(var(--stack)*.6);font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.media-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gutter);align-items:start}
+.flow-step{position:relative}
+.flow-step .frame{cursor:zoom-in}
+.flow-num{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--line-soft);margin-bottom:calc(var(--stack)*.4)}
+.flow-dot{width:20px;height:20px;border-radius:var(--r-pill);background:var(--ink);
+  margin-bottom:calc(var(--stack)*.4)}
+/* four across only once the columns are wide enough to hold a caption on one line (R6) */
+@media (max-width:1439px){.media-flow{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:767px){.media-flow{grid-template-columns:1fr}}
+.callouts li{display:grid;grid-template-columns:auto 1fr;gap:calc(var(--gutter)*.5);align-items:start}
+.callouts li+li{margin-top:var(--stack)}
+.callout-n{width:28px;height:28px;border-radius:var(--r-pill);background:var(--ink);color:var(--page);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);display:grid;place-items:center;line-height:1}
+
+/* B4 figures */
+.figs{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.fig-n{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.2;letter-spacing:-.01em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.fig-c{margin-top:calc(var(--stack)*.6);max-width:38ch}
+@media (max-width:1023px){.figs{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:767px){.figs{grid-template-columns:1fr}}
+
+/* B5 pairs */
+.pair-row{display:grid;gap:var(--gutter);align-items:center;padding-block:calc(var(--stack)*.5);
+  border-top:1px solid var(--edge)}
+.pairs>.pair-row:last-child{border-bottom:1px solid var(--edge)}
+.pairs[data-mode="map"] .pair-row{grid-template-columns:1fr auto 1fr}
+.pairs[data-mode="compare"] .pair-row{grid-template-columns:1fr 1fr}
+.pairs[data-mode="spec"] .pair-row{grid-template-columns:minmax(0,1fr) minmax(0,2.4fr)}
+.pair-arrow{width:56px;height:2.4px;background:var(--line-soft)}
+@media (max-width:767px){
+  .pairs[data-mode="map"] .pair-row,.pairs[data-mode="compare"] .pair-row,
+  .pairs[data-mode="spec"] .pair-row{grid-template-columns:1fr;gap:calc(var(--stack)*.4)}
+  .pair-arrow{width:2.4px;height:28px}
+}
+
+/* B6 options */
+.options{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.badge{display:inline-block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--edge-ctrl);
+  border-radius:var(--r-pill);padding:.4em 1em}
+.badge--on{background:var(--ink);color:var(--page);border-color:var(--ink)}
+.opt>*+*{margin-top:calc(var(--stack)*.6)}
+@media (max-width:1023px){.options{grid-template-columns:1fr}}
+
+/* B7 quote */
+.quote{background:var(--recess);border-radius:var(--r-lg);padding:var(--stack) calc(var(--stack)*1.2)}
+.quote p{font-family:var(--serif);font-weight:500;font-size:var(--body);line-height:1.70;color:var(--ink);max-width:62ch}
+.quote cite{display:block;margin-top:calc(var(--stack)*.6);font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-style:normal}
+
+/* B8 sources */
+.sources{display:grid;grid-template-columns:repeat(2,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.src{display:grid;grid-template-columns:auto 1fr;gap:calc(var(--gutter)*.5)}
+.src-n{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;color:var(--line-soft);
+  font-variant-numeric:tabular-nums;padding-top:.3em}
+.src-t{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink)}
+.src-links{display:flex;flex-wrap:wrap;gap:.9em;margin-top:.4em}
+.src-links a{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;min-height:var(--control);
+  display:inline-flex;align-items:center}
+.src-links a:hover{color:var(--ink)}
+@media (max-width:1023px){.sources{grid-template-columns:1fr}}
+
+/* human devices */
+.note{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;letter-spacing:.07em;
+  text-transform:none;color:var(--muted);max-width:40ch}
+.wrong{background:var(--recess);border-radius:var(--r-lg);padding:calc(var(--stack)*1.2)}
+.wrong p{font-family:var(--serif);font-weight:500;color:var(--ink);max-width:62ch}
+@media (max-width:1023px){
+  .d1-note{grid-column:1/-1;padding-left:var(--gutter);margin-top:var(--stack)}
+  .d1-body{grid-column:1/-1}
+}
+/* the one earned break */
+.break-line{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;
+  letter-spacing:-.02em;color:var(--ink);max-width:38ch}
+
+/* more case studies */
+.more-row{display:grid;grid-template-columns:auto 1fr auto;gap:var(--gutter);align-items:center;
+  padding-block:var(--stack);border-top:1px solid var(--edge);text-decoration:none;min-height:var(--control)}
+.more-row:last-child{border-bottom:1px solid var(--edge)}
+.more-n{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  color:var(--line-soft);font-variant-numeric:tabular-nums}
+.more-t{font-family:var(--sans);font-weight:400;font-size:var(--body);color:var(--ink)}
+.more-row:hover .more-t{text-decoration:underline}
+.more-row[aria-disabled="true"]{cursor:default}
+.more-row[aria-disabled="true"] .more-t{color:var(--muted)}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:800;background:rgba(25,21,23,.92);display:none;
+  align-items:center;justify-content:center;padding:var(--gutter)}
+.lb[data-open="true"]{display:flex}
+.lb img{max-width:92vw;max-height:88vh;width:auto;height:auto;border-radius:var(--r-lg)}
+.lb-close{position:absolute;top:var(--gutter);right:var(--gutter)}
+
+/* responsive: the index becomes a strip, main loses the rail inset */
+/* the rail narrows the container, so the 45ch floor binds later than the viewport suggests */
+@container (max-width:1340px){ .s1,.s2{grid-column:1 / -1} }
+
+@media (max-width:1279px){
+  main{padding-left:0}
+  .index{position:sticky;top:0;left:auto;translate:0 0;width:auto;
+    flex-direction:row;gap:calc(var(--gutter)*.5);overflow-x:auto;
+    background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--edge);padding-inline:var(--margin)}
+  .index-label{display:none}
+  .index a::before{display:none}
+  .index a{white-space:nowrap}
+  .s1,.s2,.c1-7,.c1-8,.c9-12,.c4-12{grid-column:1 / -1}
+}
+@media (max-width:767px){
+  .c1-3,.c5-7,.c9-11{grid-column:1 / -1}
+  .c-tl .disc{display:none}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  .plane .soft,.plane .node,.plane .dot,.plane text{opacity:1;transform:none;transition:none}
+  .plane .hard{stroke-dashoffset:0;transition:none}
+}
+[data-motion="off"] html,[data-motion="off"]{scroll-behavior:auto}
+[data-motion="off"] *{transition-duration:.001ms !important;animation-duration:.001ms !important}
+[data-motion="off"] .plane .soft,[data-motion="off"] .plane .node,
+[data-motion="off"] .plane .dot,[data-motion="off"] .plane text{opacity:1;transform:none;transition:none}
+[data-motion="off"] .plane .hard{stroke-dashoffset:0;transition:none}
+</style>
+</head>
+<body>
+<div class="wrap"><a class="skip" href="#main">Skip to case study</a></div>
+
+<div class="chrome c-tl">
+  <a class="brand" href="index.html" aria-label="Orsolya G. — all work"><svg height="18" class="logo-mark" aria-hidden="true" viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <path d="M145.6,64.9c-3.1-7.3-7.4-13.7-12.8-19c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1C150.2,80.3,148.7,72.2,145.6,64.9z M112.9,114c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C121.5,99.4,118.6,107.7,112.9,114z"/>
+        <path d="M335,88.8c-3.5-2.5-7.4-4.5-11.7-6.2c-4.3-1.7-8.5-3.2-12.7-4.4c-4.2-1.3-8.1-2.6-11.7-4c-3.6-1.4-6.4-3-8.6-5c-2.1-1.9-3.2-4.3-3.2-7.2c0-3.5,1.3-6.1,3.9-8c2.6-1.8,5.7-2.8,9.4-2.8c4,0,7.4,1.3,10.2,3.8c1.7,1.5,3.1,3.5,4.1,5.8c1.3,2.9,4.4,4.5,7.4,3.7l15.6-4.1c3.6-1,5.7-4.9,4.3-8.4c-2.3-6.1-6.4-11.3-12.1-15.4c-7.7-5.6-17.3-8.4-28.9-8.4c-8.5,0-15.9,1.4-22.3,4.1c-6.4,2.7-11.4,6.7-15,12c-3.6,5.3-5.5,11.6-5.5,19c0,5.6,1.1,10.3,3.2,14.1c2.1,3.8,5,7,8.5,9.5c3.5,2.5,7.4,4.6,11.6,6.3c4.2,1.7,8.4,3.2,12.6,4.5c4.2,1.3,8,2.7,11.5,4c3.5,1.3,6.3,3,8.4,5c2.1,2,3.2,4.4,3.2,7.5c0,3.4-1.3,6-3.9,8.1c-2.6,2-6.4,3-11.2,3c-4.6,0-8.5-1.6-11.8-4.7c-2.2-2.1-3.9-4.7-5.1-7.8c-1.2-2.9-4.1-4.5-7.1-3.8l-15.6,3.5c-3.7,0.8-5.9,4.8-4.6,8.4c2.7,7.4,7.3,13.4,13.9,18.3c8.5,6.3,19,9.4,31.6,9.4c8.4,0,15.9-1.7,22.4-5c6.5-3.3,11.7-7.7,15.4-13.1c3.7-5.4,5.6-11.4,5.6-18c0-5.6-1.1-10.3-3.3-14.1C341.4,94.4,338.5,91.2,335,88.8z"/>
+        <path d="M462.8,45c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1c0-8.8-1.5-16.9-4.6-24.3C472.6,56.7,468.3,50.4,462.8,45z M442.9,113.1c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C451.6,98.6,448.7,106.9,442.9,113.1z"/>
+        <path d="M628.8,27.5h-17.3c-2.5,0-4.7,1.4-5.8,3.7l-15.4,33.5c-2.3,4.9-9.2,4.9-11.5,0l-15.5-33.5c-1-2.2-3.3-3.7-5.8-3.7H540c-4.8,0-7.8,5-5.6,9.3l35.1,68.1c0.5,0.9,0.7,1.9,0.7,2.9V139c0,3.5,2.8,6.3,6.3,6.3h15.7c3.5,0,6.3-2.8,6.3-6.3v-31.2c0-1,0.2-2,0.7-2.9l35.1-68.1C636.6,32.6,633.5,27.5,628.8,27.5z"/>
+        <path d="M698.5,31.7c-0.9-2.5-3.3-4.2-6-4.2h-23.8c-2.7,0-5.1,1.7-6,4.2l-38,105.2c-1.5,4.1,1.6,8.5,6,8.5h16.1c2.7,0,5.1-1.7,6-4.3l4.1-12.2c0.9-2.6,3.3-4.3,6-4.3h35.2c2.7,0,5.2,1.8,6,4.4l4,12.1c0.9,2.6,3.3,4.4,6,4.4h16.3c4.4,0,7.5-4.4,6-8.5L698.5,31.7z M686.3,102.6h-11.7c-4.3,0-7.4-4.3-6-8.4l5.9-17.4c1.9-5.8,10.1-5.7,12,0l5.8,17.4C693.7,98.3,690.6,102.6,686.3,102.6z"/>
+        <path d="M240.3,113.6c-4.2-6.1-9.1-10.8-14.7-14.1c-2.7-1.6-2.4-5.2,0.4-6.5c4.4-2,8.1-4.8,11.1-8.3c4.8-5.6,7.2-12,7.2-19.3c0-10.9-4-19.6-12-26.2c-8-6.6-19.4-9.9-34.2-9.9h-46c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.6,10.5,38.5,50.7,1.1,106.5c-1.3,1.9,0.1,4.4,2.4,4.4h28.2c1.1,0,2.1-0.6,2.5-1.6c2.3-4.6,8.9-18.8,11.6-37.3c3.2,1.2,6,2.7,8.6,4.5c5.1,3.7,9,8.6,11.6,14.6c2.2,5.2,3.7,10.9,4.4,17.3c0.2,1.9,1.9,3.3,3.9,3.3h24.4c2.4,0,4.3-2,3.9-4.3C249.5,131.4,245.8,121.6,240.3,113.6z M209.1,77.5c-2.9,2.8-7.2,4.2-12.8,4.2h-1c-1-9.6-3.6-19.5-8.4-29.4h9.4c5.5,0,9.7,1.3,12.7,3.9c3,2.6,4.5,6.1,4.5,10.3C213.5,71.1,212,74.7,209.1,77.5z"/>
+        <path d="M541,123.4h-20.2c5.6-23.6,8.8-62.8-14.3-94.5c-0.3-0.3,0-0.8-0.4-0.8l-6.5,0.1H483c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.3,10.2,36.6,48.2,4.4,101.3c-2.6,4.2,0.5,9.6,5.4,9.6H511c0.3,0,0.6,0,0.9-0.1c0.4,0.3,0.9,0.4,1.4,0.4H541c3.5,0,6.3-2.8,6.3-6.3v-9.3C547.3,126.2,544.5,123.4,541,123.4z"/>
+        <path d="M912.7,78.3h-54.3c-2.1,0-3.8,1.7-3.8,3.8v14.4c0,2.1,1.7,3.8,3.8,3.8h25.2c2.9,0,4.8,3.2,3.3,5.7c-0.9,1.5-1.9,3-3.1,4.5c-2.6,3.2-5.7,5.8-9.5,7.8c-3.8,2-7.9,2.9-12.5,2.9c-6.5,0-12.2-1.4-17.2-4.2c-5-2.8-8.9-6.8-11.8-12c-2.9-5.2-4.3-11.5-4.3-18.9c0-10.3,2.8-18.6,8.4-24.8c5.6-6.2,13.1-9.3,22.5-9.3c6.4,0,11.7,1.6,16,4.7c3.4,2.5,6.1,5.7,8,9.7c0.9,1.8,2.9,2.7,4.8,2l20.4-7.5c2.1-0.8,3.1-3.1,2.2-5.1c-4-9.2-10.3-16.3-18.6-21.2c-9.5-5.6-20.4-8.4-32.7-8.4c-11.4,0-21.6,2.5-30.6,7.6c-9,5-16.1,12.1-21.3,21.1c-5.2,9-7.8,19.4-7.8,31.3c0,9,1.5,17.1,4.4,24.4c3,7.3,7.1,13.7,12.3,19.1c5.2,5.4,11.2,9.5,18,12.4c6.8,2.9,14,4.4,21.5,4.4c6.8,0,12.7-1.2,17.6-3.7c4.9-2.5,9-5.5,12.1-9.1c0,0,0.1-0.1,0.1-0.1c2.3-2.6,6.6-1.1,6.6,2.4v5.4c0,2.1,1.7,3.8,3.8,3.8h16.5c2.1,0,3.8-1.7,3.8-3.8V82.1C916.6,80,914.9,78.3,912.7,78.3z"/>
+        <circle cx="956.9" cy="129" r="18.9"/>
+      </g>
+    </svg></a>
+</div>
+<div class="chrome c-tr">
+  <a class="btn" href="index.html">All work</a>
+  <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
+  <button class="btn btn--icon" id="mailBtn" aria-label="Copy email address">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+  </button>
+</div>
+
+<nav class="index" id="index" aria-label="In this study">
+  <p class="index-label">In this study</p>
+  <a href="#s-overview">Overview</a>
+  <a href="#s-problem">Problem framing</a>
+  <a href="#s-research">Research</a>
+  <a href="#s-decisions">System logic</a>
+  <a href="#s-solution">Solutions</a>
+  <a href="#s-reflection">Reflection</a>
+</nav>
+
+<div class="c-br">
+  <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 11h8M12 11v6M12 14l-2.5 3M12 14l2.5 3"/></svg>
+  </button>
+  <button class="btn btn--icon" id="noiseBtn" aria-label="Play brown noise" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
+  </button>
+</div>
+
+<div class="panel" id="panel" role="dialog" aria-label="Accessibility options">
+  <h2>Accessibility</h2>
+  <div class="prow"><span>Text size</span><span class="pgrp">
+    <button class="btn btn--icon" data-text="-" aria-label="Decrease text size">−</button>
+    <button class="btn btn--icon" data-text="0" aria-label="Reset text size">A</button>
+    <button class="btn btn--icon" data-text="+" aria-label="Increase text size">+</button>
+  </span></div>
+  <div class="prow"><span>High contrast</span><button class="btn" id="contrastBtn" aria-pressed="false">Off</button></div>
+  <div class="prow"><span>Reduce motion</span><button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite">email copied</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image">
+  <button class="btn btn--icon lb-close" id="lbClose" aria-label="Close image">✕</button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<main id="main">
+<div class="wrap">
+
+  <!-- ══ opening ══ -->
+  <section class="blk" style="padding-bottom:0">
+    <p class="eyebrow">Case study 01</p>
+    <h1 class="t-hero">Building enough safety for someone to type the thing they actually want.</h1>
+    <p class="t-lead" style="margin-top:var(--stack)">A social app where one prompt replaces the profile. The whole product rests on a single text field — and the trust required to use it honestly.</p>
+    <div class="meta">
+      <div><span class="k">Role</span><span class="v">Lead designer</span></div>
+      <div><span class="k">Type</span><span class="v">AI · MVP</span></div>
+      <div><span class="k">Status</span><span class="v">Pre-launch</span></div>
+      <div><span class="k">Disciplines</span><span class="v">AI Product · Human-AI Interaction · Intent Search</span></div>
+    </div>
+  </section>
+
+  <!-- ══ 1 OVERVIEW ══ -->
+  <section class="blk" id="s-overview">
+    <div class="blk-head">
+      <p class="eyebrow">Overview</p>
+      <h2 class="t-title">Connect strangers through intent, not profiles.</h2>
+    </div>
+    <div class="grid">
+      <div class="s1"><p class="t-body">Tribe connects people through a single prompt — not a profile, not a browse interface. The user types what they want to do, the AI matches them with people looking for the same thing, and connection happens before either party knows who the other is.</p></div>
+      <div class="s2"><p class="t-body">The entire product hangs on one text field. Making someone feel safe enough to be honest in it was the design problem — not the matching algorithm.</p></div>
+    </div>
+  </section>
+
+  <!-- ══ 2 PROBLEM FRAMING ══ -->
+  <section class="blk" id="s-problem">
+    <div class="blk-head">
+      <p class="eyebrow">Problem framing</p>
+      <h2 class="t-title">Current platforms prioritise short-term attention. The gap: long-term trust.</h2>
+    </div>
+    <div class="grid">
+      <div class="s1"><p class="t-body">The brief was an intent-based social network for Budapest. The real brief, once I'd mapped the competitive landscape, was: how do you get someone to type what they actually want — not a curated version of it — into a field connected to a stranger-matching algorithm?</p></div>
+      <div class="s2"><p class="t-body">That's a trust problem before it's a product problem. It shaped every design decision that followed.</p></div>
+    </div>
+
+    <!-- B5 compare — labelled columns, permitted under R5 / §11b -->
+    <div class="pairs" data-mode="compare" style="margin-top:var(--section)">
+      <div class="pair-row"><p class="t-micro">The market — engagement-first</p><p class="t-micro">Tribe's bet — intent-first</p></div>
+      <div class="pair-row"><div><p class="t-micro" style="color:var(--line-soft)">Primary KPI</p><p class="t-body">Time-on-app / ad impressions</p></div><div><p class="t-micro" style="color:var(--line-soft)">Primary KPI</p><p class="t-body">High-intent connection efficiency</p></div></div>
+      <div class="pair-row"><div><p class="t-micro" style="color:var(--line-soft)">Architecture</p><p class="t-body">Visual profiles → asynchronous browse → swipe</p></div><div><p class="t-micro" style="color:var(--line-soft)">Architecture</p><p class="t-body">Real-time intent → semantic NLP matching → anonymity → safety layer</p></div></div>
+      <div class="pair-row"><div><p class="t-micro" style="color:var(--line-soft)">Friction</p><p class="t-body">Low barrier to contact, high volume, deferred privacy layers</p></div><div><p class="t-micro" style="color:var(--line-soft)">Friction</p><p class="t-body">Managed friction, progressive disclosure, structural privacy</p></div></div>
+    </div>
+  </section>
+
+  <!-- ══ 3 RESEARCH ══ -->
+  <section class="blk" id="s-research">
+    <div class="blk-head">
+      <p class="eyebrow">Research</p>
+      <h2 class="t-title">Map the vulnerability states before opening a design tool.</h2>
+    </div>
+    <div class="grid">
+      <div class="s1"><p class="t-body">Human factors gave me the frame. Three distinct states between intent and connection — each one a specific design problem.</p></div>
+      <div class="s2"><p class="t-body">The interaction gap diagram was the first deliverable — before any screens. Each state mapped to a specific design response. This became the brief for every decision that followed.</p></div>
+    </div>
+
+    <!-- B2 full — the interaction gap, redrawn -->
+    <div class="plane plane--full" style="margin-top:var(--section)">
+      <svg viewBox="0 0 1200 514" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="d1t d1d">
+        <title id="d1t">The interaction gap</title>
+        <desc id="d1d">Two equal circles meeting at a single point on a shared horizontal centre; the meeting point is marked and labelled below.</desc>
+        <circle class="hard" cx="420" cy="200" r="160" pathLength="1"/>
+        <circle class="hard" cx="740" cy="200" r="160" pathLength="1"/>
+        <line class="soft" x1="580" y1="220" x2="580" y2="420"/>
+        <circle class="dot" cx="580" cy="200" r="20"/>
+        <text x="420" y="392" text-anchor="middle">Intent</text>
+        <text x="740" y="392" text-anchor="middle">Connection</text>
+        <text x="580" y="470" text-anchor="middle">The gap</text>
+      </svg>
+    </div>
+    <div class="grid" style="margin-top:var(--stack)">
+      <div class="s1"><p class="figcap">The interaction gap</p></div>
+    </div>
+
+    <!-- B7 reframe -->
+    <div class="grid" style="margin-top:var(--section)">
+      <div class="s1"><div class="quote"><p>The product's job isn't matching people. It's building enough psychological safety that someone types the thing they actually want.</p></div></div>
+    </div>
+
+    <!-- B8 sources -->
+    <div style="margin-top:var(--section)">
+      <p class="eyebrow">Research resources that shaped design decisions</p>
+      <div class="sources">
+        <div class="src"><span class="src-n">01</span><div>
+          <p class="src-t">Evaluation apprehension &amp; common ground</p>
+          <p class="t-body">Defensive user input and semantic alignment paradigms in human-to-system interactions.</p>
+          <div class="src-links"><a href="https://doi.org/10.1037/h0021647" target="_blank" rel="noopener">Rosenberg (1965) ↗</a><a href="https://www.cambridge.org/core/books/using-language/4A7B4DA2A9B2BCCA78DD9B2DABD0A14B" target="_blank" rel="noopener">Clark (1996) ↗</a></div>
+        </div></div>
+        <div class="src"><span class="src-n">02</span><div>
+          <p class="src-t">Operational transparency &amp; the labor illusion</p>
+          <p class="t-body">How exposing step-by-step backend processing metrics mitigates algorithmic latency anxiety.</p>
+          <div class="src-links"><a href="https://doi.org/10.1287/mnsc.1110.1376" target="_blank" rel="noopener">Buell &amp; Norton (2011) ↗</a><a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=57420" target="_blank" rel="noopener">Buell et al. (2020) ↗</a></div>
+        </div></div>
+        <div class="src"><span class="src-n">03</span><div>
+          <p class="src-t">Explainable AI &amp; choice overload</p>
+          <p class="t-body">Utilizing human-centric, contrastive explanations to reduce automation paralyzation.</p>
+          <div class="src-links"><a href="https://doi.org/10.1016/j.artint.2018.07.007" target="_blank" rel="noopener">Miller (2019) ↗</a><a href="https://doi.org/10.1145/358916.358995" target="_blank" rel="noopener">Herlocker et al. (2000) ↗</a></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 4 SYSTEM LOGIC ══ -->
+  <section class="blk" id="s-decisions">
+    <div class="blk-head">
+      <p class="eyebrow">System logic</p>
+      <h2 class="t-title">Five moments of vulnerability. Five design responses.</h2>
+    </div>
+    <div class="grid">
+      <div class="s1"><p class="t-body">Not aesthetic choices. Each decision addresses a specific moment where trust could break — before it is established.</p></div>
+      <div class="s2"><p class="t-body">People don't type what they actually need. The barrier is psychological, not linguistic.</p></div>
+    </div>
+
+    <!-- B5 map -->
+    <div class="pairs" data-mode="map" style="margin-top:var(--section)">
+      <div class="pair-row">
+        <p class="t-micro" style="color:var(--line-soft)">Friction — what blocks honest intent</p><span></span>
+        <p class="t-micro" style="color:var(--line-soft)">Response — how the system earns trust</p>
+      </div>
+      <div class="pair-row"><div><p class="col-title">Social judgement</p><p class="t-body">What will it think of me?</p></div><span class="pair-arrow" aria-hidden="true"></span><div><p class="col-title">Non-evaluative framing</p><p class="t-body">No implicit scoring.</p></div></div>
+      <div class="pair-row"><div><p class="col-title">Language failure</p><p class="t-body">No words for this.</p></div><span class="pair-arrow" aria-hidden="true"></span><div><p class="col-title">Intent inference layer</p><p class="t-body">NLP bridges the gap.</p></div></div>
+      <div class="pair-row"><div><p class="col-title">Trust deficit — core</p><p class="t-body">Will it use this against me?</p></div><span class="pair-arrow" aria-hidden="true"></span><div><p class="col-title">Transparency by design</p><p class="t-body">Visible logic, no black box.</p></div></div>
+      <div class="pair-row"><div><p class="col-title">Vulnerability</p><p class="t-body">Admitting I don't know.</p></div><span class="pair-arrow" aria-hidden="true"></span><div><p class="col-title">Curiosity-safe scaffolding</p><p class="t-body">Not knowing = valid entry.</p></div></div>
+      <div class="pair-row"><div><p class="col-title">App parasitism</p><p class="t-body">Will it exploit my need?</p></div><span class="pair-arrow" aria-hidden="true"></span><div><p class="col-title">Minimal footprint</p><p class="t-body">Tool exits once done.</p></div></div>
+    </div>
+
+    <!-- the one earned break: the central finding, set at hero size -->
+    <div class="grid" style="margin-top:var(--section)">
+      <div class="sfull"><p class="break-line">The search box is not a language problem — it is a psychological safety problem.</p></div>
+    </div>
+
+    <!-- architecture figure -->
+    <div class="grid" style="margin-top:var(--section)">
+      <div class="c1-8">
+        <figure style="margin:0">
+          <div class="frame frame--tall"><img src="tribe/Functional_Sitemap___User_Flow_Hybrid_method.png" alt="Functional sitemap and user flow hybrid" loading="lazy" decoding="async"></div>
+          <figcaption class="figcap">Functional sitemap + user flow hybrid.</figcaption>
+        </figure>
+      </div>
+      <div class="c9-12"><p class="t-body">Every screen state, every decision point, every safety exit branch — mapped before any visual design. Edge cases carried the most design weight: the no-match screen, the breathe chat, the safety exit.</p></div>
+    </div>
+
+    <!-- B7 testimonial -->
+    <div class="grid" style="margin-top:var(--section)">
+      <div class="s1"><div class="quote">
+        <p>The way you picked everything apart and mapped it out is extraordinary. It's astonishing how well you understand the product system — hats off.</p>
+        <cite>Founder, Tribe</cite>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ══ 5 SOLUTIONS ══ -->
+  <section class="blk" id="s-solution">
+    <div class="blk-head">
+      <p class="eyebrow">Solutions</p>
+      <h2 class="t-title">Full IA. Not everything survived the dev sync.</h2>
+    </div>
+    <div class="grid">
+      <div class="s1"><p class="t-body">Three generations of input validation designed — two cut after synching with developers on latency, token cost, and structural reliability. What shipped earned it.</p></div>
+      <div class="s2"><p class="t-body">The rest of the architecture — match logic, processing states, and safety exits — was built around the system that survived.</p></div>
+    </div>
+
+    <!-- B6 options -->
+    <div class="options" style="margin-top:var(--section)">
+      <div class="opt">
+        <span class="badge">Gen 1 — cut</span>
+        <div class="frame"><img src="tribe/Gen1-%20manual%20tags%20added%20by%20the%20user.png" alt="Generation one, manual tags added by the user" loading="lazy" decoding="async"></div>
+        <p class="col-title">Manual tags</p>
+        <p class="t-body">Freeform. No structure. System can't match on noise.</p>
+      </div>
+      <div class="opt">
+        <span class="badge">Gen 2 — cut</span>
+        <div class="frame"><img src="tribe/Gen2-AI-generated%20metadata.png" alt="Generation two, AI-generated metadata" loading="lazy" decoding="async"></div>
+        <p class="col-title">AI metadata extraction</p>
+        <p class="t-body">Smarter — but unreliable JSON, 1.4s latency, 25× token cost.</p>
+      </div>
+      <div class="opt">
+        <span class="badge badge--on">Gen 3 — shipped</span>
+        <div class="frame"><img src="tribe/Gen3-%20NLP%20chip%20validation.png" alt="Generation three, NLP chip validation" loading="lazy" decoding="async"></div>
+        <p class="col-title">Chip validation</p>
+        <p class="t-body">NLP parses What / When / Where in real time. Hard to build. Worth the fight.</p>
+      </div>
+    </div>
+
+    <!-- B4 figures — why gen 2 died -->
+    <div style="margin-top:var(--section)">
+      <p class="eyebrow">Why gen 2 died — after synching with devs</p>
+      <div class="figs">
+        <div><p class="fig-n">1.4s</p><p class="t-body fig-c">800ms standard plus 600ms metadata extraction, before anything useful happens.</p></div>
+        <div><p class="fig-n">25×</p><p class="t-body fig-c">More token cost to categorise a 15-word prompt than to process it. Not viable for an MVP budget.</p></div>
+        <div><p class="fig-n">9</p><p class="t-body fig-c">Chip validation — 9 states.</p></div>
+      </div>
+    </div>
+
+    <!-- B3 flow — the decision path, with the single filled dot -->
+    <div style="margin-top:var(--section)">
+      <p class="eyebrow">Processing → match — decision flow</p>
+      <div class="media-flow">
+        <div class="flow-step">
+          <p class="flow-num">01 · Processing</p>
+          <div class="frame"><img src="tribe/Processing_%20Teachable%20wait.png" alt="Teachable wait, processing state" loading="lazy" decoding="async" data-full="tribe/Processing_%20Teachable%20wait.png"></div>
+          <p class="figcap">Teachable wait</p>
+        </div>
+        <div class="flow-step">
+          <p class="flow-num">02 · Location access</p>
+          <div class="frame"><img src="tribe/Processing_Location%20access.png" alt="Location access request during processing" loading="lazy" decoding="async" data-full="tribe/Processing_Location%20access.png"></div>
+          <p class="figcap">Location access</p>
+        </div>
+        <div class="flow-step">
+          <span class="flow-dot" aria-hidden="true"></span>
+          <p class="flow-num">3A · Match</p>
+          <div class="frame"><img src="tribe/Match.png" alt="Match found, anonymous until mutual yes" loading="lazy" decoding="async" data-full="tribe/Match.png"></div>
+          <p class="figcap">Anonymous until mutual yes</p>
+        </div>
+        <div class="flow-step">
+          <p class="flow-num">3B · No match</p>
+          <div class="frame"><img src="tribe/NO%20MATCH%20FOUND.png" alt="No match found state" loading="lazy" decoding="async" data-full="tribe/NO%20MATCH%20FOUND.png"></div>
+          <p class="figcap">Luck is around the corner</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- D1 margin note + its paragraph -->
+    <div class="grid" style="margin-top:var(--section)">
+      <div class="c1-2 d1-note"><p class="note">Used once, then gone.</p></div>
+      <div class="c4-12 d1-body" style="max-width:62ch"><p class="t-body">The GPS ask arrives mid-processing — the only moment it reads as practical, not invasive. My call: delete location post-match and use aggregated data for analytics, to increase user safety and trust.</p></div>
+    </div>
+
+    <!-- B3 annotated — the chat menu -->
+    <div style="margin-top:var(--section)">
+      <p class="eyebrow">One chat at a time — but what happens when the user wants to leave?</p>
+      <div class="grid">
+        <div class="c1-7">
+          <div class="frame frame--tall"><img src="tribe/chat_3dots_opened.png" alt="Chat overflow menu opened, showing pause, leave and report options" loading="lazy" decoding="async" data-full="tribe/chat_3dots_opened.png"></div>
+          <p class="figcap">More menu</p>
+        </div>
+        <div class="c9-12">
+          <ol class="callouts">
+            <li><span class="callout-n">1</span><div><p class="col-title">Breathe chat</p><p class="t-body">A 24h pause — reframes stepping away as temporary, not an exit.</p></div></li>
+            <li><span class="callout-n">2</span><div><p class="col-title">Leave chat</p><p class="t-body">Five exit reasons, with "I'm feeling unsafe" separated in red at the bottom.</p></div></li>
+            <li><span class="callout-n">3</span><div><p class="col-title">I feel unsafe</p><p class="t-body">Tapping opens a report inline — no new screen. Zero friction at the highest-stress moment.</p></div></li>
+            <li><span class="callout-n">4</span><div><p class="col-title">Report inline</p><p class="t-body">The action completes exactly where the user already is.</p></div></li>
+          </ol>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:var(--stack)">
+        <div class="s1"><p class="t-body">No chat search, one active conversation. The constraint only works because the exits are designed in — without them, a single-chat system becomes a trap.</p></div>
+        <div class="s2"><p class="t-body">A deliberate bet against dopamine loops — no infinite scroll, no variable reward. One thing to care about, not a feed to scroll.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 6 REFLECTION ══ -->
+  <section class="blk" id="s-reflection">
+    <div class="blk-head">
+      <p class="eyebrow">Reflection &amp; next steps</p>
+      <h2 class="t-title">What I'd do differently. What I'd do the same.</h2>
+    </div>
+
+    <!-- D2 -->
+    <div class="grid">
+      <div class="s1"><div class="wrong"><p>Send a questionnaire before any screen was drawn. Real user intent data would have sharpened the input validation from day one.</p></div></div>
+    </div>
+
+    <!-- B1 cols=3 headed -->
+    <div class="cols3" data-cols="2" style="margin-top:var(--section)">
+      <div class="col"><p class="col-title">What I'd do the same</p><p class="t-body">Push back on anything that doesn't serve the user. Every constraint that survived the dev sync survived because it had a human reason behind it.</p></div>
+      <div class="col"><p class="col-title">If this shipped tomorrow</p><p class="t-body">One metric: prompt quality in correlation to match quality. That correlation — or its absence — would tell me whether the core thesis holds.</p></div>
+    </div>
+
+    <!-- B5 spec — alpha validation blueprint -->
+    <div style="margin-top:var(--section)">
+      <p class="eyebrow">Proposed testing plans · alpha phase</p>
+      <h3 class="t-title" style="margin:0 0 var(--stack)">Alpha validation blueprint</h3>
+      <div class="pairs" data-mode="spec">
+        <div class="pair-row"><p class="t-micro">Phase 1 — pre-launch lab testing · usability</p><span></span></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Objective</p><p class="t-body">Verify if real-time keyword highlighting reduces input anxiety and ensures semantic accuracy.</p></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Methodology</p><p class="t-body">Moderated testing (8–10 participants) using low-fidelity click-dummies.</p></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Signals</p><p class="t-body">Time-on-task, token correction frequency, and subjective workload (SEQ score).</p></div>
+        <div class="pair-row"><p class="t-micro">Phase 2 — alpha field testing · telemetry</p><span></span></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Objective</p><p class="t-body">Validate the NLP matching engine and progressive disclosure mechanics under live infrastructure load.</p></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Methodology</p><p class="t-body">14-day unmoderated field test deployed to a high-density cohort of 500–1,000 target users in Budapest.</p></div>
+        <div class="pair-row"><p class="t-micro" style="color:var(--line-soft)">Signals</p><p class="t-body">Progress toward the target ≥40% match-to-meetup conversion milestone, live data logging against the &lt;40% engine failure threshold, and exact drop-off points within the unmasking sequence.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ more case studies ══ -->
+  <section class="blk">
+    <p class="eyebrow">More case studies</p>
+    <div>
+      <div class="more-row" aria-disabled="true"><span class="more-n">02</span><span class="more-t">When AI is most uncertain, humans are least equipped to notice</span><span class="t-micro">In progress</span></div>
+      <a class="more-row" href="case-study-mindure-v3.html"><span class="more-n">03</span><span class="more-t">Giving someone a clear next move when the future feels automated away.</span><span class="t-micro">Open ↗</span></a>
+      <a class="more-row" href="ness/ness-creative-therapy.html"><span class="more-n">04</span><span class="more-t">Reaching someone through what they make, when words won't come.</span><span class="t-micro">Open ↗</span></a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+(function(){
+"use strict";
+var root=document.documentElement;
+function motionOff(){return root.getAttribute('data-motion')==='off';}
+
+/* section index — scrollspy, always visible */
+var links=[].slice.call(document.querySelectorAll('.index a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));}).filter(Boolean);
+function mark(id){links.forEach(function(a){
+  a.setAttribute('aria-current',a.getAttribute('href')==='#'+id?'true':'false');});}
+if('IntersectionObserver' in window){
+  var spy=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting)mark(e.target.id);});},{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(function(s){spy.observe(s);});
+}
+mark('s-overview');
+
+/* diagram draw-in, once */
+document.querySelectorAll('.plane .hard').forEach(function(p){
+  if(p.getAttribute('pathLength')===null)p.setAttribute('pathLength','1');});
+if('IntersectionObserver' in window){
+  var seen=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('go');seen.unobserve(e.target);}});},{threshold:.35});
+  document.querySelectorAll('.plane').forEach(function(p){seen.observe(p);});
+}else{document.querySelectorAll('.plane').forEach(function(p){p.classList.add('go');});}
+
+/* email copy */
+var MAIL='orsigorcz@gmail.com',toast=document.getElementById('toast'),tt;
+function shout(m){toast.textContent=m;toast.setAttribute('data-show','true');
+  clearTimeout(tt);tt=setTimeout(function(){toast.removeAttribute('data-show');},2200);}
+document.getElementById('mailBtn').addEventListener('click',function(){
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(MAIL).then(function(){shout('email copied');},function(){shout(MAIL);});
+  }else{shout(MAIL);}});
+
+/* accessibility panel */
+var panel=document.getElementById('panel'),a11y=document.getElementById('a11yBtn');
+function closePanel(){panel.setAttribute('data-open','false');
+  a11y.setAttribute('aria-expanded','false');a11y.classList.remove('btn--on');}
+a11y.addEventListener('click',function(e){e.stopPropagation();
+  if(panel.getAttribute('data-open')==='true'){closePanel();return;}
+  panel.setAttribute('data-open','true');a11y.setAttribute('aria-expanded','true');a11y.classList.add('btn--on');});
+document.addEventListener('click',function(e){
+  if(panel.getAttribute('data-open')!=='true')return;
+  if(panel.contains(e.target)||e.target.closest('#a11yBtn'))return;closePanel();});
+
+var scale=1;
+document.querySelectorAll('[data-text]').forEach(function(b){b.addEventListener('click',function(){
+  var k=b.getAttribute('data-text');
+  if(k==='+')scale=Math.min(1.4,scale+.1);else if(k==='-')scale=Math.max(.85,scale-.1);else scale=1;
+  root.style.setProperty('--tscale',scale.toFixed(2));});});
+
+var cb=document.getElementById('contrastBtn');
+cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')==='high';
+  if(on)root.removeAttribute('data-contrast');else root.setAttribute('data-contrast','high');
+  cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'Off':'On';cb.classList.toggle('btn--on',!on);});
+
+var mb=document.getElementById('motionBtn');
+mb.addEventListener('click',function(){var off=motionOff();
+  if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
+  mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
+  mb.classList.toggle('btn--on',!off);});
+if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
+  mb.textContent='On';mb.classList.add('btn--on');}
+
+/* brown noise */
+var ac=null,src=null,gain=null;
+function noise(on){
+  if(on){var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+    if(!ac)ac=new C();if(ac.state==='suspended')ac.resume();
+    var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),last=0,i,w;
+    for(i=0;i<len;i++){w=Math.random()*2-1;d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}
+    src=ac.createBufferSource();src.buffer=buf;src.loop=true;
+    gain=ac.createGain();gain.gain.value=.18;src.connect(gain);gain.connect(ac.destination);src.start();
+  }else if(src){try{src.stop();}catch(e){}src=null;}}
+var nb=document.getElementById('noiseBtn');
+nb.addEventListener('click',function(){var on=nb.getAttribute('aria-pressed')==='true';
+  noise(!on);nb.setAttribute('aria-pressed',on?'false':'true');nb.classList.toggle('btn--on',!on);
+  nb.setAttribute('aria-label',on?'Play brown noise':'Stop brown noise');});
+
+/* lightbox */
+var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),
+    lbClose=document.getElementById('lbClose'),lastTrigger=null;
+function shutLb(){lb.removeAttribute('data-open');lbImg.src='';
+  if(lastTrigger){lastTrigger.focus();lastTrigger=null;}}
+document.querySelectorAll('img[data-full]').forEach(function(im){
+  var box=im.closest('.frame');
+  box.setAttribute('tabindex','0');box.setAttribute('role','button');
+  box.setAttribute('aria-label','Open '+(im.alt||'image')+' larger');
+  function open(){lastTrigger=box;lbImg.src=im.getAttribute('data-full');lbImg.alt=im.alt;
+    lb.setAttribute('data-open','true');lbClose.focus();}
+  box.addEventListener('click',open);
+  box.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+});
+lbClose.addEventListener('click',shutLb);
+lb.addEventListener('click',function(e){if(e.target===lb)shutLb();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(lb.getAttribute('data-open')==='true'){shutLb();return;}
+    if(panel.getAttribute('data-open')==='true'){closePanel();a11y.focus();}
+  }
+  if(e.key==='Tab'&&lb.getAttribute('data-open')==='true'){e.preventDefault();lbClose.focus();}
+});
+})();
+</script>
+</body>
+</html>
