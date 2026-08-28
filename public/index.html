@@ -30,14 +30,14 @@
   --glass:     rgba(250,245,243,.90);
   /* type — everything derives from these */
   --tscale: 1;
-  /* fluid: interpolates linearly between a 360px and a 1920px viewport,
-     so nothing is pinned to its minimum across phone and laptop widths */
-  --micro: calc(clamp(11px, 10.31px + 0.192vw, 14px) * var(--tscale));
-  --body:  calc(clamp(14px, 12.85px + 0.321vw, 19px) * var(--tscale));
-  --title: calc(clamp(22px, 16.46px + 1.538vw, 46px) * var(--tscale));
-  --hero:  calc(clamp(30px, 19.38px + 2.949vw, 76px) * var(--tscale));
+  /* fluid: interpolates linearly from a 360px viewport up to roughly 2400px,
+     so nothing is pinned at the small end and large Mac displays keep growing */
+  --micro: calc(clamp(11px, 10.31px + 0.192vw, 15px) * var(--tscale));
+  --body:  calc(clamp(14px, 12.85px + 0.321vw, 20px) * var(--tscale));
+  --title: calc(clamp(22px, 16.46px + 1.538vw, 52px) * var(--tscale));
+  --hero:  calc(clamp(30px, 19.38px + 2.949vw, 88px) * var(--tscale));
   /* control + spacing, on the same interpolation */
-  --ctrl: clamp(34px, 31.69px + 0.641vw, 44px);
+  --ctrl: clamp(34px, 31.69px + 0.641vw, 48px);
   --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --r-lg: 20px;
   --r-pill: 999px;
@@ -45,8 +45,8 @@
   --in: 180ms;
   --out: 520ms;
   /* fluid spacing */
-  --gut: clamp(16px, 6.77px + 2.564vw, 56px);
-  --sec: clamp(48px, 31.38px + 4.615vw, 120px);
+  --gut: clamp(16px, 6.77px + 2.564vw, 72px);
+  --sec: clamp(48px, 31.38px + 4.615vw, 148px);
   --col2: 50.2%;
 }
 [data-contrast="high"]{
@@ -176,7 +176,7 @@ ul{margin:0;padding:0}
 
 /* ---------- scroll flow ---------- */
 section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
-.wrap{width:min(100% - var(--gut)*2, 1560px);margin-inline:auto}
+.wrap{width:min(100% - var(--gut)*2, 1800px);margin-inline:auto}
 
 /* 1 hero */
 .hero{
@@ -294,7 +294,7 @@ section{scroll-margin-top:calc(var(--ctrl) + var(--gut) + 12px)}
 
 /* 3 photo band — full bleed, no gaps */
 .band{display:grid;grid-template-columns:repeat(5,1fr);gap:0;width:100%;margin-block:var(--sec)}
-.band img{width:100%;height:100%;aspect-ratio:4/5;object-fit:cover}
+.band img{width:100%;height:100%;aspect-ratio:4/5;object-fit:cover;max-height:clamp(260px, 30vw, 520px)}
 
 /* 4 about */
 .about{padding-block:var(--sec)}
