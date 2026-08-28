@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design system — Orsolya G.</title>
+<meta name="description" content="Type, colour, grid, diagrams, blocks and human devices for the portfolio and case studies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+/* ═══ 3 · COLOUR — 8 values ═══ */
+:root{
+  --page:      #FAF5F3;
+  --card:      #F2E5E2;
+  --recess:    #EDDCD9;
+  --ink:       #191517;
+  --body-c:    #4E4649;
+  --muted:     #6B5F62;
+  --line:      #5B5257;
+  --line-soft: #B3A5A3;
+  --edge:    rgba(25,21,23,.09);
+  --lattice: rgba(25,21,23,.06);
+
+/* ═══ 4 · SPACE, RADIUS, MOTION ═══ */
+  --margin:  clamp(20px, 5.6vw, 140px);
+  --gutter:  clamp(16px, 2.2vw, 48px);
+  --stack:   clamp(16px, 2.2vw, 40px);
+  --section: clamp(72px, 9vw, 180px);
+  --control: clamp(44px, 3cqw, 52px);
+  --r-lg: 20px;
+  --r-pill: 999px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --in:  180ms;
+  --out: 520ms;
+
+/* ═══ 2 · TYPE — 4 sizes, cqw against the capped container ═══ */
+  --micro: clamp(12px, 1.00cqw, 15px);
+  --body:  clamp(16px, 1.35cqw, 19px);
+  --title: clamp(24px, 3.20cqw, 46px);
+  --hero:  clamp(32px, 5.40cqw, 76px);
+
+  --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Literata", Georgia, "Times New Roman", serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--page);color:var(--body-c);
+  font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.70;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+
+/* container query root — type caps with the container, never the viewport */
+.wrap{
+  container-type:inline-size;
+  max-width:1800px;margin-inline:auto;
+  padding-inline:var(--margin);
+}
+
+/* ── type roles ── */
+.t-hero{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;letter-spacing:-.02em;color:var(--ink);max-width:24ch}
+.t-title{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.20;letter-spacing:-.01em;color:var(--ink);max-width:32ch}
+.t-body{font-family:var(--serif);font-weight:400;font-size:var(--body);line-height:1.70;letter-spacing:0;color:var(--body-c);max-width:62ch}
+.t-micro{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);max-width:40ch}
+.t-lead{font-family:var(--serif);font-weight:400;font-size:var(--title);line-height:1.35;letter-spacing:0;color:var(--body-c);max-width:40ch}
+em{font-style:italic}
+.t-body strong,.lead-in{font-weight:500;font-style:normal}
+
+/* ── grid ── */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);align-items:start}
+.s1{grid-column:1 / span 5}
+.s2{grid-column:7 / span 5}
+.sfull{grid-column:1 / -1}
+.c1-3{grid-column:1 / span 3}
+.c5-7{grid-column:5 / span 3}
+.c9-11{grid-column:9 / span 3}
+.c1-7{grid-column:1 / span 7}
+.c1-8{grid-column:1 / span 8}
+.c9-12{grid-column:9 / span 4}
+.c4-12{grid-column:4 / span 9}
+.c1-2{grid-column:1 / span 2}
+
+/* ── block rhythm ── */
+.blk{padding-block:var(--section)}
+.blk + .blk{padding-top:0}
+.blk-head{margin-bottom:calc(var(--section) * .6)}
+.stack > * + *{margin-top:var(--stack)}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:var(--stack)}
+
+/* ═══ 5 · DIAGRAMS ═══ */
+.plane{
+  position:relative;
+  background-color:var(--card);
+  background-image:radial-gradient(var(--lattice) 1px, transparent 1px);
+  background-size:1.6cqw 1.6cqw;
+  border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  overflow:hidden;
+}
+.plane svg{display:block;width:100%;height:100%}
+/* one stroke rule for the whole build */
+.plane svg .hard,
+.plane svg .soft{
+  stroke-width:2.4px;
+  vector-effect:non-scaling-stroke;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+}
+.plane svg .soft{stroke:var(--line-soft);stroke-dasharray:6 16}
+.plane svg .hard{stroke:var(--line)}
+.plane svg .dot{fill:var(--ink);stroke:none}
+.plane svg .node{fill:var(--ink);stroke:none}
+.plane svg text{
+  font-family:var(--sans);font-weight:500;font-size:26px;
+  letter-spacing:1.8px;text-transform:uppercase;fill:var(--muted);
+}
+.plane svg .in-node{fill:var(--page)}
+@media (max-width:767px){ .plane svg .hard,.plane svg .soft{stroke-width:2px} }
+
+.plane--inset{aspect-ratio:4/3}
+.plane--full{aspect-ratio:21/9}
+.plane--flow{aspect-ratio:3/4;max-height:80vh;margin-inline:auto}
+@media (max-width:1023px){ .plane--full{aspect-ratio:16/9} .plane--flow{aspect-ratio:4/3} }
+@media (max-width:767px){ .plane--full{aspect-ratio:4/3} }
+
+/* ═══ 6 · DIAGRAM ANIMATION — one behaviour ═══ */
+.plane .soft,
+.plane .constr{opacity:0;transition:opacity 600ms var(--ease)}
+.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1100ms var(--ease)}
+.plane .dot{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;
+  transition:opacity 500ms var(--ease) 1050ms, transform 500ms var(--ease) 1050ms}
+.plane text{opacity:0;transform:translateY(10px);
+  transition:opacity 450ms var(--ease), transform 450ms var(--ease)}
+.plane.go .soft,.plane.go .constr{opacity:1}
+.plane.go .hard{stroke-dashoffset:0;transition-delay:150ms}
+.plane.go .hard:nth-of-type(2){transition-delay:290ms}
+.plane.go .hard:nth-of-type(3){transition-delay:430ms}
+.plane.go .dot{opacity:1;transform:scale(1)}
+.plane.go text{opacity:1;transform:translateY(0);transition-delay:1200ms}
+.plane.go text:nth-of-type(2){transition-delay:1300ms}
+.plane.go text:nth-of-type(3){transition-delay:1400ms}
+.plane.go text:nth-of-type(4){transition-delay:1500ms}
+.plane.go .node{transition-delay:1100ms}
+
+@media (prefers-reduced-motion: reduce){
+  .plane .soft,.plane .constr,.plane .dot,.plane text{opacity:1;transform:none;transition:none}
+  .plane .hard{stroke-dashoffset:0;transition:none}
+}
+[data-motion="off"] .plane .soft,[data-motion="off"] .plane .constr,
+[data-motion="off"] .plane .dot,[data-motion="off"] .plane text{opacity:1;transform:none;transition:none}
+[data-motion="off"] .plane .hard{stroke-dashoffset:0;transition:none}
+
+/* ═══ 7 · BLOCKS ═══ */
+/* B1 · text */
+.blk--text[data-cols="2"] .cols{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gutter)}
+.blk--text[data-cols="3"] .cols{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.blk--text .col > * + *{margin-top:calc(var(--stack)*.6)}
+.blk--text[data-headed="true"] .col-title,
+.opt-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;letter-spacing:0;color:var(--ink)}
+@media (max-width:1023px){ .blk--text[data-cols="3"] .cols{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:767px){ .blk--text[data-cols="2"] .cols,.blk--text[data-cols="3"] .cols{grid-template-columns:1fr} }
+
+/* B3 · media */
+.frame{border-radius:var(--r-lg);overflow:hidden;box-shadow:inset 0 0 0 1px var(--edge);background:var(--card)}
+.frame img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.media-strip{display:flex;gap:calc(var(--gutter)*.6);overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:var(--stack);align-items:center}
+.media-strip .frame{flex:0 0 15.5%;min-width:150px;scroll-snap-align:start}
+.strip-more{flex:0 0 auto;width:20px;height:20px;border-radius:var(--r-pill);background:var(--ink)}
+.callouts{counter-reset:c}
+.callouts li{display:grid;grid-template-columns:auto 1fr;gap:calc(var(--gutter)*.5);align-items:start}
+.callouts li + li{margin-top:var(--stack)}
+.callout-n{width:26px;height:26px;border-radius:var(--r-pill);background:var(--ink);color:var(--page);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);display:grid;place-items:center;line-height:1}
+@media (max-width:1023px){ .media-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:767px){ .media-grid{grid-template-columns:1fr} }
+
+/* B4 · figures */
+.figs{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.fig-n{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.2;letter-spacing:-.01em;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.fig-c{margin-top:calc(var(--stack)*.6);max-width:38ch}
+.blk--figures[data-align="right"] .blk-head{grid-column:7 / span 5;text-align:right}
+.blk--figures[data-align="right"] .blk-head .t-title{margin-left:auto}
+@media (max-width:1023px){ .figs{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:767px){ .figs{grid-template-columns:1fr} .blk--figures[data-align="right"] .blk-head{grid-column:1 / -1;text-align:left} }
+
+/* B5 · pairs */
+.pair-row{display:grid;grid-template-columns:1fr auto 1fr;gap:var(--gutter);align-items:center;
+  padding-block:var(--stack);border-top:1px solid var(--edge)}
+.pair-row:last-child{border-bottom:1px solid var(--edge)}
+.pair-arrow{width:64px;height:2.4px;background:var(--line-soft);position:relative}
+.blk--pairs[data-mode="compare"] .pair-row,
+.blk--pairs[data-mode="spec"] .pair-row{grid-template-columns:1fr 1fr}
+.blk--pairs[data-mode="spec"] .pair-row{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+@media (max-width:767px){
+  .pair-row,.blk--pairs[data-mode="compare"] .pair-row,.blk--pairs[data-mode="spec"] .pair-row{grid-template-columns:1fr;gap:calc(var(--stack)*.5)}
+  .pair-arrow{width:2.4px;height:32px}
+}
+
+/* B6 · options */
+.options{display:grid;grid-template-columns:repeat(3,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.badge{display:inline-block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--edge);border-radius:var(--r-pill);padding:.35em 1em}
+.badge--on{background:var(--ink);color:var(--page);border-color:var(--ink)}
+.opt > * + *{margin-top:calc(var(--stack)*.6)}
+@media (max-width:1023px){ .options{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:767px){ .options{grid-template-columns:1fr} }
+
+/* B7 · quote */
+.blk--quote .quote{background:var(--recess);border-radius:var(--r-lg);padding:var(--stack) calc(var(--stack)*1.2)}
+.quote p{font-family:var(--serif);font-weight:500;font-size:var(--body);line-height:1.70;color:var(--ink);max-width:62ch}
+.quote cite{display:block;margin-top:calc(var(--stack)*.6);font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-style:normal}
+
+/* B8 · sources */
+.sources{display:grid;grid-template-columns:repeat(2,1fr);column-gap:calc(var(--gutter)*1.8);row-gap:var(--stack)}
+.src{display:grid;grid-template-columns:auto 1fr;gap:calc(var(--gutter)*.5)}
+.src-n{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;color:var(--muted);
+  font-variant-numeric:tabular-nums;padding-top:.35em}
+.src-t{font-family:var(--serif);font-weight:500;color:var(--ink)}
+@media (max-width:1023px){ .sources{grid-template-columns:1fr} }
+
+/* ═══ 8 · HUMAN DEVICES ═══ */
+/* D1 margin note */
+.note{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;
+  letter-spacing:.07em;text-transform:none;color:var(--muted);max-width:40ch}
+@media (max-width:1023px){
+  .d1-note{grid-column:1 / -1;padding-left:var(--gutter);margin-top:var(--stack)}
+  .d1-body{grid-column:1 / -1}
+}
+/* D2 what I got wrong */
+.wrong{background:var(--recess);border-radius:var(--r-lg);padding:calc(var(--stack)*1.2)}
+.wrong p{font-family:var(--serif);font-weight:500;color:var(--ink);max-width:62ch}
+/* D3 artifact */
+.artifact img{width:100%;height:auto}
+.artifact figcaption{margin-top:calc(var(--stack)*.6)}
+
+/* ═══ 9 · RESPONSIVE — breakpoints change layout only ═══ */
+/* Arrangement A stacks below 1024: an S1 column is 34ch at 768, under the 45ch floor */
+/* §4b hard constraint: if a slot would give body fewer than 45ch it must reflow
+   to a wider slot. Tied to the container, not the viewport, so it tracks the real
+   measure rather than a guessed breakpoint. */
+@container (max-width: 1240px){
+  .s1,.s2{grid-column:1 / -1}
+}
+@media (max-width:1023px){
+  .c1-7,.c1-8,.c9-12,.c4-12{grid-column:1 / -1}
+  .c1-3,.c5-7,.c9-11{grid-column:span 6}
+  .blk--figures[data-align="right"] .blk-head{grid-column:1 / -1}
+  .media-strip .frame{flex-basis:22%}
+}
+@media (max-width:767px){
+  .c1-3,.c5-7,.c9-11{grid-column:1 / -1}
+  .media-strip .frame{flex-basis:64%}
+  .plane--flow{aspect-ratio:4/3}
+  /* below 768 a dense diagram scrolls inside its plane rather than shrinking */
+  .plane--flow{overflow-x:auto}
+}
+
+/* ── page furniture for this reference page only ── */
+.sysnav{position:sticky;top:0;z-index:50;background:var(--page);border-bottom:1px solid var(--edge)}
+.sysnav ul{display:flex;gap:calc(var(--gutter)*.6);overflow-x:auto;padding-block:calc(var(--stack)*.5)}
+.sysnav a{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap;
+  min-height:44px;display:inline-flex;align-items:center}
+.sysnav a:hover{color:var(--ink)}
+.rule{border:0;border-top:1px solid var(--edge);margin:0}
+.spec-label{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted)}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gutter)}
+.sw-chip{height:88px;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge)}
+.sw-meta{margin-top:calc(var(--stack)*.5)}
+@media (max-width:767px){ .swatches{grid-template-columns:repeat(2,1fr)} }
+.gridview{position:relative;height:120px;border-radius:var(--r-lg);overflow:hidden;box-shadow:inset 0 0 0 1px var(--edge)}
+.gridview span{position:absolute;top:0;bottom:0;background:var(--card)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:var(--r-pill)}
+.skip{position:fixed;left:50%;translate:-50% -140%;top:12px;z-index:900;padding:0 1.2em;height:var(--control);
+  display:inline-flex;align-items:center;background:var(--ink);color:var(--page);border-radius:var(--r-pill);
+  font-family:var(--sans);font-size:var(--micro);text-decoration:none;transition:translate var(--in) var(--ease)}
+.skip:focus{translate:-50% 0}
+</style>
+</head>
+<body>
+<nav class="sysnav" aria-label="Sections">
+  <div class="wrap">
+    <a class="skip" href="#main">Skip to content</a><ul>
+    <li><a href="#type">Type</a></li>
+    <li><a href="#colour">Colour</a></li>
+    <li><a href="#grid">Grid</a></li>
+    <li><a href="#diagrams">Diagrams</a></li>
+    <li><a href="#blocks">Blocks</a></li>
+    <li><a href="#devices">Human devices</a></li>
+  </ul></div>
+</nav>
+
+<main id="main">
+<div class="wrap">
+
+  <!-- ════ opening ════ -->
+  <section class="blk">
+    <p class="eyebrow">Design system</p>
+    <h1 class="t-hero">Four type sizes. Eight colours. Two radii. One stroke weight.</h1>
+    <p class="t-lead" style="margin-top:var(--stack)">If something isn't on this page, it doesn't exist in the build. Every block below is a real component with real content from the case studies.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 2 · TYPE ════ -->
+  <section class="blk" id="type">
+    <div class="blk-head"><p class="eyebrow">Type</p><h2 class="t-title">Two families. Serif reads in sentences, sans does every functional job.</h2></div>
+    <div class="grid">
+      <div class="s1 stack">
+        <p class="spec-label">Hero · Jakarta 300 · 1.06 · −0.02em</p>
+        <p class="t-hero">Built to calm the fear.</p>
+        <p class="spec-label">Title · Jakarta 400 · 1.20 · −0.01em</p>
+        <p class="t-title">Realised the data was the threat, not the answer.</p>
+      </div>
+      <div class="s2 stack">
+        <p class="spec-label">Body · Literata 400 · 1.70 · 0</p>
+        <p class="t-body">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It <em>confirms</em> the fear.</p>
+        <p class="spec-label">Micro · Jakarta 500 · 1.55 · +0.07em</p>
+        <p class="t-micro">Diary study · Intent taxonomy · Concept test</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 3 · COLOUR ════ -->
+  <section class="blk" id="colour">
+    <div class="blk-head"><p class="eyebrow">Colour</p><h2 class="t-title">Three surfaces, three inks, two line values.</h2></div>
+    <div class="swatches">
+      <div><div class="sw-chip" style="background:var(--page)"></div><p class="spec-label sw-meta">page · #FAF5F3</p></div>
+      <div><div class="sw-chip" style="background:var(--card)"></div><p class="spec-label sw-meta">card · #F2E5E2</p></div>
+      <div><div class="sw-chip" style="background:var(--recess)"></div><p class="spec-label sw-meta">recess · #EDDCD9</p></div>
+      <div><div class="sw-chip" style="background:var(--ink)"></div><p class="spec-label sw-meta">ink · #191517</p></div>
+      <div><div class="sw-chip" style="background:var(--body-c)"></div><p class="spec-label sw-meta">body · #4E4649</p></div>
+      <div><div class="sw-chip" style="background:var(--muted)"></div><p class="spec-label sw-meta">muted · #6B5F62</p></div>
+      <div><div class="sw-chip" style="background:var(--line)"></div><p class="spec-label sw-meta">line · #5B5257</p></div>
+      <div><div class="sw-chip" style="background:var(--line-soft)"></div><p class="spec-label sw-meta">line-soft · #B3A5A3</p></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 4 · GRID ════ -->
+  <section class="blk" id="grid">
+    <div class="blk-head"><p class="eyebrow">Grid</p><h2 class="t-title">Twelve columns. Text starts at line 1, 4, 7 or 9.</h2></div>
+    <div class="gridview" id="gv" aria-hidden="true"></div>
+    <div class="grid" style="margin-top:var(--stack)">
+      <div class="s1"><p class="spec-label">S1 · cols 1–5 · 62ch cap</p></div>
+      <div class="s2"><p class="spec-label">S2 · cols 7–11 · 62ch cap</p></div>
+    </div>
+    <div class="grid" style="margin-top:var(--stack)">
+      <div class="c1-3"><p class="spec-label">S3 · cols 1–3</p></div>
+      <div class="c5-7"><p class="spec-label">S3 · cols 5–7</p></div>
+      <div class="c9-11"><p class="spec-label">S3 · cols 9–11</p></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 5+6 · DIAGRAMS ════ -->
+  <section class="blk" id="diagrams">
+    <div class="blk-head"><p class="eyebrow">Diagrams</p><h2 class="t-title">Line art at large scale. The drawing is enormous and the line is hairline.</h2></div>
+
+    <!-- B2 inset -->
+    <div class="grid">
+      <div class="s1 stack">
+        <p class="spec-label">B2 · scale = inset</p>
+        <p class="t-body">Two circles meeting at a single point. The filled dot marks the tangency — the one place the diagram is about.</p>
+      </div>
+      <div class="s2">
+        <div class="plane plane--inset">
+          <svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="d1t d1d">
+            <title id="d1t">The validation gap</title>
+            <desc id="d1d">Two equal circles meeting at one point on a shared horizontal centre, with the meeting point marked and labelled below.</desc>
+            <circle class="hard" cx="360" cy="380" r="240" pathLength="1"/>
+            <circle class="hard" cx="840" cy="380" r="240" pathLength="1"/>
+            <line class="soft" x1="600" y1="400" x2="600" y2="700"/>
+            <circle class="dot" cx="600" cy="380" r="20"/>
+            <text x="360" y="649" text-anchor="middle">Intent</text>
+            <text x="840" y="649" text-anchor="middle">Match</text>
+            <text x="600" y="729" text-anchor="middle">Validation gap</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- B2 full -->
+    <div style="margin-top:var(--section)">
+      <div class="grid">
+        <div class="s1 stack">
+          <p class="spec-label">B2 · scale = full · max one per page</p>
+        </div>
+      </div>
+      <div class="plane plane--full" style="margin-top:var(--stack)">
+        <svg viewBox="0 0 1200 514" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="d2t d2d">
+          <title id="d2t">The attention window</title>
+          <desc id="d2d">A curve rising to a single peak then falling, over a dotted horizontal axis, with the peak dropped to the axis and labelled.</desc>
+          <line class="soft" x1="120" y1="430" x2="1080" y2="430"/>
+          <path class="hard" d="M120 360 C280 350 430 130 600 120 C770 110 920 300 1080 350" pathLength="1"/>
+          <line class="soft" x1="600" y1="140" x2="600" y2="430"/>
+          <circle class="dot" cx="600" cy="120" r="20"/>
+          <text x="120" y="459">Time in session</text>
+          <text x="600" y="459" text-anchor="middle">Peak cognitive load</text>
+        </svg>
+      </div>
+      <div class="grid" style="margin-top:var(--stack)">
+        <div class="s1"><p class="t-body">Copy beneath a full diagram shares its left edge with the leftmost drawn mark — here, x=120 in the viewBox.</p></div>
+      </div>
+    </div>
+
+    <!-- B2 flow, annotated -->
+    <div style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B2 · scale = flow · annotated · 3:4 portrait</p></div>
+      <div class="grid">
+        <div class="c1-8">
+          <div class="plane plane--flow">
+            <svg viewBox="0 0 1200 1600" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="d3t d3d">
+              <title id="d3t">Input validation, three generations</title>
+              <desc id="d3d">Four stacked nodes connected top to bottom, with the point where the shipped approach was chosen marked between the second and third.</desc>
+              <line class="soft" x1="600" y1="320" x2="600" y2="520"/>
+              <line class="soft" x1="600" y1="640" x2="600" y2="840"/>
+              <line class="soft" x1="600" y1="960" x2="600" y2="1160"/>
+              <rect class="node" x="340" y="200" width="520" height="120" rx="14"/>
+              <rect class="node" x="340" y="520" width="520" height="120" rx="14"/>
+              <rect class="node" x="340" y="840" width="520" height="120" rx="14"/>
+              <rect class="node" x="340" y="1160" width="520" height="120" rx="14"/>
+              <circle class="dot" cx="600" cy="740" r="20"/>
+              <text class="in-node" x="600" y="269" text-anchor="middle">Manual tags</text>
+              <text class="in-node" x="600" y="589" text-anchor="middle">AI metadata</text>
+              <text class="in-node" x="600" y="909" text-anchor="middle">Chip validation</text>
+              <text class="in-node" x="600" y="1229" text-anchor="middle">Match</text>
+            </svg>
+          </div>
+        </div>
+        <div class="c9-12">
+          <ol class="callouts">
+            <li><span class="callout-n">1</span><div><p class="t-body">Cut. Users skipped the field entirely.</p></div></li>
+            <li><span class="callout-n">2</span><div><p class="t-body">Cut after synching with developers on latency, token cost and structural reliability.</p></div></li>
+            <li><span class="callout-n">3</span><div><p class="t-body">Shipped. What survived earned it.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 7 · BLOCKS ════ -->
+  <section class="blk" id="blocks">
+    <div class="blk-head"><p class="eyebrow">Blocks</p><h2 class="t-title">Eight components. A page is an ordered list of these and nothing else.</h2></div>
+
+    <!-- B1 cols=1 -->
+    <div class="blk--text" data-cols="1">
+      <div class="blk-head"><p class="spec-label">B1 · cols = 1</p></div>
+      <div class="grid">
+        <div class="s1"><h3 class="t-title">Three generations of input validation. Two were cut.</h3></div>
+        <div class="s2"><p class="t-body">Two cut after synching with developers on latency, token cost and structural reliability. What shipped earned it.</p></div>
+      </div>
+    </div>
+
+    <!-- B1 cols=3 headed -->
+    <div class="blk--text" data-cols="3" data-headed="true" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B1 · cols = 3 · headed — each column is a discrete item (R5)</p></div>
+      <div class="cols">
+        <div class="col"><p class="col-title">Expression barrier</p><p class="t-body">Many people can't accurately describe how they feel in words.</p></div>
+        <div class="col"><p class="col-title">Creative processing</p><p class="t-body">Drawing lets people access emotions faster than writing.</p></div>
+        <div class="col"><p class="col-title">Conditional trust</p><p class="t-body">Observation without labelling was consistently more acceptable than diagnosis.</p></div>
+      </div>
+    </div>
+
+    <!-- B3 grid -->
+    <div class="blk--media" data-mode="grid" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B3 · mode = grid</p></div>
+      <div class="media-grid">
+        <figure class="stack" style="margin:0"><div class="frame"><img src="tribe/mockup.png" alt="Tribe input screen"></div><figcaption class="t-micro">Chip validation, accepted version.</figcaption></figure>
+        <figure class="stack" style="margin:0"><div class="frame"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard"></div><figcaption class="t-micro">Dashboard, overview state.</figcaption></figure>
+        <figure class="stack" style="margin:0"><div class="frame"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness canvas"></div><figcaption class="t-micro">Canvas with guidance panel.</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- B3 strip -->
+    <div class="blk--media" data-mode="strip" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B3 · mode = strip · filled dot is the overflow signal</p></div>
+      <div class="media-strip">
+        <div class="frame"><img src="snippets_leica__technical_drawing_1.png" alt="Variant one"></div>
+        <div class="frame"><img src="snippets_leica__technical_drawing_2.png" alt="Variant two"></div>
+        <div class="frame"><img src="snippets_leica__technical_drawing_3.png" alt="Variant three"></div>
+        <div class="frame"><img src="leica-thumbnail.png" alt="Manufactured part"></div>
+        <div class="frame"><img src="snippets_puzled_onboarding_thumbnail.png" alt="Onboarding flow"></div>
+        <span class="strip-more" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- B4 figures -->
+    <div class="blk--figures" data-align="left" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B4 · align = left · every figure exists in the source</p><h3 class="t-title">What the second generation actually cost.</h3></div>
+      <div class="figs">
+        <div><p class="fig-n">1.4s</p><p class="t-body fig-c">800ms standard plus 600ms metadata extraction, before anything useful happens.</p></div>
+        <div><p class="fig-n">25×</p><p class="t-body fig-c">More token cost to categorise an entry than to process it.</p></div>
+        <div><p class="fig-n">≥40%</p><p class="t-body fig-c">Target match-to-meetup conversion the engine is measured against.</p></div>
+      </div>
+    </div>
+
+    <!-- B5 pairs, compare -->
+    <div class="blk--pairs" data-mode="compare" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B5 · mode = compare — labelled columns, so R5 permits two (see §11b)</p></div>
+      <div class="pair-row"><p class="t-micro">The market — engagement-first</p><p class="t-micro">Tribe's bet — intent-first</p></div>
+      <div class="pair-row"><p class="t-body">Time-on-app / ad impressions</p><p class="t-body">Match-to-meetup conversion</p></div>
+      <div class="pair-row"><p class="t-body">Visual profiles → asynchronous browse → swipe</p><p class="t-body">Intent input → semantic match → progressive reveal</p></div>
+    </div>
+
+    <!-- B6 options -->
+    <div class="blk--options" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B6 · options considered — use wherever a real alternative was cut</p></div>
+      <div class="options">
+        <div class="opt"><span class="badge">Gen 1 — cut</span><div class="frame"><img src="snippets_leica__technical_drawing_1.png" alt="Manual tags"></div><p class="opt-title">Manual tags</p><p class="t-body">Added by the user. Skipped in practice.</p></div>
+        <div class="opt"><span class="badge">Gen 2 — cut</span><div class="frame"><img src="snippets_leica__technical_drawing_2.png" alt="AI metadata"></div><p class="opt-title">AI-generated metadata</p><p class="t-body">Smarter, but unreliable JSON, 1.4s latency, 25× token cost.</p></div>
+        <div class="opt"><span class="badge badge--on">Gen 3 — shipped</span><div class="frame"><img src="snippets_leica__technical_drawing_3.png" alt="Chip validation"></div><p class="opt-title">NLP chip validation</p><p class="t-body">Nine states. The rest of the architecture was built around it.</p></div>
+      </div>
+    </div>
+
+    <!-- B7 quote -->
+    <div class="blk--quote" data-kind="reframe" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B7 · kind = reframe</p></div>
+      <div class="grid"><div class="s1"><div class="quote"><p>The market is saturated with engagement-first products. The unmet need was safer connection — intent-based, not identity-first.</p></div></div></div>
+    </div>
+
+    <!-- B8 sources -->
+    <div class="blk--sources" style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">B8 · sources — the credibility block, do not bury it</p></div>
+      <div class="sources">
+        <div class="src"><span class="src-n">01</span><div><p class="src-t">Rosenberg (1965)</p><p class="t-body">Evaluation apprehension — defensive user input.</p></div></div>
+        <div class="src"><span class="src-n">02</span><div><p class="src-t">Clark (1996)</p><p class="t-body">Common ground and semantic alignment.</p></div></div>
+        <div class="src"><span class="src-n">03</span><div><p class="src-t">Buell &amp; Norton (2011)</p><p class="t-body">The labour illusion in operational transparency.</p></div></div>
+        <div class="src"><span class="src-n">04</span><div><p class="src-t">Herlocker et al. (2000)</p><p class="t-body">Explaining recommendations to build trust.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ════ 8 · HUMAN DEVICES ════ -->
+  <section class="blk" id="devices">
+    <div class="blk-head"><p class="eyebrow">Human devices</p><h2 class="t-title">Three deviations, each with a hard budget, each carrying real content.</h2></div>
+
+    <!-- D1 -->
+    <div class="blk-head"><p class="spec-label">D1 · margin note · cols 1–2, paragraph at col 4 · max 2</p></div>
+    <div class="grid">
+      <div class="c1-2 d1-note"><p class="note">I expected the tagging to fail on effort. It failed on exposure.</p></div>
+      <div class="c4-12 d1-body" style="max-width:62ch"><p class="t-body">Three generations of input validation were designed. Two were cut after synching with developers on latency, token cost and structural reliability.</p></div>
+    </div>
+
+    <!-- D2 -->
+    <div style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">D2 · what I got wrong · max 1</p></div>
+      <div class="grid"><div class="s1"><div class="wrong"><p>I would start with stress-state research before touching the information architecture.</p></div></div></div>
+    </div>
+
+    <!-- D3 -->
+    <div style="margin-top:var(--section)">
+      <div class="blk-head"><p class="spec-label">D3 · artifact · cols 1–7, no plane, no rounded corners · max 1</p></div>
+      <div class="grid">
+        <figure class="artifact c1-7" style="margin:0">
+          <img src="snippets_leica__technical_drawing_2.png" alt="Technical drawing, second variant">
+          <figcaption class="t-micro">Variant two, before the tolerance change.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+(function(){
+"use strict";
+/* grid overlay for the grid section */
+var gv=document.getElementById('gv');
+if(gv){for(var i=0;i<12;i++){var s=document.createElement('span');
+  s.style.left='calc('+i+' * (100% + var(--gutter)) / 12)';
+  s.style.width='calc((100% - 11 * var(--gutter)) / 12)';
+  gv.appendChild(s);}}
+
+/* §6 — one animation behaviour, fires once, never loops */
+var planes=[].slice.call(document.querySelectorAll('.plane'));
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('go'); io.unobserve(e.target); } });
+  },{threshold:.35});
+  planes.forEach(function(p){io.observe(p);});
+}else{ planes.forEach(function(p){p.classList.add('go');}); }
+})();
+</script>
+</body>
+</html>
