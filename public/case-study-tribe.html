@@ -16,6 +16,7 @@
   --edge:rgba(25,21,23,.09); --lattice:rgba(25,21,23,.06);
   --edge-ctrl:rgba(25,21,23,.22); --glass:rgba(250,245,243,.90);
 
+  --shell:1680px;
   --margin:clamp(20px, 5.6vw, 140px);
   --gutter:clamp(16px, 2.2vw, 48px);
   --stack:clamp(16px, 2.2vw, 40px);
@@ -48,7 +49,7 @@ p{margin:0}
 ul,ol{margin:0;padding:0;list-style:none}
 a{color:inherit}
 
-.wrap{container-type:inline-size;max-width:1800px;margin-inline:auto;padding-inline:var(--margin)}
+.wrap{container-type:inline-size;max-width:var(--shell);margin-inline:auto;padding-inline:var(--margin)}
 
 .t-hero{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;letter-spacing:-.02em;color:var(--ink);max-width:24ch}
 .t-title{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.20;letter-spacing:-.01em;color:var(--ink);max-width:32ch}
@@ -79,19 +80,21 @@ em{font-style:italic}
 .btn svg{width:1.05em;height:1.05em}
 
 /* chrome */
-.chrome{position:fixed;z-index:500;display:flex;align-items:center;gap:calc(var(--control)*.28)}
+.chrome-shell{position:fixed;inset:0;z-index:500;pointer-events:none;
+  width:min(100%, var(--shell));margin-inline:auto;padding-inline:var(--margin)}
+.chrome{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:calc(var(--control)*.28)}
 /* the brand sits on glass like every other chrome group, so scrolling copy
    does not run underneath it. No border: it is not a control. */
-.c-tl{top:var(--gutter);left:var(--gutter);
+.c-tl{top:var(--gutter);left:var(--margin);
   padding:calc(var(--control)*.16) calc(var(--control)*.42);
   background:var(--glass);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.c-tr{top:var(--gutter);right:var(--gutter)}
+.c-tr{top:var(--gutter);right:var(--margin)}
 .brand{display:flex;align-items:center;min-height:var(--control);text-decoration:none;color:var(--ink)}
 .logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
 
 /* ══ section index — always visible ══ */
-.index{position:fixed;z-index:400;left:var(--gutter);top:50%;translate:0 -50%;
+.index{position:absolute;z-index:400;left:var(--margin);top:50%;translate:0 -50%;pointer-events:auto;
   width:var(--rail);display:flex;flex-direction:column;gap:2px}
 .index-label{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--line-soft);margin-bottom:calc(var(--stack)*.4)}
@@ -106,7 +109,7 @@ em{font-style:italic}
 .index a[aria-current="true"]::before{width:28px;background:var(--ink)}
 
 /* accessibility panel + toast */
-.panel{position:fixed;z-index:600;right:var(--gutter);
+.panel{position:absolute;z-index:600;right:var(--margin);
   bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 12px);
   width:min(300px, calc(100vw - var(--gutter)*2));padding:calc(var(--stack)*.7);
   background:var(--page);border:1px solid var(--edge-ctrl);border-radius:var(--r-lg);display:none}
@@ -117,8 +120,8 @@ em{font-style:italic}
 .prow>span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--body-c)}
 .pgrp{display:flex;gap:6px}
-.c-br{position:fixed;z-index:500;bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--gutter);display:flex;gap:6px}
-.toast{position:fixed;z-index:700;top:calc(var(--gutter) + var(--control) + 10px);right:var(--gutter);
+.c-br{position:absolute;z-index:500;bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin);display:flex;gap:6px}
+.toast{position:absolute;z-index:700;top:calc(var(--gutter) + var(--control) + 10px);right:var(--margin);
   padding:0 1.1em;height:var(--control);display:inline-flex;align-items:center;background:var(--ink);
   color:var(--page);border-radius:var(--r-pill);font-family:var(--sans);font-weight:500;
   font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;opacity:0;translate:0 -6px;
@@ -126,7 +129,7 @@ em{font-style:italic}
 .toast[data-show="true"]{opacity:1;translate:0 0}
 
 /* ══ grid + blocks ══ */
-main{padding-left:calc(var(--rail) + var(--gutter))}
+main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);align-items:start}
 .s1{grid-column:1 / span 5}
 .s2{grid-column:7 / span 5}
@@ -298,7 +301,14 @@ main{padding-left:calc(var(--rail) + var(--gutter))}
 @container (max-width:1340px){ .s1,.s2{grid-column:1 / -1} }
 
 @media (max-width:1279px){
-  main{padding-left:0}
+  main .wrap{padding-left:var(--margin)}
+  .chrome-shell{position:static;width:auto;margin:0;padding:0;pointer-events:auto}
+  .chrome,.c-br,.panel,.toast{position:fixed}
+  .c-tl{left:var(--margin)}
+  .c-tr{right:var(--margin)}
+  .c-br{right:var(--margin)}
+  .panel{right:var(--margin)}
+  .toast{right:var(--margin)}
   .index{position:sticky;top:0;left:auto;translate:0 0;width:auto;
     flex-direction:row;gap:calc(var(--gutter)*.5);overflow-x:auto;
     background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
@@ -329,6 +339,7 @@ main{padding-left:calc(var(--rail) + var(--gutter))}
 <body>
 <div class="wrap"><a class="skip" href="#main">Skip to case study</a></div>
 
+<div class="chrome-shell">
 <div class="chrome c-tl">
   <a class="brand" href="index.html" aria-label="Orsolya G. — all work"><svg height="100%" class="logo-mark" aria-hidden="true" viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -382,6 +393,7 @@ main{padding-left:calc(var(--rail) + var(--gutter))}
   <div class="prow"><span>Reduce motion</span><button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite">email copied</div>
+</div><!-- /chrome-shell -->
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image">
   <button class="btn btn--icon lb-close" id="lbClose" aria-label="Close image">✕</button>
