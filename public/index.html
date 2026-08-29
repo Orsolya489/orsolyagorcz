@@ -183,10 +183,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* 1 · hero */
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
   padding-block:calc(var(--section)*1.1) var(--section)}
-.hero-labels{display:flex;flex-wrap:wrap;align-items:center;gap:calc(var(--control)*.26);margin-bottom:var(--stack)}
-.hero-labels span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.hero-labels span+span::before{content:"·";margin-right:calc(var(--control)*.26);color:var(--line-soft)}
 .hero-sub{max-width:56ch}
 .hero h1{margin:0 0 var(--stack)}
 
@@ -526,7 +522,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <!-- 1 · HERO -->
   <section class="hero" id="home">
-    <p class="hero-labels"><span>Product Design</span><span>Human-AI Interaction</span><span>Human Factors</span></p>
     <h1 class="t-hero">I help people feel safe in systems they don't trust yet.</h1>
     <p class="t-body hero-sub">I design for cognitive limits, not ideal users — the half-second a screen hesitates, the moment someone quietly gives up. From research to working prototype.</p>
   </section>
