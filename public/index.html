@@ -257,8 +257,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card{
   position:relative;container-type:inline-size;
   /* width follows the aspect until the viewport height binds, then height leads */
-  aspect-ratio:2513/1153;
-  width:min(100%, calc(var(--card-h) * 2513 / 1153));
+  aspect-ratio:2/1;
+  width:min(100%, calc(var(--card-h) * 2));
   max-height:var(--card-h);
   margin-inline:auto;
   overflow:hidden;
@@ -269,6 +269,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   box-shadow:inset 0 0 0 1px var(--edge);
   transform-origin:50% 0;
   transition:transform var(--out) var(--ease), box-shadow var(--out) var(--ease);
+}
+/* past 1280 the card breaks the text column by 80px a side - enough to read as
+   emphasis, not enough to look misaligned */
+@media (min-width:1280px){
+  .card{width:min(calc(100% + 160px), calc(100vw - 80px), calc(var(--card-h) * 2))}
 }
 .card.is-covered{transform:scale(.97)}
 .card[data-href]{cursor:pointer}
@@ -283,10 +288,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
   letter-spacing:.07em;text-transform:uppercase;color:var(--body-c);overflow-wrap:break-word}
 .card-methods li+li::before{content:"·";margin-right:.9em;color:var(--line-soft)}
-.card-plane{position:absolute;left:50.2%;top:3.8%;width:44.5%;height:51%}
+.card-plane{position:absolute;left:50%;top:4%;width:47%;height:58%}
 .card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
-.card-copy{position:absolute;left:50.2%;bottom:6%;width:36%}
+.card-copy{position:absolute;left:50%;bottom:6%;width:47%}
 .card-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.9em}
 .card-tags span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
@@ -434,10 +439,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .lb-close{position:absolute;top:var(--gutter);right:var(--gutter)}
 
 /* ═══ 5 · responsive — layout only ═══ */
-/* Laptop 1024–1279 — desktop composition, taller card for real copy */
+/* Laptop 1024–1279 — the card is proportionally shorter here, so the diagram
+   gives a little height back to keep clear of the copy. Copy keeps the plane's
+   width, as everywhere else. */
 @media (min-width:1024px) and (max-width:1279px){
   .card{aspect-ratio:1.75}
-  .card-copy{width:44%}
+  .card-plane{height:48%}
 }
 
 /* Tablet 768–1023 */
@@ -450,7 +457,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-hblock,.card-plane,.card-copy,.card-shot{position:static;width:auto;left:auto;top:auto;height:auto}
   .card-hblock{grid-column:1/-1;grid-row:2}
   .card-tick{grid-column:1/-1}
-  .card-plane{grid-column:1/-1;grid-row:3;height:clamp(180px,26vw,320px)}
+  .card-plane{grid-column:1/-1;grid-row:3;height:clamp(200px,36vw,360px)}
   .card-shot{grid-column:1;grid-row:4;align-self:end;height:calc(var(--section)*1.8);
     margin-bottom:calc(var(--section)*-.55);overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
@@ -473,7 +480,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-hblock{order:2}
   .card-methods{flex-direction:column;gap:.4em;margin-top:calc(var(--stack)*.6)}
   .card-methods li+li::before{content:none}
-  .card-plane{order:3;height:160px}
+  .card-plane{order:3;height:clamp(160px,44vw,240px)}
   .card-copy{order:4;padding-bottom:24px}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
@@ -634,9 +641,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <span class="card-tick">01 / 04</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
-          <ul class="card-methods"><li>Literature-grounded design</li><li>Three generations of validation</li><li>Developer feasibility synch</li></ul>
         </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
+        <div class="card-plane"><div class="plane"><svg viewBox="176 6 848 563" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
 <title id="s0t">The validation gap</title>
 <desc id="s0d">Two equal circles meeting at a single point on a shared horizontal centre; the meeting point is marked and labelled below.</desc>
 <circle class="hard" cx="400" cy="230" r="200" pathLength="1"/>
@@ -658,7 +664,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       <div class="card-sticky"><article class="card">
         <span class="card-tick">02 / 04</span>
           <div class="card-hblock"><h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2></div>
-        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
+        <div class="card-plane"><div class="plane"><svg viewBox="56 112 928 408" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
 <title id="s1t">Where the guardrail fires</title>
 <desc id="s1d">One system node branching into two outcomes, with the branch point marked.</desc>
 <path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
@@ -680,9 +686,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <span class="card-tick">03 / 04</span>
         <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
-          <ul class="card-methods"><li>Secondary research</li><li>Constraint-system design</li><li>AI vs. human comparison</li></ul>
         </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s2t s2d">
+        <div class="card-plane"><div class="plane"><svg viewBox="95 100 1009 489" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s2t s2d">
 <title id="s2t">The attention window</title>
 <desc id="s2d">A curve rising to a single peak then falling over a dotted axis; the peak is dropped to the axis and labelled.</desc>
 <line class="soft" x1="120" y1="520" x2="1080" y2="520"/>
@@ -704,9 +709,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <span class="card-tick">04 / 04</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
-          <ul class="card-methods"><li>User survey, n=16</li><li>Usability test 1, 5 participants</li><li>Usability test 2</li></ul>
         </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+        <div class="card-plane"><div class="plane"><svg viewBox="96 150 1008 439" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
 <title id="s3t">The intervention window</title>
 <desc id="s3d">An engagement curve rising and falling between two marked boundaries, with the high point marked.</desc>
 <line class="soft" x1="120" y1="520" x2="1080" y2="520"/>
