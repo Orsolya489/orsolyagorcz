@@ -291,6 +291,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-plane{position:absolute;left:50%;top:4%;width:47%;height:58%}
 .card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
+/* card 1 carries a tall phone render (450x920). At the shared width it stood
+   687px in a 258px slot and lost most of itself off the card edge. Narrower,
+   and the slot now crops it rather than letting it overflow, so the bleed is
+   a deliberate few percent instead of two thirds of the image. */
+@media (min-width:1024px){
+  .stack-cards>.card-sticky:first-child .card-shot{left:7.6%;top:62%;width:16%;height:42%;overflow:hidden}
+  .stack-cards>.card-sticky:first-child .card-shot img{height:100%;min-height:0;object-position:top center}
+}
 .card-copy{position:absolute;left:50%;bottom:6%;width:47%}
 .card-open{display:inline-flex;align-items:center;gap:.4em;margin-top:1em;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
