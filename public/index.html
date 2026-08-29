@@ -38,6 +38,11 @@
   --in:  180ms;
   --out: 520ms;
 
+  /* chrome the card must clear, top and bottom */
+  --chrome-t: calc(var(--gutter) + var(--control)*1.22);
+  --chrome-b: calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control));
+  --card-h: calc(100svh - var(--chrome-t) - var(--chrome-b) - var(--stack)*2);
+
   /* type — 4 sizes, cqw against the capped container */
   --tscale: 1;
   --micro: calc(clamp(12px, 1.00cqw, 15px) * var(--tscale));
@@ -193,14 +198,19 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* 2 · work — the card */
 .work{padding-bottom:var(--section)}
 .stack-cards{display:flex;flex-direction:column;gap:40px}
-.card-sticky{position:sticky;top:calc(var(--control) + 30px)}
-.stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 40px)}
-.stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 50px)}
-.stack-cards>.card-sticky:nth-child(4){top:calc(var(--control) + 60px)}
+.card-sticky{position:sticky;top:calc(var(--chrome-t) + var(--stack))}
+.stack-cards>.card-sticky:nth-child(2){top:calc(var(--chrome-t) + var(--stack) + 10px)}
+.stack-cards>.card-sticky:nth-child(3){top:calc(var(--chrome-t) + var(--stack) + 20px)}
+.stack-cards>.card-sticky:nth-child(4){top:calc(var(--chrome-t) + var(--stack) + 30px)}
 
 .card{
   position:relative;container-type:inline-size;
-  aspect-ratio:2513/1153;overflow:hidden;
+  /* width follows the aspect until the viewport height binds, then height leads */
+  aspect-ratio:2513/1153;
+  width:min(100%, calc(var(--card-h) * 2513 / 1153));
+  max-height:var(--card-h);
+  margin-inline:auto;
+  overflow:hidden;
   background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);
   background-size:1.6cqw 1.6cqw;
@@ -318,12 +328,25 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* 4 · about, Lens inside */
 .about{padding-block:var(--section)}
 .about-lede{margin:0 0 var(--stack)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--section) var(--gutter)}
-.about-stack{display:grid;grid-template-columns:1fr 1fr;gap:var(--section) var(--gutter)}
-.ab-item>*+*{margin-top:.9em}
+.lens-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gutter)}
+.lens-card{display:flex;flex-direction:column;align-items:flex-start;gap:.5em;
+  padding:var(--stack);text-decoration:none;
+  background-color:var(--card);
+  background-image:radial-gradient(var(--lattice) 1px, transparent 1px);background-size:1.6cqw 1.6cqw;
+  border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);
+  transition:box-shadow var(--out) var(--ease)}
+.lens-card:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl);transition-duration:var(--in)}
+.lens-name{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
+.lens-apply{color:var(--body-c)}
+.lens-org{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin-top:auto;padding-top:var(--stack)}
+.lens-go{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink)}
+.cred-list{margin-top:var(--section)}
+@media (max-width:1279px){.lens-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:767px){.lens-grid{grid-template-columns:1fr}}
 .col-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
-@media (max-width:767px){.about-stack{grid-template-columns:1fr;gap:var(--stack)}}
-.cert-item{padding-bottom:var(--stack);margin-bottom:var(--stack);border-bottom:1px solid var(--edge)}
+
 .cert-name{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink)}
 .cert-meta{display:flex;justify-content:space-between;gap:1em;align-items:baseline;margin-top:.5em}
 .cert-org{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
@@ -363,7 +386,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
 /* Tablet 768–1023 */
 @media (max-width:1023px){
-  .card{aspect-ratio:auto;display:grid;
+  .card{aspect-ratio:auto;width:auto;max-height:none;display:grid;
     grid-template-columns:40% 1fr;grid-template-rows:auto auto auto auto;
     gap:calc(var(--stack)*.5) var(--gutter);
     padding:var(--stack) var(--stack) 0;align-content:start}
@@ -380,14 +403,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 30px)}
   .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 36px)}
   .stack-cards>.card-sticky:nth-child(4){top:calc(var(--control) + 42px)}
-  .about-grid{grid-template-columns:1fr}
   
 }
 
 /* Phone < 768 */
 @media (max-width:767px){
   .card-sticky{position:static}
-  .card{aspect-ratio:auto;min-height:0;display:flex;flex-direction:column;
+  .card{aspect-ratio:auto;width:auto;max-height:none;min-height:0;display:flex;flex-direction:column;
     padding:24px 20px 0;gap:14px;transform:none;
     grid-template-columns:none;grid-template-rows:none}
   .stack-cards{gap:40px}
@@ -688,61 +710,42 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <div class="wrap">
   <!-- 4 · ABOUT, Lens inside -->
   <section class="about" id="about">
-    <p class="sec-label">About me</p>
-    <h2 class="about-lede t-title">Lens — what shapes the way I design</h2>
-    <div class="about-grid">
-      <div>
-        <div class="about-stack">
-          <div class="ab-item">
-            <p class="col-title">Who I am</p>
-            <p class="t-body">My background runs through graphic design, live broadcasting, and spatial motion in AR/VR — environments where cognitive load is real, timing is everything, and there's no room for error.</p>
-            <p class="t-body">Somewhere in the middle of that, I spent years moving through Europe, Asia and Australia with a backpack — living alongside indigenous communities where the relationship between people and their environment was immediate and unfiltered. That became my first education in human factors.</p>
-          </div>
-          <div class="ab-item">
-            <p class="col-title">My focus</p>
-            <p class="t-body">What pulls me in are the small things — the half-second a screen hesitates, a word that lands slightly off, the moment you can feel someone quietly start to give up. One little thing nudges the next, and usually no one can point to what actually went wrong.</p>
-            <p class="t-body">I go deep before I go wide. I need to understand how a problem behaves in the real world before I start shaping a solution.</p>
-          </div>
-          <div class="ab-item">
-            <p class="col-title">Working with me</p>
-            <p class="t-body">I find honest collaboration easier than polite collaboration. Not blunt — just direct.</p>
-            <p class="t-body">If I go quiet in a meeting, I'm not disengaged. I'm mapping the logic in my head, finding where it breaks.</p>
-          </div>
-          <div class="ab-item">
-            <p class="col-title">What I believe</p>
-            <p class="t-body">When I lived in remote villages across Australia and Asia, I watched how people built their tools. Nobody designed for a perfect scenario — they designed for the actual mud, heat, and exhaustion they dealt with every day.</p>
-            <p class="t-body">Software should do the same. When someone struggles with an app, they're not stupid. The interface was just built for someone sitting at a quiet desk — not someone on a slow connection, in a noisy room, on a hard day.</p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="cert-item">
-          <p class="cert-name">Human Factors &amp; Usability Engineering</p>
-          <p class="t-body">Designing for cognitive limits, not ideal users.</p>
-          <div class="cert-meta"><span class="cert-org">Arizona State University · Specialization Certificate · 2026</span><a class="cert-view" href="https://www.coursera.org/account/accomplishments/specialization/R7MJ6493TV4H" target="_blank" rel="noopener">View ↗</a></div>
-        </div>
-        <div class="cert-item">
-          <p class="cert-name">Systems Engineering</p>
-          <p class="t-body">Seeing the whole before any part — structure before interface.</p>
-          <div class="cert-meta"><span class="cert-org">MathWorks · Certificate · 2026</span><a class="cert-view" href="https://www.coursera.org/account/accomplishments/verify/GTZGIZY1INED" target="_blank" rel="noopener">View ↗</a></div>
-        </div>
-        <div class="cert-item">
-          <p class="cert-name">Philosophy of Cognitive Science</p>
-          <p class="t-body">Understanding why attention and timing govern what information lands.</p>
-          <div class="cert-meta"><span class="cert-org">University of Edinburgh · Certificate · 2025</span><a class="cert-view" href="https://www.coursera.org/account/accomplishments/verify/LDHHF6UTQXGD" target="_blank" rel="noopener">View ↗</a></div>
-        </div>
-        <div class="cert-item">
-          <p class="cert-name">Foundations of Human-Centered AI</p>
-          <p class="t-body">Designing trust into AI systems, not assuming it follows from accuracy.</p>
-          <div class="cert-meta"><span class="cert-org">Northeastern University · Certificate · 2025</span><a class="cert-view" href="https://www.coursera.org/account/accomplishments/verify/CQP07NM0OWTG" target="_blank" rel="noopener">View ↗</a></div>
-        </div>
-        <a class="cred-row" href="https://www.coursera.org/account/accomplishments/specialization/LL9M9F51S9EU" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">Google UX Design — Professional Certificate · Google</span><span class="cert-view">View ↗</span></a>
-        <a class="cred-row" href="https://www.coursera.org/account/accomplishments/verify/MQX255JM40YY" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">AI, Empathy and Ethics — Certificate · University of California Santa Cruz</span><span class="cert-view">View ↗</span></a>
-        <a class="cred-row" href="https://www.udemy.com/certificate/UC-5c5e00c5-566d-4837-bdaf-42e0b7f47db4/" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">KPIs for User Experience: Measuring Success in Design — Certificate · Udemy</span><span class="cert-view">View ↗</span></a>
-        <div class="cred-row"><span class="cred-year">2010–14</span><span class="t-body">Graphic Design — Advanced Diploma · Vocational School of Fine Arts Szombathely</span><span></span></div>
-      </div>
+    <p class="sec-label">Lens</p>
+    <h2 class="about-lede t-title">What shapes the way I design</h2>
+    <div class="lens-grid">
+        <a class="lens-card" href="https://www.coursera.org/account/accomplishments/specialization/R7MJ6493TV4H" target="_blank" rel="noopener">
+          <span class="lens-name">Human Factors &amp; Usability Engineering</span>
+          <span class="t-body lens-apply">Designing for cognitive limits, not ideal users.</span>
+          <span class="lens-org">Arizona State University · Specialization Certificate · 2026</span>
+          <span class="lens-go" aria-hidden="true">View ↗</span>
+        </a>
+        <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/GTZGIZY1INED" target="_blank" rel="noopener">
+          <span class="lens-name">Systems Engineering</span>
+          <span class="t-body lens-apply">Seeing the whole before any part — structure before interface.</span>
+          <span class="lens-org">MathWorks · Certificate · 2026</span>
+          <span class="lens-go" aria-hidden="true">View ↗</span>
+        </a>
+        <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/LDHHF6UTQXGD" target="_blank" rel="noopener">
+          <span class="lens-name">Philosophy of Cognitive Science</span>
+          <span class="t-body lens-apply">Understanding why attention and timing govern what information lands.</span>
+          <span class="lens-org">University of Edinburgh · Certificate · 2025</span>
+          <span class="lens-go" aria-hidden="true">View ↗</span>
+        </a>
+        <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/CQP07NM0OWTG" target="_blank" rel="noopener">
+          <span class="lens-name">Foundations of Human-Centered AI</span>
+          <span class="t-body lens-apply">Designing trust into AI systems, not assuming it follows from accuracy.</span>
+          <span class="lens-org">Northeastern University · Certificate · 2025</span>
+          <span class="lens-go" aria-hidden="true">View ↗</span>
+        </a>
+    </div>
+    <div class="cred-list">
+      <a class="cred-row" href="https://www.coursera.org/account/accomplishments/specialization/LL9M9F51S9EU" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">Google UX Design — Professional Certificate · Google</span><span class="cert-view">View ↗</span></a>
+      <a class="cred-row" href="https://www.coursera.org/account/accomplishments/verify/MQX255JM40YY" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">AI, Empathy and Ethics — Certificate · University of California Santa Cruz</span><span class="cert-view">View ↗</span></a>
+      <a class="cred-row" href="https://www.udemy.com/certificate/UC-5c5e00c5-566d-4837-bdaf-42e0b7f47db4/" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">KPIs for User Experience: Measuring Success in Design — Certificate · Udemy</span><span class="cert-view">View ↗</span></a>
+      <div class="cred-row"><span class="cred-year">2010–14</span><span class="t-body">Graphic Design — Advanced Diploma · Vocational School of Fine Arts Szombathely</span><span class="cert-view"></span></div>
     </div>
   </section>
+
 
   <!-- 5 · CONTACT -->
   <section class="contact">
