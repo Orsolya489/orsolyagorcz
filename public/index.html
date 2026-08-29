@@ -42,7 +42,7 @@
   --out: 520ms;
 
   /* chrome the card must clear, top and bottom */
-  --chrome-t: calc(var(--gutter) + var(--control)*1.22);
+  --chrome-t: calc(var(--gutter) + var(--control));
   --chrome-b: calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control));
   --card-h: calc(100svh - var(--chrome-t) - var(--chrome-b) - var(--stack)*2);
 
@@ -145,7 +145,7 @@ a{color:inherit}
 /* the brand sits on glass like every other chrome group, so scrolling copy
    does not run underneath it. No border: it is not a control. */
 .c-tl{top:var(--gutter);left:var(--margin);
-  padding:calc(var(--control)*.16) calc(var(--control)*.42);
+  height:var(--control);padding:0 calc(var(--control)*.42);
   background:var(--glass);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .c-tr{top:var(--gutter);right:var(--margin)}
@@ -173,18 +173,20 @@ a{color:inherit}
 .n-ico svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity var(--out) var(--ease)}
 .noise-btn[aria-pressed="false"] .n-on{opacity:0}
 .noise-btn[aria-pressed="true"] .n-off{opacity:0}
-.brand{display:flex;align-items:center;min-height:var(--control);gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
+.brand{display:flex;align-items:center;height:100%;gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
 .logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
 
 /* bottom tab — one capsule, sliding indicator */
 .tabs{position:relative;display:flex;align-items:center;
-  padding:calc(var(--control)*.11);height:calc(var(--control)*1.22);
-  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  padding:0 3px;height:var(--control);
+  /* hairline as an inset shadow, not a border: a border would eat 2px from the
+     content box and drop the tab hit area under 44px */
+  background:var(--glass);box-shadow:inset 0 0 0 1px var(--edge-ctrl);border:0;border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.tab-ind{position:absolute;top:calc(var(--control)*.11);left:0;height:var(--control);
+.tab-ind{position:absolute;top:3px;left:0;height:calc(var(--control) - 6px);
   background:var(--ink);border-radius:var(--r-pill);pointer-events:none;will-change:transform,width;
   transition:transform 460ms var(--ease),width 460ms var(--ease)}
-.tab{position:relative;z-index:1;height:var(--control);padding:0 calc(var(--control)*.3);
+.tab{position:relative;z-index:1;height:100%;padding:0 calc(var(--control)*.3);
   display:inline-flex;align-items:center;gap:calc(var(--control)*.18);
   background:none;border:0;border-radius:var(--r-pill);color:var(--muted);
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
@@ -486,10 +488,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .tab{padding:0 calc(var(--control)*.24)}
   .hero{padding-top:96px;min-height:auto;padding-bottom:var(--section)}
   .panel{right:0;left:0;width:auto;
-    bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control)*1.35 + 12px)}
-  .contact{padding-bottom:calc(var(--control)*1.35 + 40px)}
+    bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control) + 12px)}
+  .contact{padding-bottom:calc(var(--control) + 40px)}
   .toast{left:0;right:auto;top:auto;
-    bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control)*1.35 + 12px)}
+    bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control) + 12px)}
 }
 @media (min-width:768px){ .bar-extra{display:none} }
 
