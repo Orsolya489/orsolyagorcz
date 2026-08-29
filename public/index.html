@@ -131,6 +131,28 @@ a{color:inherit}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 .c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin)}
+.noise{display:flex;align-items:center;gap:calc(var(--control)*.28)}
+.noise-vol{display:flex;align-items:center;height:var(--control);overflow:hidden;
+  width:0;padding-inline:0;opacity:0;pointer-events:none;
+  background:var(--glass);border:0 solid var(--edge-ctrl);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:width var(--out) var(--ease),opacity var(--out) var(--ease),
+             padding-inline var(--out) var(--ease),border-width var(--out) var(--ease)}
+.noise[data-on="true"] .noise-vol{width:calc(var(--control)*3.2);padding-inline:calc(var(--control)*.4);
+  opacity:1;pointer-events:auto;border-width:1px;transition-duration:var(--in)}
+.noise-vol input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:var(--control);
+  background:transparent;cursor:pointer;margin:0}
+.noise-vol input[type="range"]::-webkit-slider-runnable-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
+  border-radius:var(--r-pill);background:var(--ink);margin-top:-6px;
+  transition:scale var(--out) var(--ease)}
+.noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1.18;transition-duration:var(--in)}
+.noise-vol input[type="range"]::-moz-range-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:var(--r-pill);background:var(--ink)}
+.n-ico{position:relative;width:1.05em;height:1.05em;flex:0 0 auto}
+.n-ico svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity var(--out) var(--ease)}
+.noise-btn[aria-pressed="false"] .n-on{opacity:0}
+.noise-btn[aria-pressed="true"] .n-off{opacity:0}
 .brand{display:flex;align-items:center;min-height:var(--control);gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
 .logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
 
@@ -440,6 +462,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .c-br{display:none}
   .tabs{width:100%;gap:4px}
   .bar-extra{display:flex;gap:4px;align-items:center;margin-left:auto}
+  .noise-btn span:not(.n-ico){display:none}
+  .noise-btn{padding:0;width:var(--control);flex:0 0 var(--control)}
+  .noise-vol{display:none}
   .tab{padding:0 calc(var(--control)*.24)}
   .hero{padding-top:96px;min-height:auto;padding-bottom:var(--section)}
   .panel{right:0;left:0;width:auto;
@@ -496,6 +521,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     <span class="btn-resume-txt">Résumé</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
   </a>
+  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolyagorcz" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+  </a>
   <button class="btn btn--icon" id="mailBtn" aria-label="Copy email address">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
@@ -531,9 +559,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 11h8M12 11v6M12 14l-2.5 3M12 14l2.5 3"/></svg>
   </button>
-  <button class="btn btn--icon" id="noiseBtn" aria-label="Play brown noise" aria-pressed="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
-  </button>
+  <div class="noise" id="noise" data-on="false">
+    <div class="noise-vol">
+      <input type="range" id="vol" min="0" max="100" value="18" aria-label="Noise volume">
+    </div>
+    <button class="btn noise-btn" id="noiseBtn" aria-pressed="false">
+      <span class="n-ico" aria-hidden="true">
+        <svg class="n-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
+        <svg class="n-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/></svg>
+      </span>
+      <span>Noise for focus</span>
+    </button>
+  </div>
 </div>
 
 <div class="panel" id="panel" role="dialog" aria-label="Accessibility options">
@@ -879,22 +916,49 @@ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matc
   root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
-/* brown noise */
+/* noise for focus — toggle plus a volume dragger that slides out */
 var ac=null,src=null,gain=null;
-function noise(on){
-  if(on){var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-    if(!ac)ac=new C();if(ac.state==='suspended')ac.resume();
-    var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),last=0,i,w;
-    for(i=0;i<len;i++){w=Math.random()*2-1;d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}
-    src=ac.createBufferSource();src.buffer=buf;src.loop=true;
-    gain=ac.createGain();gain.gain.value=.18;src.connect(gain);gain.connect(ac.destination);src.start();
-  }else if(src){try{src.stop();}catch(e){}src=null;}}
-['noiseBtn','noiseBtnM'].forEach(function(id){var b=document.getElementById(id);if(!b)return;
-  b.addEventListener('click',function(){var on=b.getAttribute('aria-pressed')==='true';noise(!on);
-    ['noiseBtn','noiseBtnM'].forEach(function(j){var o=document.getElementById(j);if(!o)return;
-      o.setAttribute('aria-pressed',on?'false':'true');o.classList.toggle('btn--on',!on);
-      o.setAttribute('aria-label',on?'Play brown noise':'Stop brown noise');});});});
-
+var noiseWrap=document.getElementById("noise"),
+    noiseBtn=document.getElementById("noiseBtn"),
+    vol=document.getElementById("vol"),
+    noiseBtnM=document.getElementById("noiseBtnM");
+function level(){return (vol?+vol.value:18)/100*0.6;}
+function startNoise(){
+  var C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
+  if(!ac)ac=new C();
+  if(ac.state==="suspended")ac.resume();
+  var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),last=0,i,w;
+  for(i=0;i<len;i++){w=Math.random()*2-1;d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}
+  src=ac.createBufferSource();src.buffer=buf;src.loop=true;
+  gain=ac.createGain();gain.gain.value=level();
+  src.connect(gain);gain.connect(ac.destination);src.start();
+  return true;
+}
+function stopNoise(){
+  if(!src)return;
+  var s=src;src=null;
+  if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
+    setTimeout(function(){try{s.stop();}catch(e){}},260);}
+  else{try{s.stop();}catch(e){}}
+}
+function setNoise(on){
+  if(on&&!startNoise())return;
+  if(!on)stopNoise();
+  [noiseBtn,noiseBtnM].forEach(function(b){
+    if(!b)return;
+    b.setAttribute("aria-pressed",on?"true":"false");
+    b.setAttribute("aria-label",on?"Stop noise for focus":"Play noise for focus");
+    b.classList.toggle("btn--on",on);
+  });
+  if(noiseWrap)noiseWrap.setAttribute("data-on",on?"true":"false");
+}
+[noiseBtn,noiseBtnM].forEach(function(b){
+  if(!b)return;
+  b.addEventListener("click",function(){setNoise(b.getAttribute("aria-pressed")!=="true");});
+});
+if(vol)vol.addEventListener("input",function(){
+  if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
+});
 
 /* client work — one open at a time, panel sits under the row */
 var cwCards=[].slice.call(document.querySelectorAll('.cw-card'));
