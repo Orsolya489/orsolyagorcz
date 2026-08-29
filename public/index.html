@@ -122,8 +122,12 @@ a{color:inherit}
   background:var(--glass);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .c-tr{top:var(--gutter);right:var(--gutter)}
-.c-bc{bottom:max(var(--gutter), env(safe-area-inset-bottom));left:50%;translate:-50% 0}
+.c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 .c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--gutter)}
+.c-bl{bottom:max(var(--gutter), env(safe-area-inset-bottom));left:var(--gutter);
+  padding:calc(var(--control)*.16) calc(var(--control)*.42);
+  background:var(--glass);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;min-height:var(--control);gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
 .logo-mark{width:auto;display:block}
 
@@ -188,7 +192,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
 /* 2 · work — the card */
 .work{padding-bottom:var(--section)}
-.stack-cards{display:flex;flex-direction:column;gap:12px}
+.stack-cards{display:flex;flex-direction:column;gap:40px}
 .card-sticky{position:sticky;top:calc(var(--control) + 30px)}
 .stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 40px)}
 .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 50px)}
@@ -377,7 +381,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 36px)}
   .stack-cards>.card-sticky:nth-child(4){top:calc(var(--control) + 42px)}
   .about-grid{grid-template-columns:1fr}
-  .is-scrolled .disc{display:none}
+  
 }
 
 /* Phone < 768 */
@@ -386,7 +390,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card{aspect-ratio:auto;min-height:0;display:flex;flex-direction:column;
     padding:24px 20px 0;gap:14px;transform:none;
     grid-template-columns:none;grid-template-rows:none}
-  .stack-cards{gap:12px}
+  .stack-cards{gap:40px}
   .card-tick{position:static;order:1}
   .card-hblock{order:2}
   .card-methods{flex-direction:column;gap:.4em;margin-top:calc(var(--stack)*.6)}
@@ -395,10 +399,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-copy{order:4;padding-bottom:24px}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
-  .disc{display:none}
+  .c-bl{display:none}
   .btn-resume-txt{display:none}
   .btn-resume{padding:0;width:var(--control);flex:0 0 var(--control)}
-  .c-bc{left:8px;right:8px;translate:0 0}
+  .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:8px;right:8px;translate:0 0}
   .c-br{display:none}
   .tabs{width:100%;gap:4px}
   .bar-extra{display:flex;gap:4px;align-items:center;margin-left:auto}
@@ -446,10 +450,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <circle cx="956.9" cy="129" r="18.9"/>
       </g>
     </svg></a>
+</nav>
+
+<div class="chrome c-bl">
   <div class="disc" aria-label="Disciplines">
     <span>Product Design</span><span>Human-AI Interaction</span><span>Human Factors</span>
   </div>
-</nav>
+</div>
 
 <div class="chrome c-tr">
   <a class="btn btn-resume" href="resume.pdf" target="_blank" rel="noopener">
