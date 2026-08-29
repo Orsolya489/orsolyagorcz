@@ -247,8 +247,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 }
 
 /* 2 · work — the card */
-/* the card section runs on its own 40 / 20 inset, per the card spec */
-.work{padding-block:20px var(--section);margin-inline:calc(var(--margin) * -1);padding-inline:40px}
+.work{padding-bottom:var(--section)}
 .stack-cards{display:flex;flex-direction:column;gap:40px}
 .card-sticky{position:sticky;top:calc(var(--chrome-t) + var(--stack))}
 .stack-cards>.card-sticky:nth-child(2){top:calc(var(--chrome-t) + var(--stack) + 10px)}
@@ -257,10 +256,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
 .card{
   position:relative;container-type:inline-size;
-  width:100%;
-  height:clamp(640px, calc(100svh - 100px), 720px);
-  display:grid;grid-template-columns:repeat(12,1fr);column-gap:var(--gutter);
-  padding:calc(var(--stack)*1.1) calc(var(--stack)*1.2) 0;
+  /* width follows the aspect until the viewport height binds, then height leads */
+  aspect-ratio:2513/1153;
+  width:min(100%, calc(var(--card-h) * 2513 / 1153));
+  max-height:var(--card-h);
+  margin-inline:auto;
   overflow:hidden;
   background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);
@@ -273,18 +273,24 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card.is-covered{transform:scale(.97)}
 .card[data-href]{cursor:pointer}
 .card[data-href]:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
-.card-col{display:flex;flex-direction:column;min-height:0;min-width:0}
-.card-col--l{grid-column:1 / span 6}
-.card-col--r{grid-column:7 / span 6}
-.card-tick{position:absolute;right:calc(var(--stack)*1.2);top:calc(var(--stack)*1.1);font-family:var(--sans);font-weight:500;
+.card-tick{position:absolute;right:2.4%;top:6%;font-family:var(--sans);font-weight:500;
   font-size:var(--micro);letter-spacing:.07em;color:var(--muted);font-variant-numeric:tabular-nums}
-.card-h{margin:0;font-family:var(--serif);font-weight:400;font-size:var(--title);line-height:1.18;letter-spacing:-.01em;color:var(--ink);max-width:20ch}
+.card-hblock{position:absolute;left:5.6%;top:15%;width:38%}
+.card-h{margin:0}
 .card-eyebrow{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.8em}
-.card-plane{height:52%;flex:0 0 auto}
-.card-shot{margin-top:auto;width:64%;height:44%;margin-bottom:calc(var(--stack)*-1.4)}
+.card-methods{margin-top:calc(var(--stack)*.5);display:flex;flex-wrap:wrap;gap:.25em .9em}
+.card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--body-c);overflow-wrap:break-word}
+.card-methods li+li::before{content:"·";margin-right:.9em;color:var(--line-soft)}
+.card-plane{position:absolute;left:50.2%;top:3.8%;width:44.5%;height:51%}
+.card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
-.card-copy{margin-top:auto;padding-bottom:calc(var(--stack)*1.3);max-width:46ch}
+.card-copy{position:absolute;left:50.2%;bottom:6%;width:36%}
+.card-tags{display:flex;flex-wrap:wrap;gap:.5em;margin-top:.9em}
+.card-tags span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.card-tags span+span::before{content:"·";margin-right:.5em;color:var(--line-soft)}
 .card-open{display:inline-flex;align-items:center;gap:.4em;margin-top:1em;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink)}
@@ -436,18 +442,19 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
 /* Tablet 768–1023 */
 @media (max-width:1023px){
-  .card{grid-template-columns:1fr;grid-template-rows:auto auto auto 1fr;
-    row-gap:calc(var(--stack)*.7);padding:var(--stack) var(--stack) 0;align-content:stretch}
-  .card-col{display:contents}
-  .card-h{grid-row:1}
-  .card-plane{grid-row:2;height:clamp(150px,22vh,260px)}
-  .card-copy{grid-row:3;margin-top:0;padding-bottom:0}
-  /* fill the row rather than sizing to the image: with align-self:end an
-     oversized image grows upward and lands on the rows above */
-  .card-shot{grid-row:4;width:70%;height:100%;min-height:0;overflow:hidden;
-    margin-top:0;margin-bottom:calc(var(--stack)*-1.2)}
+  .card{aspect-ratio:auto;width:auto;max-height:none;display:grid;
+    grid-template-columns:40% 1fr;grid-template-rows:auto auto auto auto;
+    gap:calc(var(--stack)*.5) var(--gutter);
+    padding:var(--stack) var(--stack) 0;align-content:start}
+  .card-tick{position:static;grid-column:1/-1;grid-row:1;justify-self:end}
+  .card-hblock,.card-plane,.card-copy,.card-shot{position:static;width:auto;left:auto;top:auto;height:auto}
+  .card-hblock{grid-column:1/-1;grid-row:2}
+  .card-tick{grid-column:1/-1}
+  .card-plane{grid-column:1/-1;grid-row:3;height:clamp(180px,26vw,320px)}
+  .card-shot{grid-column:1;grid-row:4;align-self:end;height:calc(var(--section)*1.8);
+    margin-bottom:calc(var(--section)*-.55);overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
-  .card-tick{right:var(--stack);top:var(--stack)}
+  .card-copy{grid-column:2;grid-row:4;padding-bottom:var(--stack)}
   .stack-cards>.card-sticky{top:calc(var(--control) + 24px)}
   .stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 30px)}
   .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 36px)}
@@ -458,16 +465,17 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* Phone < 768 */
 @media (max-width:767px){
   .card-sticky{position:static}
-  .card{height:auto;min-height:0;display:flex;flex-direction:column;
+  .card{aspect-ratio:auto;width:auto;max-height:none;min-height:0;display:flex;flex-direction:column;
     padding:24px 20px 0;gap:14px;transform:none;
     grid-template-columns:none;grid-template-rows:none}
   .stack-cards{gap:40px}
   .card-tick{position:static;order:1}
-  .card-col{display:contents}
-  .card-h{order:2}
+  .card-hblock{order:2}
+  .card-methods{flex-direction:column;gap:.4em;margin-top:calc(var(--stack)*.6)}
+  .card-methods li+li::before{content:none}
   .card-plane{order:3;height:160px}
-  .card-copy{order:4;margin-top:0;padding-bottom:0}
-  .card-shot{order:5;width:70%;height:150px;margin-top:0;margin-bottom:-24px}
+  .card-copy{order:4;padding-bottom:24px}
+  .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
   .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;translate:0 0}
   .c-br{display:none}
@@ -624,12 +632,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="tribe/tribe-case-study-final.html">
         <span class="card-tick">01 / 04</span>
-        <div class="card-col card-col--l">
-          <h2 class="card-h"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
-          <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
+                <div class="card-hblock">
+          <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
+          <ul class="card-methods"><li>Literature-grounded design</li><li>Three generations of validation</li><li>Developer feasibility synch</li></ul>
         </div>
-        <div class="card-col card-col--r">
-          <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
+        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
 <title id="s0t">The validation gap</title>
 <desc id="s0d">Two equal circles meeting at a single point on a shared horizontal centre; the meeting point is marked and labelled below.</desc>
 <circle class="hard" cx="400" cy="230" r="200" pathLength="1"/>
@@ -640,20 +647,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="800" y="459" text-anchor="middle">Match</text>
 <text x="600" y="530" text-anchor="middle">Validation gap</text>
 </svg></div></div>
-          <div class="card-copy">
-            <p class="t-body">This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.</p>
-            <span class="card-open">Open case study</span>
-          </div>
+        <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
+        <div class="card-copy">
+          <p class="t-body">This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.</p>
+          <div class="card-tags"><span>MVP</span><span>Product Design</span><span>Human-AI Interaction</span></div>
+          <span class="card-open">Open case study</span>
         </div>
       </article></div>
 
       <div class="card-sticky"><article class="card">
         <span class="card-tick">02 / 04</span>
-        <div class="card-col card-col--l">
-          <h2 class="card-h"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2>
-        </div>
-        <div class="card-col card-col--r">
-          <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
+          <div class="card-hblock"><h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2></div>
+        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
 <title id="s1t">Where the guardrail fires</title>
 <desc id="s1d">One system node branching into two outcomes, with the branch point marked.</desc>
 <path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
@@ -666,19 +671,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text class="in-node" x="790" y="205" text-anchor="middle">Guardrail fires</text>
 <text class="in-node" x="790" y="445" text-anchor="middle">No intervention</text>
 </svg></div></div>
-          <div class="card-copy">
-          </div>
+        <div class="card-copy">
+          <div class="card-tags"><span>In progress</span><span>Human Factors</span><span>Human-AI Interaction</span></div>
         </div>
       </article></div>
 
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="case-study-mindure-v3.html">
         <span class="card-tick">03 / 04</span>
-        <div class="card-col card-col--l">
-          <h2 class="card-h"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
-          <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
+        <div class="card-hblock">
+        <h2 class="card-h t-title"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
+          <ul class="card-methods"><li>Secondary research</li><li>Constraint-system design</li><li>AI vs. human comparison</li></ul>
         </div>
-        <div class="card-col card-col--r">
-          <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s2t s2d">
+        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s2t s2d">
 <title id="s2t">The attention window</title>
 <desc id="s2d">A curve rising to a single peak then falling over a dotted axis; the peak is dropped to the axis and labelled.</desc>
 <line class="soft" x1="120" y1="520" x2="1080" y2="520"/>
@@ -688,21 +692,21 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="120" y="550">Time in session</text>
 <text x="600" y="550" text-anchor="middle">Peak cognitive load</text>
 </svg></div></div>
-          <div class="card-copy">
-            <p class="t-body">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.</p>
-            <span class="card-open">Open case study</span>
-          </div>
+        <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
+        <div class="card-copy">
+          <p class="t-body">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.</p>
+          <div class="card-tags"><span>Research prototype</span><span>Human Factors</span><span>Human-AI Interaction</span></div>
+          <span class="card-open">Open case study</span>
         </div>
       </article></div>
 
       <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="ness/ness-creative-therapy.html">
         <span class="card-tick">04 / 04</span>
-        <div class="card-col card-col--l">
-          <h2 class="card-h"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
-          <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
+                <div class="card-hblock">
+          <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
+          <ul class="card-methods"><li>User survey, n=16</li><li>Usability test 1, 5 participants</li><li>Usability test 2</li></ul>
         </div>
-        <div class="card-col card-col--r">
-          <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+        <div class="card-plane"><div class="plane"><svg viewBox="0 0 1200 632" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
 <title id="s3t">The intervention window</title>
 <desc id="s3d">An engagement curve rising and falling between two marked boundaries, with the high point marked.</desc>
 <line class="soft" x1="120" y1="520" x2="1080" y2="520"/>
@@ -713,10 +717,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text x="380" y="550">Defended</text>
 <text x="820" y="550">Disengaged</text>
 </svg></div></div>
-          <div class="card-copy">
-            <p class="t-body">The making is the session. Words come after.</p>
-            <span class="card-open">Open case study</span>
-          </div>
+        <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
+        <div class="card-copy">
+          <p class="t-body">The making is the session. Words come after.</p>
+          <div class="card-tags"><span>Product Design</span><span>UX/UI</span><span>Branding</span></div>
+          <span class="card-open">Open case study</span>
         </div>
       </article></div>
 
