@@ -80,7 +80,7 @@ a{color:inherit}
 .wrap{container-type:inline-size;max-width:var(--shell);margin-inline:auto;padding-inline:var(--margin)}
 
 /* type roles */
-.t-hero{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;letter-spacing:-.02em;color:var(--ink);max-width:24ch}
+.t-hero{font-family:var(--sans);font-weight:300;font-size:var(--hero);line-height:1.06;letter-spacing:-.02em;color:var(--ink);max-width:17ch}
 .t-title{font-family:var(--sans);font-weight:400;font-size:var(--title);line-height:1.20;letter-spacing:-.01em;color:var(--ink);max-width:32ch}
 .t-body{font-family:var(--serif);font-weight:400;font-size:var(--body);line-height:1.70;color:var(--body-c);max-width:62ch}
 .t-micro{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.55;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
@@ -116,10 +116,6 @@ a{color:inherit}
 .btn svg{width:1.05em;height:1.05em;flex:0 0 auto}
 
 /* discipline labels — no border; that absence is what says "not clickable" */
-.disc{display:flex;align-items:center;gap:calc(var(--control)*.26);height:calc(var(--control)*.8)}
-.disc span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.disc span+span::before{content:"·";margin-right:calc(var(--control)*.26);color:var(--line-soft)}
 
 /* ═══ 3 · fixed chrome ═══ */
 .chrome-shell{position:fixed;inset:0;z-index:500;pointer-events:none;
@@ -134,10 +130,6 @@ a{color:inherit}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 .c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin)}
-.c-bl{bottom:max(var(--gutter), env(safe-area-inset-bottom));left:var(--margin);
-  padding:calc(var(--control)*.16) calc(var(--control)*.42);
-  background:var(--glass);border-radius:var(--r-pill);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;min-height:var(--control);gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
 .logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
 
@@ -199,6 +191,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   padding-block:calc(var(--section)*1.1) var(--section)}
 .hero-sub{max-width:56ch}
 .hero h1{margin:0 0 var(--stack)}
+.hero-labels{display:flex;flex-wrap:wrap;gap:calc(var(--stack)*.32);margin:0 0 var(--stack);padding:0;list-style:none}
+.hero-labels li{
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  background:var(--card);border-radius:var(--r-pill);
+  padding:.72em 1.15em;white-space:nowrap;
+}
 
 /* 2 · work — the card */
 .work{padding-bottom:var(--section)}
@@ -426,7 +425,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-copy{order:4;padding-bottom:24px}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
-  .c-bl{display:none}
   .btn-resume-txt{display:none}
   .btn-resume{padding:0;width:var(--control);flex:0 0 var(--control)}
   .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;translate:0 0}
@@ -480,10 +478,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     </svg></a>
 </nav>
 
-<div class="chrome c-bl">
-  <div class="disc" aria-label="Disciplines">
-    <span>Product Design</span><span>Human-AI Interaction</span><span>Human Factors</span>
-  </div>
 </div>
 
 <div class="chrome c-tr">
@@ -558,6 +552,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <!-- 1 · HERO -->
   <section class="hero" id="home">
+    <ul class="hero-labels">
+      <li>Product Design</li>
+      <li>Human-AI Interaction</li>
+      <li>Human Factors</li>
+    </ul>
     <h1 class="t-hero">I design how AI systems earn trust in safety-critical environments.</h1>
     <p class="t-body hero-sub">Looking for founding and product design roles in AI, robotics, healthtech and mental health.</p>
   </section>
