@@ -115,6 +115,26 @@ a{color:inherit}
 .btn--on:hover{background:var(--ink);border-color:var(--ink);color:var(--page)}
 .btn--sel{background:rgba(25,21,23,.10);border-color:transparent}
 .btn svg{width:1.05em;height:1.05em;flex:0 0 auto}
+/* hover bubble — the icon carries the action, this names it */
+.btn[data-tip]{position:relative}
+.btn[data-tip]::after{
+  content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
+  translate:-50% -4px;
+  background:var(--ink);color:var(--page);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;
+  padding:.62em .9em;border-radius:var(--r-pill);
+  opacity:0;pointer-events:none;z-index:1;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
+}
+.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+@media (hover:hover){
+  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+}
+/* the last control sits on the margin, so its bubble hangs from the right */
+.c-tr > *:last-child[data-tip]::after{left:auto;right:0;translate:0 -4px}
+.c-tr > *:last-child[data-tip]:focus-visible::after{translate:0 0}
+@media (hover:hover){ .c-tr > *:last-child[data-tip]:hover::after{translate:0 0} }
 
 /* discipline labels — no border; that absence is what says "not clickable" */
 
@@ -456,8 +476,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-copy{order:4;padding-bottom:24px}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
-  .btn-resume-txt{display:none}
-  .btn-resume{padding:0;width:var(--control);flex:0 0 var(--control)}
   .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;translate:0 0}
   .c-br{display:none}
   .tabs{width:100%;gap:4px}
@@ -517,14 +535,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </div>
 
 <div class="chrome c-tr">
-  <a class="btn btn-resume" href="resume.pdf" target="_blank" rel="noopener">
-    <span class="btn-resume-txt">Résumé</span>
+  <a class="btn btn--icon" href="resume.pdf" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
   </a>
-  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolyagorcz" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolyagorcz" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
   </a>
-  <button class="btn btn--icon" id="mailBtn" aria-label="Copy email address">
+  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
 </div>
