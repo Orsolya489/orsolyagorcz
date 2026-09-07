@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ness — The making is the session. Words come after.</title>
+<title>Tribe — Building enough safety for someone to type the thing they actually want.</title>
 <meta name="description" content="Human-first NLP and people matching. The complete MVP architecture and human-AI interaction systems designed for handoff.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1531,13 +1531,12 @@ a{color:inherit}
          far the whole thing runs. Tertiary on purpose. -->
     <nav class="cs-route" aria-label="Sections in this case study">
       <ol>
-        <li><a href="#s1">Research</a></li>
-        <li><a href="#s2">Check-in</a></li>
-        <li><a href="#s3">The guide</a></li>
-        <li><a href="#s4">Testing</a></li>
-        <li><a href="#s5">Progress</a></li>
-        <li><a href="#s6">Design system</a></li>
-        <li><a href="#s7">Reflection</a></li>
+        <li><a href="#s1">Overview</a></li>
+        <li><a href="#s2">Problem framing</a></li>
+        <li><a href="#s3">Research</a></li>
+        <li><a href="#s4">System logic</a></li>
+        <li><a href="#s5">Solutions</a></li>
+        <li><a href="#s6">Reflection</a></li>
       </ol>
     </nav>
   </nav>
@@ -1579,164 +1578,722 @@ a{color:inherit}
 <div class="wrap">
 
   <header class="cs-head">
-    <p class="cs-eyebrow">Creative Therapy · AI Guide · Emotional Safety · Human Factors</p>
-    <h1 class="cs-title">The making is the session. Words come after.</h1>
-    <p class="cs-prompt">Ness — Creative Therapy App</p>
+    <p class="cs-eyebrow">Human-first NLP · People Matching</p>
+    <h1 class="cs-title">Building enough safety for someone to type the thing they actually want.</h1>
+    <p class="cs-prompt">What do you want to do today?</p>
 
+
+
+    <!-- The role is the fact the page was quietest about and the one a
+         recruiter has to repeat to a hiring manager. Solo is stated, because
+         unattributed work reads as team work. -->
     <dl class="cs-facts">
-      <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
+      <div><dt>Role</dt><dd>Lead designer — solo</dd></div>
+      <div><dt>Scope</dt><dd>MVP · design to handoff</dd></div>
+      <div><dt>Status</dt><dd>Pre-launch</dd></div>
+      <div><dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd></div>
     </dl>
 
     <div class="cs-intro">
       <div>
-        <p class="cs-lede">Most therapy apps ask you to describe how you feel. But some people can’t. Not because they won’t — because the words aren’t there yet.</p>
-        <p class="cs-lede">Yet every tool assumes verbal clarity at the exact moment people have the least access to words.</p>
+        <p class="cs-lede">“The design problem wasn’t matching. It was building enough safety for someone to type the thing they actually want.”</p>
+        <p class="cs-lede">The full MVP, from architecture to developer handoff: the system design, the human-AI interaction patterns, what I did about AI latency, and the validation planned for alpha.</p>
       </div>
+      <!-- The real screens, not a rebuild of them, and not the nine-frame strip
+           played as a slideshow either - that strip is a demo artefact, with
+           states like "ba" that nobody would ever actually see. What a reader
+           should see is what the product does: someone types, and the system
+           understands. So only the four true states are used - empty, focused,
+           and the two understood ones - and the letters in between are revealed
+           out of the artwork itself rather than re-typeset in a font chosen to
+           look close. The text area is a flat #393939, so a wash in that colour
+           is invisible and sliding a clip across it uncovers the real pixels one
+           letter at a time. Nothing here is a redrawing. -->
       <figure class="cs-hero">
-        <img src="ness_hero_image.png" loading="lazy" decoding="async"
-             alt="Ness app hero — artboard interface with Johnathan AI guide">
+        <div class="phone">
+          <div class="phone-screen">
+            <img class="phone-frames" id="devBase" src="App_Screen.png" style="--fx:0.5003"
+                 width="3998" height="884" decoding="async"
+                 alt="The Tribe prompt field. It starts on the placeholder “What do you want to do today?”, then the intent “I’m looking to play basketball in Budapest this afternoon.” is typed in. As the words land the What, When and Where chips light up, the confidence dot turns green, and the FIND THEM button unlocks.">
+            <div class="phone-wash" id="devWash" aria-hidden="true"></div>
+            <div class="phone-layer" id="devLayer" aria-hidden="true">
+              <img class="phone-frames" id="devInk" src="App_Screen.png" style="--fx:56.2781"
+                   width="3998" height="884" decoding="async" alt="">
+            </div>
+            <div class="phone-chips" id="devChips" aria-hidden="true">
+              <img class="phone-frames" id="devChipImg" src="App_Screen.png"
+                   style="--fx:11.6558;--fy:31.9005"
+                   width="3998" height="884" decoding="async" alt="">
+            </div>
+            <i class="phone-caret" id="devCaret" aria-hidden="true"></i>
+          </div>
+        </div>
+        <button class="dev-replay" id="devReplay" type="button" hidden>Replay</button>
       </figure>
     </div>
 
-    <figure class="fig">
-      <img src="ness_finalUI_landing_mockup_desktop.png" loading="lazy" decoding="async" alt="Ness landing screen — desktop UI mockup showing the welcome interface">
-    </figure>
-    <figure class="fig">
-      <img src="ness_user_retention_illustration_desktop.png" loading="lazy" decoding="async" alt="User retention chart showing the gap between existing apps and Ness’s engagement approach">
+    <!-- The same drawing the card on the landing page carries, so the reader arrives on
+       the thing they clicked. It states the whole product in one
+         line - intent and match overlapping, the validation gap in the middle,
+         the NLP engine underneath producing the overlap, then the anonymous
+         reveal and the meetup - before any screen is shown. -->
+    <figure class="fig fig--card">
+      <div class="plane">
+        <svg class="s0" viewBox="0 0 990 375" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="s0t s0d">
+        <title id="s0t">Intent overlapping into a system, through to a meetup</title>
+        <desc id="s0d">Four equally sized circles. Intent and match overlap - a dot sits at the centre of the hatched intersection, with a line rising from it to a caption above the circles reading validation gap, written out in full rather than fitted inside the small overlap itself. Below both circles, a dashed bracket spans the full width of the venn - intent's left edge to match's right edge - labelled NLP engine, showing that mechanism is what produces the whole overlap, not just the gap. From match, a line continues right, labelled progressive disclosure on two lines above it, to the anonymous reveal circle - the one node drawn filled and in ink, because it is the mechanic the study turns on - then on to meetup with no further label, matching the source's own last, unnamed connector. No circle is drawn larger than another - the overlap comes from how close intent and match sit, not from their size.</desc>
+
+        <defs>
+          <clipPath id="s0lens"><circle cx="145" cy="180" r="115"/></clipPath>
+          <pattern id="s0hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line class="hatch" x1="0" y1="0" x2="0" y2="14"/>
+          </pattern>
+        </defs>
+
+        <g clip-path="url(#s0lens)"><circle cx="250" cy="180" r="115" fill="url(#s0hatch)" stroke="none"/></g>
+        <circle class="hard" cx="145" cy="180" r="115"/>
+        <circle class="hard" cx="250" cy="180" r="115"/>
+        <text class="cap" x="82" y="187" text-anchor="middle">Intent</text>
+        <text class="cap" x="312" y="187" text-anchor="middle">Match</text>
+        <circle class="dot" cx="197" cy="180" r="6"/>
+        <line class="soft" x1="197" y1="172" x2="197" y2="40" fill="none"/>
+        <text class="cap2" x="197" y="28" text-anchor="middle">Validation gap</text>
+        <path class="soft" d="M30,300 L30,320 L365,320 L365,300" fill="none"/>
+        <text class="mech" x="197" y="340" text-anchor="middle">NLP engine</text>
+
+        <line class="hard" x1="369" y1="180" x2="426" y2="180"/>
+        <text class="mech" x="397" y="44" text-anchor="middle">Progressive</text>
+        <text class="mech" x="397" y="65" text-anchor="middle">disclosure</text>
+
+        <circle class="hard key-node" cx="545" cy="180" r="115"/>
+        <text class="cap2 key-lab" x="545" y="173" text-anchor="middle">Anonymous</text>
+        <text class="cap2 key-lab" x="545" y="197" text-anchor="middle">Reveal</text>
+
+        <line class="hard" x1="664" y1="180" x2="721" y2="180"/>
+
+        <circle class="hard" cx="840" cy="180" r="115"/>
+        <text class="cap" x="840" y="187" text-anchor="middle">Meetup</text>
+        </svg>
+      </div>
     </figure>
   </header>
 
   <div class="cs-body" id="read">
 
-    <section class="sec" id="s1" data-bar="Research" aria-labelledby="s1h">
-      <h2 class="sec-label" id="s1h">Three things the research kept saying.</h2>
+    <section class="sec" id="s1" data-bar="Overview" aria-labelledby="s1h">
+      <h2 class="sec-label" id="s1h">Connect strangers through intent, not profiles.</h2>
+
       <div class="sec-copy">
-        <p class="hmw">“How do you make therapy feel natural for people who think and feel in images, not sentences?”</p>
+        <p class="sec-lede">A social app where one prompt replaces the profile. The whole product rests on a single text field — and the trust required to use it honestly.</p>
+        <p>Tribe connects people through a single prompt. No profile, no browse interface. The user types what they want to do, the AI matches them with people looking for the same thing, and connection happens before either party knows who the other is.</p>
+        <p>The entire product hangs on one text field. The design problem was making someone feel safe enough to be honest in it.</p>
       </div>
-      <figure class="fig">
-        <img src="../Mindure/casestudy1_empathy_map_2.png" loading="lazy" decoding="async" alt="Empathy map showing what users feel, see, hear, and do">
-      </figure>
-      <div class="said">
-        <blockquote>“I needed something that goes beyond reflection — something that guides creativity.”</blockquote>
-      </div>
-      <div class="blueprint">
-        <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
-          <span class="bp-t">Research sources</span>
-          <span class="bp-e">Four sources · retention, non-verbal expression, phototherapy, art therapy</span>
-        </button>
-        <div class="bp-panel" id="bpPanel" hidden>
-          <p>Baumel A et al. (2019). Real-World Implementation Outcomes of Mental Health Apps. JMIR Mental Health.</p>
-          <p>Tyron G et al. (2024). Visual expression and emotional processing in non-verbal populations.</p>
-          <p>Soyer R (2015). Phototherapy as a tool of emotional identification. ERIC.</p>
-          <p>Malchiodi C (2011). Handbook of Art Therapy. Guilford Press.</p>
+
+      <!-- three human states between intent and connection, each mapped to the
+           design response it earned - the interaction-gap diagram's own content,
+           set as HTML rather than left as a picture of it -->
+      <div class="gap-cards" role="group" aria-label="Three human states and their design responses">
+        <div class="gap-card">
+          <p class="gap-t">Intent + vulnerability</p>
+          <p class="gap-d">Fear of sharing before trust is established</p>
+          <span class="gap-pill">→ Smart Echo Input</span>
+        </div>
+        <span class="gap-arrow" aria-hidden="true">→</span>
+        <div class="gap-card">
+          <p class="gap-t">Black box anxiety</p>
+          <p class="gap-d">Stress during AI processing</p>
+          <span class="gap-pill">→ XAI teachable wait</span>
+        </div>
+        <span class="gap-arrow" aria-hidden="true">→</span>
+        <div class="gap-card">
+          <p class="gap-t">Decision fatigue</p>
+          <p class="gap-d">Skepticism of match results</p>
+          <span class="gap-pill">→ XAI confidence badges</span>
         </div>
       </div>
     </section>
 
-    <section class="sec" id="s2" data-bar="Check-in" aria-labelledby="s2h">
-      <h2 class="sec-label" id="s2h">Before the canvas opens, the app learns what state you’re in — without asking you to explain it.</h2>
-      <figure class="fig fig--pair">
-        <img src="desktop/Prototype_test1.png" loading="lazy" decoding="async" alt="Check-in start screen — welcome to today’s session">
-        <img src="desktop/prototype_test2.png" loading="lazy" decoding="async" alt="Mood slider — from Terrible to Amazing">
-      </figure>
-      <figure class="fig fig--pair">
-        <img src="desktop/prototype_test3.png" loading="lazy" decoding="async" alt="Sleep thermometer check-in screen">
-        <img src="desktop/prototype_test4.png" loading="lazy" decoding="async" alt="Emotion vocabulary selector screen">
-      </figure>
-    </section>
-
-    <section class="sec" id="s3" data-bar="The guide" aria-labelledby="s3h">
-      <h2 class="sec-label" id="s3h">The guide doesn’t speak until you’ve made something. Then it notices — without naming.</h2>
+    <section class="sec" id="s2" data-bar="Problem framing" aria-labelledby="s2h">
+      <h2 class="sec-label" id="s2h">Current platforms prioritise short-term attention. The gap: long-term trust.</h2>
       <div class="sec-copy">
-        <p>Johnathan observes pattern. He reflects without labelling. The person stays in control of what the observation means — or whether it means anything at all.</p>
+        <p class="sec-lede">The market is saturated with engagement-first products. The unmet need was safer connection, matched on intent instead of identity.</p>
+        <p>The brief was an intent-based social network for Budapest. The real brief, once I’d mapped the competitors, was: how do you get someone to type what they actually want — the uncurated version — into a field connected to a stranger-matching algorithm?</p>
+        <p>That’s a trust problem before it’s a product problem. It shaped every design decision that followed.</p>
       </div>
-      <figure class="fig fig--pair">
-        <img src="desktop/Artboard_brush.png" loading="lazy" decoding="async" alt="Blank artboard with Johnathan’s opening message">
-        <img src="desktop/Artboard_brush-1.png" loading="lazy" decoding="async" alt="Active painting session with Johnathan observing colour shift">
-        <figcaption>“The gradual shift in colour from muted shades to something brighter shows a potential change in mood or thought — let’s keep exploring what that might mean for you.”</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_artboard_mockup_desktop.png" loading="lazy" decoding="async" alt="Final artboard UI — full desktop mockup showing the creative canvas with Johnathan’s observation panel">
-      </figure>
-    </section>
 
-    <section class="sec" id="s4" data-bar="Testing" aria-labelledby="s4h">
-      <h2 class="sec-label" id="s4h">Two rounds of testing. Each one changed something specific.</h2>
-      <table class="devsync">
-        <thead><tr><th scope="col">What testing found</th><th scope="col">What changed</th><th scope="col">Outcome</th></tr></thead>
+      <!-- Both tracks, both KPIs and both friction lines are the source page's
+           own words. Drawn on one canvas at one scale, because the argument is
+           that the second track carries on where the first one stops. -->
+      <div class="versus">
+        <div class="arch-side is-market">
+          <p class="vs-e">The market</p>
+          <p class="vs-t">Engagement-first</p>
+          <dl class="vs-d">
+            <dt>Primary KPI</dt><dd>Time-on-app / Ad impressions</dd>
+            <dt>Friction</dt><dd>Low barrier to contact, high volume, deferred privacy layers</dd>
+          </dl>
+          <ol class="chain" aria-label="Engagement-first architecture">
+            <li><span>Visual Profiles</span></li>
+            <li><span>Asynchronous Browse</span></li>
+            <li class="is-end"><span>Swipe</span></li>
+          </ol>
+        </div>
+        <span class="versus-vs" aria-hidden="true"><span>vs.</span></span>
+        <div class="arch-side is-bet">
+          <p class="vs-e">Tribe’s bet</p>
+          <p class="vs-t">Intent-first</p>
+          <dl class="vs-d">
+            <dt>Primary KPI</dt><dd>High-intent connection efficiency</dd>
+            <dt>Friction</dt><dd>Managed friction, progressive disclosure, structural privacy</dd>
+          </dl>
+          <ol class="chain" aria-label="Intent-first architecture">
+            <li><span>Real-time Intent</span></li>
+            <li><span>Semantic NLP Matching</span></li>
+            <li><span>Anonymity</span></li>
+            <li class="is-end"><span>Safety Layer</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <table class="dec">
+        <caption>The decision</caption>
         <tbody>
-          <tr><th scope="row">70% of users couldn’t connect icons to their function</th><td>Labels added beneath each icon, icons replaced with familiar visual patterns</td><td>100% icon comprehension in Test 2</td></tr>
-          <tr><th scope="row">80% confused the therapeutic chat panel with a user profile</th><td>Panel given explicit title “Johnathan, AI Therapy Guide” with visual separation</td><td>100% panel comprehension in Test 2</td></tr>
-          <tr><th scope="row">40% wanted core creation tools more accessible</th><td>Brush, pen, pencil, sponge grouped in a persistent tray at the bottom</td><td>60% rated tool placement as satisfactory in Test 2</td></tr>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Intent-first — one prompt, no profile</td></tr>
+          <tr><th scope="row">Over</th><td>Engagement-first — profiles, browse, swipe</td></tr>
+          <tr><th scope="row">Because</th><td>the unmet need was safer connection, not more time on app</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">managed friction: a harder first screen than a profile grid</td></tr>
         </tbody>
       </table>
-      <p class="eyebrow-b">n=5 per round. Small sample — findings used directionally, not as conclusive evidence.</p>
-      <figure class="fig fig--pair">
-        <img src="ness_iterationpcoress_1st_wireframe.png" loading="lazy" decoding="async" alt="First wireframe iteration of the Ness interface">
-        <img src="ness_iterationpcoress_3rd_wireframe.png" loading="lazy" decoding="async" alt="Third wireframe iteration with labelled Johnathan panel">
-        <figcaption>Before: “Jonathan” reads as a participant list, not a therapy guide. After: “Johnathan, AI Therapy Guide” — role is explicit, chat is unambiguous.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_test_mockup_desktop.png" loading="lazy" decoding="async" alt="Final tested interface — the validated design after two rounds of usability testing">
-      </figure>
-    </section>
 
-    <section class="sec" id="s5" data-bar="Progress" aria-labelledby="s5h">
-      <h2 class="sec-label" id="s5h">The progress view doesn’t score how you felt. It shows how far you’ve come.</h2>
-      <div class="sec-copy">
-        <p>The arc uses mood symbols as its Y-axis — not clinical scores. Johnathan’s weekly reflection is written in plain language. Creations are titled by the person, not the system.</p>
+      <!-- The framework as a map rather than a table: one problem on the left,
+           the five things a person feels fanning out of it, each running across
+           to what the system does about it, and the five responses converging
+           into the outcome. Set in the same hairline vocabulary as the other
+           diagrams - dashed for a relationship, solid for the path that matters,
+           ink for the pair the product turns on. -->
+      <figure class="fig fig--map">
+        <div class="plane plane--map">
+          <svg class="pmap" viewBox="0 0 1280 500" role="img" aria-labelledby="pmT pmD">
+          <title id="pmT">The Tribe Trust Framework, mapped from problem to outcome</title>
+          <desc id="pmD">A map from one problem to one outcome. On the left: people don’t type what they actually need, because the barrier is psychological, not linguistic. That fans out into the five things a person feels before typing, and each one runs across to what the system does about it: Social judgement (What will it think of me?) is answered by Non-evaluative framing (No implicit scoring); Language failure (No words for this) is answered by Intent inference layer (NLP bridges the gap); Trust deficit (Will it use this against me?) is answered by Transparency by design (Visible logic, no black box); Vulnerability (Admitting I don’t know) is answered by Curiosity-safe scaffolding (Not knowing = valid entry); App parasitism (Will it exploit my need?) is answered by Minimal footprint (Tool exits once done). Trust deficit is drawn in ink as the core pair. The five responses converge on the right into the hypothesis the product is built to test: that honest intent gets typed, context is read, and the person finds what they actually needed. The product is pre-launch, so this is the expected result rather than a measured one.</desc>
+  <text class="pm-eyebrow" x="8" y="182">The problem</text>
+  <text class="pm-lead" x="8" y="216">People don’t type</text>
+  <text class="pm-lead" x="8" y="240">what they actually</text>
+  <text class="pm-lead" x="8" y="264">need. The barrier</text>
+  <text class="pm-lead" x="8" y="288">is psychological,</text>
+  <text class="pm-lead" x="8" y="312">not linguistic.</text>
+  <path class="hard" d="M204,266 H232" fill="none"/>
+  <path class="soft" d="M232,86 V446" fill="none"/>
+  <path class="soft" d="M232,86 H254" fill="none"/>
+  <text class="pm-t" x="268" y="92">Social judgement</text>
+  <text class="pm-d" x="268" y="115">What will it think of me?</text>
+  <path class="soft" d="M626,86 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="86" r="3.5"/>
+  <text class="pm-t" x="726" y="92">Non-evaluative framing</text>
+  <text class="pm-d" x="726" y="115">No implicit scoring</text>
+  <path class="soft" d="M990,86 H1012" fill="none"/>
+  <path class="soft" d="M232,176 H254" fill="none"/>
+  <text class="pm-t" x="268" y="182">Language failure</text>
+  <text class="pm-d" x="268" y="205">No words for this</text>
+  <path class="soft" d="M626,176 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="176" r="3.5"/>
+  <text class="pm-t" x="726" y="182">Intent inference layer</text>
+  <text class="pm-d" x="726" y="205">NLP bridges the gap</text>
+  <path class="soft" d="M990,176 H1012" fill="none"/>
+  <path class="soft" d="M232,266 H254" fill="none"/>
+  <text class="pm-t pm-core" x="268" y="272">Trust deficit</text>
+  <text class="pm-d" x="268" y="295">Will it use this against me?</text>
+  <path class="hard" d="M626,266 H700" fill="none"/>
+  <circle class="dot" cx="708" cy="266" r="5"/>
+  <text class="pm-t pm-core" x="726" y="272">Transparency by design</text>
+  <text class="pm-d" x="726" y="295">Visible logic, no black box</text>
+  <path class="soft" d="M990,266 H1012" fill="none"/>
+  <path class="soft" d="M232,356 H254" fill="none"/>
+  <text class="pm-t" x="268" y="362">Vulnerability</text>
+  <text class="pm-d" x="268" y="385">Admitting I don’t know</text>
+  <path class="soft" d="M626,356 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="356" r="3.5"/>
+  <text class="pm-t" x="726" y="362">Curiosity-safe scaffolding</text>
+  <text class="pm-d" x="726" y="385">Not knowing = valid entry</text>
+  <path class="soft" d="M990,356 H1012" fill="none"/>
+  <path class="soft" d="M232,446 H254" fill="none"/>
+  <text class="pm-t" x="268" y="452">App parasitism</text>
+  <text class="pm-d" x="268" y="475">Will it exploit my need?</text>
+  <path class="soft" d="M626,446 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="446" r="3.5"/>
+  <text class="pm-t" x="726" y="452">Minimal footprint</text>
+  <text class="pm-d" x="726" y="475">Tool exits once done</text>
+  <path class="soft" d="M990,446 H1012" fill="none"/>
+  <path class="soft" d="M1012,86 V446" fill="none"/>
+  <path class="hard" d="M1012,266 H1040" fill="none"/>
+  <text class="pm-eyebrow" x="1056" y="182">The hypothesis</text>
+  <text class="pm-lead" x="1056" y="216">Honest intent</text>
+  <text class="pm-lead" x="1056" y="240">typed, context</text>
+  <text class="pm-lead" x="1056" y="264">read, the person</text>
+  <text class="pm-lead" x="1056" y="288">finds what they</text>
+  <text class="pm-lead" x="1056" y="312">actually needed.</text>
+          </svg>
+        </div>
+      </figure>
+
+      <div class="tf-close">
+        <p>The search box is a psychological safety problem.</p>
+        <p>Tribe is designed for the moment before the query, not the moment it arrives.</p>
       </div>
-      <figure class="fig fig--row">
-        <img src="desktop/Profile%20Overview.png" loading="lazy" decoding="async" alt="Profile overview with mood arc chart">
-        <img src="desktop/Profile%20Progress.png" loading="lazy" decoding="async" alt="Engagement and AI weekly reflection">
-        <img src="desktop/Profile%20Creations.png" loading="lazy" decoding="async" alt="Creations gallery">
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_profile_mockup_desktop.png" loading="lazy" decoding="async" alt="Full profile view desktop mockup — mood arc, journal and Johnathan’s weekly reflection in context">
-      </figure>
     </section>
 
-    <section class="sec" id="s6" data-bar="Design system" aria-labelledby="s6h">
-      <h2 class="sec-label" id="s6h">Every colour was chosen for what it does to the nervous system, not what it looks like.</h2>
-      <figure class="fig">
-        <img src="ness_designsystem_color_psychology.png" loading="lazy" decoding="async" alt="Brand colours and their psychological rationale">
-        <figcaption><strong>Serene Teal</strong>: calming, associated with nature and wellness. Lowers perceived threat. <strong>Lavender Blush</strong>: soft, creative, slightly whimsical. Reduces clinical association. <strong>Dusty Peach</strong>: warmth without energy. Prevents the palette reading as cold or sterile.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_typography.png" loading="lazy" decoding="async" alt="Typography specimen showing Create to heal">
-        <figcaption>“Create to heal” — the tagline lives in the type specimen, not the hero. It earns its place here.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_branding_logo.png" loading="lazy" decoding="async" alt="Ness logo and brand mark — logotype construction and usage rules">
-        <figcaption>The logotype uses weight contrast to mirror the app’s thesis — quiet structure that doesn’t shout.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_components.png" loading="lazy" decoding="async" alt="Core UI components — cards, inputs, feedback states">
-        <figcaption>Every component was tested against the emotional register of its context. No sharp shadows. No assertive motion.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_button_components.png" loading="lazy" decoding="async" alt="Button component system — primary, secondary, and ghost states">
-        <figcaption>Buttons use rounded corners and generous padding — readable at low focus, never demanding.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_interactive_components.png" loading="lazy" decoding="async" alt="Interactive component states — sliders, selectors, toggles">
-        <figcaption>Sliders and selectors replace text inputs wherever possible. The interaction is physical, not linguistic.</figcaption>
-      </figure>
-    </section>
-
-    <section class="sec" id="s7" data-bar="Reflection" aria-labelledby="s7h">
-      <h2 class="sec-label" id="s7h">What I got wrong.</h2>
+    <section class="sec" id="s3" data-bar="Research" aria-labelledby="s3h">
+      <h2 class="sec-label" id="s3h">Map the vulnerability states before opening a design tool.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">The check-in asks “How are you feeling today?” before the person has touched the canvas. That directly contradicts the core thesis — make something first, understand it second.</p>
-        <p>I’d redesign the entry point so the artboard opens first and the check-in follows the session, not precedes it. The data would be richer and the friction would disappear.</p>
-        <p class="hmw">You don’t need to know what you’re feeling to start. That’s the whole point.</p>
+        <p class="sec-lede">Human factors gave me the frame. Three distinct states between intent and connection — each one a specific design problem.</p>
+        <p>The interaction gap diagram was the first deliverable — before any screens. Three human states in the critical path from intent to connection. Each one mapped to a specific design response. This became the brief for every decision that followed.</p>
+        <p class="hmw">“The product’s job is psychological safety — enough of it that someone types the thing they actually want.”</p>
       </div>
       <figure class="fig">
-        <img src="ness_bottom_banner.png" loading="lazy" decoding="async" alt="Ness — create to heal">
+        <img src="Human-AI_Interaction_gap_design_solutions.png" width="5160" height="2862" loading="lazy" decoding="async"
+             alt="Human-AI interaction gap — three vulnerability states mapped to design responses: Smart Echo Input, XAI teachable wait, XAI confidence badges">
       </figure>
+    </section>
+
+    <section class="sec" id="s4" data-bar="System logic" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">Five moments of vulnerability. Five design responses.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Each decision addresses a specific moment where trust could break — before it is established.</p>
+        <p>Happy path. Fallback logic. The full product — mapped in structure before it existed in pixels.</p>
+        <p>Edge cases carried the most design weight: the no-match screen, the breathe chat, the safety exit. That is where the product’s character was decided.</p>
+      </div>
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Designing the fallbacks before the happy path</td></tr>
+          <tr><th scope="row">Over</th><td>finalising the happy-path UI first</td></tr>
+          <tr><th scope="row">Because</th><td>the edge cases are where the product’s character is decided</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">slower to a first screen anyone could look at</td></tr>
+        </tbody>
+      </table>
+
+      <!-- Moved out of the masthead. It answers "how does this work", which is
+           a later question than "what is this" - and the masthead now answers
+           the earlier one with the product itself. -->
+      <figure class="fig fig--system">
+      <!-- Rebuilt as a three-lane architecture view, replacing the single-row
+           "five stages" reading. That row put a human state (validation gap /
+           privacy hesitation) in the same visual class as backend mechanisms
+           (semantic matching), and could only mark the difference with a line
+           style. Here the difference is structural: HUMAN LAYER holds what the
+           person feels, UI LAYER holds what they see and type, SYSTEM LAYER
+           holds what the backend computes - three tracks joined by the arrows
+           that actually cross between them. Every node name is the case
+           study's own language. The loop reads: intent and hesitation drop
+           from the human layer into the UI; the UI hands validation down to
+           the NLP engine; semantic matching's result rises back up through
+           progressive disclosure; and that is what calibrates trust, which is
+           a human-layer event again, not a system one - the arrow into it
+           comes from below because trust is earned by what surfaces, not
+           computed directly. -->
+      <div class="plane plane--path"><svg class="s2" viewBox="0 0 1690 650" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+        <title id="s3t">How intent becomes a meetup, across three layers</title>
+        <desc id="s3d">A three-lane architecture diagram. The human layer runs left to right: intent input, privacy hesitation, calibrated trust, real-world meetup. The UI layer runs beneath it: prompt field, validation signal, progressive disclosure. The system layer runs beneath that: NLP engine, semantic matching. Intent input drops down to prompt field; privacy hesitation drops down to validation signal; validation signal drops down to the NLP engine. Semantic matching rises up into progressive disclosure, which itself rises up into calibrated trust - the only two upward arrows in the diagram, showing the system's result surfacing back to the person.</desc>
+
+        <defs>
+          <marker id="s3arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow-head"/>
+          </marker>
+        </defs>
+
+        <text x="24" y="115" class="n-lab lane-lab">Human layer</text>
+        <text x="24" y="345" class="n-lab lane-lab">UI layer</text>
+        <text x="24" y="575" class="n-lab lane-lab">System layer</text>
+
+        <!-- human layer -->
+        <rect class="hard" x="225" y="75" width="190" height="70" rx="12"/>
+        <text x="320" y="117" text-anchor="middle" class="n-lab">Intent Input</text>
+
+        <rect class="hard" x="500" y="75" width="300" height="70" rx="35"/>
+        <text x="650" y="117" text-anchor="middle" class="n-lab">Privacy Hesitation</text>
+
+        <rect class="hard" x="925" y="75" width="280" height="70" rx="12"/>
+        <text x="1065" y="117" text-anchor="middle" class="n-lab">Calibrated Trust</text>
+
+        <rect class="hard" x="1330" y="75" width="320" height="70" rx="12"/>
+        <text x="1490" y="117" text-anchor="middle" class="n-lab">Real-World Meetup</text>
+
+        <!-- ui layer -->
+        <rect class="hard" x="210" y="305" width="220" height="70" rx="12"/>
+        <text x="320" y="347" text-anchor="middle" class="n-lab">Prompt Field</text>
+
+        <rect class="hard" x="505" y="305" width="290" height="70" rx="12"/>
+        <text x="650" y="347" text-anchor="middle" class="n-lab">Validation Signal</text>
+
+        <rect class="hard" x="870" y="305" width="390" height="70" rx="12"/>
+        <text x="1065" y="347" text-anchor="middle" class="n-lab">Progressive Disclosure</text>
+
+        <!-- system layer -->
+        <rect class="hard" x="555" y="535" width="190" height="70" rx="12"/>
+        <text x="650" y="577" text-anchor="middle" class="n-lab">NLP Engine</text>
+
+        <rect class="hard" x="910" y="535" width="310" height="70" rx="12"/>
+        <text x="1065" y="577" text-anchor="middle" class="n-lab">Semantic Matching</text>
+
+        <!-- lane-internal, left to right -->
+        <line class="hard" x1="419" y1="110" x2="496" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="804" y1="110" x2="921" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="1209" y1="110" x2="1326" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="434" y1="340" x2="501" y2="340" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="799" y1="340" x2="866" y2="340" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="749" y1="570" x2="906" y2="570" marker-end="url(#s3arrow)"/>
+
+        <!-- cross-layer, downward -->
+        <line class="hard" x1="320" y1="149" x2="320" y2="301" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="650" y1="149" x2="650" y2="301" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="650" y1="379" x2="650" y2="531" marker-end="url(#s3arrow)"/>
+
+        <!-- cross-layer, upward: the system's result surfacing back to the person -->
+        <line class="hard" x1="1065" y1="531" x2="1065" y2="379" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="1065" y1="301" x2="1065" y2="149" marker-end="url(#s3arrow)"/>
+      </svg></div>
+      </figure>
+
+      <figure class="fig">
+        <img src="Functional_Sitemap___User_Flow_Hybrid_method.png" width="5345" height="3068" alt="Functional sitemap and user flow hybrid — full IA, screen states, decision points, and safety exit branches" loading="lazy" decoding="async">
+        <figcaption>Functional sitemap + user flow hybrid. Every screen state, every decision point, every safety exit branch — mapped before any visual design.</figcaption>
+      </figure>
+      <figure class="fig">
+        <img src="happypath-fallback.png" width="6045" height="2930" alt="Core happy path — 10 screens from home to post-meet feedback, plus three fallback states: no match, match declined, all matches exhausted" loading="lazy" decoding="async">
+        <figcaption>Core happy path (Screens 1–10) + three fallback states with key states documented per screen. The fallbacks were designed before the happy path UI was finalised.</figcaption>
+      </figure>
+    </section>
+
+    <section class="sec" id="s5" data-bar="Solutions" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Full IA. Not everything survived the dev sync.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Three generations of input validation designed — two cut after synching with developers on latency, token cost, and structural reliability. What shipped earned it. The rest of the architecture: match logic, processing states, and safety exits, was built around the system that survived.</p>
+        <p class="hmw">How might we teach users what’s needed for prompting that leads to better match quality?</p>
+      </div>
+      <p class="eyebrow-b">Input validation — three generations</p>
+      <div class="gens">
+        <div class="gen">
+          <img class="shot" src="Gen1-%20manual%20tags%20added%20by%20the%20user.png" width="430" height="932" loading="lazy" decoding="async"
+               alt="Gen 1 — manual tags added by user">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 1 — Cut</span>
+            <div class="gen-label">Manual tags</div>
+            <p class="gen-note">Freeform. No structure. System can’t match on noise.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="Gen2-AI-generated%20metadata.png" width="430" height="932" loading="lazy" decoding="async"
+               alt="Gen 2 — AI-generated metadata tags from prompt">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 2 — Cut</span>
+            <div class="gen-label">AI metadata extraction</div>
+            <p class="gen-note">Smarter — but unreliable JSON, 1.4s latency, 25× token cost.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="Gen3-%20NLP%20chip%20validation.png" width="390" height="844" loading="lazy" decoding="async"
+               alt="Gen 3 — NLP chip validation, Well done badge, CTA unlocked">
+          <div class="gen-cap">
+            <span class="tag tag--ship">Gen 3 — Shipped</span>
+            <div class="gen-label">Chip validation</div>
+            <p class="gen-note">NLP parses What / When / Where in real time. Hard to build. Worth the fight.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="eyebrow-b">Why Gen 2 died — after synching with devs</p>
+      <table class="devsync">
+        <thead>
+          <tr><th scope="col"><span>Why Gen 2 died</span></th><th scope="col"><span>After synching with devs</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Structural unreliability</th>
+            <td data-l="Why Gen 2 died">System expects <code>{"tags":["x","y"]}</code>. LLM returns conversational text. Fatal parse error. Every call needs a retry wrapper — just to extract two words.</td>
+          </tr>
+          <tr>
+            <th scope="row">Latency</th>
+            <td data-l="Why Gen 2 died">800ms standard + 600ms metadata extraction = 1.4s wait before anything useful happens.</td>
+          </tr>
+          <tr>
+            <th scope="row">Token cost</th>
+            <td data-l="Why Gen 2 died">15-word prompt + 400-token system prompt to classify it. 25× more to categorise than to process. Not viable for an MVP budget.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pushed">
+        <p class="pushed-e">Why I pushed for Gen 3</p>
+        <p>Chips are harder to build. I pushed for them because <em>match quality is the entire product bet.</em> Vague input → bad matches → no Tribe. The chips are the quality gate that makes everything downstream worth building.</p>
+      </div>
+
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Gen 3 — real-time NLP chip validation</td></tr>
+          <tr><th scope="row">Over</th><td>Gen 2 — AI metadata extraction</td></tr>
+          <tr><th scope="row">Because</th><td>match quality is the entire product bet: vague input, bad matches, no Tribe</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">harder to build, and the only generation that survived the dev sync</td></tr>
+        </tbody>
+      </table>
+
+      <p class="eyebrow-b">Accepted version — chip validation in action</p>
+      <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Chip validation — 9 states">
+        <div class="car-top">
+          <span class="car-label">Chip validation — 9 states</span>
+          <span class="car-count" id="carCount" aria-live="polite">1 / 9</span>
+        </div>
+        <div class="car-stage">
+          <button class="car-btn car-prev" id="carPrev" aria-label="Previous state" disabled>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6L8 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="car-window" id="carWindow">
+            <img src="App_Screen.png" id="carImg" width="3998" height="884" loading="lazy" decoding="async"
+                 alt="Chip validation states — nine frames of the prompt field, from empty to unlocked">
+            <span class="car-veil car-veil--l" id="carVeilL" aria-hidden="true"></span>
+            <span class="car-veil car-veil--r" id="carVeilR" aria-hidden="true"></span>
+            <span class="car-mark" id="carMark" aria-hidden="true"></span>
+          </div>
+          <button class="car-btn car-next" id="carNext" aria-label="Next state">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="car-bottom">
+          <p class="car-desc" id="carDesc">Empty state — placeholder: “What do you want to do today?”</p>
+          <div class="car-dots" id="carDots" role="tablist" aria-label="Jump to a state"></div>
+        </div>
+      </div>
+
+      <p class="eyebrow-b">Processing → match — decision flow</p>
+      <div class="flow">
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">01 · Processing</span>
+            <img src="Processing_%20Teachable%20wait.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Processing — teachable wait, 3-stage ascending stack">
+          </div>
+          <div class="ann">
+            <div class="ann-t">Teachable wait</div>
+            <p class="ann-b">A teachable wait makes AI reasoning visible — transparent processing builds trust. The user can see what the system is doing while they wait.</p>
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:56px">
+          <i class="v" style="left:var(--lane-a);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-a);width:calc(var(--lane-b) - var(--lane-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-b);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <div class="ann-t">Used once, then gone</div>
+            <p class="ann-b">GPS ask arrives mid-processing — the only moment it reads as practical, not invasive. My call: delete location post-match and use aggregated data for analytics — to increase user safety and trust.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">02 · Location access</span>
+            <img src="Processing_Location%20access.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Processing — location access permission">
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:64px">
+          <i class="v" style="left:var(--lane-b);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+          <i class="v" style="left:var(--lane-inner-b);top:50%;height:50%"></i>
+          <b style="left:var(--lane-inner-a)">match found</b>
+          <b style="left:var(--lane-inner-b)">no match</b>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <div class="ann-t">Anonymous until mutual yes</div>
+            <p class="ann-b">Initials and match score — no photos. Identity reveals only after both say yes, removing the power imbalance by design.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">3A · Match</span>
+            <img src="Match.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Match results — anonymous until mutual yes">
+          </div>
+          </div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">3B · No match</span>
+            <img src="NO%20MATCH%20FOUND.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="No match — Luck is around the corner">
+          </div>
+          <div class="ann">
+            <div class="ann-t">“Luck is around the corner”</div>
+            <p class="ann-b">Warm orange, not red. Nearby intents surface below — real options, no manufactured optimism.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-copy copy-2">
+        <h3>One chat at a time — but what happens when the user wants to leave?</h3>
+        <p>No chat search, one active conversation. The constraint is intentional: users in one chat take it more seriously. When choices are limited, people value what they have. The Breathe Chat (24h pause) and Safety Exit are the pressure valves — without them, a single-chat system becomes a trap. The constraint only works because the exits are designed in. A deliberate bet against dopamine loops — no infinite scroll, no variable reward.</p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--c">
+          <div class="flow-shot">
+            <span class="chip">More menu</span>
+            <img src="chat_3dots_opened.png" width="406" height="860" loading="lazy" decoding="async"
+                 alt="More menu opened in chat">
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:48px">
+          <i class="v" style="left:50%;top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-inner-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+          <i class="v" style="left:var(--lane-inner-b);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <p class="ann-b">A 24h pause on the chat — reframes stepping away as temporary, not an exit. The user keeps the connection without the pressure.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">Breathe chat</span>
+            <img src="Group%20683.png" width="350" height="477" loading="lazy" decoding="async"
+                 alt="Breathe chat — 24h pause">
+          </div>
+          </div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">Leave chat</span>
+            <img src="Group%20689.png" width="365" height="543" loading="lazy" decoding="async"
+                 alt="Leave chat — five exit reasons">
+          </div>
+          <div class="ann">
+            <p class="ann-b">Five exit reasons — “I’m feeling unsafe” separated in red at the bottom. Casual exit stays easy; the safety path stays findable without scanning.</p>
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:56px">
+          <i class="v" style="left:var(--lane-inner-b);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-inner-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row flow-row--pair">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <p class="ann-b">Tapping opens a report inline — no new screen. Zero friction at the highest-stress moment.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">I feel unsafe</span>
+            <img src="Group%20690.png" width="358" height="543" loading="lazy" decoding="async"
+                 alt="I’m feeling unsafe — selected state">
+          </div>
+          </div>
+          <div class="conn-x" aria-hidden="true"></div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">Report inline</span>
+            <img src="Group%20691.png" width="358" height="543" loading="lazy" decoding="async"
+                 alt="Report user — inline, zero navigation cost">
+          </div>
+          <div class="ann">
+            <p class="ann-b">Report appears in the same row — no navigation away. The action completes exactly where the user already is.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="s6" data-bar="Reflection" aria-labelledby="s6h">
+      <!-- the verdict on the work, at the head of the section that reflects on it -->
+      <div class="said">
+        <blockquote>
+          <p>“This is very, very high level. I like it a lot.”</p>
+          <cite>— CTO, Tribe</cite>
+        </blockquote>
+        <blockquote>
+          <p>“This is an app I’d actually want to see built.”</p>
+          <cite>— AI Engineer &amp; Neuroscientist, Tribe</cite>
+        </blockquote>
+      </div>
+      <h2 class="sec-label" id="s6h">What I’d do differently. What I’d do the same.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Send a questionnaire before any screen was drawn. Real user intent data would have sharpened the input validation from day one.</p>
+        <p>Push back on anything that doesn’t serve the user. Every constraint that survived the dev sync survived because it had a human reason behind it.</p>
+        <p>One metric: prompt quality in correlation to match quality. That correlation — or the absence of it — would tell me whether the core thesis holds.</p>
+
+      </div>
+
+      <!-- the heading belongs to the table, not to the copy above it: it names
+           what the table is, and the eyebrow marks it as proposed rather than
+           performed - the distinction the source page draws -->
+      <div class="blueprint">
+        <h3>
+          <button class="bp-toggle" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
+            <span>
+              <span class="bp-t">Alpha Validation Blueprint</span>
+              <span class="bp-e">Proposed Testing Plans · Alpha Phase</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="bpPanel" data-open="false" role="region" aria-labelledby="bpBtn">
+          <div class="bp-inner">
+      <table class="phases">
+        <thead>
+          <tr>
+            <td></td>
+            <th scope="col"><span class="ph-n">Phase 1 — Usability</span><span class="ph-t">Pre-Launch Lab Testing</span></th>
+            <th scope="col"><span class="ph-n">Phase 2 — Telemetry</span><span class="ph-t">Alpha Field Testing</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Objective</th>
+            <td data-ph="Phase 1">Verify if real-time keyword highlighting reduces input anxiety and ensures semantic accuracy.</td>
+            <td data-ph="Phase 2">Validate the NLP matching engine and progressive disclosure mechanics under live infrastructure load.</td>
+          </tr>
+          <tr>
+            <th scope="row">Methodology</th>
+            <td data-ph="Phase 1">Moderated testing (8–10 participants) using low-fidelity click-dummies.</td>
+            <td data-ph="Phase 2">14-day unmoderated field test deployed to a high-density cohort of 500–1,000 target users in Budapest.</td>
+          </tr>
+          <tr>
+            <th scope="row">Signals</th>
+            <td data-ph="Phase 1">Time-on-task, token correction frequency, and subjective workload (SEQ score).</td>
+            <td data-ph="Phase 2">Progress toward the target ≥40% match-to-meetup conversion milestone, live data logging against the &lt;40% engine failure threshold, and exact drop-off points within the unmasking sequence.</td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+        </div>
+      </div>
+
     </section>
 
   </div>
+
+  <footer class="cs-foot">
+    <p class="sec-label">Next case studies</p>
+    <ul class="next">
+      <li><a href="../case-study-mindure-v3.html">
+        <span class="next-n">03</span>
+        <span class="next-t">Giving someone a clear next move when the future feels automated away.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+      <li><a href="../ness/ness-creative-therapy.html">
+        <span class="next-n">04</span>
+        <span class="next-t">Reaching someone through what they make, when words won’t come.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+    </ul>
+  </footer>
 
 </div>
 
@@ -1933,11 +2490,294 @@ document.querySelectorAll('img').forEach(function(im){
   im.addEventListener('load',function(){measure();spy();});});
 measure();spy();
 
-/* The masthead animation and the frame carousel from the Tribe study are not
-   here: both are specific to that one export and would only mislead. What is
-   kept is everything every case study needs - the accessibility panel, the
-   noise toggle, the fold, and the scroll spy that drives the progress bar and
-   marks the route in the header. */
+/* App_Screen.png is one Figma section exported whole, so it is not nine equal
+   slices: each screen is 390x844, they sit on a 446 pitch from x=20, and the
+   whole thing carries a 20px margin plus the section’s own dashed border.
+   Dividing the width by nine - which both the masthead and the carousel below
+   used to do - makes every window 54px too wide and walks the offset along
+   until the last screens are mostly gutter. Measured once, used by both. */
+var SHOT={w:3998,h:884,frameW:390,frameH:844,pitch:446,x0:20,y0:20,n:9};
+SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
+
+/* The masthead types. Four real states are used and nothing is redrawn:
+   screen 1 (empty), screen 2 (focused), screen 6 (understood) and screen 7
+   (refined). Between them the letters are uncovered from the artwork - the
+   layer is a second copy of the strip sitting on the target screen, clipped to
+   a staircase that grows a character at a time, with the wash underneath
+   erasing whatever text the base screen has baked in. So every letter that
+   appears is a delivered pixel, and every state it rests on is a real export
+   rather than an approximation of one.
+
+   The character positions were measured off the file: the ink span of each
+   line is known and the stops interpolate across it. The check that this is
+   honest is screen 7 line 2 - the stop after "basketball" computes to 303.2
+   and the artwork’s ink ends at 303.
+
+   Frames 3, 4 and 5 of the strip are deliberately skipped. They are states
+   like "ba" that exist to explain the parser in a spec, not moments anyone
+   using the app would ever sit in. */
+(function(){
+  var base=document.getElementById("devBase");
+  if(!base)return;
+  var layer=document.getElementById("devLayer"),
+      ink=document.getElementById("devInk"),
+      wash=document.getElementById("devWash"),
+      caret=document.getElementById("devCaret"),
+      chips=document.getElementById("devChips"),
+      chipImg=document.getElementById("devChipImg"),
+      replay=document.getElementById("devReplay");
+
+  function PX(v){return v/SHOT.frameW*100}   /* x, as % of the screen */
+  function PY(v){return v/SHOT.frameH*100}   /* y, as % of the screen */
+  function FY(v){return v/SHOT.h*100}        /* y, as % of the whole strip */
+
+  /* Where the chip row sits for a given number of visible lines. The three
+     anchored values are read off screens 3, 6 and 7; only the two-line case
+     is interpolated, because no exported screen happens to have two lines. */
+  var CHIPROW=[282,336,391,445];
+  var CHIPH=32;
+  /* The row sits at a different height in each source screen, since it follows
+     that screen’s own last line. These are strip coordinates, not screen ones:
+     --fy is measured from the top of the export, and every screen starts 20px
+     down from it, so each value is its in-screen row plus that margin.
+     (282/391/445 in-screen -> 302/411/465 here.) */
+  var CHIPSRC={2:302,3:302,4:302,5:411,6:465};
+
+  /* Line bands sit on the midpoints between the ink rows, so a finished line
+     shows whole and the next is still fully hidden. inkTop is where the caret
+     stands. Both were read off the export. */
+  var RUN=[
+    /* Recognition is not a single event at the end - each chip lights when the
+       word that triggers it has been typed, which is the whole claim the case
+       study makes about the parser. "What" lands on basketball; the amber dot
+       is the parser holding an incomplete reading; "When" and the green dot
+       arrive with "afternoon", which is where screen 6 already is. */
+    {frame:5, wash:[208,380], from:[0,0],
+     chips:[{line:0,char:0,frame:2},   /* present, none lit */
+            {line:1,char:15,frame:3},  /* "basketball" -> What */
+            {line:2,char:0,frame:4}],  /* still incomplete -> amber dot */
+     lines:[
+      {band:[208,272],inkTop:221,text:"I’m looking to",
+       stops:[24,39.6,52,88.2,96,108.7,130.9,153.6,176,188.8,213.9,235.6,243.3,258.5,281]},
+      {band:[272,326],inkTop:275,text:"play basketball",
+       stops:[24,48.6,61.1,82.2,102.4,110.3,134.6,155.8,173.4,196.7,216.8,231.7,255.7,276.9,289.9,303]},
+      {band:[326,380],inkTop:328,text:"this afternoon",
+       stops:[24,39.5,65.3,78.3,96.2,104.1,125.4,140.2,154.1,174.5,192.8,218.6,241.5,264.7,290]}
+    ]},
+    /* screen 7 is screen 6 with " in Budapest" inserted, so the second pass
+       picks up mid-line at the point the two diverge rather than starting over */
+    {frame:6, wash:[208,432], from:[1,15],
+     chips:[{line:1,char:15,frame:5},  /* carries screen 6’s What + When */
+            {line:2,char:8,frame:6}],  /* "Budapest" -> Where */
+     lines:[
+      {band:[208,272],inkTop:221,text:"I’m looking to",
+       stops:[24,39.6,52,88.2,96,108.7,130.9,153.6,176,188.8,213.9,235.6,243.3,258.5,281]},
+      {band:[272,326],inkTop:275,text:"play basketball in",
+       stops:[24,48.6,61.2,82.3,102.4,110.4,134.7,155.9,173.6,196.8,216.9,231.9,255.9,277.1,290.2,303.2,311.2,324.2,350]},
+      {band:[326,379],inkTop:329,text:"Budapest this",
+       stops:[24,49.7,74.4,98.5,119.5,143.6,163.8,181.2,196.5,204.3,219.8,245.3,258.3,276]},
+      {band:[379,432],inkTop:382,text:"afternoon.",
+       stops:[24,45,59.8,73.5,93.7,111.8,137.3,160,183,208.1,221]}
+    ]}
+  ];
+
+  var timer=null,started=false,guard=null;
+
+  function setFrame(el,i){el.style.setProperty("--fx",SHOT.fx(i).toFixed(4));}
+
+  function rest(i){                      /* a real export, nothing on top of it */
+    setFrame(base,i);
+    layer.style.display="none";wash.style.display="none";
+    chips.style.display="none";caret.style.display="none";
+  }
+
+  /* the last mark the typing has reached */
+  function chipAt(run,li,k){
+    var m=null;
+    for(var n=0;n<run.chips.length;n++){
+      var c=run.chips[n];
+      if(c.line<li||(c.line===li&&k>=c.char))m=c;
+    }
+    return m;
+  }
+
+  function draw(run,li,k){
+    var ln=run.lines[li];
+    var t0=PY(run.lines[0].band[0]),tl=PY(ln.band[0]),tb=PY(ln.band[1]),xp=PX(ln.stops[k]);
+    /* full width down to the current line, then only as far as the caret */
+    layer.style.clipPath="polygon(0% "+t0+"%,100% "+t0+"%,100% "+tl+"%,"
+      +xp+"% "+tl+"%,"+xp+"% "+tb+"%,0% "+tb+"%)";
+    caret.style.left=xp+"%";
+    caret.style.top=PY(ln.inkTop-3)+"%";
+    caret.style.height=PY(50)+"%";
+
+    var c=chipAt(run,li,k);
+    if(!c){chips.style.display="none";return;}
+    chips.style.top=PY(CHIPROW[li])+"%";
+    chips.style.height=PY(CHIPH)+"%";
+    chipImg.style.setProperty("--fx",SHOT.fx(c.frame).toFixed(4));
+    chipImg.style.setProperty("--fy",FY(CHIPSRC[c.frame]).toFixed(4));
+    chips.style.display="block";
+  }
+
+  function begin(run){
+    wash.style.top=PY(run.wash[0])+"%";
+    wash.style.height=PY(run.wash[1]-run.wash[0])+"%";
+    wash.style.display="block";
+    setFrame(ink,run.frame);
+    layer.style.display="block";
+    caret.style.display="block";
+  }
+
+  /* a beat after a space, a longer one after a full stop - typing is not a
+     metronome, and an even cadence is the thing that reads as fake */
+  function pace(ch){
+    if(ch==="."||ch===",")return 240;
+    if(ch===" ")return 62;
+    return 34+Math.random()*26;
+  }
+
+  function type(ri,li,k,done){
+    var run=RUN[ri],ln=run.lines[li];
+    draw(run,li,k);
+    if(k>=ln.text.length){
+      if(li>=run.lines.length-1){timer=setTimeout(done,260);return;}
+      timer=setTimeout(function(){type(ri,li+1,0,done);},150);return;
+    }
+    timer=setTimeout(function(){type(ri,li,k+1,done);},pace(ln.text.charAt(k)));
+  }
+
+  function still(){
+    return document.documentElement.getAttribute("data-motion")==="off"
+      || (window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches);
+  }
+
+  function run(){
+    clearTimeout(timer);
+    /* anyone who asked for less motion gets the end of the story at once - the
+       understood state is the point, the typing is only how it arrives */
+    if(still()){rest(RUN[1].frame);if(replay)replay.hidden=false;return;}
+    if(replay)replay.hidden=true;
+    rest(0);
+    timer=setTimeout(function(){
+      rest(1);                                       /* the field takes focus */
+      timer=setTimeout(function(){
+        begin(RUN[0]);
+        type(0,RUN[0].from[0],RUN[0].from[1],function(){
+          rest(RUN[0].frame);                        /* understood: screen 6 */
+          timer=setTimeout(function(){
+            begin(RUN[1]);
+            type(1,RUN[1].from[0],RUN[1].from[1],function(){
+              rest(RUN[1].frame);                    /* refined: screen 7 */
+              if(replay)replay.hidden=false;
+            });
+          },1000);
+        });
+      },520);
+    },900);
+  }
+
+  /* Never one trigger: this is the first thing on the page, and a field stuck
+     empty forever is a worse failure than starting a beat early. */
+  function start(){if(started)return;started=true;clearTimeout(guard);run();}
+  function inView(){var r=base.getBoundingClientRect();
+    return r.top<window.innerHeight*0.9 && r.bottom>0;}
+  if(replay)replay.addEventListener("click",function(){started=true;run();});
+  guard=setTimeout(function(){if(inView())start();},1200);
+  if(inView())start();
+  if(!started){
+    if("IntersectionObserver" in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){if(e.isIntersecting){io.disconnect();start();}});},{threshold:.35});
+      io.observe(base);
+    }
+    var onScroll=function(){if(inView()){window.removeEventListener("scroll",onScroll);start();}};
+    window.addEventListener("scroll",onScroll,{passive:true});
+  }
+})();
+
+/* chip-validation carousel — nine frames in one file.
+   The frame width is derived from the file rather than hard-coded: naturalWidth
+   divided by nine, scaled by however tall the window is drawn. Re-derived on
+   resize, because the window height is a viewport-relative size and a frame
+   measured at one width lands mid-screen at another. */
+(function(){
+  var descs=[
+    'Empty state — placeholder: “What do you want to do today?”',
+    'Cursor active — input focused, chips waiting.',
+    '“ba” typed — partial input, chips not yet triggered.',
+    '“basketball” — What chip fires, highlighted in purple.',
+    'Full sentence typed — When chip activates.',
+    'Budapest added — Where chip activates. All three chips present.',
+    'All chips green — NLP confident. Smiley face appears.',
+    'FIND THEM unlocks — CTA active, user can submit.',
+    'Error state — special characters rejected with inline message.'
+  ];
+  var img=document.getElementById('carImg'),win=document.getElementById('carWindow');
+  if(!img||!win)return;
+  var mark=document.getElementById('carMark');
+  var veilL=document.getElementById('carVeilL'),veilR=document.getElementById('carVeilR');
+  var visible=5;   /* always odd, so there is a middle slot to read */
+  var desc=document.getElementById('carDesc'),count=document.getElementById('carCount');
+  var prev=document.getElementById('carPrev'),next=document.getElementById('carNext'),dotsEl=document.getElementById('carDots');
+  var total=descs.length,cur=0,frameW=0,scale=1,dots=[];
+  for(var i=0;i<total;i++){(function(n){
+    var d=document.createElement('button');
+    d.className='car-dot';d.type='button';
+    d.setAttribute('aria-label','State '+(n+1));
+    d.setAttribute('aria-current',n===0?'true':'false');
+    d.addEventListener('click',function(){go(n);});
+    dotsEl.appendChild(d);dots.push(d);})(i);}
+  function go(n){
+    cur=Math.max(0,Math.min(total-1,n));
+    /* the active frame sits in the middle slot, so the strip is offset by how
+       far the active one is from that slot rather than from the start */
+    var mid=Math.floor(visible/2);
+    /* the strip is moved so the active screen lands in the middle slot, and
+       lifted by the section margin so the exported border never shows */
+    img.style.transform='translate('+(-(SHOT.x0+(cur-mid)*SHOT.pitch)*scale)+'px,'
+      +(-SHOT.y0*scale)+'px)';
+    desc.textContent=descs[cur];
+    count.textContent=(cur+1)+' / '+total;
+    prev.disabled=cur===0;next.disabled=cur===total-1;
+    for(var k=0;k<dots.length;k++)dots[k].setAttribute('aria-current',k===cur?'true':'false');
+  }
+  function fit(){
+    if(!img.naturalWidth)return;
+    /* Room is measured rather than guessed: the stage box less its own padding,
+       the two buttons and the two gaps between them and the strip. A slack
+       constant here was costing the frames about 30px of width for nothing. */
+    var st=getComputedStyle(win.parentNode);
+    var room=win.parentNode.clientWidth
+      -(parseFloat(st.paddingLeft)||0)-(parseFloat(st.paddingRight)||0)
+      -prev.offsetWidth-next.offsetWidth
+      -(parseFloat(st.columnGap)||0)*2-2;
+    visible=room>=620?5:(room>=330?3:1);
+    /* a slot is a whole pitch, so the gutters the design was drawn with are
+       what separates the neighbours - nothing is invented to space them */
+    var slot=Math.floor(room/visible);
+    /* a screen is never drawn larger than it is in the file */
+    var w=Math.min(SHOT.frameW,slot*SHOT.frameW/SHOT.pitch);
+    var hCap=Math.min(460,Math.round(window.innerHeight*0.52));
+    if(w/SHOT.frameW*SHOT.frameH>hCap)w=hCap/SHOT.frameH*SHOT.frameW;
+    scale=w/SHOT.frameW;
+    frameW=w;
+    img.style.height='auto';
+    img.style.width=Math.round(SHOT.w*scale)+'px';
+    /* the window crops to the screen height, so the 20px margin and the
+       exported section border stay outside it */
+    win.style.height=Math.round(SHOT.frameH*scale)+'px';
+    win.style.width=Math.round((visible-1)*SHOT.pitch*scale+w)+'px';
+    mark.style.width=Math.round(w)+'px';
+    var side=Math.round(Math.floor(visible/2)*SHOT.pitch*scale);
+    veilL.style.width=side+'px';veilR.style.width=side+'px';
+    go(cur);
+  }
+  prev.addEventListener('click',function(){go(cur-1);});
+  next.addEventListener('click',function(){go(cur+1);});
+  window.addEventListener('resize',fit);
+  if(img.complete&&img.naturalWidth)fit(); else img.addEventListener('load',fit);
+})();
 })();
 </script>
 </body>

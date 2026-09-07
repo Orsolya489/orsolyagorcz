@@ -33,8 +33,15 @@
      can sit on the same line as the content instead of the screen corners */
   --gutter:  clamp(16px, 2.2vw, 48px);
   --stack:   clamp(16px, 2.2vw, 40px);
-  --section: clamp(72px, 9vw, 180px);
+  --section: clamp(96px, 12vw, 240px);   /* space between sections */
   --control: clamp(44px, 2.4vw, 56px);
+  /* Icons size off the control, not off the label. They used to be 1.05em,
+     so when the button text went down to PJS caps at .92 of --micro the
+     glyphs shrank with it and ended up around 10px inside a 44px target.
+     Tying them to the button instead keeps the mark the same weight on the
+     screen whatever the label does. */
+  --ico: calc(var(--control) * .42);
+  --gap-btn: 8px;            /* control to control, everywhere */
   --r-lg: 20px;
   --r-pill: 999px;
   --ease: cubic-bezier(.16,1,.3,1);
@@ -44,14 +51,14 @@
   /* chrome the card must clear, top and bottom */
   --chrome-t: calc(var(--gutter) + var(--control));
   --chrome-b: calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control));
-  --card-h: calc(100svh - var(--chrome-t) - var(--chrome-b) - var(--stack)*2);
+  --card-h: calc(100svh - var(--chrome-t)*1.6);
 
   /* type — 4 sizes, cqw against the capped container */
   --tscale: 1;
-  --micro: calc(clamp(12px, 1.00cqw, 15px) * var(--tscale));
-  --body:  calc(clamp(16px, 1.35cqw, 19px) * var(--tscale));
-  --title: calc(clamp(24px, 3.20cqw, 46px) * var(--tscale));
-  --hero:  calc(clamp(32px, 5.40cqw, 76px) * var(--tscale));
+  --micro: calc(clamp(11px, 0.92cqw, 13px) * var(--tscale));
+  --body:  calc(clamp(15px, 1.20cqw, 17px) * var(--tscale));
+  --title: calc(clamp(22px, 2.85cqw, 40px) * var(--tscale));
+  --hero:  calc(clamp(28px, 4.80cqw, 66px) * var(--tscale));
 
   --sans:  "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --serif: "Literata", Georgia, "Times New Roman", serif;
@@ -104,8 +111,13 @@ a{color:inherit}
   padding:0 calc(var(--control)*.38);
   display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--control)*.2);
   background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
-  color:var(--muted);font-family:var(--serif);font-weight:500;font-size:var(--micro);
-  letter-spacing:0;text-transform:lowercase;text-decoration:none;cursor:pointer;white-space:nowrap;
+  color:var(--muted);font-family:var(--sans);font-weight:500;
+  /* the label is a control, not prose: PJS rather than the serif, and set
+     below --micro because all-caps reads larger than its point size. The
+     tracking is the same .07em every other all-caps label on the page uses,
+     so buttons rejoin that family instead of being their own exception. */
+  font-size:calc(var(--micro)*.92);
+  letter-spacing:.07em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap;
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease),color var(--out) var(--ease);
 }
@@ -114,7 +126,7 @@ a{color:inherit}
 .btn--on{background:var(--ink);border-color:var(--ink);color:var(--page)}
 .btn--on:hover{background:var(--ink);border-color:var(--ink);color:var(--page)}
 .btn--sel{background:rgba(25,21,23,.10);border-color:transparent}
-.btn svg{width:1.05em;height:1.05em;flex:0 0 auto}
+.btn svg{width:var(--ico);height:var(--ico);flex:0 0 auto}
 /* hover bubble — the icon carries the action, this names it */
 .btn[data-tip]{position:relative}
 .btn[data-tip]::after{
@@ -141,35 +153,133 @@ a{color:inherit}
 /* ═══ 3 · fixed chrome ═══ */
 .chrome-shell{position:fixed;inset:0;z-index:500;pointer-events:none;
   width:min(100%, var(--shell));margin-inline:auto;padding-inline:var(--margin)}
-.chrome{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:calc(var(--control)*.28)}
+.chrome{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:var(--gap-btn)}
 /* the brand sits on glass like every other chrome group, so scrolling copy
    does not run underneath it. No border: it is not a control. */
-.c-tl{top:var(--gutter);left:var(--margin);
+/* The pill is pulled left so the LOGO ITSELF starts on the page margin,
+   not the glass behind it - the wordmark then reads as the first item in the
+   same column as the hero, the section labels and the contact block. Two
+   things sit between the pill edge and the first stroke, and both scale with
+   --control, so the shift is exact rather than a fudge:
+     pill padding   .42  x --control
+     empty viewBox  .074 x --control  (the mark is drawn from x29.8 of 1000,
+                                       and .logo-mark is .42 x --control tall)
+   The glass runs out past the margin to pay for it, which is the trade.
+   max() stops it going off-screen on a phone, where the margin is smaller
+   than the shift: there the pill lands flush on the edge with its radius
+   intact and the alignment is still within 2px. */
+.c-tl{top:var(--gutter);left:max(0px, calc(var(--margin) - var(--control)*.494));
   height:var(--control);padding:0 calc(var(--control)*.42);
   background:var(--glass);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 .c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin)}
-.noise{display:flex;align-items:center;gap:calc(var(--control)*.28)}
-.noise-vol{display:flex;align-items:center;height:var(--control);overflow:hidden;
-  width:0;padding-inline:0;opacity:0;pointer-events:none;
-  background:var(--glass);border:0 solid var(--edge-ctrl);border-radius:var(--r-pill);
+/* no gap of its own: the collapsed volume slider sits between the
+   accessibility button and this one, so a gap here was being added to the
+   group gap and reading as 16px. Once open, the slider carries its own
+   padding-inline, which does the separating. */
+/* One control, not two. The wrapper carries the pill - glass, border, radius
+   - and the button gives up its own, so opening the level widens this single
+   shape from the inside instead of sliding a second pill out beside it. */
+/* No room is reserved: shut, the pill is just the button and sits against the
+   accessibility control like any other pair in this row. Switching the sound on
+   widens it, and because the chrome is pinned to the window's right edge that
+   width can only come out of the left - so the button steps left and the level
+   takes the space it vacates. */
+.noise{display:flex;align-items:center;gap:0;flex:none;height:var(--control);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
+.noise:hover{background:var(--page);border-color:rgba(25,21,23,.42);transition-duration:var(--in)}
+/* flex:none on the button as well: when the level opens the pill gets wider,
+   and the only thing allowed to change size is the level. Without this the
+   button is the flexible item and the label is what gets squeezed away. */
+.noise .noise-btn{height:100%;flex:none;background:none;border-color:transparent;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.noise .noise-btn:hover{background:none;border-color:transparent;color:var(--ink)}
+/* Playing: the whole pill goes to ink and everything on it turns page-coloured.
+   Inverting the pill rather than the button is the part that matters - the
+   button has no ground of its own in here, so painting only its text white is
+   what put white on white the first time round. These rules sit after the hover
+   rules above deliberately: same specificity, so source order is what keeps the
+   pill black while the pointer is on it. */
+.noise[data-on="true"],
+.noise[data-on="true"]:hover{background:var(--ink);border-color:var(--ink)}
+.noise[data-on="true"] .noise-btn,
+.noise[data-on="true"] .noise-btn:hover{color:var(--page)}
+/* the level has to read on ink too: a page-coloured thumb on a dimmed page-
+   coloured track, rather than the ink-on-light pair used when the pill is off */
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
+/* flex:none is load-bearing. The chrome row is a flex container, so a plain
+   width on this leaves it shrinkable - and because overflow:hidden drops its
+   automatic minimum size to zero, the row simply squeezed it back to 0px and
+   the slider never appeared at all, whatever width the open rule asked for. */
+/* Back inside the pill and back in the flow, so its width is what opens the
+   pill up. Kept to 1.5 controls rather than the 1.9 it started at: the button
+   steps left by exactly this much when the sound comes on, and the shorter the
+   step, the less of the button passes out from under the pointer. flex:none
+   because overflow:hidden drops its automatic minimum size to zero, and the row
+   will otherwise squeeze it straight back to nothing. */
+.noise-vol{display:flex;align-items:center;height:100%;overflow:hidden;flex:none;
+  width:0;padding-inline:0;opacity:0;pointer-events:none;
   transition:width var(--out) var(--ease),opacity var(--out) var(--ease),
-             padding-inline var(--out) var(--ease),border-width var(--out) var(--ease)}
-.noise[data-on="true"] .noise-vol{width:calc(var(--control)*3.2);padding-inline:calc(var(--control)*.4);
-  opacity:1;pointer-events:auto;border-width:1px;transition-duration:var(--in)}
+             padding-inline var(--out) var(--ease)}
+/* Open for as long as the sound is playing, not just while the pointer is on
+   it. Hover was too slippery for a control you actually need to hold and drag:
+   the moment the mouse crossed the edge on its way to the slider the pill had
+   already begun closing. If there is a level to set, the setter stays out. It
+   is still gone entirely when the sound is off, since there is nothing to set
+   then - that was always the useful half of the condition. */
+/* Two conditions, not one: playing, and being approached. Playing alone leaves
+   the pill at its default size sitting against the accessibility button, which
+   is what it should look like at rest. :focus-within is the keyboard half of
+   the same condition, so the level is still reachable without a pointer. */
+.noise[data-on="true"]:hover .noise-vol,
+.noise[data-on="true"]:focus-within .noise-vol{width:calc(var(--control)*1.5);
+  padding-inline:calc(var(--control)*.3);
+  opacity:1;pointer-events:auto;transition-duration:var(--in)}
 .noise-vol input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:var(--control);
   background:transparent;cursor:pointer;margin:0}
 .noise-vol input[type="range"]::-webkit-slider-runnable-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
-.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
-  border-radius:var(--r-pill);background:var(--ink);margin-top:-6px;
+.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;
+  border-radius:var(--r-pill);background:var(--ink);margin-top:-4px;
   transition:scale var(--out) var(--ease)}
 .noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1.18;transition-duration:var(--in)}
 .noise-vol input[type="range"]::-moz-range-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
-.noise-vol input[type="range"]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:var(--r-pill);background:var(--ink)}
-.n-ico{position:relative;width:1.05em;height:1.05em;flex:0 0 auto}
+.noise-vol input[type="range"]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:var(--r-pill);background:var(--ink)}
+.noise{position:relative}
+.n-ico{position:relative;width:var(--ico);height:var(--ico);flex:0 0 auto}
+/* the wave only travels while the sound is on - it is the state indicator,
+   not decoration, so it says nothing when there is nothing to say */
+.n-wave{transform-box:view-box;transform-origin:center}
+.noise-btn[aria-pressed="true"] .n-wave{animation:n-wave 1.9s linear infinite}
+@keyframes n-wave{to{transform:translateX(-12px)}}
+/* Explainer. Sits above the control because this group is pinned to the
+   bottom of the window - a bubble below it would leave the viewport. */
+.n-tip{
+  position:absolute;bottom:calc(100% + 10px);right:0;
+  width:max-content;max-width:min(34ch, calc(100vw - var(--margin)*2));
+  background:var(--ink);color:var(--page);
+  font-family:var(--serif);font-weight:400;font-size:var(--micro);line-height:1.5;
+  letter-spacing:0;text-align:left;
+  padding:.85em 1.05em;border-radius:var(--r-lg);
+  opacity:0;translate:0 4px;pointer-events:none;z-index:2;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
+}
+.n-tip-t{display:block;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);line-height:1.35;margin-bottom:.5em}
+/* Shown once and then done with, so the only thing that raises it is the
+   attribute JS sets on the first approach - no standing :hover rule, which
+   would bring it back on every pass of the pointer for the rest of the
+   session. It stays in the accessibility tree either way: the button
+   points at it with aria-describedby and it is faded, not hidden. */
+.noise[data-explain="true"] .n-tip{
+  opacity:1;translate:0 0;
+  transition:opacity var(--in) var(--ease),translate var(--in) var(--ease)}
 .n-ico svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity var(--out) var(--ease)}
 .noise-btn[aria-pressed="false"] .n-on{opacity:0}
 .noise-btn[aria-pressed="true"] .n-off{opacity:0}
@@ -186,18 +296,15 @@ a{color:inherit}
 .tab-ind{position:absolute;top:3px;left:0;height:calc(var(--control) - 6px);
   background:var(--ink);border-radius:var(--r-pill);pointer-events:none;will-change:transform,width;
   transition:transform 460ms var(--ease),width 460ms var(--ease)}
-.tab{position:relative;z-index:1;height:100%;padding:0 calc(var(--control)*.3);
-  display:inline-flex;align-items:center;gap:calc(var(--control)*.18);
+.tab{position:relative;z-index:1;height:100%;width:var(--control);padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
   background:none;border:0;border-radius:var(--r-pill);color:var(--muted);
   font-family:var(--serif);font-weight:500;font-size:var(--micro);letter-spacing:0;text-transform:lowercase;cursor:pointer;white-space:nowrap;
   transition:color var(--out) var(--ease),background var(--out) var(--ease)}
 .tab:hover{background:rgba(25,21,23,.06);color:var(--ink);transition-duration:var(--in)}
 .tab[aria-selected="true"]{color:var(--page)}
 .tab[aria-selected="true"]:hover{background:none;color:var(--page)}
-.tab svg{width:1.05em;height:1.05em;flex:0 0 auto}
-.tab-txt{max-width:0;overflow:hidden;opacity:0;
-  transition:max-width 460ms var(--ease),opacity var(--in) var(--ease)}
-.tab[aria-selected="true"] .tab-txt{max-width:140px;opacity:1}
+.tab svg{width:var(--ico);height:var(--ico);flex:0 0 auto}
 
 /* accessibility panel */
 .panel{position:absolute;z-index:600;right:var(--margin);
@@ -234,8 +341,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   padding-bottom:calc(var(--stack)*.5);margin-bottom:var(--stack);border-bottom:1px solid var(--edge)}
 
 /* 1 · hero */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+.hero{min-height:100svh;display:flex;flex-direction:column;
   padding-block:calc(var(--section)*1.1) var(--section)}
+/* flex:1 rather than margin-top:auto so a short viewport compresses the
+   headline group instead of stranding it against the top */
+.hero-main{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
 .hero-sub{max-width:56ch}
 .hero h1{margin:0 0 var(--stack)}
 .hero-labels{display:flex;flex-wrap:wrap;gap:calc(var(--stack)*.32);margin:0 0 var(--stack);padding:0;list-style:none}
@@ -245,42 +355,49 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   background:var(--card);border-radius:var(--r-pill);
   padding:.72em 1.15em;white-space:nowrap;
 }
+/* Where, not what - so it is not one of the pills. It sits above them as a
+   plain line, carrying the same dot the contact block uses, and reads as a
+   standing fact about availability rather than a fourth discipline. */
+.hero-loc{display:inline-flex;align-items:center;gap:.7em;
+  margin:0 0 calc(var(--stack)*.75);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.01em;text-transform:none;color:var(--muted)}
 
 /* 2 · work — the card */
 .work{padding-bottom:var(--section)}
 .stack-cards{display:flex;flex-direction:column;gap:40px}
-.card-sticky{position:sticky;top:calc(var(--chrome-t) + var(--stack))}
-.stack-cards>.card-sticky:nth-child(2){top:calc(var(--chrome-t) + var(--stack) + 10px)}
-.stack-cards>.card-sticky:nth-child(3){top:calc(var(--chrome-t) + var(--stack) + 20px)}
-.stack-cards>.card-sticky:nth-child(4){top:calc(var(--chrome-t) + var(--stack) + 30px)}
+/* Cards ride the scroll. Each one hinges up from its bottom edge as it
+   arrives, driven per-frame from JS (see "scroll-driven card flow"). The
+   perspective lives on the slot so every card gets its own vanishing point
+   at its own centre - one shared perspective on the container would skew
+   the cards furthest from it. */
+.card-slot{perspective:1800px}
 
 .card{
   position:relative;container-type:inline-size;
   /* width follows the aspect until the viewport height binds, then height leads */
-  aspect-ratio:2/1;
-  width:min(100%, calc(var(--card-h) * 2));
+  /* the card is the column - same left and right edge as the hero, the lens
+     grid and the contact block. Height follows 2:1 until the viewport binds. */
+  aspect-ratio:16/10;
+  width:100%;
   max-height:var(--card-h);
-  margin-inline:auto;
   overflow:hidden;
   background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);
   background-size:1.6cqw 1.6cqw;
   border-radius:var(--r-lg);
   box-shadow:inset 0 0 0 1px var(--edge);
-  transform-origin:50% 0;
-  transition:transform var(--out) var(--ease), box-shadow var(--out) var(--ease);
+  transform-origin:50% 100%;
+  will-change:transform,opacity;
+  /* no transition on transform: JS writes it every frame, and a transition
+     would leave the card trailing a frame behind the wheel */
+  transition:box-shadow var(--out) var(--ease);
 }
-/* past 1280 the card breaks the text column by 80px a side - enough to read as
-   emphasis, not enough to look misaligned */
-@media (min-width:1280px){
-  .card{width:min(calc(100% + 160px), calc(100vw - 80px), calc(var(--card-h) * 2))}
-}
-.card.is-covered{transform:scale(.97)}
 .card[data-href]{cursor:pointer}
 .card[data-href]:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
 .card-tick{position:absolute;right:2.4%;top:6%;font-family:var(--sans);font-weight:500;
   font-size:var(--micro);letter-spacing:.07em;color:var(--muted);font-variant-numeric:tabular-nums}
-.card-hblock{position:absolute;left:5.6%;top:15%;width:38%}
+.card-hblock{position:relative}
 .card-h{margin:0}
 .card-eyebrow{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.8em}
@@ -288,18 +405,104 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
   letter-spacing:.07em;text-transform:uppercase;color:var(--body-c);overflow-wrap:break-word}
 .card-methods li+li::before{content:"·";margin-right:.9em;color:var(--line-soft)}
-.card-plane{position:absolute;left:50%;top:4%;width:47%;height:58%}
-.card-shot{position:absolute;left:7.6%;top:63.3%;width:24.7%;height:38%}
+/* a case study that has no page yet says so in the same row, rather than
+   being quietly shorter than the other three - which is how the live page
+   handles it too. Ink on card, so it reads as a state and not a method. */
+/* This card is last because it has no page yet, so the status has to be the
+   first thing read rather than a quiet chip at the end of the method row:
+   ink ground, page-coloured text, sitting above the headline where the
+   eyebrow would be. It is the only inverted element on any card, which is
+   what makes it register before the title does. */
+.card-status{display:inline-flex;align-items:center;gap:.55em;
+  margin-bottom:.85em;padding:.5em 1em;
+  background:var(--ink);color:var(--page);border-radius:var(--r-pill);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.07em;text-transform:uppercase}
+.card-status::before{content:"";width:.5em;height:.5em;border-radius:var(--r-pill);
+  background:var(--page);flex:0 0 auto}
+.card-soon{display:inline-flex;align-items:center;margin-top:1em;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.card-plane{position:relative}
+.card-shot{position:relative;overflow:hidden}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
-/* card 1 carries a tall phone render (450x920). At the shared width it stood
-   687px in a 258px slot and lost most of itself off the card edge. Narrower,
-   and the slot now crops it rather than letting it overflow, so the bleed is
-   a deliberate few percent instead of two thirds of the image. */
+/* Desktop card, built to the sketch's guides.
+     verticals   5% (left margin) | 50% (midline) | 95% (right margin)
+     horizontals 16% (content top) | 50% | 84% (content bottom)
+   Left column holds the counter, the headline and the mockup; right column
+   holds the schematic and the summary. The 84% line is what keeps the copy
+   off the floating pills in the bottom-right corner.
+   Rows are percentages of the card, which is safe here because the card's
+   height is always definite. The headline row can outgrow its 34% share on a
+   card with a long headline; the row under it absorbs that, and since the
+   headline is left and the copy is right they cannot meet either way. */
 @media (min-width:1024px){
-  .stack-cards>.card-sticky:first-child .card-shot{left:7.6%;top:62%;width:16%;height:42%;overflow:hidden}
-  .stack-cards>.card-sticky:first-child .card-shot img{height:100%;min-height:0;object-position:top center}
+  .card{
+    display:grid;
+    grid-template-columns:45fr 48fr;
+    grid-template-rows:16% auto minmax(0,1fr) 16%;
+    grid-template-areas:
+      "tick  ."
+      "head  ."
+      "shot  copy"
+      "shot  .";
+    padding-left:5%;padding-right:2%;
+    /* size, not inline-size, so the mockup can be capped against the card's
+       own height (cqh) rather than the viewport's - the card is sized by its
+       aspect ratio, never by its contents, so size containment is safe here */
+    container-type:size;
+  }
+  .card-tick{position:static;grid-area:tick;justify-self:start;align-self:center}
+  .card-hblock{grid-area:head;max-width:82%}
+  /* Pinned to the top of its area rather than stretched: a spanning grid item
+     contributes its intrinsic height to the auto row it crosses, so letting
+     the schematic stretch made it inflate its own row and ride down the card. */
+  .card-plane{position:absolute;left:50%;right:2%;top:3%;height:56cqh}
+  /* Card 1 starts on the midline like every other card, not left of it. The
+     columns are 45fr 48fr inside 5%/2% padding, which puts the copy column's
+     left edge exactly on 50% - so the schematic and the summary underneath it
+     now share one left edge instead of the drawing overhanging into the
+     headline's half. It costs the drawing 6% of width, which it can afford. */
+  /* bottom-anchored rather than a fixed height: the summary below is a
+     fixed number of pixels tall, so on a short card it climbs much higher up
+     the card than it does on a tall one. Reserving its space in px keeps the
+     frame clear of it at every size instead of only the roomy ones. */
+  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2%;height:auto;bottom:calc(16% + 132px)}
+  .card-copy{grid-area:copy;align-self:end;max-width:90%}
+  /* the mockup sits indented from the left margin and runs to the card's
+     bottom edge, as in the sketch */
+  .card-shot{grid-area:shot;align-self:end;justify-self:start;
+    margin-left:0;margin-top:4cqh;margin-bottom:12px;
+    width:64%;aspect-ratio:1.32;max-height:min(360px, 40cqh, 100%)}
+  /* Mindure alone comes down ~22%; the artboard card keeps the shared size */
+  .stack-cards>.card-slot:nth-child(2) .card-shot{width:50%}
+  /* Both of these renders are exported with transparent padding baked in, so
+     the box sitting 12px off the card edge left the visible artwork much
+     further up - 4.3% of the image on card 3, 10.9% on card 4. translateY is
+     a percentage of the element's own height, so shifting each by its own
+     padding puts the ARTWORK on the 12px line. What drops below the edge is
+     empty pixels, which the card clips and nobody sees. */
+  .stack-cards>.card-slot:nth-child(2) .card-shot{transform:translateY(4.3%)}
+  .stack-cards>.card-slot:nth-child(3) .card-shot{transform:translateY(10.9%)}
+  /* card 1 is the tall phone, 450x920 - the container matches the artwork so
+     the whole device shows */
+  /* The phone runs a quarter of its height past the card's bottom edge, which
+     the card's overflow clips. That lets it be a third wider than it could be
+     if it had to fit: it is 4/3 of the space available, translated down by its
+     own 25% so the visible three quarters sit exactly in that space. The
+     transform is what keeps this honest - it moves the artwork without
+     touching layout, so nothing above it is disturbed, and because the height
+     is a percentage of the grid area it still shrinks when a long headline
+     eats into the row. */
+  .stack-cards>.card-slot:first-child .card-shot{
+    margin-left:12%;margin-bottom:0;
+    width:auto;height:104%;aspect-ratio:450/920;max-height:none;
+    transform:translateY(25%)}
+  .stack-cards>.card-slot:first-child .card-shot img{
+    width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
 }
-.card-copy{position:absolute;left:50%;bottom:6%;width:47%}
+
+.card-copy{position:relative}
 .card-open{display:inline-flex;align-items:center;gap:.4em;margin-top:1em;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink)}
@@ -317,33 +520,46 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .plane svg .soft{stroke:var(--line-soft);stroke-dasharray:6 16}
 .plane svg .hard{stroke:var(--line)}
 .plane svg .dot{fill:var(--ink);stroke:none}
+.plane svg .arrow-head{fill:var(--muted);stroke:none}
 .plane svg .node{fill:var(--ink);stroke:none}
 .plane svg text{font-family:var(--sans);font-weight:500;font-size:26px;letter-spacing:1.8px;
   text-transform:uppercase;fill:var(--muted)}
 .plane svg .in-node{fill:var(--page)}
 @media (max-width:767px){ .plane svg .hard,.plane svg .soft{stroke-width:2px} }
 
-/* ═══ 7 · motion — design-system.md §6. 1600ms total, one decelerating tail,
-   no spring, no overshoot. Per-sibling delays are set in JS. ═══ */
-.plane .soft{opacity:0;transition:opacity 600ms var(--ease) var(--d,0ms)}
-.plane .hard{stroke-dasharray:1;stroke-dashoffset:1;
-  transition:stroke-dashoffset 1100ms var(--ease) var(--d,150ms)}
-.plane .node{opacity:0;transition:opacity 600ms var(--ease) var(--d,0ms)}
-.plane .dot{opacity:0;transform:scale(.8);transform-box:fill-box;transform-origin:center;
-  transition:opacity 500ms var(--ease) 1050ms, transform 500ms var(--ease) 1050ms}
-.plane text{opacity:0;transform:translateY(10px);
-  transition:opacity 450ms var(--ease) var(--d,1200ms), transform 450ms var(--ease) var(--d,1200ms)}
-.card.is-seen .plane .soft,.card.is-seen .plane .node{opacity:1}
-.card.is-seen .plane .hard{stroke-dashoffset:0}
-.card.is-seen .plane .dot{opacity:1;transform:scale(1)}
-.card.is-seen .plane text{opacity:1;transform:translateY(0)}
+/* ═══ 7 · diagrams are static ═══
+   The build-in animations are gone. They drew the eye away from the headline
+   at exactly the moment a card arrived, so the diagram was competing with the
+   thing it was meant to support. Everything below is what the sequences used
+   to end on, now simply the state the diagram is in. */
+.plane svg.s0 .hatch{stroke:var(--line-soft);stroke-width:2;vector-effect:non-scaling-stroke}
+.plane svg.s0 .cap{font-size:23px}
+.plane svg.s0 .cap2{font-size:21px}
+.plane svg.s0 .mech{font-size:17px}
+/* Anonymous reveal is the mechanic this case study is actually known for, so
+   it is the one node that carries weight rather than the one that fades: card
+   tone behind it, ink on the outline and in the label. No new colour - it
+   borrows the same two tokens the rest of the page already uses. */
+.plane svg.s0 .key-node{fill:var(--card);stroke:var(--ink);stroke-width:3px}
+.plane svg.s0 .key-lab{fill:var(--ink)}
+.plane svg.s0 .cap3{font-size:15px}
+.plane svg.s0 .gap-node{fill:var(--page)}
 
 /* client work — three cards in a row, images open underneath */
 .more{padding-bottom:var(--section)}
 .cw-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
+/* the row rides the same scroll flow as the cards above it, so the work
+   section reads as one movement instead of stopping at the fourth card. The
+   perspective is applied per card inside the transform rather than on the
+   row: one shared vanishing point would skew the outer two, which is the
+   same reason the case cards carry theirs on the slot. */
+.cw-card{transform-origin:50% 100%;will-change:transform,opacity}
 .cw-card{
   display:flex;flex-direction:column;align-items:flex-start;gap:.5em;
-  padding:var(--stack) var(--stack) calc(var(--stack)*1.4);
+  /* a floor rather than a fixed height: the three titles are different
+     lengths and the grid still stretches them all to the tallest */
+  min-height:clamp(230px, 19vw, 320px);
+  padding:var(--stack);
   text-align:left;cursor:pointer;position:relative;
   background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);background-size:1.6cqw 1.6cqw;
@@ -351,10 +567,40 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   transition:box-shadow var(--out) var(--ease);
 }
 .cw-card:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl);transition-duration:var(--in)}
+/* both reserve the control's column so the text wraps before it rather than
+   running under it - the eyebrow is long on the Leica card and the title is
+   full width on a phone */
+.cw-eyebrow,.cw-title{align-self:stretch;padding-right:calc(var(--control) + var(--stack)*.4)}
 .cw-eyebrow{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--muted)}
-.cw-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
-.cw-ico{position:absolute;right:var(--stack);bottom:var(--stack);
+/* a guaranteed separation from the thumb: margin-top:auto alone falls back
+   to the flex gap (~8px) on the cards whose title wraps longest */
+.cw-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink);
+  margin-bottom:calc(var(--stack)*.8)}
+/* All three thumbnails are square already (293x289, 181x181, 300x300), so a
+   square tile crops none of them. contain rather than cover because two are
+   logos - one with a fully transparent ground, which is why the tile carries
+   its own background. Sits bottom-left, mirroring the mockup on the big cards
+   and staying clear of the +/- control bottom-right. */
+/* The image area spans the card and sits on the same inset as the text above
+   it - left, right and bottom all on the card's own padding. Height rather
+   than aspect-ratio so it stays a band on a wide card instead of stretching
+   into a letterbox. All three sources are square, so the artwork centres
+   inside with a mat either side; that mat is the point, not a gap to close. */
+.cw-thumb{margin-top:auto;align-self:stretch;width:auto;
+  /* a square frame trimmed by about a centimetre top and bottom. Held as a
+     ratio rather than a fixed subtraction so the trim stays proportional -
+     a literal 1cm would eat a much larger share of a narrow card. */
+  aspect-ratio:1.63;
+  /* no inner padding and clipped to its own radius, so the picture reaches
+     the frame edge instead of sitting on a mat */
+  /* no inset - the picture reaches the frame edge on every side */
+  display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;
+  background:var(--page);border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);
+  transition:box-shadow var(--out) var(--ease)}
+.cw-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.cw-card:hover .cw-thumb{box-shadow:inset 0 0 0 1px var(--edge-ctrl);transition-duration:var(--in)}
+.cw-ico{position:absolute;right:var(--stack);top:var(--stack);
   width:var(--control);height:var(--control);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
 .cw-ico::before,.cw-ico::after{content:"";position:absolute;inset:50% 32%;
@@ -371,6 +617,32 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   display:grid;grid-template-columns:1fr 1.2fr;gap:var(--gutter);align-items:start}
 .cw-panel[data-open="true"] .cw-inner{padding-top:var(--stack)}
 .cw-media img{width:100%;height:auto;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge)}
+/* Leica shows three variants of one part, so they need to be comparable at a
+   glance - this panel drops the side-by-side split and gives the drawings the
+   full column, three across. */
+.cw-inner--wide{grid-template-columns:1fr}
+.cw-inner--wide .cw-body{max-width:72ch}
+/* Flex, not a 3-column grid: when the height cap binds on a short window a
+   grid track stays full width and centres the drawing inside it, which pushed
+   the first one off the copy's left edge. As flex items they simply shrink and
+   stay packed left, so drawing one always lines up with the paragraph above. */
+.cw-trio{display:flex;align-items:flex-start;justify-content:flex-start;gap:20px}
+/* --cw-fit is the height a panel picture may take and still leave the whole
+   panel inside the window; it is measured in JS because it depends on the
+   chrome, the copy beside it and which of the two layouts is in force. The
+   clamps stay as the preferred size - min() only ever takes them down, so a
+   tall window is unaffected and a short one shrinks instead of overflowing. */
+.cw-trio img{width:auto;height:auto;
+  max-width:calc((100% - 40px)/3);
+  max-height:min(clamp(340px, 66vh, 780px), var(--cw-fit, 100vh));
+  border-radius:0;box-shadow:none}
+.cw-embed{display:block;width:100%;height:min(clamp(320px, 44vh, 520px), var(--cw-fit, 100vh));
+  border:1px solid var(--edge);border-radius:var(--r-lg);background:var(--recess)}
+@media (max-width:767px){.cw-trio{flex-direction:column}.cw-trio img{max-width:100%}}
+/* watermark sits further in on this one - 1408x736, sparkle about 5% from the
+   right and 11% from the bottom - so it needs a deeper crop than the portrait */
+#cwp-cv .cw-media{overflow:hidden;border-radius:var(--r-lg);max-height:var(--cw-fit, none)}
+#cwp-cv .cw-media img{transform:scale(1.19);transform-origin:top left;border-radius:0}
 .cw-link{display:inline-flex;align-items:center;min-height:var(--control);margin-top:var(--stack);
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.22em;transition:text-decoration-color var(--out) var(--ease),color var(--out) var(--ease)}
@@ -378,33 +650,126 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 @media (max-width:1023px){.cw-row{grid-template-columns:1fr}.cw-inner{grid-template-columns:1fr}}
 [data-motion="off"] .cw-panel{transition:none}
 
-/* 3 · photo band — full bleed, no gaps */
-.band{width:min(100% - var(--margin)*2, var(--shell) - var(--margin)*2);margin-inline:auto;margin-block:var(--section)}
-.band button{padding:0;border:0;background:none;cursor:zoom-in;display:block;width:100%}
-.band img{width:100%;height:auto;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r-lg);
-  max-height:clamp(300px, 52vh, 620px)}
-@media (max-width:767px){.band img{aspect-ratio:4/3}}
+/* 3 · portrait — square photo beside a text column. Lives inside .wrap now,
+   so it takes the page column instead of carrying its own copy of the width
+   maths, which is what let it drift out of line with everything else. */
+/* The portrait and the writing were two sections stacked on each other; now
+   they are one row. The picture is sticky, so it holds while the whole
+   column beside it - who I am, the travel, and the four credentials - runs
+   past. align-items:start is what makes that possible: a stretched grid item
+   is already as tall as the row, and a sticky box with nowhere to travel
+   inside its parent never moves. */
+.about-grid{display:grid;grid-template-columns:clamp(220px,26vw,440px) minmax(0,1fr);
+  gap:calc(var(--gutter)*2.25);align-items:start}
+.about-media{position:sticky;top:clamp(24px,11vh,132px)}
+/* Landing on About. The section is far taller than the screen, so centring it
+   geometrically would drop the reader into the middle of the travel copy with
+   "Who I am" already gone past. What reads as centred is its opening - the
+   portrait and the first paragraph - sitting in the middle of the viewport
+   instead of jammed under the chrome. The portrait is a square of the column
+   width, so half the leftover height is the offset. max() keeps it clear of
+   the chrome on a short screen, where there is no leftover height to split.
+   The section's own top padding already pushes the portrait down, so it comes
+   off the offset - otherwise the landing centres the empty box above the
+   content rather than the content itself. */
+#about{scroll-margin-top:max(calc(var(--control) + var(--gutter) + 12px),
+  calc((100svh - clamp(220px,26vw,440px)) / 2 - clamp(96px,12vw,240px)))}
+.about-flow{max-width:none}
+.about-flow>.t-body{max-width:56ch}
+.about-flow>.sec-label{margin:0 0 var(--stack)}
+.about-flow>.sec-label:not(:first-child){margin-top:calc(var(--section)*.42)}
+.about-flow>.t-body+.t-body{margin-top:1.1em}
+/* the name is a heading now, so it hugs the label above it rather than
+   carrying the paragraph rhythm */
+.about-flow>.about-title{margin:0 0 .45em}
+.about-flow>.about-sub{margin:0}
+/* and the second heading needs to read as a new subject rather than the next
+   paragraph - the same break the section labels already take */
+.about-flow>.about-lede{margin-top:calc(var(--section)*.5)}
+/* Say-my-name. It sits inside the sentence rather than beside it, so it is
+   read as part of the line and not as a control bolted onto the paragraph:
+   the respelling is the label, and the triangle only says it is playable.
+   Card tone on the page ground, the same pill every other small marker on
+   this site uses. */
+.say{display:inline-flex;align-items:baseline;gap:.5em;vertical-align:baseline;
+  margin:0 .12em;padding:.2em .7em .28em;border:0;cursor:pointer;
+  background:var(--card);border-radius:var(--r-pill);
+  font-family:var(--sans);font-weight:500;font-size:.82em;line-height:1;
+  letter-spacing:.02em;color:var(--muted);
+  transition:background var(--out) var(--ease),color var(--out) var(--ease)}
+.say:hover,.say:focus-visible{background:var(--ink);color:var(--page);transition-duration:var(--in)}
+/* a triangle drawn in borders - no glyph to go missing, no file to fetch */
+.say-ico{position:relative;top:.05em;width:0;height:0;flex:0 0 auto;
+  border-style:solid;border-width:.32em 0 .32em .52em;
+  border-color:transparent transparent transparent currentColor;
+  transition:border-color var(--out) var(--ease)}
+/* while it is speaking the triangle becomes two bars, so the button reports
+   its own state instead of looking identical before and during */
+.say[data-saying="true"] .say-ico{width:.2em;height:.62em;border-width:0;
+  background:currentColor;box-shadow:.3em 0 0 currentColor;margin-right:.3em}
+.say-phon{white-space:nowrap}
+/* Both of these sources carry a generator watermark - a small white sparkle
+   in the bottom-right corner, measured here at 91.7-97.3% across and
+   92.1-96.9% down, so clipping it takes 8.3% off the right or 7.9% off the
+   bottom. Scaling to 114% spends 12.3%, which is enough on the bottom alone -
+   so the origin only has to hold the top edge, and across the frame it can
+   sit centred: 6.15% comes off each side and the subject is no longer pushed
+   into the left of the picture. The radius lives on the container for a
+   separate reason: on the image it would scale with it and stop matching the
+   card. */
+.about-media button{padding:0;border:0;background:none;cursor:zoom-in;
+  display:block;width:100%;overflow:hidden;border-radius:var(--r-lg)}
+.about-media img{transform:scale(1.14);transform-origin:top center;
+  width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block}
+@media (max-width:767px){
+  /* stacked, the picture is the only thing narrower than its column, so it
+     needs telling to sit in the middle of it rather than against the left */
+  .about-grid{grid-template-columns:1fr;gap:calc(var(--stack)*1.5)}
+  /* stacked, nothing scrolls past it, so it stops being sticky */
+  .about-media{position:static;max-width:320px;margin-inline:auto}
+}
 
 /* 4 · about, Lens inside */
 .about{padding-block:var(--section)}
 .about-lede{margin:0 0 var(--stack)}
-.lens-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gutter)}
-.lens-card{display:flex;flex-direction:column;align-items:flex-start;gap:.5em;
+/* Lens credentials - two across, as on the live page. The card carries a
+   sentence about what the credential actually changes in the work; it stays
+   collapsed until the card is hovered or focused, so the grid reads as four
+   titles and opens one at a time. */
+.lens-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gutter)}
+.lens-card{display:flex;flex-direction:column;align-items:stretch;gap:.75em;
   padding:var(--stack);text-decoration:none;
   background-color:var(--card);
   background-image:radial-gradient(var(--lattice) 1px, transparent 1px);background-size:1.6cqw 1.6cqw;
   border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);
   transition:box-shadow var(--out) var(--ease)}
-.lens-card:hover{box-shadow:inset 0 0 0 1px var(--edge-ctrl);transition-duration:var(--in)}
-.lens-name{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
-.lens-apply{color:var(--body-c)}
-.lens-org{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--muted);margin-top:auto;padding-top:var(--stack)}
-.lens-go{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--ink)}
-.cred-list{margin-top:var(--section)}
-@media (max-width:1279px){.lens-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:767px){.lens-grid{grid-template-columns:1fr}}
+.lens-card:hover,.lens-card:focus-visible{box-shadow:inset 0 0 0 1px var(--edge-ctrl);
+  transition-duration:var(--in)}
+.lens-name{font-family:var(--sans);font-weight:500;font-size:var(--body);
+  line-height:1.25;letter-spacing:-.01em;color:var(--ink)}
+/* shown outright - it reads as part of the card rather than something you have
+   to find, and it is the same on a phone as on a desktop */
+.lens-apply{font-size:var(--micro);line-height:1.65;color:var(--body-c);font-style:italic}
+.lens-foot{display:flex;align-items:baseline;justify-content:space-between;gap:1em;
+  margin-top:auto;padding-top:calc(var(--stack)*.55);border-top:1px solid var(--edge)}
+.lens-org{font-family:var(--sans);font-weight:400;font-size:var(--micro);line-height:1.45;
+  color:var(--muted)}
+.lens-go{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  color:var(--body-c);white-space:nowrap;flex-shrink:0;
+  transition:color var(--out) var(--ease)}
+.lens-card:hover .lens-go,.lens-card:focus-visible .lens-go{color:var(--ink);
+  transition-duration:var(--in)}
+/* close enough to read as belonging to the four cards above it, rather than
+   as the start of something new */
+.cred-more{margin-top:calc(var(--stack)*1.5)}
+/* width:fit-content so the button keeps its own size - a block-level flex
+   item would stretch the full column instead of centring */
+.cred-toggle{display:flex;width:fit-content;margin:0 auto var(--stack)}
+.cred-list{display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows var(--out) var(--ease)}
+.cred-list[data-open="true"]{grid-template-rows:1fr}
+.cred-inner{overflow:hidden;min-height:0}
+@media (max-width:1100px){.lens-grid{grid-template-columns:1fr}}
 .col-title{font-family:var(--sans);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
 
 .cert-name{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink)}
@@ -425,12 +790,34 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .cred-row:hover .t-body{color:var(--ink);transition-duration:var(--in)}
 
 /* 5 · contact */
-.contact{background:var(--recess);border-radius:var(--r-lg);
-  padding:var(--section) calc(var(--section)*.6);
-  padding-bottom:calc(var(--control) + 40px);
+.contact{position:relative;background:var(--recess);border-radius:var(--r-lg);
+  /* the top was a full --section (151px at 1680) above 238px of content.
+     The bottom stays as it is - that is not slack, it is the corner the
+     profile links occupy. */
+  padding:calc(var(--section)*.45) calc(var(--section)*.6);
+  padding-bottom:calc(var(--section)*.45);
   margin-bottom:var(--section);
   display:flex;flex-direction:column;align-items:flex-start;gap:var(--stack)}
 .contact h2{margin:0}
+/* the two corners: a location tag above, the ways to reach her below */
+/* the same pill the hero labels use - card tone on the recess ground, so it
+   lifts off the card without needing a border */
+.contact-loc{position:absolute;top:var(--stack);right:var(--stack);
+  display:inline-flex;align-items:center;gap:.7em;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  background:var(--card);border-radius:var(--r-pill);
+  padding:.72em 1.15em;white-space:nowrap}
+/* the dot does the "right now" work that the word alone leaves implied. Ink
+   rather than a status green, which would cost a ninth colour. */
+.loc-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);background:var(--ink)}
+/* one line, one baseline: every control is --control tall, so they align
+   without any per-item sizing */
+.contact-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-btn)}
+/* on a phone the row is wider than the card, so both corners rejoin the flow */
+@media (max-width:767px){
+  .contact-loc{position:static;align-self:flex-start;white-space:normal}
+}
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:800;background:rgba(25,21,23,.92);display:flex;
@@ -439,17 +826,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   transition:opacity var(--out) var(--ease),visibility 0s linear var(--out)}
 .lb[data-open="true"]{opacity:1;visibility:visible;pointer-events:auto;
   transition:opacity var(--in) var(--ease),visibility 0s}
-.lb img{max-width:92vw;max-height:88vh;width:auto;height:auto;border-radius:var(--r-lg)}
+/* the lightbox shows the same file, so it needs the same corner removed -
+   clipped by a wrapper-less inset rather than a scale, since the image is
+   already sized to the window here */
+.lb img{max-width:92vw;max-height:88vh;width:auto;height:auto;border-radius:var(--r-lg);
+  clip-path:inset(0 12% 12% 0 round var(--r-lg))}
 .lb-close{position:absolute;top:var(--gutter);right:var(--gutter)}
 
 /* ═══ 5 · responsive — layout only ═══ */
-/* Laptop 1024–1279 — the card is proportionally shorter here, so the diagram
-   gives a little height back to keep clear of the copy. Copy keeps the plane's
-   width, as everywhere else. */
-@media (min-width:1024px) and (max-width:1279px){
-  .card{aspect-ratio:1.75}
-  .card-plane{height:48%}
-}
 
 /* Tablet 768–1023 */
 @media (max-width:1023px){
@@ -466,18 +850,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     margin-bottom:calc(var(--section)*-.55);overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
   .card-copy{grid-column:2;grid-row:4;padding-bottom:var(--stack)}
-  .stack-cards>.card-sticky{top:calc(var(--control) + 24px)}
-  .stack-cards>.card-sticky:nth-child(2){top:calc(var(--control) + 30px)}
-  .stack-cards>.card-sticky:nth-child(3){top:calc(var(--control) + 36px)}
-  .stack-cards>.card-sticky:nth-child(4){top:calc(var(--control) + 42px)}
-  
 }
 
 /* Phone < 768 */
 @media (max-width:767px){
-  .card-sticky{position:static}
   .card{aspect-ratio:auto;width:auto;max-height:none;min-height:0;display:flex;flex-direction:column;
-    padding:24px 20px 0;gap:14px;transform:none;
+    padding:24px 20px 0;gap:14px;
     grid-template-columns:none;grid-template-rows:none}
   .stack-cards{gap:40px}
   .card-tick{position:static;order:1}
@@ -491,11 +869,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;translate:0 0}
   .c-br{display:none}
   .tabs{width:100%;gap:4px}
-  .bar-extra{display:flex;gap:4px;align-items:center;margin-left:auto}
-  .noise-btn span:not(.n-ico){display:none}
-  .noise-btn{padding:0;width:var(--control);flex:0 0 var(--control)}
+  .bar-extra{display:flex;gap:var(--gap-btn);align-items:center;margin-left:auto}
   .noise-vol{display:none}
-  .tab{padding:0 calc(var(--control)*.24)}
   .hero{padding-top:96px;min-height:auto;padding-bottom:var(--section)}
   .panel{right:0;left:0;width:auto;
     bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control) + 12px)}
@@ -509,18 +884,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
-  .plane .soft,.plane .node,.plane .dot,.plane text{opacity:1;transform:none;transition:none}
-  .plane .hard{stroke-dashoffset:0;transition:none}
-  .card-sticky{position:static}
-  .card.is-covered{transform:none}
+  .card{transform:none !important;opacity:1 !important}
+  .n-wave{animation:none}
 }
 [data-motion="off"]{scroll-behavior:auto}
 [data-motion="off"] *{transition-duration:.001ms !important;animation-duration:.001ms !important}
-[data-motion="off"] .plane .soft,[data-motion="off"] .plane .node,
-[data-motion="off"] .plane .dot,[data-motion="off"] .plane text{opacity:1;transform:none;transition:none}
-[data-motion="off"] .plane .hard{stroke-dashoffset:0;transition:none}
-[data-motion="off"] .card-sticky{position:static}
-[data-motion="off"] .card.is-covered{transform:none}
+[data-motion="off"] .card{transform:none !important;opacity:1 !important}
+[data-motion="off"] .n-wave{animation:none}
 [data-motion="off"] .tab-ind{transition:none}
 </style>
 </head>
@@ -545,10 +915,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </nav>
 
 <div class="chrome c-tr">
-  <a class="btn btn--icon" href="resume.pdf" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+  <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
   </a>
-  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolyagorcz" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
+  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
   </a>
   <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
@@ -559,23 +929,20 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <nav class="chrome c-bc" aria-label="Sections">
   <div class="tabs" role="tablist">
     <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
-    <button class="tab" role="tab" aria-selected="true" aria-controls="home" data-go="home">
+    <button class="tab" role="tab" aria-selected="true" aria-controls="home" data-go="home" aria-label="Home">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-      <span class="tab-txt">Home</span>
     </button>
-    <button class="tab" role="tab" aria-selected="false" aria-controls="work" data-go="work">
+    <button class="tab" role="tab" aria-selected="false" aria-controls="work" data-go="work" aria-label="Work">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-      <span class="tab-txt">Work</span>
     </button>
-    <button class="tab" role="tab" aria-selected="false" aria-controls="about" data-go="about">
+    <button class="tab" role="tab" aria-selected="false" aria-controls="about" data-go="about" aria-label="About">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-      <span class="tab-txt">About me</span>
     </button>
     <span class="bar-extra">
       <button class="btn btn--icon" id="a11yBtnM" aria-label="Accessibility options" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 11h8M12 11v6M12 14l-2.5 3M12 14l2.5 3"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="2" fill="currentColor" stroke="none"/><path d="M5.4 9h13.2M12 9v5.6M12 14.6 8.6 20M12 14.6 15.4 20"/></svg>
       </button>
-      <button class="btn btn--icon" id="noiseBtnM" aria-label="Play brown noise" aria-pressed="false">
+      <button class="btn btn--icon" id="noiseBtnM" aria-label="Play noise for focus" aria-pressed="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
       </button>
     </span>
@@ -583,21 +950,29 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </nav>
 
 <div class="chrome c-br">
-  <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 11h8M12 11v6M12 14l-2.5 3M12 14l2.5 3"/></svg>
-  </button>
+  <!-- The level sits to the right of the button and its space is reserved at
+       all times, open or shut. The chrome is pinned to the window's right
+       edge, so a pill that changes width can only grow leftwards - which
+       dragged the button out from under the pointer and put the slider where
+       the toggle had just been, so the next click set the volume instead of
+       switching the sound off. Holding the width constant and fading the
+       slider in leaves the button on exactly the same pixels in both states. -->
   <div class="noise" id="noise" data-on="false">
-    <div class="noise-vol">
-      <input type="range" id="vol" min="0" max="100" value="18" aria-label="Noise volume">
-    </div>
-    <button class="btn noise-btn" id="noiseBtn" aria-pressed="false">
+    <button class="btn noise-btn" id="noiseBtn" aria-pressed="false" aria-describedby="noiseTip">
       <span class="n-ico" aria-hidden="true">
-        <svg class="n-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
-        <svg class="n-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/></svg>
+        <svg class="n-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="n-wave"><path d="M-12 12q3-6 6 0t6 0t6 0t6 0t6 0t6 0"/></g></svg>
+        <svg class="n-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
       </span>
       <span>Noise for focus</span>
     </button>
+    <div class="noise-vol">
+      <input type="range" id="vol" min="0" max="100" value="8" aria-label="Noise volume" disabled>
+    </div>
+    <span class="n-tip" id="noiseTip" role="note"><span class="n-tip-t">Having a long day?</span>Pink noise, even across every octave with a slow 10 Hz swell, takes the edge off the room. Attention lasts longer when less is competing for it.</span>
   </div>
+  <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="2" fill="currentColor" stroke="none"/><path d="M5.4 9h13.2M12 9v5.6M12 14.6 8.6 20M12 14.6 15.4 20"/></svg>
+  </button>
 </div>
 
 <div class="panel" id="panel" role="dialog" aria-label="Accessibility options">
@@ -627,35 +1002,66 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <!-- 1 · HERO -->
   <section class="hero" id="home">
-    <ul class="hero-labels">
-      <li>Product Design</li>
-      <li>Human-AI Interaction</li>
-      <li>Human Factors</li>
-    </ul>
-    <h1 class="t-hero">I design how AI systems earn trust in <em>safety-critical environments</em>.</h1>
-    <p class="t-body hero-sub">Looking for founding and product design roles in AI, robotics, healthtech and mental health.</p>
+    <div class="hero-main">
+      <p class="hero-loc"><span class="loc-dot" aria-hidden="true"></span>Currently Szombathely, Hungary — open to relocation</p>
+      <ul class="hero-labels">
+        <li>Product Design</li>
+        <li>Human-AI Interaction</li>
+        <li>Human Factors</li>
+      </ul>
+      <h1 class="t-hero">I design how AI systems earn trust in <em>safety-critical environments</em>.</h1>
+      <p class="t-body hero-sub">Seven+ years across design, now in safety-critical AI. Looking for product design roles in AI, robotics, healthtech and mental health.</p>
+    </div>
   </section>
 
   <!-- 2 · WORK -->
-  <section class="work" id="work">
-    <p class="sec-label">Work</p>
+  <section class="work" id="work" aria-label="Case studies">
     <div class="stack-cards">
 
-      <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="tribe/tribe-case-study-final.html">
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="tribe/tribe-case-study-2026.html">
         <span class="card-tick">01 / 04</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
+        <ul class="card-methods">
+          <li>MVP</li>
+          <li>Product Design</li>
+          <li>Human-AI Interaction</li>
+        </ul>
         </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="176 6 848 563" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
-<title id="s0t">The validation gap</title>
-<desc id="s0d">Two equal circles meeting at a single point on a shared horizontal centre; the meeting point is marked and labelled below.</desc>
-<circle class="hard" cx="400" cy="230" r="200" pathLength="1"/>
-<circle class="hard" cx="800" cy="230" r="200" pathLength="1"/>
-<line class="soft" x1="600" y1="250" x2="600" y2="500"/>
-<circle class="dot" cx="600" cy="230" r="20"/>
-<text x="400" y="459" text-anchor="middle">Intent</text>
-<text x="800" y="459" text-anchor="middle">Match</text>
-<text x="600" y="530" text-anchor="middle">Validation gap</text>
+        <div class="card-plane"><div class="plane"><svg class="s0" viewBox="0 0 990 375" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="s0t s0d">
+<title id="s0t">Intent overlapping into a system, through to a meetup</title>
+<desc id="s0d">Four equally sized circles. Intent and match overlap - a dot sits at the centre of the hatched intersection, with a line rising from it to a caption above the circles reading validation gap, written out in full rather than fitted inside the small overlap itself. Below both circles, a dashed bracket spans the full width of the venn - intent's left edge to match's right edge - labelled NLP engine, showing that mechanism is what produces the whole overlap, not just the gap. From match, a line continues right, labelled progressive disclosure on two lines above it, to the anonymous reveal circle - the one node drawn filled and in ink, because it is the mechanic the study turns on - then on to meetup with no further label, matching the source's own last, unnamed connector. No circle is drawn larger than another - the overlap comes from how close intent and match sit, not from their size.</desc>
+
+<defs>
+  <clipPath id="s0lens"><circle cx="145" cy="180" r="115"/></clipPath>
+  <pattern id="s0hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <line class="hatch" x1="0" y1="0" x2="0" y2="14"/>
+  </pattern>
+</defs>
+
+<g clip-path="url(#s0lens)"><circle cx="250" cy="180" r="115" fill="url(#s0hatch)" stroke="none"/></g>
+<circle class="hard" cx="145" cy="180" r="115"/>
+<circle class="hard" cx="250" cy="180" r="115"/>
+<text class="cap" x="82" y="187" text-anchor="middle">Intent</text>
+<text class="cap" x="312" y="187" text-anchor="middle">Match</text>
+<circle class="dot" cx="197" cy="180" r="6"/>
+<line class="soft" x1="197" y1="172" x2="197" y2="40" fill="none"/>
+<text class="cap2" x="197" y="28" text-anchor="middle">Validation gap</text>
+<path class="soft" d="M30,300 L30,320 L365,320 L365,300" fill="none"/>
+<text class="mech" x="197" y="340" text-anchor="middle">NLP engine</text>
+
+<line class="hard" x1="369" y1="180" x2="426" y2="180"/>
+<text class="mech" x="397" y="44" text-anchor="middle">Progressive</text>
+<text class="mech" x="397" y="65" text-anchor="middle">disclosure</text>
+
+<circle class="hard key-node" cx="545" cy="180" r="115"/>
+<text class="cap2 key-lab" x="545" y="173" text-anchor="middle">Anonymous</text>
+<text class="cap2 key-lab" x="545" y="197" text-anchor="middle">Reveal</text>
+
+<line class="hard" x1="664" y1="180" x2="721" y2="180"/>
+
+<circle class="hard" cx="840" cy="180" r="115"/>
+<text class="cap" x="840" y="187" text-anchor="middle">Meetup</text>
 </svg></div></div>
         <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
@@ -664,28 +1070,15 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
-      <div class="card-sticky"><article class="card">
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="case-study-mindure-v3.html">
         <span class="card-tick">02 / 04</span>
-          <div class="card-hblock"><h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2></div>
-        <div class="card-plane"><div class="plane"><svg viewBox="56 112 928 408" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
-<title id="s1t">Where the guardrail fires</title>
-<desc id="s1d">One system node branching into two outcomes, with the branch point marked.</desc>
-<path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
-<path class="soft" d="M380 316 H484 Q500 316 500 332 V420 Q500 436 516 436 H620"/>
-<rect class="node" x="80" y="256" width="300" height="120" rx="14"/>
-<rect class="node" x="620" y="136" width="340" height="120" rx="14"/>
-<rect class="node" x="620" y="376" width="340" height="120" rx="14"/>
-<circle class="dot" cx="500" cy="316" r="20"/>
-<text class="in-node" x="230" y="325" text-anchor="middle">AI system</text>
-<text class="in-node" x="790" y="205" text-anchor="middle">Guardrail fires</text>
-<text class="in-node" x="790" y="445" text-anchor="middle">No intervention</text>
-</svg></div></div>
-      </article></div>
-
-      <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="case-study-mindure-v3.html">
-        <span class="card-tick">03 / 04</span>
         <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
+        <ul class="card-methods">
+          <li>Research prototype</li>
+          <li>Human Factors</li>
+          <li>Human-AI Interaction</li>
+        </ul>
         </div>
         <div class="card-plane"><div class="plane"><svg viewBox="95 100 1009 489" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s2t s2d">
 <title id="s2t">The attention window</title>
@@ -704,10 +1097,15 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
-      <div class="card-sticky"><article class="card" role="link" tabindex="0" data-href="ness/ness-creative-therapy.html">
-        <span class="card-tick">04 / 04</span>
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="ness/ness-creative-therapy.html">
+        <span class="card-tick">03 / 04</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
+        <ul class="card-methods">
+          <li>Product Design</li>
+          <li>UX/UI</li>
+          <li>Branding</li>
+        </ul>
         </div>
         <div class="card-plane"><div class="plane"><svg viewBox="96 150 1008 439" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
 <title id="s3t">The intervention window</title>
@@ -727,6 +1125,34 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
+      <div class="card-slot"><article class="card">
+        <span class="card-tick">04 / 04</span>
+          <div class="card-hblock"><span class="card-status">In progress</span>
+        <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2>
+        <ul class="card-methods">
+          <li>Human Factors</li>
+          <li>Human-AI Interaction</li>
+        </ul>
+        </div>
+        <div class="card-plane"><div class="plane"><svg viewBox="56 112 928 408" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
+<title id="s1t">Where the guardrail fires</title>
+<desc id="s1d">One system node branching into two outcomes, with the branch point marked.</desc>
+<path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
+<path class="soft" d="M380 316 H484 Q500 316 500 332 V420 Q500 436 516 436 H620"/>
+<rect class="node" x="80" y="256" width="300" height="120" rx="14"/>
+<rect class="node" x="620" y="136" width="340" height="120" rx="14"/>
+<rect class="node" x="620" y="376" width="340" height="120" rx="14"/>
+<circle class="dot" cx="500" cy="316" r="20"/>
+<text class="in-node" x="230" y="325" text-anchor="middle">AI system</text>
+<text class="in-node" x="790" y="205" text-anchor="middle">Guardrail fires</text>
+<text class="in-node" x="790" y="445" text-anchor="middle">No intervention</text>
+</svg></div></div>
+        <div class="card-copy">
+          <p class="t-body">An uncertainty score arrives as text, at the moment reading is what the person has least of. The signal moves to touch and periphery instead.</p>
+          <span class="card-soon">Case study in progress</span>
+        </div>
+      </article></div>
+
     </div>
   </section>
 
@@ -736,30 +1162,37 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <button class="cw-card" id="cw-lc" aria-expanded="false" aria-controls="cwp-lc">
           <span class="cw-eyebrow">Physical Product · Client Work · Leica</span>
           <span class="cw-title">The third version wasn't asked for. It was the one manufactured.</span>
+          <span class="cw-thumb"><img src="leica_logo.png" alt="" loading="lazy" decoding="async"></span>
           <span class="cw-ico" aria-hidden="true"></span>
         </button>
         <button class="cw-card" id="cw-pz" aria-expanded="false" aria-controls="cwp-pz">
           <span class="cw-eyebrow">Client Work · Puzled · 0→1</span>
           <span class="cw-title">B2B Registration + Dashboard</span>
+          <span class="cw-thumb"><img src="Puzled_logo_light_background-08.png" alt="" loading="lazy" decoding="async"></span>
           <span class="cw-ico" aria-hidden="true"></span>
         </button>
         <button class="cw-card" id="cw-cv" aria-expanded="false" aria-controls="cwp-cv">
           <span class="cw-eyebrow">Civic Design · Nonprofit</span>
           <span class="cw-title">Making public grant eligibility readable by the people it was written for</span>
+          <span class="cw-thumb"><img src="CSA-emblema_pozitiv.png" alt="" loading="lazy" decoding="async"></span>
           <span class="cw-ico" aria-hidden="true"></span>
         </button>
     </div>
-      <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner">
+      <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner cw-inner--wide">
         <div class="cw-body">
           <p class="t-body">Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
         </div>
-        <div class="cw-media"><img src="snippets_leica__technical_drawing_1.png" alt="Leica technical drawing" loading="lazy" decoding="async"></div>
+        <div class="cw-media cw-trio">
+          <img src="snippets_leica__technical_drawing_1.png" alt="Leica technical drawing, variant one" loading="lazy" decoding="async">
+          <img src="snippets_leica__technical_drawing_2.png" alt="Leica technical drawing, variant two" loading="lazy" decoding="async">
+          <img src="snippets_leica__technical_drawing_3.png" alt="Leica technical drawing, variant three" loading="lazy" decoding="async">
+        </div>
       </div></div>
       <div class="cw-panel" id="cwp-pz" role="region" aria-labelledby="cw-pz"><div class="cw-inner">
         <div class="cw-body">
           <p class="t-body">No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
         </div>
-        <div class="cw-media"><img src="snippets_puzled_onboarding_thumbnail.png" alt="Puzled onboarding flow" loading="lazy" decoding="async"></div>
+        <div class="cw-media"><iframe class="cw-embed" title="Puzled B2B registration flow, Figma prototype" src="https://embed.figma.com/design/n4DM2W93BK7IbBhUS6SfbC/Business-Registration?node-id=1-998&amp;embed-host=share" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
       </div></div>
       <div class="cw-panel" id="cwp-cv" role="region" aria-labelledby="cw-cv"><div class="cw-inner">
         <div class="cw-body">
@@ -771,59 +1204,78 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   </section>
 </div>
 
-<!-- 3 · ONE IMAGE -->
-<section class="band" aria-label="Outside work">
-  <button type="button" aria-label="Open photo larger" data-full="about_me_image_1_main.png">
-    <img src="about_me_image_1_main.png" alt="Outside work" loading="lazy" decoding="async">
-  </button>
-</section>
-
-
 <div class="wrap">
-  <!-- 4 · ABOUT, Lens inside -->
+  <!-- 3 · ABOUT — the portrait holds, everything else scrolls past it -->
   <section class="about" id="about">
-    <p class="sec-label">Lens</p>
-    <h2 class="about-lede t-title">What shapes the way I design</h2>
-    <div class="lens-grid">
+    <div class="about-grid">
+      <div class="about-media">
+        <button type="button" aria-label="Open photo larger" data-full="about_me_image_1_main.png">
+          <img src="about_me_image_1_main.png" alt="Outside work" loading="lazy" decoding="async">
+        </button>
+      </div>
+      <div class="about-flow">
+        <p class="sec-label">Who I am</p>
+        <h2 class="t-title about-title">It's Orsolya.</h2>
+        <p class="t-body about-sub"><button type="button" class="say" id="sayName" aria-label="Hear Orsolya pronounced — Or-SHOY-ah"><span class="say-ico" aria-hidden="true"></span><span class="say-phon">Or-SHOY-ah</span></button> — means little bear.</p>
+        <p class="t-body">I made graphics for live television, where a mistake goes out and stays out. Then three years in rural and tribal communities across Australia and Asia, watching people use technology on their own terms rather than the ones I'd designed around.</p>
+        <p class="t-body">Visual work never used the analytical half of how I think. I kept ending up in the part of a project that was about behaviour — why someone hesitated, what they assumed, what the environment was doing to them. Product design is where that belongs.</p>
+        <p class="t-body">Both jobs were about what happens when a system doesn't behave the way someone expects. That's what I work on now, in AI.</p>
+        <p class="t-body">I see the structural problem before I see the screen. That's easier to hear early than late, so I try to say what's wrong and what we can ship in the same sentence.</p>
+
+        <h2 class="about-lede t-title">What shapes the way I design</h2>
+        <div class="lens-grid">
         <a class="lens-card" href="https://www.coursera.org/account/accomplishments/specialization/R7MJ6493TV4H" target="_blank" rel="noopener">
           <span class="lens-name">Human Factors &amp; Usability Engineering</span>
-          <span class="t-body lens-apply">Designing for cognitive limits, not ideal users.</span>
-          <span class="lens-org">Arizona State University · Specialization Certificate · 2026</span>
-          <span class="lens-go" aria-hidden="true">View ↗</span>
+          <span class="t-body lens-apply"><span>Deepened my grasp of cognitive and physical limits, and how to analyse risk in a design.</span></span>
+          <span class="lens-foot"><span class="lens-org">Arizona State University · Specialization Certificate · 2026</span><span class="lens-go" aria-hidden="true">View ↗</span></span>
         </a>
         <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/GTZGIZY1INED" target="_blank" rel="noopener">
           <span class="lens-name">Systems Engineering</span>
-          <span class="t-body lens-apply">Seeing the whole before any part — structure before interface.</span>
-          <span class="lens-org">MathWorks · Certificate · 2026</span>
-          <span class="lens-go" aria-hidden="true">View ↗</span>
+          <span class="t-body lens-apply"><span>Gave me a framework for cause and effect — how to hold a complex system in view and steer it.</span></span>
+          <span class="lens-foot"><span class="lens-org">MathWorks · Certificate · 2026</span><span class="lens-go" aria-hidden="true">View ↗</span></span>
         </a>
         <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/LDHHF6UTQXGD" target="_blank" rel="noopener">
           <span class="lens-name">Philosophy of Cognitive Science</span>
-          <span class="t-body lens-apply">Understanding why attention and timing govern what information lands.</span>
-          <span class="lens-org">University of Edinburgh · Certificate · 2025</span>
-          <span class="lens-go" aria-hidden="true">View ↗</span>
+          <span class="t-body lens-apply"><span>Sharpened why attention and timing decide what information lands and what never arrives.</span></span>
+          <span class="lens-foot"><span class="lens-org">University of Edinburgh · Certificate · 2025</span><span class="lens-go" aria-hidden="true">View ↗</span></span>
         </a>
         <a class="lens-card" href="https://www.coursera.org/account/accomplishments/verify/CQP07NM0OWTG" target="_blank" rel="noopener">
           <span class="lens-name">Foundations of Human-Centered AI</span>
-          <span class="t-body lens-apply">Designing trust into AI systems, not assuming it follows from accuracy.</span>
-          <span class="lens-org">Northeastern University · Certificate · 2025</span>
-          <span class="lens-go" aria-hidden="true">View ↗</span>
+          <span class="t-body lens-apply"><span>Taught me to design trust into AI systems, rather than expect accuracy to earn it.</span></span>
+          <span class="lens-foot"><span class="lens-org">Northeastern University · Certificate · 2025</span><span class="lens-go" aria-hidden="true">View ↗</span></span>
         </a>
     </div>
-    <div class="cred-list">
+    <div class="cred-more">
+    <button class="btn cred-toggle" id="credBtn" aria-expanded="false" aria-controls="credList">See more</button>
+    <div class="cred-list" id="credList" data-open="false"><div class="cred-inner">
       <a class="cred-row" href="https://www.coursera.org/account/accomplishments/specialization/LL9M9F51S9EU" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">Google UX Design — Professional Certificate · Google</span><span class="cert-view">View ↗</span></a>
       <a class="cred-row" href="https://www.coursera.org/account/accomplishments/verify/MQX255JM40YY" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">AI, Empathy and Ethics — Certificate · University of California Santa Cruz</span><span class="cert-view">View ↗</span></a>
       <a class="cred-row" href="https://www.udemy.com/certificate/UC-5c5e00c5-566d-4837-bdaf-42e0b7f47db4/" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">KPIs for User Experience: Measuring Success in Design — Certificate · Udemy</span><span class="cert-view">View ↗</span></a>
       <div class="cred-row"><span class="cred-year">2010–14</span><span class="t-body">Graphic Design — Advanced Diploma · Vocational School of Fine Arts Szombathely</span><span class="cert-view"></span></div>
+    </div></div>
     </div>
+      </div><!-- /about-flow -->
+    </div><!-- /about-grid -->
   </section>
 
 
-  <!-- 5 · CONTACT -->
+  <!-- 4 · CONTACT -->
   <section class="contact">
-    <h2 class="t-title">Open to opportunities</h2>
-    <p class="t-body">Available for full-time roles · Remote or relocation</p>
-    <a class="btn btn--on" href="mailto:orsigorcz@gmail.com">orsigorcz@gmail.com</a>
+    <span class="contact-loc"><span class="loc-dot" aria-hidden="true"></span>Currently in Szombathely, Hungary</span>
+    <h2 class="t-title">Got something exciting? Say hi!</h2>
+    <p class="t-body">Open to full-time and project based contract opportunities. Preferable remote, but open to relocation.</p>
+    <div class="contact-row">
+      <button class="btn btn--on" id="mailCopy" data-tip="copy email address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>orsigorcz@gmail.com</span>
+      </button>
+      <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+      </a>
+      <a class="btn btn--icon" href="https://github.com/Orsolya489" target="_blank" rel="noopener" aria-label="GitHub" data-tip="github">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.65-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg>
+      </a>
+    </div>
   </section>
 </div>
 </main>
@@ -864,39 +1316,193 @@ document.querySelectorAll('.card[data-href]').forEach(function(c){
   c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
 });
 
-/* diagram draw-in — design-system.md §6, fires once, threshold .35 */
-document.querySelectorAll('.plane').forEach(function(pl){
-  pl.querySelectorAll('.hard').forEach(function(el,i){
-    if(el.getAttribute('pathLength')===null)el.setAttribute('pathLength','1');
-    el.style.setProperty('--d',(150+i*140)+'ms');});
-  pl.querySelectorAll('.soft,.node').forEach(function(el){el.style.setProperty('--d','0ms');});
-  pl.querySelectorAll('text').forEach(function(el,i){el.style.setProperty('--d',(1200+i*100)+'ms');});
-});
-if('IntersectionObserver' in window){
-  var seen=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('is-seen');seen.unobserve(e.target);}});},{threshold:.35});
-  document.querySelectorAll('.card').forEach(function(c){seen.observe(c);});
-}else{document.querySelectorAll('.card').forEach(function(c){c.classList.add('is-seen');});}
+/* scroll-driven card flow
+   Each card hinges up from its bottom edge as it arrives and has settled
+   before it reaches the middle of the screen. Scrubbed off the wheel rather
+   than fired on a threshold, so the movement stays under the reader's hand.
+   Arrival eases out (cubic) so it lands early and holds; departure is a slow
+   recede with no rotation, so a leaving card gives way without competing
+   with the one coming up behind it. */
+var slots=[].slice.call(document.querySelectorAll('.stack-cards .card-slot')),flowing=false;
+var cwRow=document.querySelector('.cw-row'),
+    cwFlow=cwRow?[].slice.call(cwRow.querySelectorAll('.cw-card')):[];
+/* the ramp both halves of the work section share: one value for the arrival,
+   one for the recede. Split out of the loop so Also shipped moves on exactly
+   the same curve as the four cards above it rather than an approximation. */
+function ramp(r,vh){
+  var mid=(r.top+r.height/2)/vh;
+  var p=(1.04-mid)/0.54;p=p<0?0:p>1?1:p;   /* arrival: 0 just below the fold, 1 at centre */
+  var e=(mid+0.10)/0.40;e=e<0?0:e>1?1:e;   /* departure: holds until well past centre, gone by the top edge */
+  return [Math.pow(1-p,3),                 /* ease-out cubic, inverted */
+          1-e*e*(3-2*e)];                  /* smoothstep, inverted */
+}
+/* A card in motion carries a bloom under it. Not a light source - the page
+   has no consistent one - so there is almost no offset and a lot of blur:
+   it reads as the card being briefly off the surface rather than as a lamp
+   somewhere above. 4a(1-a) peaks in the middle of the travel and returns to
+   nothing at both ends, so the shadow belongs to the movement, not to the
+   card: it is absent when parked and absent again once the card is away.
+   Departure gets 60% of it, matching how the recede is quieter than the
+   arrival everywhere else.
+   Written to filter rather than box-shadow for two reasons: the cards clip
+   their own contents, and box-shadow already carries the hairline ring on a
+   520ms transition that would leave a scrubbed value half a second behind
+   the wheel. Below a rounding threshold it returns empty, so a card at rest
+   has no filter at all and costs nothing to composite. */
+function bloom(a,b){
+  var s=4*a*(1-a)+2.4*b*(1-b); if(s>1)s=1;
+  if(s<0.006) return '';
+  return 'drop-shadow(0 '+(s*10).toFixed(1)+'px '+(s*30).toFixed(1)+'px rgba(25,21,23,'+(s*0.15).toFixed(3)+'))';
+}
+function flow(){flowing=false;
+  var vh=window.innerHeight,narrow=window.innerWidth<768,off=motionOff();
+  var rot=narrow?0:12,lift=narrow?26:48,q,a,b;
+  for(var i=0;i<slots.length;i++){
+    var c=slots[i].querySelector('.card'),st=c.style;
+    if(off){st.transform='';st.opacity='';st.filter='';continue;}
+    /* measure the slot, never the card: getBoundingClientRect reports the
+       transformed box, so reading the card would feed its own transform back
+       into the value that produces it */
+    q=ramp(slots[i].getBoundingClientRect(),vh);a=q[0];b=q[1];
+    st.transform='rotateX('+(rot*a).toFixed(2)+'deg) translateY('+(lift*a).toFixed(1)+'px) scale('+(1-.055*a-.035*b).toFixed(4)+')';
+    st.opacity=(1-.5*a-.28*b).toFixed(3);
+    st.filter=bloom(a,b);}
+  /* Also shipped travels as one unit, measured off the row rather than each
+     card, so the three arrive together instead of the middle one leading.
+     Reading the row is safe: a transform on a grid item does not feed back
+     into its container's border box.
+     Held flat while a picture panel is open - the reveal centres the panel,
+     which would otherwise leave the card that opened it sitting in the
+     recede, dimmed and shrunk while its own content is being read. */
+  if(cwFlow.length){
+    var rest=off||!!document.querySelector('.cw-panel[data-open="true"]'),tf='',op='',fl='';
+    if(!rest){
+      q=ramp(cwRow.getBoundingClientRect(),vh);a=q[0];b=q[1];
+      /* perspective per card, not on the row, so each keeps its own centre */
+      tf='perspective(1800px) rotateX('+(rot*a).toFixed(2)+'deg) translateY('+(lift*a).toFixed(1)+'px) scale('+(1-.055*a-.035*b).toFixed(4)+')';
+      op=(1-.5*a-.28*b).toFixed(3);
+      fl=bloom(a,b);
+    }
+    for(var j=0;j<cwFlow.length;j++){
+      cwFlow[j].style.transform=tf;cwFlow[j].style.opacity=op;cwFlow[j].style.filter=fl;}
+  }}
+function queueFlow(){if(!flowing){flowing=true;requestAnimationFrame(flow);}}
+window.addEventListener('scroll',queueFlow,{passive:true});
+window.addEventListener('resize',queueFlow);
+flow();
 
-/* covered-card scale */
-var wraps=[].slice.call(document.querySelectorAll('.card-sticky')),ticking=false;
-function stack(){ticking=false;
-  var off=motionOff()||window.innerWidth<768;
-  for(var i=0;i<wraps.length;i++){
-    var card=wraps[i].querySelector('.card'),next=wraps[i+1];
-    if(off||!next){card.classList.remove('is-covered');continue;}
-    card.classList.toggle('is-covered',next.getBoundingClientRect().top<window.innerHeight*.9);}}
-window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(stack);}},{passive:true});
-window.addEventListener('resize',stack);stack();
+/* wheel stepping through the work section
+   One gesture puts the next case study in the middle of the screen. Only the
+   wheel is intercepted - touch, keyboard and the scrollbar stay native, so
+   there is always a way past. Momentum is swallowed while a step is in
+   flight, which is what keeps a trackpad flick worth exactly one card
+   instead of four. The section releases at both ends: once there is no
+   further stop in the direction of travel we stop calling preventDefault
+   and the page scrolls on into the hero or the About section. */
+(function(){
+  var STEP=560, QUIET=120, EDGE=0.5;
+  var lock=false, animating=false, quiet=null, raf=null, stops=null;
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function blocked(){
+    return motionOff() || rm.matches ||
+      !!document.querySelector('.lb[data-open="true"], .panel[data-open="true"], .cw-panel[data-open="true"]');
+  }
+  /* Document-space scroll offset for every stop on the page: the top, the
+     four case cards, Also shipped, the portrait band, and the head of About.
+     One gesture moves between neighbours in either direction, so a section
+     change feels like a card change. Past the last stop we let go entirely
+     and the rest of About and the contact block scroll natively.
+     Cached because a wheel gesture fires dozens of events and each rect read
+     forces layout; dropped again once the gesture goes quiet, so a panel
+     opening between gestures cannot leave a stale stop behind. */
+  function centreOf(el){
+    var vh=window.innerHeight, r=el.getBoundingClientRect();
+    return Math.round(r.top+window.scrollY+r.height/2-vh/2);
+  }
+  function stopOf(el,pad){
+    /* a section shorter than the screen centres; one taller than the screen
+       has no centre worth landing on, so it parks its head under the chrome */
+    var vh=window.innerHeight, r=el.getBoundingClientRect();
+    return r.height>vh-pad-24 ? Math.round(r.top+window.scrollY-pad) : centreOf(el);
+  }
+  function marks(){
+    if(stops) return stops;
+    var brand=document.querySelector('.c-tl');
+    var pad=(brand?brand.getBoundingClientRect().bottom:80)+24;
+    var out=[0];                                   /* home: the top of the page */
+    for(var i=0;i<slots.length;i++) out.push(centreOf(slots[i]));
+    ['.more','#about'].forEach(function(sel){
+      var el=document.querySelector(sel);
+      if(!el) return;
+      /* About states its own landing offset in CSS so the anchor and the
+         glide cannot disagree; anything else keeps the shared chrome pad */
+      var own=parseFloat(getComputedStyle(el).scrollMarginTop);
+      out.push(sel==='#about' && own
+        ? Math.round(el.getBoundingClientRect().top+window.scrollY-own)
+        : stopOf(el,pad));
+    });
+    var max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+    out=out.map(function(v){return v<0?0:v>max?max:v;})
+           .sort(function(a,b){return a-b;});
+    /* clamping can push two stops onto each other; keep the first of any pair */
+    var uniq=[];
+    for(var k=0;k<out.length;k++){ if(!uniq.length||out[k]-uniq[uniq.length-1]>24) uniq.push(out[k]); }
+    return (stops=uniq);
+  }
+  function clearMarks(){stops=null;}
+  window.addEventListener('resize',clearMarks);
+  window.addEventListener('load',clearMarks);
+
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+  function hush(){clearTimeout(quiet);quiet=setTimeout(function(){lock=false;stops=null;},QUIET);}
+  function glide(to){
+    var from=window.scrollY, d=to-from, t0=performance.now();
+    animating=true;
+    if(raf) cancelAnimationFrame(raf);
+    /* the page sets html{scroll-behavior:smooth}, which would make every one
+       of the ~60 scrollTo calls below start its own smooth animation toward
+       an intermediate target - the glide would rubber-band and never keep up.
+       Suspend it for the duration and put it back afterwards. */
+    var prev=root.style.scrollBehavior;
+    root.style.scrollBehavior='auto';
+    function land(){root.style.scrollBehavior=prev;raf=null;animating=false;hush();}
+    (function tick(now){
+      var t=(now-t0)/STEP; if(t>1)t=1;
+      window.scrollTo(0, from+d*ease(t));
+      if(t<1){raf=requestAnimationFrame(tick);} else {land();}
+    })(performance.now());
+  }
+
+  window.addEventListener('wheel',function(e){
+    if(e.ctrlKey) return;                                    /* browser zoom */
+    if(blocked()) return;
+    if(!e.deltaY || Math.abs(e.deltaY)<Math.abs(e.deltaX)) return;
+    var m=marks(), y=window.scrollY, vh=window.innerHeight;
+    if(y < m[0]-vh*EDGE || y > m[m.length-1]+vh*EDGE) return;   /* not our screen */
+    if(lock){e.preventDefault(); if(!animating) hush(); return;} /* eat momentum */
+    var to=null,i;
+    if(e.deltaY>0){for(i=0;i<m.length;i++){if(m[i]>y+8){to=m[i];break;}}}
+    else{for(i=m.length-1;i>=0;i--){if(m[i]<y-8){to=m[i];break;}}}
+    if(to===null) return;                                    /* past the end: let go */
+    e.preventDefault();
+    lock=true; glide(to);
+  },{passive:false});
+})();
 
 /* email copy */
 var MAIL='orsigorcz@gmail.com',toast=document.getElementById('toast'),tt;
 function shout(m){toast.textContent=m;toast.setAttribute('data-show','true');
   clearTimeout(tt);tt=setTimeout(function(){toast.removeAttribute('data-show');},2200);}
-document.getElementById('mailBtn').addEventListener('click',function(){
+function copyMail(){
   if(navigator.clipboard&&window.isSecureContext){
     navigator.clipboard.writeText(MAIL).then(function(){shout('email copied');},function(){shout(MAIL);});
-  }else{shout(MAIL);}});
+  }else{shout(MAIL);}
+}
+['mailBtn','mailCopy'].forEach(function(id){
+  var b=document.getElementById(id);
+  if(b)b.addEventListener('click',copyMail);
+});
 
 /* accessibility panel */
 var panel=document.getElementById('panel');
@@ -929,35 +1535,147 @@ var mb=document.getElementById('motionBtn');
 mb.addEventListener('click',function(){var off=motionOff();
   if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
   mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
-  mb.classList.toggle('btn--on',!off);stack();});
+  /* stack() was the sticky-stacking pass this section used before the scroll
+     flow replaced it; it no longer exists, and the call was throwing on every
+     press. queueFlow() is its replacement: it re-settles the cards for the
+     state just switched into, without waiting for the next scroll. */
+  mb.classList.toggle('btn--on',!off);queueFlow();});
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
+/* Name pronunciation. There is no recording yet, so the browser speaks the
+   respelling - the same syllables the button shows. To use a real recording
+   later, drop the file in public/ and put its name in NAME_CLIP; everything
+   else here already handles it, and the spoken version becomes the fallback
+   for browsers with no voice available. Nothing plays without a real press. */
+var NAME_CLIP="";                      /* e.g. "orsolya-pronunciation.m4a" */
+var sayBtn=document.getElementById("sayName");
+if(sayBtn){
+  var sayClip=NAME_CLIP?new Audio(NAME_CLIP):null;
+  /* One way out of the speaking state, however it ends - clip finished,
+     speech finished, or neither ever reports back. Without the timer a voice
+     that fails silently would leave the button showing "playing" for good. */
+  var sayTimer;
+  var sayOff=function(){clearTimeout(sayTimer);sayBtn.removeAttribute("data-saying");};
+  var sayOn=function(){sayBtn.setAttribute("data-saying","true");
+    clearTimeout(sayTimer);sayTimer=setTimeout(sayOff,3000);};
+  /* Hungarian if the machine has a Hungarian voice: it is given the real
+     spelling, which that voice already knows how to say - sz, ly and the
+     short o are exactly what an English voice gets wrong. Only if no such
+     voice is installed does it fall back to the English respelling, which is
+     an approximation and is why the visible label shows it that way. Voices
+     arrive asynchronously in most browsers, hence the re-check on each press
+     and the voiceschanged listener. */
+  /* The Web Speech API exposes no gender, so the only way to ask for a female
+     voice is to recognise the names platforms actually ship. Order of
+     preference, and why: a Hungarian female voice says the real name properly
+     and in the right register. Failing that a female English voice reading the
+     respelling, because the respelling exists precisely to carry the syllables
+     to an English mouth - which keeps the voice a woman's. A male Hungarian
+     voice is only reached if the machine has no female voice at all; on
+     Windows that is often the case, since Szabolcs is the one Hungarian voice
+     shipped. A recording is the only way to settle both at once. */
+  /* Whole words only. Without the boundaries "aria" matches inside
+     "Hungarian", which quietly classified Microsoft Szabolcs - the male
+     Hungarian voice - as female and short-circuited the whole order. */
+  var FEM=/\b(mariska|eszter|zsuzsa|zsuzsanna|magyar|female|woman|samantha|victoria|karen|moira|tessa|fiona|serena|zira|aria|jenny|michelle|sonia|libby|ava|allison|susan|joanna|salli|kimberly|emma|amy|hazel|catherine|linda|heera|nuria|elsa|paulina)\b/i;
+  var plan=null;
+  var pickVoice=function(){
+    var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+    var i,v,hu=[],huFem=null,enFem=null;
+    for(i=0;i<vs.length;i++){
+      v=vs[i];
+      if(/^hu($|[-_])/i.test(v.lang)){hu.push(v);if(!huFem&&FEM.test(v.name))huFem=v;}
+      else if(!enFem&&/^en[-_]/i.test(v.lang)&&FEM.test(v.name))enFem=v;
+    }
+    /* SAY is one word on purpose. "Or SHOY ah" is right for a reader but wrong
+       for a synthesiser: the spaces make it three utterances and the capitals
+       invite some engines to spell the letters, which is why it came out
+       recited rather than said. Written solid it is treated as a single name
+       and blended. The hyphenated form stays on screen, where it belongs. */
+    var SAY="Orshoyah";
+    if(huFem)      plan={voice:huFem,text:"Orsolya",lang:huFem.lang,rate:.85};
+    else if(enFem) plan={voice:enFem,text:SAY,       lang:enFem.lang,rate:.9};
+    else if(hu[0]) plan={voice:hu[0],text:"Orsolya",lang:hu[0].lang,rate:.85};
+    else           plan={voice:null, text:SAY,       lang:"en-US",   rate:.9};
+  };
+  if("speechSynthesis" in window){
+    pickVoice();
+    if("onvoiceschanged" in speechSynthesis) speechSynthesis.addEventListener("voiceschanged",pickVoice);
+  }
+  var speak=function(){
+    if(!("speechSynthesis" in window)){sayOff();return;}
+    pickVoice();
+    var u=new SpeechSynthesisUtterance(plan.text);
+    /* a browser that refuses the voice object still gets to speak, just in
+       whatever its default voice is - better than the press doing nothing */
+    try{if(plan.voice)u.voice=plan.voice;}catch(e){}
+    u.lang=plan.lang;
+    /* calm rather than announced: under normal speed, pitch just below the
+       default. It is a name being offered, not a station callsign. */
+    /* a shade under normal - calm, but not so slow that the syllables come
+       apart again, which is the thing that made it sound spelled out */
+    u.rate=plan.rate||.85;u.pitch=.95;u.volume=.9;
+    u.onend=sayOff;u.onerror=sayOff;
+    speechSynthesis.cancel();speechSynthesis.speak(u);
+  };
+  if(sayClip){
+    sayClip.preload="metadata";
+    sayClip.addEventListener("ended",sayOff);
+    /* a clip that will not load hands the job back to the spoken version */
+    sayClip.addEventListener("error",function(){sayClip=null;});
+  }
+  sayBtn.addEventListener("click",function(){
+    sayOn();
+    if(!sayClip){speak();return;}
+    try{sayClip.currentTime=0;var p=sayClip.play();
+        if(p&&p.catch)p.catch(function(){sayClip=null;speak();});}
+    catch(e){sayClip=null;speak();}
+  });
+}
+
 /* noise for focus — toggle plus a volume dragger that slides out */
-var ac=null,src=null,gain=null;
+var ac=null,src=null,gain=null,swell=null,lfo=null,lfoAmt=null;
 var noiseWrap=document.getElementById("noise"),
     noiseBtn=document.getElementById("noiseBtn"),
     vol=document.getElementById("vol"),
     noiseBtnM=document.getElementById("noiseBtnM");
-function level(){return (vol?+vol.value:18)/100*0.6;}
+function level(){return (vol?+vol.value:8)/100*0.6;}
 function startNoise(){
   var C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
   if(!ac)ac=new C();
   if(ac.state==="suspended")ac.resume();
-  var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),last=0,i,w;
-  for(i=0;i<len;i++){w=Math.random()*2-1;d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}
+  /* Pink noise (Paul Kellett's filter): equal energy per octave, which is
+     what rain and wind are, and what the reading on attention restoration
+     points to. Brown noise - what this was - rolls off far more steeply and
+     sits as a low rumble rather than a broadband mask. */
+  var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),i,w,
+      b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(i=0;i<len;i++){
+    w=Math.random()*2-1;
+    b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759; b2=0.96900*b2+w*0.1538520;
+    b3=0.86650*b3+w*0.3104856; b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+    d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+  }
   src=ac.createBufferSource();src.buffer=buf;src.loop=true;
   gain=ac.createGain();gain.gain.value=level();
-  src.connect(gain);gain.connect(ac.destination);src.start();
+  /* A shallow swell at 10 Hz - upper alpha. Kept to a few percent so it reads
+     as the sound breathing rather than pulsing; anything deeper becomes the
+     thing you listen to instead of the thing you work through. */
+  swell=ac.createGain();swell.gain.value=1;
+  lfo=ac.createOscillator();lfo.type="sine";lfo.frequency.value=10;
+  lfoAmt=ac.createGain();lfoAmt.gain.value=0.05;
+  lfo.connect(lfoAmt);lfoAmt.connect(swell.gain);lfo.start();
+  src.connect(swell);swell.connect(gain);gain.connect(ac.destination);src.start();
   return true;
 }
 function stopNoise(){
   if(!src)return;
-  var s=src;src=null;
+  var s=src,l=lfo;src=null;lfo=null;
   if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
-    setTimeout(function(){try{s.stop();}catch(e){}},260);}
-  else{try{s.stop();}catch(e){}}
+    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}},260);}
+  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}}
 }
 function setNoise(on){
   if(on&&!startNoise())return;
@@ -965,14 +1683,53 @@ function setNoise(on){
   [noiseBtn,noiseBtnM].forEach(function(b){
     if(!b)return;
     b.setAttribute("aria-pressed",on?"true":"false");
-    b.setAttribute("aria-label",on?"Stop noise for focus":"Play noise for focus");
-    b.classList.toggle("btn--on",on);
+    /* btn--on inverts a button: ink ground, page-coloured text. That is right
+       for the standalone icon button on mobile, and wrong for the one inside
+       the pill, which has no ground of its own - there it left page-coloured
+       text on near-white glass. The pill version says "on" with ink text and
+       the travelling wave instead, so it never depends on the inversion. */
+    if(b!==noiseBtn) b.classList.toggle("btn--on",on);
   });
+  if(noiseBtnM)noiseBtnM.setAttribute("aria-label",on?"Stop noise for focus":"Play noise for focus");
   if(noiseWrap)noiseWrap.setAttribute("data-on",on?"true":"false");
+  /* a collapsed slider is still in the tab order unless it is disabled, and
+     tabbing onto an invisible control with no level to set is a dead stop */
+  if(vol)vol.disabled=!on;
+}
+/* Switching the sound on shows the level and the explainer, then hands both
+   back to hover after the same five seconds. One helper drives them so the
+   two can never drift apart. Re-armed rather than stacked: off and on again
+   restarts the five seconds instead of leaving an older timer to close it
+   early. */
+var FLASH=5000,flashT={};
+function flash(attr){
+  if(!noiseWrap)return;
+  clearTimeout(flashT[attr]);
+  noiseWrap.setAttribute(attr,"true");
+  flashT[attr]=setTimeout(function(){noiseWrap.removeAttribute(attr);},FLASH);
+}
+function unflash(attr){
+  clearTimeout(flashT[attr]);
+  if(noiseWrap)noiseWrap.removeAttribute(attr);
+}
+/* The explainer introduces itself the first time the reader comes near the
+   control - pointer or keyboard, whichever happens first - holds for the
+   same five seconds, and is then spent for the rest of the visit. Reaching
+   a control should not re-explain it to someone who has already read it. */
+/* Two passes, not one. Once was too eager to be useful - the first approach is
+   often accidental, and by the time someone comes back deliberately the note
+   had already been spent. It still stops after the second, so it never nags. */
+var TIP_TIMES=2,tipSeen=0;
+function firstTip(){if(tipSeen>=TIP_TIMES)return;tipSeen++;flash("data-explain");}
+if(noiseWrap){
+  noiseWrap.addEventListener("pointerenter",firstTip);
+  noiseWrap.addEventListener("focusin",firstTip);
 }
 [noiseBtn,noiseBtnM].forEach(function(b){
   if(!b)return;
-  b.addEventListener("click",function(){setNoise(b.getAttribute("aria-pressed")!=="true");});
+  b.addEventListener("click",function(){
+    setNoise(b.getAttribute("aria-pressed")!=="true");
+  });
 });
 if(vol)vol.addEventListener("input",function(){
   if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
@@ -980,15 +1737,203 @@ if(vol)vol.addEventListener("input",function(){
 
 /* client work — one open at a time, panel sits under the row */
 var cwCards=[].slice.call(document.querySelectorAll('.cw-card'));
+
+/* Centre the opened panel in the window. Each panel is a different height and
+   sits at a different place, so each one lands somewhere of its own - which is
+   what makes opening a second card actually move the page rather than sitting
+   still.
+   The height comes from .cw-inner rather than from waiting for the expansion,
+   so the page travels while the panel opens and the two land together.
+   A panel taller than the window cannot be centred without hiding its own top,
+   so that case parks its top under the chrome and reads from the beginning. */
+/* The height budget for the pictures inside a panel.
+   A panel has to fit the window on its own before anything can be centred
+   in it, so each one gets the largest picture size that still keeps its
+   whole content inside the usable room.
+   Solved by bisection against the real scrollHeight rather than by
+   arithmetic, because the three panels do not share a shape: the Figma one
+   puts its copy beside the picture, the Leica one puts it above and then
+   sets three drawings across - which become three drawings stacked on a
+   phone, tripling every pixel the budget gives away. Feeding measurement
+   back in gets all of those right without a special case for each.
+   FLOOR is the point past which shrinking stops helping: a panel that still
+   does not fit at that size is better read by scrolling, and revealPanel
+   already parks over-tall content at its top rather than centring it. */
+function panelRoom(){
+  var brand=document.querySelector('.c-tl');
+  return window.innerHeight-(brand?brand.getBoundingClientRect().bottom:80)-24;
+}
+function fitPanel(panel){
+  var inner=panel.querySelector('.cw-inner');if(!inner)return;
+  var FLOOR=180, room=panelRoom();
+  /* opening adds padding-top:var(--stack) to the inner, so a panel measured
+     while closed is that much shorter than it is about to be. Read the value
+     off a card, which carries --stack as a resolved length, and hold it back
+     out of the room rather than solving against a height that will not last. */
+  var card=document.querySelector('.cw-card');
+  var grow=(panel.getAttribute('data-open')==='true')?0:
+    (card?parseFloat(getComputedStyle(card).paddingTop)||0:0);
+  var target=room-grow;
+  panel.style.setProperty('--cw-fit',Math.max(FLOOR,room)+'px');
+  if(inner.scrollHeight<=target)return;            /* already fits, leave it alone */
+  var lo=FLOOR, hi=Math.max(FLOOR,room);
+  for(var i=0;i<8&&hi-lo>6;i++){
+    var mid=(lo+hi)/2;
+    panel.style.setProperty('--cw-fit',Math.round(mid)+'px');
+    if(inner.scrollHeight<=target) lo=mid; else hi=mid;
+  }
+  panel.style.setProperty('--cw-fit',Math.round(lo)+'px');
+}
+function fitPanels(){
+  document.querySelectorAll('.cw-panel').forEach(fitPanel);
+}
+window.addEventListener('resize',fitPanels);
+/* a picture with no intrinsic size yet measures as nothing, so the budget it
+   was given is meaningless until it lands - re-solve that panel on arrival */
+document.querySelectorAll('.cw-panel img').forEach(function(im){
+  im.addEventListener('load',function(){
+    var p=im.closest('.cw-panel'); if(p) fitPanel(p);});});
+fitPanels();
+
+function revealPanel(panel,closing,closingH){
+  var inner=panel.querySelector('.cw-inner');if(!inner)return;
+  var brand=document.querySelector('.c-tl');
+  var chromeB=brand?brand.getBoundingClientRect().bottom:80;
+  requestAnimationFrame(function(){
+    var vh=window.innerHeight,h=inner.scrollHeight;
+    var top=panel.getBoundingClientRect().top+window.scrollY;
+    /* A panel that is closing takes 520ms to collapse, so at this instant the
+       layout still counts its full height. If it sits above the one opening,
+       everything below is about to move up by exactly that much - without this
+       the page aims at a position that will not exist by the time it arrives,
+       and overshoots by the closing panel's height. */
+    if(closing&&closing!==panel&&
+       (closing.compareDocumentPosition(panel)&Node.DOCUMENT_POSITION_FOLLOWING)){
+      top-=closingH;
+    }
+    var room=vh-chromeB-24;
+    /* centred in the room the reader can actually see - between the chrome
+       and the bottom edge - not in the raw viewport, which put the top of a
+       tall panel behind the fixed header. */
+    var want=(h<room)?(top-chromeB-(room-h)/2):(top-(chromeB+24));
+    /* Never scroll the section's own label off the top. Centring a tall panel
+       would put "Also shipped" hundreds of pixels above the window, so the
+       reader loses the heading the panel belongs to. This is a ceiling on the
+       target rather than a different target: where a panel is short enough to
+       centre with the label still showing, it still centres. */
+    var lab=document.querySelector('.more .sec-label');
+    if(lab){
+      var labTop=lab.getBoundingClientRect().top+window.scrollY;
+      var ceil=labTop-(chromeB+12);
+      /* Holding the label on screen and showing the whole panel are not
+         always both possible: label plus row plus panel can exceed the
+         window outright on a short one. Apply the ceiling only while it
+         still leaves the panel complete - otherwise the thing the reader
+         just opened wins and the label goes. Checked against the position
+         the ceiling would actually put us at, so a tall window keeps the
+         old behaviour exactly. */
+      if((top+h)-ceil <= vh-16) want=Math.min(want,ceil);
+    }
+    glideTo(want,0);
+  });
+}
+
+/* Closing puts the three cards back on screen. Without this the page stays
+   where the open panel had put it and, once the panel collapses out from under
+   you, you are left looking at whatever happens to be below.
+   The row sits above the panel, so its own position does not move as the panel
+   collapses - but the document gets shorter by that much, which is what the
+   shrink argument is for: the clamp has to be against the height the page is
+   about to be, not the height it still is. */
+function revealRow(shrinkBy){
+  var row=document.querySelector('.cw-row');if(!row)return;
+  var brand=document.querySelector('.c-tl');
+  var chromeB=brand?brand.getBoundingClientRect().bottom:80;
+  requestAnimationFrame(function(){
+    var vh=window.innerHeight,r=row.getBoundingClientRect();
+    var top=r.top+window.scrollY,h=r.height,room=vh-chromeB-24;
+    glideTo((h<room)?(top-chromeB-(room-h)/2):(top-(chromeB+24)),shrinkBy);
+  });
+}
+
+function glideTo(target,shrinkBy){
+  var vh=window.innerHeight;
+  var max=Math.max(0,document.documentElement.scrollHeight-(shrinkBy||0)-vh);
+  target=Math.max(0,Math.min(target,max));
+  var from=window.scrollY,d=target-from;
+  if(Math.abs(d)<2)return;
+  if(motionOff()||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    window.scrollTo(0,target);return;}
+  var t0=performance.now(),D=560;
+  /* html sets scroll-behavior:smooth, which would start its own animation on
+     every frame of this one - suspend it for the duration */
+  var prev=root.style.scrollBehavior;root.style.scrollBehavior='auto';
+  (function tick(now){
+    var t=(now-t0)/D;if(t>1)t=1;
+    var e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+    window.scrollTo(0,from+d*e);
+    if(t<1){requestAnimationFrame(tick);}else{root.style.scrollBehavior=prev;}
+  })(performance.now());
+}
+
 cwCards.forEach(function(btn){
   var panel=document.getElementById(btn.getAttribute('aria-controls'));
   btn.addEventListener('click',function(){
+    /* re-measure the budget before anything is opened or closed, so the
+       reveal's own measurement sees the size the picture is about to be */
+    fitPanels();
     var open=btn.getAttribute('aria-expanded')==='true';
+    var closing=null,closingH=0;
     cwCards.forEach(function(o){
+      var p=document.getElementById(o.getAttribute('aria-controls'));
+      /* measured before the attribute flips, while it is still at full height */
+      if(p.getAttribute('data-open')==='true'){closing=p;closingH=p.getBoundingClientRect().height;}
       o.setAttribute('aria-expanded','false');
-      document.getElementById(o.getAttribute('aria-controls')).setAttribute('data-open','false');});
-    if(!open){btn.setAttribute('aria-expanded','true');panel.setAttribute('data-open','true');}
+      p.setAttribute('data-open','false');});
+    if(!open){btn.setAttribute('aria-expanded','true');panel.setAttribute('data-open','true');
+      revealPanel(panel,closing,closingH);}
+    else{revealRow(closingH);}
+    /* settle the row's scroll flow against the state it is now in. The reveal
+       usually scrolls, and a scroll would do this anyway - but a panel that is
+       already centred does not move the page at all, and without this the row
+       would stay tilted underneath the panel it just opened. */
+    queueFlow();
   });});
+
+/* the rest of the credentials, folded away until asked for */
+var credBtn=document.getElementById('credBtn'),credList=document.getElementById('credList');
+if(credBtn&&credList){
+  /* Bring the control and whatever it just revealed into the window, the same
+     way the client-work panels do. The list height is read from .cred-inner
+     rather than waited for, so the page travels while the list unfolds.
+     On the way closed the page is about to get shorter by the list's height,
+     which glideTo needs in order to clamp against the height the document is
+     becoming rather than the one it still has. */
+  function revealCred(shrinkBy){
+    var brand=document.querySelector('.c-tl');
+    var chromeB=brand?brand.getBoundingClientRect().bottom:80;
+    var inner=credList.querySelector('.cred-inner');
+    requestAnimationFrame(function(){
+      var vh=window.innerHeight;
+      var br=credBtn.getBoundingClientRect();
+      var gap=parseFloat(getComputedStyle(credBtn).marginBottom)||0;
+      var openNow=credList.getAttribute('data-open')==='true';
+      var h=br.height+(openNow?gap+(inner?inner.scrollHeight:0):0);
+      var top=br.top+window.scrollY;
+      var room=vh-chromeB-24;
+      glideTo((h<room)?(top-chromeB-(room-h)/2):(top-(chromeB+24)),shrinkBy);
+    });
+  }
+  credBtn.addEventListener('click',function(){
+    var open=credBtn.getAttribute('aria-expanded')==='true';
+    /* measured before the attribute flips, while it is still at full height */
+    var shrink=open?credList.getBoundingClientRect().height:0;
+    credBtn.setAttribute('aria-expanded',open?'false':'true');
+    credList.setAttribute('data-open',open?'false':'true');
+    credBtn.textContent=open?'See more':'See less';
+    revealCred(shrink);
+  });
+}
 
 /* lightbox — Escape closes, focus trapped, focus returns to the trigger */
 var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),
@@ -997,7 +1942,7 @@ function openLb(src,alt,trigger){lastTrigger=trigger;lbImg.src=src;lbImg.alt=alt
   lb.setAttribute('data-open','true');lbClose.focus();}
 function shutLb(){lb.removeAttribute('data-open');lbImg.src='';
   if(lastTrigger){lastTrigger.focus();lastTrigger=null;}}
-document.querySelectorAll('.band button').forEach(function(b){
+document.querySelectorAll('[data-full]').forEach(function(b){
   b.addEventListener('click',function(){openLb(b.getAttribute('data-full'),b.querySelector('img').alt,b);});});
 lbClose.addEventListener('click',shutLb);
 lb.addEventListener('click',function(e){if(e.target===lb)shutLb();});

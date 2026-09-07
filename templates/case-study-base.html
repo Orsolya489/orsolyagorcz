@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ness — The making is the session. Words come after.</title>
+<title>CASE STUDY TITLE — Orsolya G.</title>
 <meta name="description" content="Human-first NLP and people matching. The complete MVP architecture and human-AI interaction systems designed for handoff.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -535,10 +535,34 @@ a{color:inherit}
    the full space between sections and reads as separate from the phone rather
    than as a caption under it. */
 .fig.fig--card,.fig.fig--map{margin-top:var(--section)}
+/* One picture that is the whole rule set, so it gets the window rather than the
+   measure - the full width of the section, and as much height as is left under
+   the header. Doubled class for the same reason as the line above: the plain
+   .fig margin further down the sheet wins at equal specificity otherwise. */
+.fig.fig--full{max-width:none;margin-top:var(--section)}
+/* Doubled class again: .fig img sits later in the sheet with the same
+   specificity, so a single .fig--full img lost the height cap back to the
+   smaller one and the map never grew. */
+/* width:auto, not 100%: with a definite width the height cap squashed the box
+   and object-fit then letterboxed the picture inside it. Left to size itself,
+   the element is the picture - as wide as the section allows or as tall as the
+   window allows, whichever binds first, and no bars either way. */
+.fig.fig--full img{width:auto;max-width:100%;height:auto;margin-inline:auto;
+  max-height:calc(100svh - var(--chrome-h) - var(--stack))}
 .fig--card .plane{max-width:880px;aspect-ratio:990/375}
+/* The hub is nearly square (760x670) and was inheriting the card ratio, which
+   is 2.6:1 - so the drawing met the height of a letterbox and rendered at about
+   378px wide inside an 880px box, most of which was empty. On its own ratio it
+   uses the width it is given. Same specificity as the rule above, so it has to
+   come after it. */
+.fig--card .plane--hub{max-width:620px;aspect-ratio:760/670}
 /* at a phone width the circle captions would fall under 9px, so below 768 it
    holds a legible size and scrolls sideways instead of shrinking to fit */
 @media (max-width:767px){
+  /* min-width:0 or the 640px drawing becomes the grid item’s intrinsic
+     minimum and widens the whole page instead of scrolling inside its own
+     box - the same trap the problem map hit at 900 */
+  .fig--card,.fig--card .plane{min-width:0}
   .fig--card .plane{aspect-ratio:auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .fig--card .plane svg{width:640px;max-width:none;height:auto}
 }
@@ -596,6 +620,322 @@ a{color:inherit}
 .plane svg.s0 .key-lab{fill:var(--ink)}
 @media (max-width:767px){.plane svg .hard,.plane svg .soft{stroke-width:2px}}
 
+/* ═══ headline figures ═══
+   Three numbers with the source under each, ruled apart the way the facts row
+   is. The number is the only thing set large - the label and the citation stay
+   at the small size, so the row reads as evidence rather than as a poster. The
+   source is a link and says so: a statistic a reader cannot check is decoration. */
+/* Two shared rows, not four: the number and what it counts are one thing, the
+   two citations are another. Four rows put a full --gutter of grid row-gap
+   between every line, which is what pulled the four lines apart into four
+   separate-looking items. The rows are still shared across the columns, so the
+   rule above the citations stays at one height whatever the wrapping does. */
+.stats{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:auto auto;
+  column-gap:var(--gutter);row-gap:var(--stack);margin-top:var(--section)}
+.stat{display:grid;grid-template-rows:subgrid;grid-row:span 2;min-width:0;
+  padding-left:var(--gutter);border-left:1px solid var(--edge)}
+.stat-head,.stat-cite{min-width:0}
+.stat:first-child{padding-left:0;border-left:0}
+.stat-n{font-size:var(--title);font-weight:400;line-height:1;letter-spacing:-.03em;
+  color:var(--ink);margin:0}
+.stat-l{margin:.4em 0 0;font-size:var(--micro);line-height:1.5;color:var(--body-c)}
+/* the rule belongs to the pair, not to the first line of it */
+.stat-cite{padding-top:.8em;border-top:1px solid var(--edge)}
+.stat-src{margin:0;
+  font-size:calc(var(--micro)*.92);line-height:1.45;color:var(--muted)}
+.stat-src a{color:var(--muted);text-decoration:none;
+  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
+.stat-src a:hover{color:var(--ink);transition-duration:var(--in)}
+/* The later reading of the same question, kept visibly subordinate to the one
+   the work was actually done against - same size, lighter, and behind a label
+   that says which is which. A statistic published after a decision can support
+   that decision but cannot have informed it, and the two should not look alike. */
+.stat-upd{margin:.45em 0 0;font-size:calc(var(--micro)*.92);line-height:1.45;
+  color:var(--muted)}
+/* Inline, and drawn as a capsule: as bare text on its own line the label read
+   as a third item rather than as the tag on the citation beside it. Stroke only
+   - a filled chip here would carry more weight than the citation it labels.
+   The ring is a box-shadow rather than a border so it costs no layout width,
+   which is what keeps the citations lining up with the one above. */
+.stat-upd-k{display:inline-block;margin-right:.55em;
+  padding:.16em .68em;border-radius:var(--r-pill);
+  box-shadow:inset 0 0 0 1px var(--edge-ctrl);
+  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.82);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--body-c)}
+.stat-upd a{color:var(--muted);text-decoration:none;
+  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
+.stat-upd a:hover{color:var(--ink);transition-duration:var(--in)}
+@media (max-width:700px){
+  /* stacked, each number keeps its rule above it instead of beside it */
+  .stats{grid-template-columns:1fr;grid-template-rows:none;gap:var(--stack)}
+  /* one column: there is nothing left to align across, so drop the shared rows */
+  .stat{display:block;grid-row:auto;
+    padding-left:0;border-left:0;padding-top:var(--stack);border-top:1px solid var(--edge)}
+  .stat:first-child{padding-top:0;border-top:0}
+}
+
+/* a way out to the thing itself, sized as a real target */
+.proto{display:inline-flex;align-items:center;gap:.55em;min-height:var(--control);
+  margin-top:var(--stack);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--edge-ctrl);
+  transition:border-color var(--out) var(--ease)}
+.proto:hover{border-color:var(--ink);transition-duration:var(--in)}
+
+/* These drawings label with words, not with node names, so they opt out of the
+   uppercase-and-tracked treatment the schematic labels use. Left in, Multi-modal
+   set as MULTI-MODAL with 1.8px tracking simply did not fit inside its hub. */
+.plane svg.md text{text-transform:none;letter-spacing:0}
+.plane svg.md .cap2{font-size:21px}
+.plane svg.md .mech{font-size:17px}
+.plane svg.md .key-node{fill:var(--card);stroke:var(--ink);stroke-width:3px}
+.plane svg.md .key-lab{fill:var(--ink)}
+
+/* the hub of a source model: the one node everything reports into, so it is
+   the one drawn solid and reversed out rather than outlined like the rest */
+.plane svg .hub{fill:var(--ink);stroke:none}
+.plane svg .hub-lab{fill:var(--page)}
+.plane svg .spoke{fill:var(--card);stroke:var(--ink);stroke-width:2px;
+  vector-effect:non-scaling-stroke}
+
+/* ═══ before / after wipe ═══
+   The raw AI screen sits underneath and the redesign is laid over it, clipped
+   to wherever the handle is — so the two are compared in the same pixels rather
+   than side by side at half size each. Full measure, because the thing being
+   judged is a dashboard and a dashboard shrunk to a column proves nothing.
+
+   The control is a real range input, not a div that listens for pointer events:
+   it arrives in the tab order, takes arrow keys and Home/End, and announces
+   itself. It is stretched invisibly over the whole stage so a drag anywhere
+   works, and the seam and knob are drawn separately at the same position. */
+/* The picture is the argument here, so the block leaves the reading column and
+   runs nearly to the page edge. Only this block does - the prose either side of
+   it stays on the measure, which is what makes the break read as deliberate
+   rather than as the page losing its grid. Pulled out by the page margin less a
+   gutter, so it stops short of the edge instead of bleeding off it. */
+.cmp{grid-column:1 / -1;margin:var(--section) 0 0}
+/* The picture runs the full width of the reading column - the same line the
+   heading and the two panels sit on. It broke out to the window edge for a
+   while; inside the page structure is the right answer, and full screen is
+   still one click away on the badge. */
+/* the read is: which section, what I did, why - then what the AI had produced,
+   and only then the evidence. The wipe is the proof, not the argument, so it
+   comes last. */
+/* The section name, then the two readings of it side by side, then the picture.
+   Red and green are the pair the responsibility map already uses, so a reader
+   who has seen that drawing knows which side is which before reading a word.
+
+   Every pixel above the slider is a pixel the slider cannot have, since the
+   whole block is held to one window - the script measures whatever the heading
+   and the two sides come to and hands the rest to the picture. */
+.cmp-h{margin:0 0 var(--stack);padding-bottom:.7em;
+  font-weight:500;font-size:calc(var(--body)*1.2);line-height:1.25;
+  letter-spacing:-.005em;color:var(--ink);border-bottom:1px solid var(--edge)}
+/* under the picture now: the reader sees the difference first and reads the
+   account of it second, which is the order the section argues in */
+/* One block under the picture, split down the middle - not two blocks that
+   happen to sit next to each other. No gap, equal heights, and the outer corners
+   rounded while the meeting edge stays square, so the pair reads as a single
+   object the way the picture above it does. Held to the picture’s own width and
+   edges, and pulled up close under it: the account belongs to that picture, and
+   at a full --stack away it was starting to look like the next thing down. */
+.cmp-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;
+  width:calc(100% - 3cm);margin:calc(var(--stack)*.45) auto 0;align-items:stretch}
+.cmp-side{padding:var(--stack);background:var(--tint-bg);border-radius:0}
+.cmp-side--ai{border-radius:var(--r-lg) 0 0 var(--r-lg)}
+.cmp-side--human{border-radius:0 var(--r-lg) var(--r-lg) 0}
+.cmp-side--ai{--tint-bg:var(--red-bg);--tint-ink:var(--red-ink);--tint-line:var(--red-line)}
+.cmp-side--human{--tint-bg:var(--green-bg);--tint-ink:var(--green-ink);--tint-line:var(--green-line)}
+.cmp-side-k{margin:0 0 .85em;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--tint-ink)}
+/* what it is, then why that matters - two items, never a wall of prose. The
+   second takes the block’s own ink so the reason reads as the consequence of
+   the line above it rather than as a second observation. */
+.cmp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55em}
+.cmp-list li{font-size:var(--micro);line-height:1.55;color:var(--ink)}
+.cmp-list li + li{color:var(--tint-ink)}
+/* the method behind the sentences above, named. Chips rather than italics:
+   these are terms to recognise and carry into the next pair, not emphasis
+   inside a sentence - set as running text they read as if the prose shouted. */
+.cmp-kw{display:flex;flex-wrap:wrap;gap:.45em;margin:calc(var(--stack)*.75) 0 0}
+.cmp-kw .kw{font-family:var(--sans);font-style:normal;font-weight:500;
+  font-size:calc(var(--micro)*.88);letter-spacing:.04em;
+  color:var(--tint-ink);background:var(--page);border-radius:var(--r-pill);
+  padding:.34em .85em;box-shadow:inset 0 0 0 1px var(--tint-line)}
+/* The picture takes the width of the window; its height follows from its shape.
+
+   --ar is set per pair, from whichever of its two exports is the taller. Sized
+   to the pictures rather than to a number, so no edge is ever cut. Ten of the
+   twelve exports are within 1% of each other, so the six boxes still come out
+   within about five pixels of the same height.
+
+   The only cap is the screen height, so on any ordinary screen the window width
+   binds and the picture runs full width. The cap takes over only on a window
+   short enough that a full-width picture would be taller than the screen, and
+   even then it never exceeds one screenful. Nothing above the picture shrinks
+   it any more, which on a tall window can mean the heading and the picture
+   together run a little past the fold - the width is worth that. */
+.cmp-stage{position:relative;overflow:hidden;border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);background:#0a0a0a;touch-action:pan-y;
+  /* Inset a centimetre and a half on each side, so the picture sits well inside
+     the column rather than flush against the heading above it. cm is an honest
+     unit here - it is a fixed inset, not something that should scale with the
+     type. The auto margins keep it centred. */
+  width:calc(100% - 3cm);aspect-ratio:var(--ar,2.08);margin-inline:auto;
+  max-height:calc(100svh - 8px)}
+/* contain, and anchored to the top. cover filled the box on both sides but did
+   it by cutting the edges off any export a few per cent off the box’s shape,
+   which on a dashboard means slicing the sidebar. contain never cuts anything.
+
+   The cost of contain is a strip where an export is shorter than its box, so the
+   box takes the taller of each pair and both images hang from its top edge: they
+   then start at the same scale on the same line, the header and the sidebar
+   register straight across the seam, and any shortfall falls at the bottom in
+   one piece rather than being split above and below. The ground behind is the
+   screens’ own near-black, so a strip reads as frame, not as a gap. */
+.cmp-under{display:block;width:100%;height:100%;object-fit:contain;object-position:top}
+.cmp-over img{width:100%;height:100%;object-fit:contain;object-position:top;display:block}
+.cmp-over{position:absolute;inset:0;clip-path:inset(0 0 0 var(--x))}
+/* the seam: a hairline with a knob, sitting exactly where the clip ends */
+.cmp-seam{position:absolute;top:0;bottom:0;left:var(--x);width:0;
+  border-left:2px solid var(--page);pointer-events:none}
+.cmp-seam i{position:absolute;top:50%;left:50%;translate:-50% -50%;
+  width:38px;height:38px;border-radius:var(--r-pill);background:var(--page);
+  box-shadow:0 1px 2px rgba(25,21,23,.18),0 6px 18px rgba(25,21,23,.16)}
+.cmp-seam i::before,.cmp-seam i::after{content:"";position:absolute;top:50%;
+  width:0;height:0;border-block:5px solid transparent}
+.cmp-seam i::before{left:9px;translate:0 -50%;border-right:6px solid var(--ink)}
+.cmp-seam i::after{right:9px;translate:0 -50%;border-left:6px solid var(--ink)}
+/* which half is which, said on the image rather than in a caption below it */
+.cmp-tag{position:absolute;top:var(--stack);z-index:2;pointer-events:none;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:.3em .9em;border-radius:var(--r-pill);
+  color:var(--ink);background:var(--page);box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+/* position only - both halves are labelled the same way */
+.cmp-tag--l{left:var(--stack)}
+.cmp-tag--r{right:var(--stack)}
+/* the input itself is invisible; the seam above is what the reader sees */
+.cmp-range{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;
+  appearance:none;-webkit-appearance:none;background:none;cursor:ew-resize;z-index:3}
+.cmp-range::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:44px;
+  border-radius:var(--r-pill);background:transparent;cursor:ew-resize}
+.cmp-range::-moz-range-thumb{width:44px;height:44px;border:0;
+  border-radius:var(--r-pill);background:transparent;cursor:ew-resize}
+.cmp-range:focus-visible{outline:2px solid var(--ink);outline-offset:3px;
+  border-radius:var(--r-lg)}
+@media (max-width:700px){
+  /* the two sides stack: side by side they would be two narrow columns of
+     small type, which is harder than one after the other */
+  .cmp-cols{grid-template-columns:1fr}
+  /* stacked: the join is now horizontal, so the rounding follows it */
+  .cmp-side--ai{border-radius:var(--r-lg) var(--r-lg) 0 0}
+  .cmp-side--human{border-radius:0 0 var(--r-lg) var(--r-lg)}
+  .cmp-tag{font-size:calc(var(--micro)*.85)}
+}
+
+/* ═══ the two-column problem spread ═══
+   Two arguments that belong on one screen: what the anxiety is made of, and why
+   the signals that would answer it never arrive together. Each column stacks its
+   own heading, copy and drawing; the left column pushes its sources to the foot
+   so the two columns end level however tall the right one gets. */
+/* Three arguments, not one long one - so they are spaced like sections rather
+   than like paragraphs. The same value on the wrapper and inside each column,
+   so the reader cannot tell which of the three sits in which column. */
+.duo{grid-column:1 / -1;display:grid;grid-template-columns:1fr;
+  gap:calc(var(--section)*1.3);margin-top:var(--stack)}
+.duo-col{display:flex;flex-direction:column;gap:calc(var(--section)*1.3);min-width:0}
+.duo-h{margin:0;font-weight:500;line-height:1.25;letter-spacing:-.005em;color:var(--ink);
+  font-size:calc(var(--body)*1.35);max-width:30ch}
+.duo-p{margin:0;font-size:var(--body);line-height:1.6;color:var(--muted);max-width:52ch}
+.duo-foot{display:flex;flex-direction:column;gap:var(--stack)}
+/* stacked, each drawing gets the room it was cramped out of when the two
+   halves were side by side */
+.duo .plane--venn{max-width:620px}
+.duo .quad,.duo .reslinks{grid-column:auto;max-width:none;margin-top:0}
+/* narrower than the drawings beside the other two headings: four short labels
+   do not need the full column, and at 880 they read as four empty rooms */
+.duo-row .quad{max-width:440px;gap:var(--stack);margin-inline:0}
+.quad-i{width:26px;height:26px;color:var(--muted);display:block;margin-bottom:.9em}
+/* legend beside the field, not under it - the field is the wide thing */
+.sm{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--gutter);
+  align-items:center;max-width:980px}
+.sm-key{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55em}
+.sm-key li{display:flex;align-items:center;gap:.6em;
+  font-size:var(--micro);line-height:1.4;color:var(--body-c);white-space:nowrap}
+.sm-sw{width:11px;height:11px;border-radius:var(--r-pill);flex:0 0 auto;background:var(--ink)}
+.sm-key .sm-d2{opacity:.6}.sm-key .sm-d3{opacity:.36}.sm-key .sm-d4{opacity:.18}
+.sm-in{background:var(--ink);box-shadow:0 0 0 3px var(--card),0 0 0 4px var(--ink)}
+.sm-out{background:var(--ink);opacity:.3}
+.sm-note{display:flex;flex-wrap:wrap;gap:var(--gutter);margin:0;
+  font-size:var(--micro);color:var(--muted)}
+.sm-note span{display:inline-flex;align-items:center;gap:.6em}
+/* Words on the left, the drawing on the right, on one line. The heading tells
+   you what to look for and the picture is there while you read it - stacked,
+   the two were a screen apart. Centred rather than top-hung, because the copy
+   is a few lines against a drawing several times its height. Declared after
+   .duo .plane--venn so the drawing can take the whole of its column. */
+/* grid-column so the row can be used straight inside a section as well as
+   inside .duo, where it is a flex child and the property is simply ignored */
+.duo-row{grid-column:1 / -1;display:grid;
+  grid-template-columns:minmax(0,4fr) minmax(0,6fr);
+  gap:var(--gutter) var(--section);align-items:center}
+/* a six-row table needs more of the line than a drawing does */
+.duo-row--wide{grid-template-columns:minmax(0,3fr) minmax(0,8fr);align-items:start}
+.duo-row .devsync{grid-column:auto;max-width:none;margin-top:0}
+.duo-txt{display:flex;flex-direction:column;gap:var(--stack);min-width:0}
+.duo-row .plane--venn,.duo-row .plane--scatter{max-width:none;margin-inline:0}
+/* the legend is a column of its own now, under the heading rather than beside
+   the field, so it stops competing with the drawing for the same row */
+.duo-txt .sm-note{flex-direction:column;gap:.55em}
+/* the four cards are the right-hand item in their row, so they sit where the
+   drawings sit rather than filling the measure */
+.duo-row > .quad{align-self:center}
+@media (max-width:900px){
+  /* gap stays at the base value: overriding it here made the space between
+     the column groups smaller than the space inside them, which is the tell
+     the base rule exists to avoid */
+  .duo{grid-template-columns:1fr}
+  .duo-row{grid-template-columns:1fr;gap:var(--stack)}
+  .duo-foot{margin-top:0}
+  .sm{grid-template-columns:1fr}
+}
+
+/* ═══ overlapping-set and scatter drawings ═══
+   Two shapes the page did not have a vocabulary for yet. The set fills are one
+   ink at low alpha, so where circles overlap the tone deepens on its own and
+   the intersection is drawn by the maths rather than by a fourth colour.
+   The scatter runs four series as four steps of the same ink: they are
+   categories, not quantities, and borrowing the red and green would say
+   good-and-bad about things that are neither. */
+.plane svg .vfill{fill:var(--ink);opacity:.07;stroke:none}
+.plane svg .sm-box{fill:var(--card);stroke:var(--ink);stroke-width:2px;
+  vector-effect:non-scaling-stroke}
+.plane svg .sm-d1{fill:var(--ink)}
+.plane svg .sm-d2{fill:var(--ink);opacity:.6}
+.plane svg .sm-d3{fill:var(--ink);opacity:.36}
+.plane svg .sm-d4{fill:var(--ink);opacity:.18}
+.plane svg .sm-leg{font-size:17px;text-transform:none;letter-spacing:0;fill:var(--body-c)}
+
+/* four domains, two by two - a grid of statements, not a comparison, so it is
+   plainer than .versus and keeps the card ground the rest of the page uses */
+.quad{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--gutter);margin-top:var(--stack);max-width:66ch}
+.quad-card{padding:var(--stack);background:var(--card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge)}
+.quad-t{margin:0;font-weight:500;font-size:var(--body);color:var(--ink)}
+@media (max-width:600px){.quad{grid-template-columns:1fr}}
+
+/* sources under a diagram, as links rather than as a bibliography */
+.reslinks{grid-column:1 / -1;margin-top:var(--stack);max-width:66ch;
+  list-style:none;padding:0}
+.reslinks li{padding:.7em 0;border-top:1px solid var(--edge);
+  font-size:var(--micro);line-height:1.6;color:var(--body-c)}
+.reslinks a{color:var(--muted);text-decoration:none;
+  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
+.reslinks a:hover{color:var(--ink);transition-duration:var(--in)}
 /* ═══ the three-track article grid ═══
    2fr : 2fr : 5fr — a navigation column, a label column and a reading column.
    The reference this follows runs 3:2:4, but its body type is 16px against a
@@ -868,11 +1208,105 @@ a{color:inherit}
 .fig img{width:auto;max-width:100%;height:auto;margin-inline:auto;
   max-height:calc(100svh - var(--chrome-h) - var(--section)*.5);object-fit:contain}
 .shot{border-radius:var(--r-lg)}
+/* ═══ open a picture full size ═══
+   Several of these are dense - a six-section responsibility map, six dashboard
+   screens with real copy in them - and at the width of an article column the
+   labels are below reading size. The badge sits on the image rather than under
+   it so it is obvious which picture it opens.
+
+   It is a real <button> inside a <figure>, not a click handler on the image: it
+   arrives in the tab order, says what it does, and leaves the image itself
+   inert for anyone dragging a comparison handle underneath. */
+.fig{position:relative}
+.zoom{position:absolute;top:var(--stack);right:var(--stack);z-index:2;
+  display:grid;place-items:center;width:38px;height:38px;padding:0;
+  border:0;border-radius:var(--r-pill);cursor:pointer;
+  color:var(--ink);background:var(--page);
+  box-shadow:inset 0 0 0 1px var(--edge-ctrl),0 1px 3px rgba(25,21,23,.14);
+  opacity:0;transition:opacity var(--out) var(--ease),color var(--out) var(--ease)}
+/* shown on hover on a pointer device, always on touch, and always once focused
+   - a control that only exists on hover is a control a keyboard cannot find */
+.fig:hover .zoom,.cmp-stage:hover .zoom,.zoom:focus-visible{opacity:1}
+/* above the range input that covers the stage, and away from the two tags */
+.zoom--stage{top:auto;bottom:var(--stack);right:var(--stack);z-index:4}
+@media (pointer:coarse){.zoom{opacity:1;width:44px;height:44px}}
+.zoom:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 1px 3px rgba(25,21,23,.18)}
+.zoom:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.zoom svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+/* the viewer itself: the picture on a dimmed ground, nothing else to look at */
+.lb{width:100%;max-width:100%;max-height:100%;height:100%;padding:0;border:0;
+  background:none;overflow:hidden}
+.lb::backdrop{background:rgba(25,21,23,.88)}
+.lb-in{display:grid;place-items:center;width:100%;height:100%;padding:var(--stack)}
+.lb img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;border-radius:var(--r-lg)}
+.lb-x{position:fixed;top:var(--stack);right:var(--stack);
+  display:grid;place-items:center;width:44px;height:44px;padding:0;
+  border:0;border-radius:var(--r-pill);cursor:pointer;
+  color:var(--ink);background:var(--page);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.lb-x:focus-visible{outline:2px solid var(--page);outline-offset:3px}
+.lb-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round}
+[data-motion="off"] .zoom{transition:none}
+/* A comparison opened full screen: edge to edge, no page around it, and as tall
+   as the picture’s own shape allows at that width. This is the only place the
+   thing can be bigger than it already is inline - on the page it is bounded by
+   the window width, and it cannot use the leftover height without cropping the
+   sidebar off the screens, which is the part the section is arguing about. */
+.lb.is-cmp .lb-in{padding:0}
+.lb .cmp-stage{width:100vw;max-width:none;left:auto;transform:none;
+  border-radius:0;box-shadow:none;max-height:100svh}
+/* bigger targets with the whole screen to place them in */
+.lb .cmp-tag{top:calc(var(--stack)*1.2)}
+.lb .cmp-tag--l{left:calc(var(--stack)*1.2)}
+.lb .cmp-tag--r{right:calc(var(--stack)*1.2)}
 .fig figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin-top:.9em;max-width:62ch}
 .fig--row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
 .fig--pair{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gutter)}
 .fig--row figcaption,.fig--pair figcaption{grid-column:1 / -1}
+/* ═══ the product, running ═══
+   A plain browser frame - traffic lights and the prototype’s own address - around
+   a screen recording of the prototype itself. This used to be six stills stepped
+   through with a drawn pointer and a drawn hover, because no capture existed; it
+   does now, so the real cursor and the real hover states are the ones on screen.
+
+   Controls are on. The clip runs the best part of a minute, and anything that
+   plays itself for longer than five seconds has to be stoppable by the person
+   watching it - the browser hides the bar during playback and brings it back on
+   hover, so it costs the frame nothing. */
+.fig.mac{max-width:1100px;margin-top:var(--section)}
+.mac-frame{border-radius:var(--r-lg);overflow:hidden;background:var(--page);
+  box-shadow:inset 0 0 0 1px var(--edge),0 1px 2px rgba(25,21,23,.06),
+             0 18px 44px rgba(25,21,23,.09)}
+.mac-bar{display:flex;align-items:center;gap:.8em;padding:.6em .9em;
+  background:var(--page);border-bottom:1px solid var(--edge)}
+.mac-dots{display:flex;gap:6px;flex:0 0 auto}
+.mac-dots i{width:10px;height:10px;border-radius:var(--r-pill);background:var(--lattice)}
+.mac-url{flex:1 1 auto;max-width:26em;margin-inline:auto;text-align:center;
+  font-family:var(--sans);font-size:calc(var(--micro)*.92);color:var(--muted);
+  background:var(--card);border-radius:var(--r-pill);padding:.28em 1.1em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* the recording’s own shape, so the frame never letterboxes it */
+.mac-view{position:relative;overflow:hidden;background:#0a0a0a;
+  aspect-ratio:1280/582}
+.mac-video{display:block;width:100%;height:100%;max-width:none;max-height:none;
+  margin:0;object-fit:cover;background:#0a0a0a}
+/* The frame gives up its full measure so the claim can sit beside it and be
+   read against it - the screen on one side, what is wrong with that kind of
+   screen on the other. The copy is centred against the frame rather than hung
+   from its top edge, so the two read as one object at any width. */
+.mac-spread{grid-column:1 / -1;display:grid;
+  grid-template-columns:minmax(0,7fr) minmax(0,4fr);
+  gap:var(--gutter);align-items:center;margin-top:var(--section)}
+/* .fig makes every figure span the whole section - inside the spread that
+   would push the copy onto its own row, which is the thing we just undid */
+.mac-spread .fig.mac{grid-column:auto;max-width:none;margin-top:0}
+.mac-copy{min-width:0}
+@media (max-width:900px){
+  .mac-spread{grid-template-columns:1fr;gap:var(--stack)}
+}
 @media (max-width:767px){
   .noise-vol{display:none}
   .fig--row,.fig--pair{grid-template-columns:1fr}
@@ -891,6 +1325,10 @@ a{color:inherit}
    title and its qualifier are the control, so the whole heading is the target
    rather than a chevron beside it. */
 .blueprint{grid-column:1 / -1;margin-top:var(--section)}
+/* Straight after the resource links it is the second half of one thing - both
+   are where the argument got its evidence - so it drops the full section break
+   it takes when it follows an argument instead of a bibliography. */
+.duo + .blueprint{margin-top:var(--stack)}
 .bp-toggle{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
   padding:1.1em 0;background:none;border:0;
@@ -1531,13 +1969,12 @@ a{color:inherit}
          far the whole thing runs. Tertiary on purpose. -->
     <nav class="cs-route" aria-label="Sections in this case study">
       <ol>
-        <li><a href="#s1">Research</a></li>
-        <li><a href="#s2">Check-in</a></li>
-        <li><a href="#s3">The guide</a></li>
-        <li><a href="#s4">Testing</a></li>
-        <li><a href="#s5">Progress</a></li>
-        <li><a href="#s6">Design system</a></li>
-        <li><a href="#s7">Reflection</a></li>
+        <li><a href="#s1">Overview</a></li>
+        <li><a href="#s2">Problem framing</a></li>
+        <li><a href="#s3">Research</a></li>
+        <li><a href="#s4">System logic</a></li>
+        <li><a href="#s5">Solutions</a></li>
+        <li><a href="#s6">Reflection</a></li>
       </ol>
     </nav>
   </nav>
@@ -1579,167 +2016,248 @@ a{color:inherit}
 <div class="wrap">
 
   <header class="cs-head">
-    <p class="cs-eyebrow">Creative Therapy · AI Guide · Emotional Safety · Human Factors</p>
-    <h1 class="cs-title">The making is the session. Words come after.</h1>
-    <p class="cs-prompt">Ness — Creative Therapy App</p>
+    <p class="cs-eyebrow">Practice &middot; Domain</p>
+    <h1 class="cs-title">The sentence the whole case study proves.</h1>
+    <p class="cs-prompt">A short line under it, if the project has one.</p>
 
     <dl class="cs-facts">
-      <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
+      <div><dt>Role</dt><dd>PLACEHOLDER</dd></div>
+      <div><dt>Scope</dt><dd>PLACEHOLDER</dd></div>
+      <div><dt>Status</dt><dd>PLACEHOLDER</dd></div>
+      <div><dt>Practice</dt><dd>PLACEHOLDER</dd></div>
     </dl>
 
+    <!-- Lede on the left, the lead visual on the right. Both are optional, but
+         if the project has a screen worth showing, this is where it goes. -->
     <div class="cs-intro">
       <div>
-        <p class="cs-lede">Most therapy apps ask you to describe how you feel. But some people can’t. Not because they won’t — because the words aren’t there yet.</p>
-        <p class="cs-lede">Yet every tool assumes verbal clarity at the exact moment people have the least access to words.</p>
+        <p class="cs-lede">&ldquo;The quote or claim that frames everything after it.&rdquo;</p>
+        <p class="cs-lede">One paragraph saying what this case study covers.</p>
       </div>
       <figure class="cs-hero">
-        <img src="ness_hero_image.png" loading="lazy" decoding="async"
-             alt="Ness app hero — artboard interface with Johnathan AI guide">
+        <div class="phone">
+          <div class="phone-screen">
+            <img class="phone-frames" src="REPLACE.png" width="390" height="844"
+                 decoding="async" alt="Describe the screen.">
+          </div>
+        </div>
       </figure>
     </div>
-
-    <figure class="fig">
-      <img src="ness_finalUI_landing_mockup_desktop.png" loading="lazy" decoding="async" alt="Ness landing screen — desktop UI mockup showing the welcome interface">
-    </figure>
-    <figure class="fig">
-      <img src="ness_user_retention_illustration_desktop.png" loading="lazy" decoding="async" alt="User retention chart showing the gap between existing apps and Ness’s engagement approach">
-    </figure>
   </header>
 
   <div class="cs-body" id="read">
 
-    <section class="sec" id="s1" data-bar="Research" aria-labelledby="s1h">
-      <h2 class="sec-label" id="s1h">Three things the research kept saying.</h2>
+    <section class="sec" id="s1" data-bar="Overview" aria-labelledby="s1h">
+      <h2 class="sec-label" id="s1h">Overview — the sentence this section proves.</h2>
       <div class="sec-copy">
-        <p class="hmw">“How do you make therapy feel natural for people who think and feel in images, not sentences?”</p>
+        <p class="sec-lede">The one-line claim this section proves.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
       </div>
+    </section>
+
+    <section class="sec" id="s2" data-bar="Problem framing" aria-labelledby="s2h">
+      <h2 class="sec-label" id="s2h">Problem framing — the sentence this section proves.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">What the market does, and the gap it leaves.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s3" data-bar="Research" aria-labelledby="s3h">
+      <h2 class="sec-label" id="s3h">Research — the sentence this section proves.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">What was learned before anything was drawn.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s4" data-bar="System logic" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">System logic — the sentence this section proves.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">How the thing actually works.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s5" data-bar="Solutions" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Solutions — the sentence this section proves.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">What was built, and what was cut.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s6" data-bar="Reflection" aria-labelledby="s6h">
+      <h2 class="sec-label" id="s6h">Reflection — the sentence this section proves.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">What you would do differently, and the same.</p>
+        <p>Body copy. Two or three paragraphs at most — anything longer belongs in a
+           component, not in prose.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         COMPONENT SHELF — delete whatever this case study does not use.
+         Everything below is live markup, not a picture of markup, so you can
+         see each piece render and cut the ones you do not need. Each is
+         placed in a section so it inherits the two-column grid.
+         ══════════════════════════════════════════════════════════════════ -->
+    <section class="sec" id="shelf" data-bar="Shelf" aria-labelledby="shelfh">
+      <h2 class="sec-label" id="shelfh">Component shelf</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Delete this whole section before publishing.</p>
+      </div>
+
+      <!-- THE DECISION. One per section. The cost row is the point: a choice
+           on its own is a claim, a choice with its price is judgment. -->
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>What was chosen</td></tr>
+          <tr><th scope="row">Over</th><td>The alternative it beat</td></tr>
+          <tr><th scope="row">Because</th><td>the reason, in one line</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">what it cost to choose it</td></tr>
+        </tbody>
+      </table>
+
+      <!-- SECTION LABEL for a block that is not a heading -->
+      <p class="eyebrow-b">Label above a component</p>
+
+      <!-- ASIDE — a short argued point, indented off the copy -->
+      <div class="pushed">
+        <p class="eyebrow-b">Why I pushed for this</p>
+        <p>One paragraph of reasoning.</p>
+      </div>
+
+      <!-- FIGURE. Capped to the viewport so a diagram is always seen whole. -->
       <figure class="fig">
-        <img src="../Mindure/casestudy1_empathy_map_2.png" loading="lazy" decoding="async" alt="Empathy map showing what users feel, see, hear, and do">
+        <img src="REPLACE.png" width="1600" height="900" loading="lazy" decoding="async"
+             alt="Describe what the diagram shows, not that it is a diagram.">
+        <figcaption>What the reader should take from it.</figcaption>
       </figure>
-      <div class="said">
-        <blockquote>“I needed something that goes beyond reflection — something that guides creativity.”</blockquote>
+
+      <!-- WIDE DIAGRAM — full measure, its own ratio, section-sized gap above -->
+      <figure class="fig fig--card">
+        <div class="plane">
+          <svg viewBox="0 0 990 375" role="img" aria-labelledby="shT shD">
+            <title id="shT">Short name for the drawing</title>
+            <desc id="shD">Everything the drawing says, in sentences.</desc>
+            <circle class="hard" cx="180" cy="188" r="110"/>
+            <text class="cap" x="180" y="195" text-anchor="middle">Node</text>
+            <line class="hard" x1="295" y1="188" x2="400" y2="188"/>
+            <circle class="hard key-node" cx="512" cy="188" r="110"/>
+            <text class="cap2 key-lab" x="512" y="195" text-anchor="middle">Key node</text>
+          </svg>
+        </div>
+      </figure>
+
+      <!-- THREE SHOTS OF ONE SCREEN. Shared box, so the heights always match. -->
+      <div class="gens">
+        <div class="gen">
+          <img class="shot" src="REPLACE.png" width="390" height="844" loading="lazy" decoding="async" alt="">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 1 — Cut</span>
+            <div class="gen-label">What it was</div>
+            <p class="gen-note">Why it failed.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="REPLACE.png" width="390" height="844" loading="lazy" decoding="async" alt="">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 2 — Cut</span>
+            <div class="gen-label">What it was</div>
+            <p class="gen-note">Why it failed.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="REPLACE.png" width="390" height="844" loading="lazy" decoding="async" alt="">
+          <div class="gen-cap">
+            <span class="tag tag--ship">Gen 3 — Shipped</span>
+            <div class="gen-label">What it was</div>
+            <p class="gen-note">Why it won.</p>
+          </div>
+        </div>
       </div>
+
+      <!-- TWO TRACKS COMPARED. Stays full width: at the prose measure each
+           track halves and the comparison stops being readable. -->
+      <div class="versus">
+        <div class="arch-side">
+          <p class="eyebrow-b">Their approach</p>
+          <p class="arch-t">One-line summary</p>
+          <dl><dt>Primary KPI</dt><dd>What they optimise</dd>
+              <dt>Friction</dt><dd>What they remove</dd></dl>
+          <ol><li>Trait</li><li>Trait</li></ol>
+        </div>
+        <div class="versus-vs" aria-hidden="true">vs.</div>
+        <div class="arch-side">
+          <p class="eyebrow-b">Our bet</p>
+          <p class="arch-t">One-line summary</p>
+          <dl><dt>Primary KPI</dt><dd>What we optimise</dd>
+              <dt>Friction</dt><dd>What we keep, on purpose</dd></dl>
+          <ol><li>Trait</li><li>Trait</li></ol>
+        </div>
+      </div>
+
+      <!-- THREE STATES AND THEIR RESPONSES. Also stays full width. -->
+      <div class="gap-cards" role="group" aria-label="States and responses">
+        <div class="gap-card">
+          <p class="gap-t">The state</p><p class="gap-d">What the person feels</p>
+          <span class="gap-pill">&rarr; The response</span>
+        </div>
+        <span class="gap-arrow" aria-hidden="true">&rarr;</span>
+        <div class="gap-card">
+          <p class="gap-t">The state</p><p class="gap-d">What the person feels</p>
+          <span class="gap-pill">&rarr; The response</span>
+        </div>
+      </div>
+
+      <!-- WHAT WAS CUT AND WHY -->
+      <table class="devsync">
+        <caption>Why it was cut</caption>
+        <thead><tr><th scope="col">Reason</th><th scope="col">What it meant</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Reason</th><td>Consequence</td></tr>
+          <tr><th scope="row">Reason</th><td>Consequence</td></tr>
+        </tbody>
+      </table>
+
+      <!-- WHAT WAS SAID ABOUT IT -->
+      <div class="said">
+        <blockquote>&ldquo;The quote.&rdquo; <cite>&mdash; Who said it</cite></blockquote>
+      </div>
+
+      <!-- A FOLD, for anything long that only some readers want -->
       <div class="blueprint">
         <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
-          <span class="bp-t">Research sources</span>
-          <span class="bp-e">Four sources · retention, non-verbal expression, phototherapy, art therapy</span>
+          <span class="bp-t">Title of the folded thing</span>
+          <span class="bp-e">What is inside</span>
         </button>
         <div class="bp-panel" id="bpPanel" hidden>
-          <p>Baumel A et al. (2019). Real-World Implementation Outcomes of Mental Health Apps. JMIR Mental Health.</p>
-          <p>Tyron G et al. (2024). Visual expression and emotional processing in non-verbal populations.</p>
-          <p>Soyer R (2015). Phototherapy as a tool of emotional identification. ERIC.</p>
-          <p>Malchiodi C (2011). Handbook of Art Therapy. Guilford Press.</p>
+          <p>Folded content.</p>
         </div>
       </div>
     </section>
 
-    <section class="sec" id="s2" data-bar="Check-in" aria-labelledby="s2h">
-      <h2 class="sec-label" id="s2h">Before the canvas opens, the app learns what state you’re in — without asking you to explain it.</h2>
-      <figure class="fig fig--pair">
-        <img src="desktop/Prototype_test1.png" loading="lazy" decoding="async" alt="Check-in start screen — welcome to today’s session">
-        <img src="desktop/prototype_test2.png" loading="lazy" decoding="async" alt="Mood slider — from Terrible to Amazing">
-      </figure>
-      <figure class="fig fig--pair">
-        <img src="desktop/prototype_test3.png" loading="lazy" decoding="async" alt="Sleep thermometer check-in screen">
-        <img src="desktop/prototype_test4.png" loading="lazy" decoding="async" alt="Emotion vocabulary selector screen">
-      </figure>
-    </section>
-
-    <section class="sec" id="s3" data-bar="The guide" aria-labelledby="s3h">
-      <h2 class="sec-label" id="s3h">The guide doesn’t speak until you’ve made something. Then it notices — without naming.</h2>
-      <div class="sec-copy">
-        <p>Johnathan observes pattern. He reflects without labelling. The person stays in control of what the observation means — or whether it means anything at all.</p>
-      </div>
-      <figure class="fig fig--pair">
-        <img src="desktop/Artboard_brush.png" loading="lazy" decoding="async" alt="Blank artboard with Johnathan’s opening message">
-        <img src="desktop/Artboard_brush-1.png" loading="lazy" decoding="async" alt="Active painting session with Johnathan observing colour shift">
-        <figcaption>“The gradual shift in colour from muted shades to something brighter shows a potential change in mood or thought — let’s keep exploring what that might mean for you.”</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_artboard_mockup_desktop.png" loading="lazy" decoding="async" alt="Final artboard UI — full desktop mockup showing the creative canvas with Johnathan’s observation panel">
-      </figure>
-    </section>
-
-    <section class="sec" id="s4" data-bar="Testing" aria-labelledby="s4h">
-      <h2 class="sec-label" id="s4h">Two rounds of testing. Each one changed something specific.</h2>
-      <table class="devsync">
-        <thead><tr><th scope="col">What testing found</th><th scope="col">What changed</th><th scope="col">Outcome</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">70% of users couldn’t connect icons to their function</th><td>Labels added beneath each icon, icons replaced with familiar visual patterns</td><td>100% icon comprehension in Test 2</td></tr>
-          <tr><th scope="row">80% confused the therapeutic chat panel with a user profile</th><td>Panel given explicit title “Johnathan, AI Therapy Guide” with visual separation</td><td>100% panel comprehension in Test 2</td></tr>
-          <tr><th scope="row">40% wanted core creation tools more accessible</th><td>Brush, pen, pencil, sponge grouped in a persistent tray at the bottom</td><td>60% rated tool placement as satisfactory in Test 2</td></tr>
-        </tbody>
-      </table>
-      <p class="eyebrow-b">n=5 per round. Small sample — findings used directionally, not as conclusive evidence.</p>
-      <figure class="fig fig--pair">
-        <img src="ness_iterationpcoress_1st_wireframe.png" loading="lazy" decoding="async" alt="First wireframe iteration of the Ness interface">
-        <img src="ness_iterationpcoress_3rd_wireframe.png" loading="lazy" decoding="async" alt="Third wireframe iteration with labelled Johnathan panel">
-        <figcaption>Before: “Jonathan” reads as a participant list, not a therapy guide. After: “Johnathan, AI Therapy Guide” — role is explicit, chat is unambiguous.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_test_mockup_desktop.png" loading="lazy" decoding="async" alt="Final tested interface — the validated design after two rounds of usability testing">
-      </figure>
-    </section>
-
-    <section class="sec" id="s5" data-bar="Progress" aria-labelledby="s5h">
-      <h2 class="sec-label" id="s5h">The progress view doesn’t score how you felt. It shows how far you’ve come.</h2>
-      <div class="sec-copy">
-        <p>The arc uses mood symbols as its Y-axis — not clinical scores. Johnathan’s weekly reflection is written in plain language. Creations are titled by the person, not the system.</p>
-      </div>
-      <figure class="fig fig--row">
-        <img src="desktop/Profile%20Overview.png" loading="lazy" decoding="async" alt="Profile overview with mood arc chart">
-        <img src="desktop/Profile%20Progress.png" loading="lazy" decoding="async" alt="Engagement and AI weekly reflection">
-        <img src="desktop/Profile%20Creations.png" loading="lazy" decoding="async" alt="Creations gallery">
-      </figure>
-      <figure class="fig">
-        <img src="ness_finalUI_profile_mockup_desktop.png" loading="lazy" decoding="async" alt="Full profile view desktop mockup — mood arc, journal and Johnathan’s weekly reflection in context">
-      </figure>
-    </section>
-
-    <section class="sec" id="s6" data-bar="Design system" aria-labelledby="s6h">
-      <h2 class="sec-label" id="s6h">Every colour was chosen for what it does to the nervous system, not what it looks like.</h2>
-      <figure class="fig">
-        <img src="ness_designsystem_color_psychology.png" loading="lazy" decoding="async" alt="Brand colours and their psychological rationale">
-        <figcaption><strong>Serene Teal</strong>: calming, associated with nature and wellness. Lowers perceived threat. <strong>Lavender Blush</strong>: soft, creative, slightly whimsical. Reduces clinical association. <strong>Dusty Peach</strong>: warmth without energy. Prevents the palette reading as cold or sterile.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_typography.png" loading="lazy" decoding="async" alt="Typography specimen showing Create to heal">
-        <figcaption>“Create to heal” — the tagline lives in the type specimen, not the hero. It earns its place here.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_branding_logo.png" loading="lazy" decoding="async" alt="Ness logo and brand mark — logotype construction and usage rules">
-        <figcaption>The logotype uses weight contrast to mirror the app’s thesis — quiet structure that doesn’t shout.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_components.png" loading="lazy" decoding="async" alt="Core UI components — cards, inputs, feedback states">
-        <figcaption>Every component was tested against the emotional register of its context. No sharp shadows. No assertive motion.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_button_components.png" loading="lazy" decoding="async" alt="Button component system — primary, secondary, and ghost states">
-        <figcaption>Buttons use rounded corners and generous padding — readable at low focus, never demanding.</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="ness_designsystem_interactive_components.png" loading="lazy" decoding="async" alt="Interactive component states — sliders, selectors, toggles">
-        <figcaption>Sliders and selectors replace text inputs wherever possible. The interaction is physical, not linguistic.</figcaption>
-      </figure>
-    </section>
-
-    <section class="sec" id="s7" data-bar="Reflection" aria-labelledby="s7h">
-      <h2 class="sec-label" id="s7h">What I got wrong.</h2>
-      <div class="sec-copy">
-        <p class="sec-lede">The check-in asks “How are you feeling today?” before the person has touched the canvas. That directly contradicts the core thesis — make something first, understand it second.</p>
-        <p>I’d redesign the entry point so the artboard opens first and the check-in follows the session, not precedes it. The data would be richer and the friction would disappear.</p>
-        <p class="hmw">You don’t need to know what you’re feeling to start. That’s the whole point.</p>
-      </div>
-      <figure class="fig">
-        <img src="ness_bottom_banner.png" loading="lazy" decoding="async" alt="Ness — create to heal">
-      </figure>
-    </section>
-
   </div>
+
+  <nav class="next" aria-label="Next case studies">
+    <p class="sec-label">Next case studies</p>
+  </nav>
 
 </div>
 
+<dialog class="lb" id="lightbox" aria-label="Enlarged image">
+  <button type="button" class="lb-x" id="lightboxClose" aria-label="Close image">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="lb-in"><img id="lightboxImg" src="" alt=""></div>
+</dialog>
 <script>
 (function(){
 "use strict";
@@ -1938,6 +2456,147 @@ measure();spy();
    kept is everything every case study needs - the accessibility panel, the
    noise toggle, the fold, and the scroll spy that drives the progress bar and
    marks the route in the header. */
+})();
+/* the wipe. One listener per stage, and the position lives in a custom property
+   so the clip and the seam can never disagree about where the edge is. */
+(function(){
+  [].slice.call(document.querySelectorAll(".cmp-stage")).forEach(function(stage){
+    var range=stage.querySelector(".cmp-range");
+    if(!range)return;
+    function put(){stage.style.setProperty("--x",range.value+"%");}
+    range.addEventListener("input",put);
+    put();
+  });
+})();
+/* The walkthrough. It starts when the frame is actually on screen and stops when
+   it leaves - a minute of video playing to nobody, behind the reader, is
+   bandwidth and battery spent on nothing. A pause the reader chose is
+   remembered, so coming back to the frame does not overrule them. */
+(function(){
+  var fig=document.getElementById("macFig");
+  if(!fig)return;
+  var v=fig.querySelector(".mac-video");
+  if(!v)return;
+  /* The capture runs 58.4s, but at 54.5s the screen recorder throws up its own
+     signup dialog over the prototype. That is the recorder advertising itself,
+     not the work, so playback stops before it - on the clock and on the scrub
+     bar alike, since a viewer dragging the handle would otherwise land in it.
+     The tail is still inside the file; it wants trimming properly. */
+  var CUT=54.2;
+  var ours=false,userPaused=false;
+  function still(){return document.documentElement.getAttribute("data-motion")==="off";}
+  v.addEventListener("pause",function(){
+    if(ours)ours=false; else userPaused=true;
+  });
+  v.addEventListener("play",function(){
+    userPaused=false;
+    if(v.currentTime>=CUT-0.05)v.currentTime=0;   /* played to the cut: start over */
+  });
+  v.addEventListener("timeupdate",function(){
+    if(v.currentTime>=CUT&&!v.paused){ours=true;v.pause();}
+  });
+  v.addEventListener("seeking",function(){
+    if(v.currentTime>CUT)v.currentTime=CUT;
+  });
+  function go(on){
+    if(on){
+      if(still()||userPaused||!v.paused)return;
+      var p=v.play();
+      if(p&&p.catch)p.catch(function(){});   /* refused: the controls are there */
+    }else if(!v.paused){
+      ours=true; v.pause();
+    }
+  }
+  function inView(){var r=fig.getBoundingClientRect();
+    return r.top<window.innerHeight*0.85&&r.bottom>0;}
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){
+      go(e.isIntersecting);});},{threshold:.25}).observe(fig);
+  }else{
+    var tick=function(){go(inView());};
+    window.addEventListener("scroll",tick,{passive:true});
+  }
+  if(inView())go(true);
+})();
+/* Every figure image gets a way to be seen at full size. The badge is built
+   here rather than written into each figure so a figure added later picks it
+   up for nothing, and so the markup carries no control that would be dead if
+   this script never ran. */
+(function(){
+  var lb=document.getElementById("lightbox"),lbImg=document.getElementById("lightboxImg"),
+      lbBox=lb&&lb.querySelector(".lb-in");
+  if(!lb||!lbImg||!lbBox||!lb.showModal)return;     /* no dialog support: leave the figures alone */
+  var opener=null;
+  var ICON='<svg viewBox="0 0 24 24" aria-hidden="true">'+
+    '<path d="M14 4h6v6M10 20H4v-6M20 4l-7.5 7.5M4 20l7.5-7.5"/></svg>';
+  [].slice.call(document.querySelectorAll(".fig img")).forEach(function(img){
+    var fig=img.closest("figure");
+    if(!fig||fig.querySelector(".zoom"))return;      /* one badge per figure */
+    var b=document.createElement("button");
+    b.type="button"; b.className="zoom"; b.innerHTML=ICON;
+    var what=(img.getAttribute("alt")||"").trim();
+    b.setAttribute("aria-label", what ? "Open full size: "+what : "Open image full size");
+    b.addEventListener("click",function(){
+      opener=b;
+      lbImg.src=img.currentSrc||img.src;
+      lbImg.alt=what;
+      lb.showModal();
+    });
+    fig.appendChild(b);
+  });
+  /* the comparison stages are images too, and the densest ones on the page. The
+     badge opens the redesign - the half the section is arguing for - and sits
+     bottom-right, clear of the two tags and of most of the drag area. */
+  [].slice.call(document.querySelectorAll(".cmp-stage")).forEach(function(stage){
+    if(stage.querySelector(".zoom"))return;
+    var over=stage.querySelector(".cmp-over img");
+    if(!over)return;
+    var cell=stage.closest(".cmp")&&stage.closest(".cmp").querySelector(".cmp-v");
+    var name=cell?cell.textContent.trim():"";
+    var b=document.createElement("button");
+    b.type="button"; b.className="zoom zoom--stage"; b.innerHTML=ICON;
+    b.setAttribute("aria-label",name?"Open "+name+" full screen, both versions"
+                                    :"Open this comparison full screen");
+    /* A copy of the whole stage rather than a still of one half: the point of
+       the section is the difference between the two, and a picture of the
+       redesign on its own does not show a difference. The copy is live - it
+       carries both images, both labels and its own handle - so the reader can
+       wipe it at full size and the one on the page keeps whatever position
+       they had left it at. */
+    b.addEventListener("click",function(){
+      opener=b;
+      var c=stage.cloneNode(true);
+      var z=c.querySelector(".zoom"); if(z)z.remove();
+      var r=c.querySelector(".cmp-range");
+      if(r)r.addEventListener("input",function(){c.style.setProperty("--x",r.value+"%");});
+      lbImg.hidden=true;
+      lb.classList.add("is-cmp");
+      lbBox.appendChild(c);
+      lb.showModal();
+      if(r)r.focus();
+    });
+    stage.appendChild(b);
+  });
+  /* Every way out runs through here rather than through the dialog's own close
+     event: close() does not reliably fire it in every engine, and when it does
+     not, the image stays loaded behind a hidden dialog and focus is left on a
+     button nobody can see. Idempotent, so being called twice costs nothing. */
+  function shut(){
+    if(lb.open)lb.close();
+    lbImg.removeAttribute("src");
+    var c=lbBox.querySelector(".cmp-stage");   /* the copy, if this was one */
+    if(c)c.remove();
+    lbImg.hidden=false;
+    lb.classList.remove("is-cmp");
+    if(opener){opener.focus();opener=null;}
+  }
+  document.getElementById("lightboxClose").addEventListener("click",shut);
+  /* Escape */
+  lb.addEventListener("cancel",function(e){e.preventDefault();shut();});
+  /* the ground: the picture and the button are inside their own boxes, so a hit
+     on the dialog itself is a hit on the backdrop */
+  lb.addEventListener("click",function(e){if(e.target===lb)shut();});
+  lb.addEventListener("close",shut);
 })();
 </script>
 </body>
