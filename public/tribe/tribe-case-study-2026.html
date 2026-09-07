@@ -213,6 +213,32 @@ a{color:inherit}
 .btn:hover{border-color:var(--edge-ctrl);transition-duration:var(--in)}
 .btn--icon{width:var(--control);padding:0;flex:0 0 auto}
 .btn--icon svg{width:13px;height:13px}
+/* hover bubble — the icon carries the action, this names it */
+.btn[data-tip]{position:relative}
+.btn[data-tip]::after{
+  content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
+  translate:-50% -4px;
+  background:var(--ink);color:var(--page);
+  font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:0;text-transform:lowercase;white-space:nowrap;
+  padding:.62em .9em;border-radius:var(--r-pill);
+  opacity:0;pointer-events:none;z-index:1;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
+}
+.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+@media (hover:hover){
+  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+}
+/* pinned to the bottom of the window, so the bubble opens upward - a
+   downward one would simply leave the viewport */
+.c-br .btn[data-tip]::after{top:auto;bottom:calc(100% + 8px);translate:-50% 4px}
+.c-br .btn[data-tip]:focus-visible::after{translate:-50% 0}
+@media (hover:hover){ .c-br .btn[data-tip]:hover::after{translate:-50% 0} }
+/* the first control sits on the left of the group, the last on the margin,
+   so their bubbles hang from the near edge rather than overrunning it */
+.c-br > *:first-child[data-tip]::after{left:0;translate:0 4px}
+.c-br > *:first-child[data-tip]:focus-visible::after{translate:0 0}
+@media (hover:hover){ .c-br > *:first-child[data-tip]:hover::after{translate:0 0} }
 .btn--on{background:var(--ink);color:var(--page);border-color:var(--ink)}
 
 /* accessibility panel — text size, contrast, motion */
@@ -244,32 +270,60 @@ a{color:inherit}
    Carried over from the landing page unchanged, so the control behaves the
    same wherever it is met: the level opens for five seconds when the sound
    starts and afterwards on hover, and the explainer introduces itself once. */
-.noise{display:flex;align-items:center;gap:0}
-.noise-vol{display:flex;align-items:center;height:var(--control);overflow:hidden;
-  width:0;padding-inline:0;opacity:0;pointer-events:none;
-  background:var(--glass);border:0 solid var(--edge-ctrl);border-radius:var(--r-pill);
+.noise{display:flex;align-items:center;gap:0;flex:none;height:var(--control);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
+.noise:hover{background:var(--page);border-color:rgba(25,21,23,.42);transition-duration:var(--in)}
+/* flex:none on the button as well: when the level opens the pill gets wider,
+   and the only thing allowed to change size is the level. Without this the
+   button is the flexible item and the label is what gets squeezed away. */
+.noise .noise-btn{height:100%;flex:none;background:none;border-color:transparent;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.noise .noise-btn:hover{background:none;border-color:transparent;color:var(--ink)}
+/* Playing: the whole pill goes to ink and everything on it turns page-coloured.
+   Inverting the pill rather than the button is the part that matters - the
+   button has no ground of its own in here, so painting only its text white is
+   what put white on white the first time round. These rules sit after the hover
+   rules above deliberately: same specificity, so source order is what keeps the
+   pill black while the pointer is on it. */
+.noise[data-on="true"],
+.noise[data-on="true"]:hover{background:var(--ink);border-color:var(--ink)}
+.noise[data-on="true"] .noise-btn,
+.noise[data-on="true"] .noise-btn:hover{color:var(--page)}
+/* the level has to read on ink too: a page-coloured thumb on a dimmed page-
+   coloured track, rather than the ink-on-light pair used when the pill is off */
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
+/* Back inside the pill and back in the flow, so its width is what opens the
+   pill up. Kept to 1.5 controls rather than the 3.2 it was: the button steps
+   left by exactly this much when the sound comes on, and the shorter the step,
+   the less of the button passes out from under the pointer. flex:none because
+   overflow:hidden drops its automatic minimum size to zero, and the row will
+   otherwise squeeze it straight back to nothing. */
+.noise-vol{display:flex;align-items:center;height:100%;overflow:hidden;flex:none;
+  width:0;padding-inline:0;opacity:0;pointer-events:none;
   transition:width var(--out) var(--ease),opacity var(--out) var(--ease),
-             padding-inline var(--out) var(--ease),border-width var(--out) var(--ease)}
-/* Only while the sound is playing - there is nothing to set a level for
-   otherwise. Switching the noise on opens it for five seconds, so the
-   control introduces itself once and then gets out of the way; after that
-   hover or keyboard focus brings it back for exactly as long as you are on
-   it. Because those two selectors open it independently of the timer, a
-   slider being dragged when the five seconds expire simply stays put. */
-.noise[data-on="true"][data-vol="true"] .noise-vol,
+             padding-inline var(--out) var(--ease)}
+/* Two conditions, not one: playing, and being approached. Playing alone leaves
+   the pill at its default size sitting against the accessibility button, which
+   is what it should look like at rest. :focus-within is the keyboard half of
+   the same condition, so the level is still reachable without a pointer. */
 .noise[data-on="true"]:hover .noise-vol,
-.noise[data-on="true"]:focus-within .noise-vol{width:calc(var(--control)*3.2);padding-inline:calc(var(--control)*.4);
-  opacity:1;pointer-events:auto;border-width:1px;transition-duration:var(--in)}
+.noise[data-on="true"]:focus-within .noise-vol{width:calc(var(--control)*1.5);
+  padding-inline:calc(var(--control)*.3);
+  opacity:1;pointer-events:auto;transition-duration:var(--in)}
 .noise-vol input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:var(--control);
   background:transparent;cursor:pointer;margin:0}
 .noise-vol input[type="range"]::-webkit-slider-runnable-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
-.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
-  border-radius:var(--r-pill);background:var(--ink);margin-top:-6px;
+.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;
+  border-radius:var(--r-pill);background:var(--ink);margin-top:-4px;
   transition:scale var(--out) var(--ease)}
 .noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1.18;transition-duration:var(--in)}
 .noise-vol input[type="range"]::-moz-range-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
-.noise-vol input[type="range"]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:var(--r-pill);background:var(--ink)}
+.noise-vol input[type="range"]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:var(--r-pill);background:var(--ink)}
 .noise{position:relative}
 .n-ico{position:relative;width:1.05em;height:1.05em;flex:0 0 auto}
 /* the wave only travels while the sound is on - it is the state indicator,
@@ -345,6 +399,16 @@ a{color:inherit}
   text-transform:none;letter-spacing:0}
 
 /* toast */
+.toast{position:absolute;z-index:700;bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 10px);right:var(--margin);
+  padding:0 1.1em;height:var(--control);display:inline-flex;align-items:center;
+  background:var(--ink);color:var(--page);border-radius:var(--r-pill);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
+  opacity:0;translate:0 6px;pointer-events:none;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
+.toast[data-show="true"]{opacity:1;translate:0 0}
+/* the note under the switches, as on the landing page */
+.pnote{font-family:var(--serif);font-size:var(--micro);line-height:1.55;color:var(--muted);
+  margin:var(--stack) 0 0}
 
 /* ═══ which face does what ═══
    Literata is the reading face. Anything the eye reads as prose is set in it,
@@ -1542,6 +1606,15 @@ a{color:inherit}
   </nav>
 
   <div class="chrome c-br">
+    <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
+    </a>
+    <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let’s connect on LinkedIn" data-tip="Let’s connect">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+    </a>
+    <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+    </button>
     <div class="noise" id="noise" data-on="false">
       <div class="noise-vol">
         <input type="range" id="vol" min="0" max="100" value="8" aria-label="Noise volume" disabled>
@@ -1561,7 +1634,7 @@ a{color:inherit}
   </div>
 
   <div class="panel" id="panel" data-open="false" role="dialog" aria-label="Accessibility options">
-    <p class="panel-h">Accessibility</p>
+    <h2 class="panel-h">Accessibility</h2>
     <div class="prow"><span>Text size</span>
       <span class="pset">
         <button class="btn btn--icon" data-text="-" aria-label="Smaller text">&minus;</button>
@@ -1572,7 +1645,10 @@ a{color:inherit}
       <button class="btn" id="contrastBtn" aria-pressed="false">Off</button></div>
     <div class="prow"><span>Reduce motion</span>
       <button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
+    <p class="pnote">Pink noise plays a steady, even tone that can help with focus. It stays off until you turn it on.</p>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">email copied</div>
 </div>
 
 <div class="wrap">
@@ -2302,6 +2378,20 @@ a{color:inherit}
 "use strict";
 var root=document.documentElement;
 
+/* email copy — the address goes to the clipboard, and the toast says so.
+   Where the clipboard is unavailable (an insecure origin, an older engine) the
+   toast shows the address itself, so the button always does something useful. */
+var MAIL='orsigorcz@gmail.com',toast=document.getElementById('toast'),tt;
+function shout(m){if(!toast)return;toast.textContent=m;toast.setAttribute('data-show','true');
+  clearTimeout(tt);tt=setTimeout(function(){toast.removeAttribute('data-show');},2200);}
+function copyMail(){
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(MAIL).then(function(){shout('email copied');},function(){shout(MAIL);});
+  }else{shout(MAIL);}
+}
+var mailBtn=document.getElementById('mailBtn');
+if(mailBtn)mailBtn.addEventListener('click',copyMail);
+
 /* accessibility panel */
 var panel=document.getElementById('panel'),a11y=document.getElementById('a11yBtn');
 function closePanel(){panel.setAttribute('data-open','false');
@@ -2374,12 +2464,20 @@ function startNoise(){
   src.connect(swell);swell.connect(gain);gain.connect(ac.destination);src.start();
   return true;
 }
+/* Suspending rather than closing: a closed context cannot be reused, and the
+   next press would have to build a new one and lose the resume path. */
+function release(){
+  if(ac&&!src&&ac.state==="running"){try{ac.suspend();}catch(e){}}
+}
 function stopNoise(){
   if(!src)return;
   var s=src,l=lfo;src=null;lfo=null;
   if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
-    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}},260);}
-  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}}
+    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}
+      /* and let go of the output device, so the tab stops reporting itself
+         as playing audio once the sound has actually gone */
+      release();},260);}
+  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}release();}
 }
 function setNoise(on){
   if(on&&!startNoise())return;
@@ -2387,14 +2485,18 @@ function setNoise(on){
   [noiseBtn,noiseBtnM].forEach(function(b){
     if(!b)return;
     b.setAttribute("aria-pressed",on?"true":"false");
-    b.classList.toggle("btn--on",on);
+    /* btn--on inverts a button: ink ground, page-coloured text. That is right
+       for the standalone icon button on mobile, and wrong for the one inside
+       the pill, which has no ground of its own - there it left page-coloured
+       text on near-white glass. The pill version says "on" with ink text and
+       the travelling wave instead, so it never depends on the inversion. */
+    if(b!==noiseBtn) b.classList.toggle("btn--on",on);
   });
   if(noiseBtnM)noiseBtnM.setAttribute("aria-label",on?"Stop noise for focus":"Play noise for focus");
   if(noiseWrap)noiseWrap.setAttribute("data-on",on?"true":"false");
   /* a collapsed slider is still in the tab order unless it is disabled, and
      tabbing onto an invisible control with no level to set is a dead stop */
   if(vol)vol.disabled=!on;
-  if(on)flash("data-vol"); else unflash("data-vol");
 }
 /* Switching the sound on shows the level and the explainer, then hands both
    back to hover after the same five seconds. One helper drives them so the
@@ -2416,8 +2518,11 @@ function unflash(attr){
    control - pointer or keyboard, whichever happens first - holds for the
    same five seconds, and is then spent for the rest of the visit. Reaching
    a control should not re-explain it to someone who has already read it. */
-var tipSpent=false;
-function firstTip(){if(tipSpent)return;tipSpent=true;flash("data-explain");}
+/* Two passes, not one. Once was too eager to be useful - the first approach is
+   often accidental, and by the time someone comes back deliberately the note
+   had already been spent. It still stops after the second, so it never nags. */
+var TIP_TIMES=2,tipSeen=0;
+function firstTip(){if(tipSeen>=TIP_TIMES)return;tipSeen++;flash("data-explain");}
 if(noiseWrap){
   noiseWrap.addEventListener("pointerenter",firstTip);
   noiseWrap.addEventListener("focusin",firstTip);

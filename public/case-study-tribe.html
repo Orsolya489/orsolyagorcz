@@ -76,7 +76,97 @@ em{font-style:italic}
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease),color var(--out) var(--ease)}
 .btn:hover{background:var(--page);border-color:rgba(25,21,23,.42);color:var(--ink);transition-duration:var(--in)}
 .btn--icon{padding:0;width:var(--control);flex:0 0 var(--control)}
+/* hover bubble — the icon carries the action, this names it */
+.btn[data-tip]{position:relative}
+.btn[data-tip]::after{
+  content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
+  translate:-50% -4px;background:var(--ink);color:var(--page);
+  font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:0;text-transform:lowercase;white-space:nowrap;
+  padding:.62em .9em;border-radius:var(--r-pill);
+  opacity:0;pointer-events:none;z-index:1;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
+.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+@media (hover:hover){
+  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+}
+/* the last control sits on the margin, so its bubble hangs from the right */
+.c-tr > *:last-child[data-tip]::after{left:auto;right:0;translate:0 -4px}
+.c-tr > *:last-child[data-tip]:focus-visible::after{translate:0 0}
+@media (hover:hover){ .c-tr > *:last-child[data-tip]:hover::after{translate:0 0} }
 .btn--on{background:var(--ink);border-color:var(--ink);color:var(--page)}
+
+/* ═══ noise for focus ═══
+   The landing page’s control, carried over whole so it behaves the same
+   wherever it is met: one pill that goes to ink while it plays, with the level
+   opening inside it on hover or keyboard focus. */
+.noise{position:relative;display:flex;align-items:center;gap:0;flex:none;height:var(--control);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
+.noise:hover{background:var(--page);border-color:rgba(25,21,23,.42);transition-duration:var(--in)}
+/* flex:none on the button as well: when the level opens the pill gets wider,
+   and the only thing allowed to change size is the level. */
+.noise .noise-btn{height:100%;flex:none;background:none;border-color:transparent;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.noise .noise-btn:hover{background:none;border-color:transparent;color:var(--ink)}
+/* Playing: the whole pill goes to ink and everything on it turns page-coloured.
+   Inverting the pill rather than the button is the part that matters - the
+   button has no ground of its own in here. These rules sit after the hover
+   rules deliberately: same specificity, so source order keeps the pill black
+   while the pointer is on it. */
+.noise[data-on="true"],
+.noise[data-on="true"]:hover{background:var(--ink);border-color:var(--ink)}
+.noise[data-on="true"] .noise-btn,
+.noise[data-on="true"] .noise-btn:hover{color:var(--page)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
+/* flex:none because overflow:hidden drops its automatic minimum size to zero,
+   and the row will otherwise squeeze it straight back to nothing. */
+.noise-vol{display:flex;align-items:center;height:100%;overflow:hidden;flex:none;
+  width:0;padding-inline:0;opacity:0;pointer-events:none;
+  transition:width var(--out) var(--ease),opacity var(--out) var(--ease),
+             padding-inline var(--out) var(--ease)}
+/* Two conditions, not one: playing, and being approached. :focus-within is the
+   keyboard half, so the level is reachable without a pointer. */
+.noise[data-on="true"]:hover .noise-vol,
+.noise[data-on="true"]:focus-within .noise-vol{width:calc(var(--control)*1.5);
+  padding-inline:calc(var(--control)*.3);
+  opacity:1;pointer-events:auto;transition-duration:var(--in)}
+.noise-vol input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:var(--control);
+  background:transparent;cursor:pointer;margin:0}
+.noise-vol input[type="range"]::-webkit-slider-runnable-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;
+  border-radius:var(--r-pill);background:var(--ink);margin-top:-4px;
+  transition:scale var(--out) var(--ease)}
+.noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1.18;transition-duration:var(--in)}
+.noise-vol input[type="range"]::-moz-range-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:var(--r-pill);background:var(--ink)}
+.n-ico{position:relative;width:1.05em;height:1.05em;flex:0 0 auto}
+.n-ico svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity var(--out) var(--ease)}
+.noise-btn[aria-pressed="false"] .n-on{opacity:0}
+.noise-btn[aria-pressed="true"] .n-off{opacity:0}
+/* the wave only travels while the sound is on - it is the state indicator,
+   not decoration, so it says nothing when there is nothing to say */
+.n-wave{transform-box:view-box;transform-origin:center}
+.noise-btn[aria-pressed="true"] .n-wave{animation:n-wave 1.9s linear infinite}
+@keyframes n-wave{to{transform:translateX(-12px)}}
+[data-motion="off"] .n-wave{animation:none}
+/* Explainer. Sits above the control because this group is pinned to the
+   bottom of the window - a bubble below it would leave the viewport. */
+.n-tip{position:absolute;bottom:calc(100% + 10px);right:0;
+  width:max-content;max-width:min(34ch, calc(100vw - var(--margin)*2));
+  background:var(--ink);color:var(--page);
+  font-family:var(--serif);font-weight:400;font-size:var(--micro);line-height:1.5;
+  letter-spacing:0;text-align:left;padding:.85em 1.05em;border-radius:var(--r-lg);
+  opacity:0;translate:0 4px;pointer-events:none;z-index:2;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
+.n-tip-t{display:block;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);line-height:1.35;margin-bottom:.5em}
+.noise[data-explain="true"] .n-tip{opacity:1;translate:0 0;
+  transition:opacity var(--in) var(--ease),translate var(--in) var(--ease)}
 .btn svg{width:1.05em;height:1.05em}
 
 /* chrome */
@@ -124,6 +214,9 @@ em{font-style:italic}
   text-transform:uppercase;color:var(--body-c)}
 .pgrp{display:flex;gap:6px}
 .c-br{position:absolute;z-index:500;bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin);display:flex;gap:6px}
+/* the note under the switches, as on the landing page */
+.pnote{font-family:var(--serif);font-size:var(--micro);line-height:1.55;color:var(--muted);
+  margin:var(--stack) 0 0}
 .toast{position:absolute;z-index:700;top:calc(var(--gutter) + var(--control) + 10px);right:var(--margin);
   padding:0 1.1em;height:var(--control);display:inline-flex;align-items:center;background:var(--ink);
   color:var(--page);border-radius:var(--r-pill);font-family:var(--sans);font-weight:500;
@@ -325,6 +418,7 @@ main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
   .s1,.s2,.c1-7,.c1-8,.c9-12,.c4-12{grid-column:1 / -1}
 }
 @media (max-width:767px){
+  .noise-vol{display:none}
   .c1-3,.c5-7,.c9-11{grid-column:1 / -1}
   .c-tl .disc{display:none}
 }
@@ -363,8 +457,13 @@ main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
 </div>
 <div class="chrome c-tr">
   <a class="btn" href="index.html">All work</a>
-  <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Résumé</a>
-  <button class="btn btn--icon" id="mailBtn" aria-label="Copy email address">
+  <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
+  </a>
+  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let’s connect on LinkedIn" data-tip="Let’s connect">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+  </a>
+  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
 </div>
@@ -380,11 +479,21 @@ main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
 </nav>
 
 <div class="c-br">
+  <div class="noise" id="noise" data-on="false">
+    <div class="noise-vol">
+      <input type="range" id="vol" min="0" max="100" value="8" aria-label="Noise volume" disabled>
+    </div>
+    <button class="btn noise-btn" id="noiseBtn" aria-pressed="false" aria-describedby="noiseTip">
+      <span class="n-ico" aria-hidden="true">
+        <svg class="n-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="n-wave"><path d="M-12 12q3-6 6 0t6 0t6 0t6 0t6 0t6 0"/></g></svg>
+        <svg class="n-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
+      </span>
+      <span>Noise for focus</span>
+    </button>
+    <span class="n-tip" id="noiseTip" role="note"><span class="n-tip-t">Having a long day?</span>Pink noise, even across every octave with a slow 10 Hz swell, takes the edge off the room. Attention lasts longer when less is competing for it.</span>
+  </div>
   <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 11h8M12 11v6M12 14l-2.5 3M12 14l2.5 3"/></svg>
-  </button>
-  <button class="btn btn--icon" id="noiseBtn" aria-label="Play brown noise" aria-pressed="false">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="2" fill="currentColor" stroke="none"/><path d="M5.4 9h13.2M12 9v5.6M12 14.6 8.6 20M12 14.6 15.4 20"/></svg>
   </button>
 </div>
 
@@ -397,6 +506,7 @@ main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
   </span></div>
   <div class="prow"><span>High contrast</span><button class="btn" id="contrastBtn" aria-pressed="false">Off</button></div>
   <div class="prow"><span>Reduce motion</span><button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
+  <p class="pnote">Pink noise plays a steady, even tone that can help with focus. It stays off until you turn it on.</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite">email copied</div>
 </div><!-- /chrome-shell -->
@@ -781,20 +891,86 @@ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matc
   root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
-/* brown noise */
-var ac=null,src=null,gain=null;
-function noise(on){
-  if(on){var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-    if(!ac)ac=new C();if(ac.state==='suspended')ac.resume();
-    var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),last=0,i,w;
-    for(i=0;i<len;i++){w=Math.random()*2-1;d[i]=(last+.02*w)/1.02;last=d[i];d[i]*=3.5;}
-    src=ac.createBufferSource();src.buffer=buf;src.loop=true;
-    gain=ac.createGain();gain.gain.value=.18;src.connect(gain);gain.connect(ac.destination);src.start();
-  }else if(src){try{src.stop();}catch(e){}src=null;}}
-var nb=document.getElementById('noiseBtn');
-nb.addEventListener('click',function(){var on=nb.getAttribute('aria-pressed')==='true';
-  noise(!on);nb.setAttribute('aria-pressed',on?'false':'true');nb.classList.toggle('btn--on',!on);
-  nb.setAttribute('aria-label',on?'Play brown noise':'Stop brown noise');});
+/* noise for focus — toggle plus a volume dragger that slides out */
+var ac=null,src=null,gain=null,swell=null,lfo=null,lfoAmt=null;
+var noiseWrap=document.getElementById("noise"),
+    noiseBtn=document.getElementById("noiseBtn"),
+    vol=document.getElementById("vol");
+function level(){return (vol?+vol.value:8)/100*0.6;}
+function startNoise(){
+  var C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
+  if(!ac)ac=new C();
+  if(ac.state==="suspended")ac.resume();
+  /* Pink noise (Paul Kellett’s filter): equal energy per octave, which is
+     what rain and wind are, and what the reading on attention restoration
+     points to. Brown noise - what this was - rolls off far more steeply and
+     sits as a low rumble rather than a broadband mask. */
+  var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),i,w,
+      b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(i=0;i<len;i++){
+    w=Math.random()*2-1;
+    b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759; b2=0.96900*b2+w*0.1538520;
+    b3=0.86650*b3+w*0.3104856; b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+    d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+  }
+  src=ac.createBufferSource();src.buffer=buf;src.loop=true;
+  gain=ac.createGain();gain.gain.value=level();
+  /* A shallow swell at 10 Hz - upper alpha. Kept to a few percent so it reads
+     as the sound breathing rather than pulsing. */
+  swell=ac.createGain();swell.gain.value=1;
+  lfo=ac.createOscillator();lfo.type="sine";lfo.frequency.value=10;
+  lfoAmt=ac.createGain();lfoAmt.gain.value=0.05;
+  lfo.connect(lfoAmt);lfoAmt.connect(swell.gain);lfo.start();
+  src.connect(swell);swell.connect(gain);gain.connect(ac.destination);src.start();
+  return true;
+}
+/* Suspending rather than closing: a closed context cannot be reused, and the
+   next press would have to build a new one and lose the resume path. */
+function release(){
+  if(ac&&!src&&ac.state==="running"){try{ac.suspend();}catch(e){}}
+}
+function stopNoise(){
+  if(!src)return;
+  var sn=src,l=lfo;src=null;lfo=null;
+  if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
+    setTimeout(function(){try{sn.stop();}catch(e){}try{if(l)l.stop();}catch(e){}
+      /* and let go of the output device, so the tab stops reporting itself
+         as playing audio once the sound has actually gone */
+      release();},260);}
+  else{try{sn.stop();}catch(e){}try{if(l)l.stop();}catch(e){}release();}
+}
+function setNoise(on){
+  if(on&&!startNoise())return;
+  if(!on)stopNoise();
+  noiseBtn.setAttribute("aria-pressed",on?"true":"false");
+  /* no btn--on here: the pill inverts, not the button inside it */
+  if(noiseWrap)noiseWrap.setAttribute("data-on",on?"true":"false");
+  /* a collapsed slider is still in the tab order unless it is disabled, and
+     tabbing onto an invisible control with no level to set is a dead stop */
+  if(vol)vol.disabled=!on;
+}
+var FLASH=5000,flashT={};
+function flash(attr){
+  if(!noiseWrap)return;
+  clearTimeout(flashT[attr]);
+  noiseWrap.setAttribute(attr,"true");
+  flashT[attr]=setTimeout(function(){noiseWrap.removeAttribute(attr);},FLASH);
+}
+/* Two passes, not one. Once was too eager to be useful - the first approach is
+   often accidental, and by the time someone comes back deliberately the note
+   had already been spent. It still stops after the second, so it never nags. */
+var TIP_TIMES=2,tipSeen=0;
+function firstTip(){if(tipSeen>=TIP_TIMES)return;tipSeen++;flash("data-explain");}
+if(noiseWrap){
+  noiseWrap.addEventListener("pointerenter",firstTip);
+  noiseWrap.addEventListener("focusin",firstTip);
+}
+noiseBtn.addEventListener("click",function(){
+  setNoise(noiseBtn.getAttribute("aria-pressed")!=="true");
+});
+if(vol)vol.addEventListener("input",function(){
+  if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
+});
 
 /* lightbox */
 var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),

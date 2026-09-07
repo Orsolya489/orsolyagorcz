@@ -1670,12 +1670,20 @@ function startNoise(){
   src.connect(swell);swell.connect(gain);gain.connect(ac.destination);src.start();
   return true;
 }
+/* Suspending rather than closing: a closed context cannot be reused, and the
+   next press would have to build a new one and lose the resume path. */
+function release(){
+  if(ac&&!src&&ac.state==="running"){try{ac.suspend();}catch(e){}}
+}
 function stopNoise(){
   if(!src)return;
   var s=src,l=lfo;src=null;lfo=null;
   if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
-    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}},260);}
-  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}}
+    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}
+      /* and let go of the output device, so the tab stops reporting itself
+         as playing audio once the sound has actually gone */
+      release();},260);}
+  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}release();}
 }
 function setNoise(on){
   if(on&&!startNoise())return;
