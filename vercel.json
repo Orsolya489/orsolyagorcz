@@ -1,5 +1,14 @@
 {
   "outputDirectory": "public",
   "buildCommand": "",
-  "installCommand": ""
+  "installCommand": "",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/tribe/tribe-case-study-2026.html", "destination": "/case-study-01-tribe", "permanent": true },
+    { "source": "/tribe/tribe-case-study-2026", "destination": "/case-study-01-tribe", "permanent": true },
+    { "source": "/case-study-mindure-v3.html", "destination": "/case-study-02-mindure", "permanent": true },
+    { "source": "/case-study-mindure-v3", "destination": "/case-study-02-mindure", "permanent": true },
+    { "source": "/ness/ness-creative-therapy.html", "destination": "/case-study-03-ness", "permanent": true },
+    { "source": "/ness/ness-creative-therapy", "destination": "/case-study-03-ness", "permanent": true }
+  ]
 }

@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mindure — Built to calm the fear. Realised the data was the threat, not the answer.</title>
-<meta name="description" content="When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.">
-<link rel="canonical" href="https://orsolyagorcz.com/case-study-mindure-v3.html">
+<title>Tribe — Building enough safety for someone to type the thing they actually want.</title>
+<meta name="description" content="This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.">
+<link rel="canonical" href="https://orsolyagorcz.com/case-study-01-tribe">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Orsolya G.">
-<meta property="og:url" content="https://orsolyagorcz.com/case-study-mindure-v3.html">
-<meta property="og:title" content="Mindure — Built to calm the fear. Realised the data was the threat, not the answer.">
-<meta property="og:description" content="When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.">
-<meta property="og:image" content="https://orsolyagorcz.com/og/og-mindure.png">
+<meta property="og:url" content="https://orsolyagorcz.com/case-study-01-tribe">
+<meta property="og:title" content="Tribe — Building enough safety for someone to type the thing they actually want.">
+<meta property="og:description" content="This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.">
+<meta property="og:image" content="https://orsolyagorcz.com/og/og-tribe.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Mindure dashboard">
+<meta property="og:image:alt" content="Tribe product interface">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -576,34 +576,10 @@ a{color:inherit}
    the full space between sections and reads as separate from the phone rather
    than as a caption under it. */
 .fig.fig--card,.fig.fig--map{margin-top:var(--section)}
-/* One picture that is the whole rule set, so it gets the window rather than the
-   measure - the full width of the section, and as much height as is left under
-   the header. Doubled class for the same reason as the line above: the plain
-   .fig margin further down the sheet wins at equal specificity otherwise. */
-.fig.fig--full{max-width:none;margin-top:var(--section)}
-/* Doubled class again: .fig img sits later in the sheet with the same
-   specificity, so a single .fig--full img lost the height cap back to the
-   smaller one and the map never grew. */
-/* width:auto, not 100%: with a definite width the height cap squashed the box
-   and object-fit then letterboxed the picture inside it. Left to size itself,
-   the element is the picture - as wide as the section allows or as tall as the
-   window allows, whichever binds first, and no bars either way. */
-.fig.fig--full img{width:auto;max-width:100%;height:auto;margin-inline:auto;
-  max-height:calc(100svh - var(--chrome-h) - var(--stack))}
 .fig--card .plane{max-width:880px;aspect-ratio:990/375}
-/* The hub is nearly square (760x670) and was inheriting the card ratio, which
-   is 2.6:1 - so the drawing met the height of a letterbox and rendered at about
-   378px wide inside an 880px box, most of which was empty. On its own ratio it
-   uses the width it is given. Same specificity as the rule above, so it has to
-   come after it. */
-.fig--card .plane--hub{max-width:620px;aspect-ratio:760/670}
 /* at a phone width the circle captions would fall under 9px, so below 768 it
    holds a legible size and scrolls sideways instead of shrinking to fit */
 @media (max-width:767px){
-  /* min-width:0 or the 640px drawing becomes the grid item’s intrinsic
-     minimum and widens the whole page instead of scrolling inside its own
-     box - the same trap the problem map hit at 900 */
-  .fig--card,.fig--card .plane{min-width:0}
   .fig--card .plane{aspect-ratio:auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .fig--card .plane svg{width:640px;max-width:none;height:auto}
 }
@@ -661,322 +637,6 @@ a{color:inherit}
 .plane svg.s0 .key-lab{fill:var(--ink)}
 @media (max-width:767px){.plane svg .hard,.plane svg .soft{stroke-width:2px}}
 
-/* ═══ headline figures ═══
-   Three numbers with the source under each, ruled apart the way the facts row
-   is. The number is the only thing set large - the label and the citation stay
-   at the small size, so the row reads as evidence rather than as a poster. The
-   source is a link and says so: a statistic a reader cannot check is decoration. */
-/* Two shared rows, not four: the number and what it counts are one thing, the
-   two citations are another. Four rows put a full --gutter of grid row-gap
-   between every line, which is what pulled the four lines apart into four
-   separate-looking items. The rows are still shared across the columns, so the
-   rule above the citations stays at one height whatever the wrapping does. */
-.stats{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-rows:auto auto;
-  column-gap:var(--gutter);row-gap:var(--stack);margin-top:var(--section)}
-.stat{display:grid;grid-template-rows:subgrid;grid-row:span 2;min-width:0;
-  padding-left:var(--gutter);border-left:1px solid var(--edge)}
-.stat-head,.stat-cite{min-width:0}
-.stat:first-child{padding-left:0;border-left:0}
-.stat-n{font-size:var(--title);font-weight:400;line-height:1;letter-spacing:-.03em;
-  color:var(--ink);margin:0}
-.stat-l{margin:.4em 0 0;font-size:var(--micro);line-height:1.5;color:var(--body-c)}
-/* the rule belongs to the pair, not to the first line of it */
-.stat-cite{padding-top:.8em;border-top:1px solid var(--edge)}
-.stat-src{margin:0;
-  font-size:calc(var(--micro)*.92);line-height:1.45;color:var(--muted)}
-.stat-src a{color:var(--muted);text-decoration:none;
-  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
-.stat-src a:hover{color:var(--ink);transition-duration:var(--in)}
-/* The later reading of the same question, kept visibly subordinate to the one
-   the work was actually done against - same size, lighter, and behind a label
-   that says which is which. A statistic published after a decision can support
-   that decision but cannot have informed it, and the two should not look alike. */
-.stat-upd{margin:.45em 0 0;font-size:calc(var(--micro)*.92);line-height:1.45;
-  color:var(--muted)}
-/* Inline, and drawn as a capsule: as bare text on its own line the label read
-   as a third item rather than as the tag on the citation beside it. Stroke only
-   - a filled chip here would carry more weight than the citation it labels.
-   The ring is a box-shadow rather than a border so it costs no layout width,
-   which is what keeps the citations lining up with the one above. */
-.stat-upd-k{display:inline-block;margin-right:.55em;
-  padding:.16em .68em;border-radius:var(--r-pill);
-  box-shadow:inset 0 0 0 1px var(--edge-ctrl);
-  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.82);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--body-c)}
-.stat-upd a{color:var(--muted);text-decoration:none;
-  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
-.stat-upd a:hover{color:var(--ink);transition-duration:var(--in)}
-@media (max-width:700px){
-  /* stacked, each number keeps its rule above it instead of beside it */
-  .stats{grid-template-columns:1fr;grid-template-rows:none;gap:var(--stack)}
-  /* one column: there is nothing left to align across, so drop the shared rows */
-  .stat{display:block;grid-row:auto;
-    padding-left:0;border-left:0;padding-top:var(--stack);border-top:1px solid var(--edge)}
-  .stat:first-child{padding-top:0;border-top:0}
-}
-
-/* a way out to the thing itself, sized as a real target */
-.proto{display:inline-flex;align-items:center;gap:.55em;min-height:var(--control);
-  margin-top:var(--stack);
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--ink);text-decoration:none;
-  border-bottom:1px solid var(--edge-ctrl);
-  transition:border-color var(--out) var(--ease)}
-.proto:hover{border-color:var(--ink);transition-duration:var(--in)}
-
-/* These drawings label with words, not with node names, so they opt out of the
-   uppercase-and-tracked treatment the schematic labels use. Left in, Multi-modal
-   set as MULTI-MODAL with 1.8px tracking simply did not fit inside its hub. */
-.plane svg.md text{text-transform:none;letter-spacing:0}
-.plane svg.md .cap2{font-size:21px}
-.plane svg.md .mech{font-size:17px}
-.plane svg.md .key-node{fill:var(--card);stroke:var(--ink);stroke-width:3px}
-.plane svg.md .key-lab{fill:var(--ink)}
-
-/* the hub of a source model: the one node everything reports into, so it is
-   the one drawn solid and reversed out rather than outlined like the rest */
-.plane svg .hub{fill:var(--ink);stroke:none}
-.plane svg .hub-lab{fill:var(--page)}
-.plane svg .spoke{fill:var(--card);stroke:var(--ink);stroke-width:2px;
-  vector-effect:non-scaling-stroke}
-
-/* ═══ before / after wipe ═══
-   The raw AI screen sits underneath and the redesign is laid over it, clipped
-   to wherever the handle is — so the two are compared in the same pixels rather
-   than side by side at half size each. Full measure, because the thing being
-   judged is a dashboard and a dashboard shrunk to a column proves nothing.
-
-   The control is a real range input, not a div that listens for pointer events:
-   it arrives in the tab order, takes arrow keys and Home/End, and announces
-   itself. It is stretched invisibly over the whole stage so a drag anywhere
-   works, and the seam and knob are drawn separately at the same position. */
-/* The picture is the argument here, so the block leaves the reading column and
-   runs nearly to the page edge. Only this block does - the prose either side of
-   it stays on the measure, which is what makes the break read as deliberate
-   rather than as the page losing its grid. Pulled out by the page margin less a
-   gutter, so it stops short of the edge instead of bleeding off it. */
-.cmp{grid-column:1 / -1;margin:var(--section) 0 0}
-/* The picture runs the full width of the reading column - the same line the
-   heading and the two panels sit on. It broke out to the window edge for a
-   while; inside the page structure is the right answer, and full screen is
-   still one click away on the badge. */
-/* the read is: which section, what I did, why - then what the AI had produced,
-   and only then the evidence. The wipe is the proof, not the argument, so it
-   comes last. */
-/* The section name, then the two readings of it side by side, then the picture.
-   Red and green are the pair the responsibility map already uses, so a reader
-   who has seen that drawing knows which side is which before reading a word.
-
-   Every pixel above the slider is a pixel the slider cannot have, since the
-   whole block is held to one window - the script measures whatever the heading
-   and the two sides come to and hands the rest to the picture. */
-.cmp-h{margin:0 0 var(--stack);padding-bottom:.7em;
-  font-weight:500;font-size:calc(var(--body)*1.2);line-height:1.25;
-  letter-spacing:-.005em;color:var(--ink);border-bottom:1px solid var(--edge)}
-/* under the picture now: the reader sees the difference first and reads the
-   account of it second, which is the order the section argues in */
-/* One block under the picture, split down the middle - not two blocks that
-   happen to sit next to each other. No gap, equal heights, and the outer corners
-   rounded while the meeting edge stays square, so the pair reads as a single
-   object the way the picture above it does. Held to the picture’s own width and
-   edges, and pulled up close under it: the account belongs to that picture, and
-   at a full --stack away it was starting to look like the next thing down. */
-.cmp-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;
-  width:calc(100% - 3cm);margin:calc(var(--stack)*.45) auto 0;align-items:stretch}
-.cmp-side{padding:var(--stack);background:var(--tint-bg);border-radius:0}
-.cmp-side--ai{border-radius:var(--r-lg) 0 0 var(--r-lg)}
-.cmp-side--human{border-radius:0 var(--r-lg) var(--r-lg) 0}
-.cmp-side--ai{--tint-bg:var(--red-bg);--tint-ink:var(--red-ink);--tint-line:var(--red-line)}
-.cmp-side--human{--tint-bg:var(--green-bg);--tint-ink:var(--green-ink);--tint-line:var(--green-line)}
-.cmp-side-k{margin:0 0 .85em;font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--tint-ink)}
-/* what it is, then why that matters - two items, never a wall of prose. The
-   second takes the block’s own ink so the reason reads as the consequence of
-   the line above it rather than as a second observation. */
-.cmp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55em}
-.cmp-list li{font-size:var(--micro);line-height:1.55;color:var(--ink)}
-.cmp-list li + li{color:var(--tint-ink)}
-/* the method behind the sentences above, named. Chips rather than italics:
-   these are terms to recognise and carry into the next pair, not emphasis
-   inside a sentence - set as running text they read as if the prose shouted. */
-.cmp-kw{display:flex;flex-wrap:wrap;gap:.45em;margin:calc(var(--stack)*.75) 0 0}
-.cmp-kw .kw{font-family:var(--sans);font-style:normal;font-weight:500;
-  font-size:calc(var(--micro)*.88);letter-spacing:.04em;
-  color:var(--tint-ink);background:var(--page);border-radius:var(--r-pill);
-  padding:.34em .85em;box-shadow:inset 0 0 0 1px var(--tint-line)}
-/* The picture takes the width of the window; its height follows from its shape.
-
-   --ar is set per pair, from whichever of its two exports is the taller. Sized
-   to the pictures rather than to a number, so no edge is ever cut. Ten of the
-   twelve exports are within 1% of each other, so the six boxes still come out
-   within about five pixels of the same height.
-
-   The only cap is the screen height, so on any ordinary screen the window width
-   binds and the picture runs full width. The cap takes over only on a window
-   short enough that a full-width picture would be taller than the screen, and
-   even then it never exceeds one screenful. Nothing above the picture shrinks
-   it any more, which on a tall window can mean the heading and the picture
-   together run a little past the fold - the width is worth that. */
-.cmp-stage{position:relative;overflow:hidden;border-radius:var(--r-lg);
-  box-shadow:inset 0 0 0 1px var(--edge);background:#0a0a0a;touch-action:pan-y;
-  /* Inset a centimetre and a half on each side, so the picture sits well inside
-     the column rather than flush against the heading above it. cm is an honest
-     unit here - it is a fixed inset, not something that should scale with the
-     type. The auto margins keep it centred. */
-  width:calc(100% - 3cm);aspect-ratio:var(--ar,2.08);margin-inline:auto;
-  max-height:calc(100svh - 8px)}
-/* contain, and anchored to the top. cover filled the box on both sides but did
-   it by cutting the edges off any export a few per cent off the box’s shape,
-   which on a dashboard means slicing the sidebar. contain never cuts anything.
-
-   The cost of contain is a strip where an export is shorter than its box, so the
-   box takes the taller of each pair and both images hang from its top edge: they
-   then start at the same scale on the same line, the header and the sidebar
-   register straight across the seam, and any shortfall falls at the bottom in
-   one piece rather than being split above and below. The ground behind is the
-   screens’ own near-black, so a strip reads as frame, not as a gap. */
-.cmp-under{display:block;width:100%;height:100%;object-fit:contain;object-position:top}
-.cmp-over img{width:100%;height:100%;object-fit:contain;object-position:top;display:block}
-.cmp-over{position:absolute;inset:0;clip-path:inset(0 0 0 var(--x))}
-/* the seam: a hairline with a knob, sitting exactly where the clip ends */
-.cmp-seam{position:absolute;top:0;bottom:0;left:var(--x);width:0;
-  border-left:2px solid var(--page);pointer-events:none}
-.cmp-seam i{position:absolute;top:50%;left:50%;translate:-50% -50%;
-  width:38px;height:38px;border-radius:var(--r-pill);background:var(--page);
-  box-shadow:0 1px 2px rgba(25,21,23,.18),0 6px 18px rgba(25,21,23,.16)}
-.cmp-seam i::before,.cmp-seam i::after{content:"";position:absolute;top:50%;
-  width:0;height:0;border-block:5px solid transparent}
-.cmp-seam i::before{left:9px;translate:0 -50%;border-right:6px solid var(--ink)}
-.cmp-seam i::after{right:9px;translate:0 -50%;border-left:6px solid var(--ink)}
-/* which half is which, said on the image rather than in a caption below it */
-.cmp-tag{position:absolute;top:var(--stack);z-index:2;pointer-events:none;
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;
-  padding:.3em .9em;border-radius:var(--r-pill);
-  color:var(--ink);background:var(--page);box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
-/* position only - both halves are labelled the same way */
-.cmp-tag--l{left:var(--stack)}
-.cmp-tag--r{right:var(--stack)}
-/* the input itself is invisible; the seam above is what the reader sees */
-.cmp-range{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;
-  appearance:none;-webkit-appearance:none;background:none;cursor:ew-resize;z-index:3}
-.cmp-range::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:44px;
-  border-radius:var(--r-pill);background:transparent;cursor:ew-resize}
-.cmp-range::-moz-range-thumb{width:44px;height:44px;border:0;
-  border-radius:var(--r-pill);background:transparent;cursor:ew-resize}
-.cmp-range:focus-visible{outline:2px solid var(--ink);outline-offset:3px;
-  border-radius:var(--r-lg)}
-@media (max-width:700px){
-  /* the two sides stack: side by side they would be two narrow columns of
-     small type, which is harder than one after the other */
-  .cmp-cols{grid-template-columns:1fr}
-  /* stacked: the join is now horizontal, so the rounding follows it */
-  .cmp-side--ai{border-radius:var(--r-lg) var(--r-lg) 0 0}
-  .cmp-side--human{border-radius:0 0 var(--r-lg) var(--r-lg)}
-  .cmp-tag{font-size:calc(var(--micro)*.85)}
-}
-
-/* ═══ the two-column problem spread ═══
-   Two arguments that belong on one screen: what the anxiety is made of, and why
-   the signals that would answer it never arrive together. Each column stacks its
-   own heading, copy and drawing; the left column pushes its sources to the foot
-   so the two columns end level however tall the right one gets. */
-/* Three arguments, not one long one - so they are spaced like sections rather
-   than like paragraphs. The same value on the wrapper and inside each column,
-   so the reader cannot tell which of the three sits in which column. */
-.duo{grid-column:1 / -1;display:grid;grid-template-columns:1fr;
-  gap:calc(var(--section)*1.3);margin-top:var(--stack)}
-.duo-col{display:flex;flex-direction:column;gap:calc(var(--section)*1.3);min-width:0}
-.duo-h{margin:0;font-weight:500;line-height:1.25;letter-spacing:-.005em;color:var(--ink);
-  font-size:calc(var(--body)*1.35);max-width:30ch}
-.duo-p{margin:0;font-size:var(--body);line-height:1.6;color:var(--muted);max-width:52ch}
-.duo-foot{display:flex;flex-direction:column;gap:var(--stack)}
-/* stacked, each drawing gets the room it was cramped out of when the two
-   halves were side by side */
-.duo .plane--venn{max-width:620px}
-.duo .quad,.duo .reslinks{grid-column:auto;max-width:none;margin-top:0}
-/* narrower than the drawings beside the other two headings: four short labels
-   do not need the full column, and at 880 they read as four empty rooms */
-.duo-row .quad{max-width:440px;gap:var(--stack);margin-inline:0}
-.quad-i{width:26px;height:26px;color:var(--muted);display:block;margin-bottom:.9em}
-/* legend beside the field, not under it - the field is the wide thing */
-.sm{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--gutter);
-  align-items:center;max-width:980px}
-.sm-key{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55em}
-.sm-key li{display:flex;align-items:center;gap:.6em;
-  font-size:var(--micro);line-height:1.4;color:var(--body-c);white-space:nowrap}
-.sm-sw{width:11px;height:11px;border-radius:var(--r-pill);flex:0 0 auto;background:var(--ink)}
-.sm-key .sm-d2{opacity:.6}.sm-key .sm-d3{opacity:.36}.sm-key .sm-d4{opacity:.18}
-.sm-in{background:var(--ink);box-shadow:0 0 0 3px var(--card),0 0 0 4px var(--ink)}
-.sm-out{background:var(--ink);opacity:.3}
-.sm-note{display:flex;flex-wrap:wrap;gap:var(--gutter);margin:0;
-  font-size:var(--micro);color:var(--muted)}
-.sm-note span{display:inline-flex;align-items:center;gap:.6em}
-/* Words on the left, the drawing on the right, on one line. The heading tells
-   you what to look for and the picture is there while you read it - stacked,
-   the two were a screen apart. Centred rather than top-hung, because the copy
-   is a few lines against a drawing several times its height. Declared after
-   .duo .plane--venn so the drawing can take the whole of its column. */
-/* grid-column so the row can be used straight inside a section as well as
-   inside .duo, where it is a flex child and the property is simply ignored */
-.duo-row{grid-column:1 / -1;display:grid;
-  grid-template-columns:minmax(0,4fr) minmax(0,6fr);
-  gap:var(--gutter) var(--section);align-items:center}
-/* a six-row table needs more of the line than a drawing does */
-.duo-row--wide{grid-template-columns:minmax(0,3fr) minmax(0,8fr);align-items:start}
-.duo-row .devsync{grid-column:auto;max-width:none;margin-top:0}
-.duo-txt{display:flex;flex-direction:column;gap:var(--stack);min-width:0}
-.duo-row .plane--venn,.duo-row .plane--scatter{max-width:none;margin-inline:0}
-/* the legend is a column of its own now, under the heading rather than beside
-   the field, so it stops competing with the drawing for the same row */
-.duo-txt .sm-note{flex-direction:column;gap:.55em}
-/* the four cards are the right-hand item in their row, so they sit where the
-   drawings sit rather than filling the measure */
-.duo-row > .quad{align-self:center}
-@media (max-width:900px){
-  /* gap stays at the base value: overriding it here made the space between
-     the column groups smaller than the space inside them, which is the tell
-     the base rule exists to avoid */
-  .duo{grid-template-columns:1fr}
-  .duo-row{grid-template-columns:1fr;gap:var(--stack)}
-  .duo-foot{margin-top:0}
-  .sm{grid-template-columns:1fr}
-}
-
-/* ═══ overlapping-set and scatter drawings ═══
-   Two shapes the page did not have a vocabulary for yet. The set fills are one
-   ink at low alpha, so where circles overlap the tone deepens on its own and
-   the intersection is drawn by the maths rather than by a fourth colour.
-   The scatter runs four series as four steps of the same ink: they are
-   categories, not quantities, and borrowing the red and green would say
-   good-and-bad about things that are neither. */
-.plane svg .vfill{fill:var(--ink);opacity:.07;stroke:none}
-.plane svg .sm-box{fill:var(--card);stroke:var(--ink);stroke-width:2px;
-  vector-effect:non-scaling-stroke}
-.plane svg .sm-d1{fill:var(--ink)}
-.plane svg .sm-d2{fill:var(--ink);opacity:.6}
-.plane svg .sm-d3{fill:var(--ink);opacity:.36}
-.plane svg .sm-d4{fill:var(--ink);opacity:.18}
-.plane svg .sm-leg{font-size:17px;text-transform:none;letter-spacing:0;fill:var(--body-c)}
-
-/* four domains, two by two - a grid of statements, not a comparison, so it is
-   plainer than .versus and keeps the card ground the rest of the page uses */
-.quad{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:var(--gutter);margin-top:var(--stack);max-width:66ch}
-.quad-card{padding:var(--stack);background:var(--card);border-radius:var(--r-lg);
-  box-shadow:inset 0 0 0 1px var(--edge)}
-.quad-t{margin:0;font-weight:500;font-size:var(--body);color:var(--ink)}
-@media (max-width:600px){.quad{grid-template-columns:1fr}}
-
-/* sources under a diagram, as links rather than as a bibliography */
-.reslinks{grid-column:1 / -1;margin-top:var(--stack);max-width:66ch;
-  list-style:none;padding:0}
-.reslinks li{padding:.7em 0;border-top:1px solid var(--edge);
-  font-size:var(--micro);line-height:1.6;color:var(--body-c)}
-.reslinks a{color:var(--muted);text-decoration:none;
-  border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
-.reslinks a:hover{color:var(--ink);transition-duration:var(--in)}
 /* ═══ the three-track article grid ═══
    2fr : 2fr : 5fr — a navigation column, a label column and a reading column.
    The reference this follows runs 3:2:4, but its body type is 16px against a
@@ -1249,116 +909,11 @@ a{color:inherit}
 .fig img{width:auto;max-width:100%;height:auto;margin-inline:auto;
   max-height:calc(100svh - var(--chrome-h) - var(--section)*.5);object-fit:contain}
 .shot{border-radius:var(--r-lg)}
-/* ═══ open a picture full size ═══
-   Several of these are dense - a six-section responsibility map, six dashboard
-   screens with real copy in them - and at the width of an article column the
-   labels are below reading size. The badge sits on the image rather than under
-   it so it is obvious which picture it opens.
-
-   It is a real <button> inside a <figure>, not a click handler on the image: it
-   arrives in the tab order, says what it does, and leaves the image itself
-   inert for anyone dragging a comparison handle underneath. */
-.fig{position:relative}
-.zoom{position:absolute;top:var(--stack);right:var(--stack);z-index:2;
-  display:grid;place-items:center;width:38px;height:38px;padding:0;
-  border:0;border-radius:var(--r-pill);cursor:pointer;
-  color:var(--ink);background:var(--page);
-  box-shadow:inset 0 0 0 1px var(--edge-ctrl),0 1px 3px rgba(25,21,23,.14);
-  opacity:0;transition:opacity var(--out) var(--ease),color var(--out) var(--ease)}
-/* shown on hover on a pointer device, always on touch, and always once focused
-   - a control that only exists on hover is a control a keyboard cannot find */
-.fig:hover .zoom,.cmp-stage:hover .zoom,.zoom:focus-visible{opacity:1}
-/* above the range input that covers the stage, and away from the two tags */
-.zoom--stage{top:auto;bottom:var(--stack);right:var(--stack);z-index:4}
-@media (pointer:coarse){.zoom{opacity:1;width:44px;height:44px}}
-.zoom:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink),0 1px 3px rgba(25,21,23,.18)}
-.zoom:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.zoom svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;
-  stroke-linecap:round;stroke-linejoin:round}
-/* the viewer itself: the picture on a dimmed ground, nothing else to look at */
-.lb{width:100%;max-width:100%;max-height:100%;height:100%;padding:0;border:0;
-  background:none;overflow:hidden}
-.lb::backdrop{background:rgba(25,21,23,.88)}
-.lb-in{display:grid;place-items:center;width:100%;height:100%;padding:var(--stack)}
-.lb img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;
-  object-fit:contain;border-radius:var(--r-lg)}
-.lb-x{position:fixed;top:var(--stack);right:var(--stack);
-  display:grid;place-items:center;width:44px;height:44px;padding:0;
-  border:0;border-radius:var(--r-pill);cursor:pointer;
-  color:var(--ink);background:var(--page);box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.lb-x:focus-visible{outline:2px solid var(--page);outline-offset:3px}
-.lb-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;
-  stroke-linecap:round}
-[data-motion="off"] .zoom{transition:none}
-/* A comparison opened full screen: edge to edge, no page around it, and as tall
-   as the picture’s own shape allows at that width. This is the only place the
-   thing can be bigger than it already is inline - on the page it is bounded by
-   the window width, and it cannot use the leftover height without cropping the
-   sidebar off the screens, which is the part the section is arguing about. */
-.lb.is-cmp .lb-in{padding:0}
-.lb .cmp-stage{width:100vw;max-width:none;left:auto;transform:none;
-  border-radius:0;box-shadow:none;max-height:100svh}
-/* bigger targets with the whole screen to place them in */
-.lb .cmp-tag{top:calc(var(--stack)*1.2)}
-.lb .cmp-tag--l{left:calc(var(--stack)*1.2)}
-.lb .cmp-tag--r{right:calc(var(--stack)*1.2)}
 .fig figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin-top:.9em;max-width:62ch}
 .fig--row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
 .fig--pair{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gutter)}
 .fig--row figcaption,.fig--pair figcaption{grid-column:1 / -1}
-/* ═══ the product, running ═══
-   A plain browser frame - traffic lights and the prototype’s own address - around
-   a screen recording of the prototype itself. This used to be six stills stepped
-   through with a drawn pointer and a drawn hover, because no capture existed; it
-   does now, so the real cursor and the real hover states are the ones on screen.
-
-   Controls are on. The clip runs the best part of a minute, and anything that
-   plays itself for longer than five seconds has to be stoppable by the person
-   watching it - the browser hides the bar during playback and brings it back on
-   hover, so it costs the frame nothing. */
-.fig.mac{max-width:1100px;margin-top:var(--section)}
-.mac-frame{border-radius:var(--r-lg);overflow:hidden;background:var(--page);
-  box-shadow:inset 0 0 0 1px var(--edge),0 1px 2px rgba(25,21,23,.06),
-             0 18px 44px rgba(25,21,23,.09)}
-.mac-bar{display:flex;align-items:center;gap:.8em;padding:.6em .9em;
-  background:var(--page);border-bottom:1px solid var(--edge)}
-.mac-dots{display:flex;gap:6px;flex:0 0 auto}
-.mac-dots i{width:10px;height:10px;border-radius:var(--r-pill);background:var(--lattice)}
-.mac-url{flex:1 1 auto;max-width:26em;margin-inline:auto;text-align:center;
-  font-family:var(--sans);font-size:calc(var(--micro)*.92);color:var(--muted);
-  background:var(--card);border-radius:var(--r-pill);padding:.28em 1.1em;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* the recording’s own shape, so the frame never letterboxes it */
-.mac-view{position:relative;overflow:hidden;background:#0a0a0a;
-  aspect-ratio:1280/582}
-.mac-video{display:block;width:100%;height:100%;max-width:none;max-height:none;
-  margin:0;object-fit:cover;background:#0a0a0a}
-/* The mark, over the recording rather than burned into it - the mp4 stays the
-   prototype exactly as it ran, and re-encoding it would cost a generation of
-   quality for a stamp CSS can place. Bottom left, this dashboard’s quietest
-   corner, at a weight that reads as a signature and never as chrome belonging
-   to the product. The shadow is there because the screens are dark but not
-   uniformly so, and the 46px lifts it clear of the browser’s own control bar,
-   which is a fixed height and would otherwise sit on top of it whenever the
-   video is paused or hovered. */
-.mac-mark{position:absolute;left:calc(var(--stack)*.8);bottom:46px;
-  width:clamp(74px,9%,132px);height:auto;z-index:2;pointer-events:none;
-  color:#fff;opacity:.42;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
-/* The frame gives up its full measure so the claim can sit beside it and be
-   read against it - the screen on one side, what is wrong with that kind of
-   screen on the other. The copy is centred against the frame rather than hung
-   from its top edge, so the two read as one object at any width. */
-.mac-spread{grid-column:1 / -1;display:grid;
-  grid-template-columns:minmax(0,7fr) minmax(0,4fr);
-  gap:var(--gutter);align-items:center;margin-top:var(--section)}
-/* .fig makes every figure span the whole section - inside the spread that
-   would push the copy onto its own row, which is the thing we just undid */
-.mac-spread .fig.mac{grid-column:auto;max-width:none;margin-top:0}
-.mac-copy{min-width:0}
-@media (max-width:900px){
-  .mac-spread{grid-template-columns:1fr;gap:var(--stack)}
-}
 @media (max-width:767px){
   .noise-vol{display:none}
   .fig--row,.fig--pair{grid-template-columns:1fr}
@@ -1377,10 +932,6 @@ a{color:inherit}
    title and its qualifier are the control, so the whole heading is the target
    rather than a chevron beside it. */
 .blueprint{grid-column:1 / -1;margin-top:var(--section)}
-/* Straight after the resource links it is the second half of one thing - both
-   are where the argument got its evidence - so it drops the full section break
-   it takes when it follows an argument instead of a bibliography. */
-.duo + .blueprint{margin-top:var(--stack)}
 .bp-toggle{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
   padding:1.1em 0;background:none;border:0;
@@ -1993,7 +1544,7 @@ a{color:inherit}
 <div class="chrome-shell">
   <nav class="chrome c-tl" aria-label="Case study">
     <div class="c-tl-row">
-    <a class="brand" href="index.html" aria-label="Orsolya G. — home"><svg height="100%" class="logo-mark" aria-hidden="true" viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <a class="brand" href="/" aria-label="Orsolya G. — home"><svg height="100%" class="logo-mark" aria-hidden="true" viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <g>
         <path d="M145.6,64.9c-3.1-7.3-7.4-13.7-12.8-19c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1C150.2,80.3,148.7,72.2,145.6,64.9z M112.9,114c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C121.5,99.4,118.6,107.7,112.9,114z"/>
         <path d="M335,88.8c-3.5-2.5-7.4-4.5-11.7-6.2c-4.3-1.7-8.5-3.2-12.7-4.4c-4.2-1.3-8.1-2.6-11.7-4c-3.6-1.4-6.4-3-8.6-5c-2.1-1.9-3.2-4.3-3.2-7.2c0-3.5,1.3-6.1,3.9-8c2.6-1.8,5.7-2.8,9.4-2.8c4,0,7.4,1.3,10.2,3.8c1.7,1.5,3.1,3.5,4.1,5.8c1.3,2.9,4.4,4.5,7.4,3.7l15.6-4.1c3.6-1,5.7-4.9,4.3-8.4c-2.3-6.1-6.4-11.3-12.1-15.4c-7.7-5.6-17.3-8.4-28.9-8.4c-8.5,0-15.9,1.4-22.3,4.1c-6.4,2.7-11.4,6.7-15,12c-3.6,5.3-5.5,11.6-5.5,19c0,5.6,1.1,10.3,3.2,14.1c2.1,3.8,5,7,8.5,9.5c3.5,2.5,7.4,4.6,11.6,6.3c4.2,1.7,8.4,3.2,12.6,4.5c4.2,1.3,8,2.7,11.5,4c3.5,1.3,6.3,3,8.4,5c2.1,2,3.2,4.4,3.2,7.5c0,3.4-1.3,6-3.9,8.1c-2.6,2-6.4,3-11.2,3c-4.6,0-8.5-1.6-11.8-4.7c-2.2-2.1-3.9-4.7-5.1-7.8c-1.2-2.9-4.1-4.5-7.1-3.8l-15.6,3.5c-3.7,0.8-5.9,4.8-4.6,8.4c2.7,7.4,7.3,13.4,13.9,18.3c8.5,6.3,19,9.4,31.6,9.4c8.4,0,15.9-1.7,22.4-5c6.5-3.3,11.7-7.7,15.4-13.1c3.7-5.4,5.6-11.4,5.6-18c0-5.6-1.1-10.3-3.3-14.1C341.4,94.4,338.5,91.2,335,88.8z"/>
@@ -2009,7 +1560,7 @@ a{color:inherit}
     <!-- Where am I, how much is left, how do I get out - written by the same
          spy that used to light up the contents list. -->
     <div class="csbar">
-      <a class="cs-back" href="index.html#work">
+      <a class="cs-back" href="/#work">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
         <span>Work</span>
       </a>
@@ -2023,9 +1574,9 @@ a{color:inherit}
       <ol>
         <li><a href="#s1">Overview</a></li>
         <li><a href="#s2">Problem framing</a></li>
-        <li><a href="#s3">System logic</a></li>
-        <li><a href="#s4">Solutions</a></li>
-        <li><a href="#s5">Outcome</a></li>
+        <li><a href="#s3">Research</a></li>
+        <li><a href="#s4">System logic</a></li>
+        <li><a href="#s5">Solutions</a></li>
         <li><a href="#s6">Reflection</a></li>
       </ol>
     </nav>
@@ -2070,621 +1621,725 @@ a{color:inherit}
 <div class="wrap">
 
   <header class="cs-head">
-    <p class="cs-eyebrow">Human Factors · Human-AI Interaction · Ethical Design · Concept</p>
-    <h1 class="cs-title">Built to calm the fear. Realised the data was the threat, not the answer.</h1>
+    <p class="cs-eyebrow">Human-first NLP · People Matching</p>
+    <h1 class="cs-title">Building enough safety for someone to type the thing they actually want.</h1>
+    <p class="cs-prompt">What do you want to do today?</p>
 
+
+
+    <!-- The role is the fact the page was quietest about and the one a
+         recruiter has to repeat to a hiring manager. Solo is stated, because
+         unattributed work reads as team work. -->
     <dl class="cs-facts">
-      <div><dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd></div>
-      <div><dt>Type</dt><dd>R&amp;D Human Factors · HAI</dd></div>
-      <div><dt>Year</dt><dd>2025</dd></div>
-      <div><dt>Status</dt><dd>Concept</dd></div>
+      <div><dt>Role</dt><dd>Lead designer — solo</dd></div>
+      <div><dt>Scope</dt><dd>MVP · design to handoff</dd></div>
+      <div><dt>Status</dt><dd>Pre-launch</dd></div>
+      <div><dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd></div>
     </dl>
 
-    <!-- The numbers are the ones that stood in 2025, when this was designed, each
-         with the 2026 reading of the same question under it. Dating them the other
-         way round - a 2026 survey cited as the reason for a 2025 decision - would
-         be claiming the work answered evidence that did not exist yet. -->
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-head">
-          <p class="stat-n">38%</p>
-          <p class="stat-l">feared automation would replace their job within two years</p>
-        </div>
-        <div class="stat-cite">
-          <p class="stat-src"><a href="https://www.manpowergroup.com/en/insights/report/global-talent-barometer-june-2025" target="_blank" rel="noopener">ManpowerGroup Global Talent Barometer, June 2025 &#8599;</a></p>
-          <p class="stat-upd"><span class="stat-upd-k">2026 update</span>43% &#8212; <a href="https://www.manpowergroup.com/en/news-releases/news/global-talent-barometer-2026-ai-use-accelerates-as-worker-confidence-falls-and-job-hugging-takes-hold" target="_blank" rel="noopener">ManpowerGroup, January 2026 &#8599;</a></p>
-        </div>
+    <div class="cs-intro">
+      <div>
+        <p class="cs-lede">“The design problem wasn’t matching. It was building enough safety for someone to type the thing they actually want.”</p>
+        <p class="cs-lede">The full MVP, from architecture to developer handoff: the system design, the human-AI interaction patterns, what I did about AI latency, and the validation planned for alpha.</p>
       </div>
-      <div class="stat">
-        <div class="stat-head">
-          <p class="stat-n">32%</p>
-          <p class="stat-l">expected AI to leave them with fewer job opportunities in the long run</p>
+      <!-- The real screens, not a rebuild of them, and not the nine-frame strip
+           played as a slideshow either - that strip is a demo artefact, with
+           states like "ba" that nobody would ever actually see. What a reader
+           should see is what the product does: someone types, and the system
+           understands. So only the four true states are used - empty, focused,
+           and the two understood ones - and the letters in between are revealed
+           out of the artwork itself rather than re-typeset in a font chosen to
+           look close. The text area is a flat #393939, so a wash in that colour
+           is invisible and sliding a clip across it uncovers the real pixels one
+           letter at a time. Nothing here is a redrawing. -->
+      <figure class="cs-hero">
+        <div class="phone">
+          <div class="phone-screen">
+            <img class="phone-frames" id="devBase" src="tribe/App_Screen.png" style="--fx:0.5003"
+                 width="3998" height="884" decoding="async"
+                 alt="The Tribe prompt field. It starts on the placeholder “What do you want to do today?”, then the intent “I’m looking to play basketball in Budapest this afternoon.” is typed in. As the words land the What, When and Where chips light up, the confidence dot turns green, and the FIND THEM button unlocks.">
+            <div class="phone-wash" id="devWash" aria-hidden="true"></div>
+            <div class="phone-layer" id="devLayer" aria-hidden="true">
+              <img class="phone-frames" id="devInk" src="tribe/App_Screen.png" style="--fx:56.2781"
+                   width="3998" height="884" decoding="async" alt="">
+            </div>
+            <div class="phone-chips" id="devChips" aria-hidden="true">
+              <img class="phone-frames" id="devChipImg" src="tribe/App_Screen.png"
+                   style="--fx:11.6558;--fy:31.9005"
+                   width="3998" height="884" decoding="async" alt="">
+            </div>
+            <i class="phone-caret" id="devCaret" aria-hidden="true"></i>
+          </div>
         </div>
-        <div class="stat-cite">
-          <p class="stat-src"><a href="https://www.pewresearch.org/social-trends/2025/02/25/u-s-workers-are-more-worried-than-hopeful-about-future-ai-use-in-the-workplace/" target="_blank" rel="noopener">Pew Research Center, February 2025 &#8599;</a></p>
-          <p class="stat-upd"><span class="stat-upd-k">2026 update</span>49% personally afraid of losing their job to AI &#8212; <a href="https://www.businesswire.com/news/home/20260428972933/en/U.S.-Workforce-in-Mental-Health-Crisis-Driven-by-AI-Anxiety-Political-Stress-and-a-Collapse-in-Employer-Trust" target="_blank" rel="noopener">Modern Health, April 2026 &#8599;</a></p>
-        </div>
-      </div>
-      <div class="stat">
-        <div class="stat-head">
-          <p class="stat-n">22%</p>
-          <p class="stat-l">strongly agreed their job was safe from elimination</p>
-        </div>
-        <div class="stat-cite">
-          <p class="stat-src"><a href="https://www.adpresearch.com/research/job-insecurity" target="_blank" rel="noopener">ADP Research, 2025 Global Workforce Survey &#8599;</a></p>
-          <p class="stat-upd"><span class="stat-upd-k">Fieldwork</span>July&#8211;August 2025, 39,000 workers across 36 markets &#8212; <a href="https://mediacenter.adp.com/2026-03-25-ADP-Research-Only-22-of-Workers-Confident-Their-Job-is-Safe-from-Elimination,-Underscoring-the-Importance-of-Talent-Strategies-that-Prepare-Employees-for-the-Future,1" target="_blank" rel="noopener">published March 2026 &#8599;</a></p>
-        </div>
-      </div>
+        <button class="dev-replay" id="devReplay" type="button" hidden>Replay</button>
+      </figure>
     </div>
 
-    <!-- The prototype, recorded. Everything inside the frame is the running
-         prototype - its own cursor, its own hover states, its own timing. Only
-         the browser chrome around it is ours, and the address in the bar is the
-         prototype’s real one. This replaced a constructed version built from six
-         stills, which was what there was before a capture existed. -->
-    <div class="mac-spread">
-    <figure class="fig mac" id="macFig">
-      <div class="mac-frame">
-        <div class="mac-bar" aria-hidden="true">
-          <span class="mac-dots"><i></i><i></i><i></i></span>
-          <span class="mac-url">ardent-main-87232483.figma.site</span>
-        </div>
-        <div class="mac-view">
-          <video class="mac-video" preload="metadata" muted playsinline controls
-                 src="Mindure/casestudy1_prototype_walkthrough.mp4#t=0.1,51.5"
-                 aria-label="Screen recording of the Mindure prototype in use: the dashboard scrolled and navigated with the pointer, showing its hover states.">
-          </video>
-          <!-- the mark, over the recording rather than burned into it: the
-               file stays the prototype exactly as it ran -->
-            <svg class="mac-mark" viewBox="0 0 1000 168.7" aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-  <g>
-          <path d="M145.6,64.9c-3.1-7.3-7.4-13.7-12.8-19c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1C150.2,80.3,148.7,72.2,145.6,64.9z M112.9,114c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C121.5,99.4,118.6,107.7,112.9,114z"/>
-          <path d="M335,88.8c-3.5-2.5-7.4-4.5-11.7-6.2c-4.3-1.7-8.5-3.2-12.7-4.4c-4.2-1.3-8.1-2.6-11.7-4c-3.6-1.4-6.4-3-8.6-5c-2.1-1.9-3.2-4.3-3.2-7.2c0-3.5,1.3-6.1,3.9-8c2.6-1.8,5.7-2.8,9.4-2.8c4,0,7.4,1.3,10.2,3.8c1.7,1.5,3.1,3.5,4.1,5.8c1.3,2.9,4.4,4.5,7.4,3.7l15.6-4.1c3.6-1,5.7-4.9,4.3-8.4c-2.3-6.1-6.4-11.3-12.1-15.4c-7.7-5.6-17.3-8.4-28.9-8.4c-8.5,0-15.9,1.4-22.3,4.1c-6.4,2.7-11.4,6.7-15,12c-3.6,5.3-5.5,11.6-5.5,19c0,5.6,1.1,10.3,3.2,14.1c2.1,3.8,5,7,8.5,9.5c3.5,2.5,7.4,4.6,11.6,6.3c4.2,1.7,8.4,3.2,12.6,4.5c4.2,1.3,8,2.7,11.5,4c3.5,1.3,6.3,3,8.4,5c2.1,2,3.2,4.4,3.2,7.5c0,3.4-1.3,6-3.9,8.1c-2.6,2-6.4,3-11.2,3c-4.6,0-8.5-1.6-11.8-4.7c-2.2-2.1-3.9-4.7-5.1-7.8c-1.2-2.9-4.1-4.5-7.1-3.8l-15.6,3.5c-3.7,0.8-5.9,4.8-4.6,8.4c2.7,7.4,7.3,13.4,13.9,18.3c8.5,6.3,19,9.4,31.6,9.4c8.4,0,15.9-1.7,22.4-5c6.5-3.3,11.7-7.7,15.4-13.1c3.7-5.4,5.6-11.4,5.6-18c0-5.6-1.1-10.3-3.3-14.1C341.4,94.4,338.5,91.2,335,88.8z"/>
-          <path d="M462.8,45c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1c0-8.8-1.5-16.9-4.6-24.3C472.6,56.7,468.3,50.4,462.8,45z M442.9,113.1c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C451.6,98.6,448.7,106.9,442.9,113.1z"/>
-          <path d="M628.8,27.5h-17.3c-2.5,0-4.7,1.4-5.8,3.7l-15.4,33.5c-2.3,4.9-9.2,4.9-11.5,0l-15.5-33.5c-1-2.2-3.3-3.7-5.8-3.7H540c-4.8,0-7.8,5-5.6,9.3l35.1,68.1c0.5,0.9,0.7,1.9,0.7,2.9V139c0,3.5,2.8,6.3,6.3,6.3h15.7c3.5,0,6.3-2.8,6.3-6.3v-31.2c0-1,0.2-2,0.7-2.9l35.1-68.1C636.6,32.6,633.5,27.5,628.8,27.5z"/>
-          <path d="M698.5,31.7c-0.9-2.5-3.3-4.2-6-4.2h-23.8c-2.7,0-5.1,1.7-6,4.2l-38,105.2c-1.5,4.1,1.6,8.5,6,8.5h16.1c2.7,0,5.1-1.7,6-4.3l4.1-12.2c0.9-2.6,3.3-4.3,6-4.3h35.2c2.7,0,5.2,1.8,6,4.4l4,12.1c0.9,2.6,3.3,4.4,6,4.4h16.3c4.4,0,7.5-4.4,6-8.5L698.5,31.7z M686.3,102.6h-11.7c-4.3,0-7.4-4.3-6-8.4l5.9-17.4c1.9-5.8,10.1-5.7,12,0l5.8,17.4C693.7,98.3,690.6,102.6,686.3,102.6z"/>
-          <path d="M240.3,113.6c-4.2-6.1-9.1-10.8-14.7-14.1c-2.7-1.6-2.4-5.2,0.4-6.5c4.4-2,8.1-4.8,11.1-8.3c4.8-5.6,7.2-12,7.2-19.3c0-10.9-4-19.6-12-26.2c-8-6.6-19.4-9.9-34.2-9.9h-46c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.6,10.5,38.5,50.7,1.1,106.5c-1.3,1.9,0.1,4.4,2.4,4.4h28.2c1.1,0,2.1-0.6,2.5-1.6c2.3-4.6,8.9-18.8,11.6-37.3c3.2,1.2,6,2.7,8.6,4.5c5.1,3.7,9,8.6,11.6,14.6c2.2,5.2,3.7,10.9,4.4,17.3c0.2,1.9,1.9,3.3,3.9,3.3h24.4c2.4,0,4.3-2,3.9-4.3C249.5,131.4,245.8,121.6,240.3,113.6z M209.1,77.5c-2.9,2.8-7.2,4.2-12.8,4.2h-1c-1-9.6-3.6-19.5-8.4-29.4h9.4c5.5,0,9.7,1.3,12.7,3.9c3,2.6,4.5,6.1,4.5,10.3C213.5,71.1,212,74.7,209.1,77.5z"/>
-          <path d="M541,123.4h-20.2c5.6-23.6,8.8-62.8-14.3-94.5c-0.3-0.3,0-0.8-0.4-0.8l-6.5,0.1H483c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.3,10.2,36.6,48.2,4.4,101.3c-2.6,4.2,0.5,9.6,5.4,9.6H511c0.3,0,0.6,0,0.9-0.1c0.4,0.3,0.9,0.4,1.4,0.4H541c3.5,0,6.3-2.8,6.3-6.3v-9.3C547.3,126.2,544.5,123.4,541,123.4z"/>
-          <path d="M912.7,78.3h-54.3c-2.1,0-3.8,1.7-3.8,3.8v14.4c0,2.1,1.7,3.8,3.8,3.8h25.2c2.9,0,4.8,3.2,3.3,5.7c-0.9,1.5-1.9,3-3.1,4.5c-2.6,3.2-5.7,5.8-9.5,7.8c-3.8,2-7.9,2.9-12.5,2.9c-6.5,0-12.2-1.4-17.2-4.2c-5-2.8-8.9-6.8-11.8-12c-2.9-5.2-4.3-11.5-4.3-18.9c0-10.3,2.8-18.6,8.4-24.8c5.6-6.2,13.1-9.3,22.5-9.3c6.4,0,11.7,1.6,16,4.7c3.4,2.5,6.1,5.7,8,9.7c0.9,1.8,2.9,2.7,4.8,2l20.4-7.5c2.1-0.8,3.1-3.1,2.2-5.1c-4-9.2-10.3-16.3-18.6-21.2c-9.5-5.6-20.4-8.4-32.7-8.4c-11.4,0-21.6,2.5-30.6,7.6c-9,5-16.1,12.1-21.3,21.1c-5.2,9-7.8,19.4-7.8,31.3c0,9,1.5,17.1,4.4,24.4c3,7.3,7.1,13.7,12.3,19.1c5.2,5.4,11.2,9.5,18,12.4c6.8,2.9,14,4.4,21.5,4.4c6.8,0,12.7-1.2,17.6-3.7c4.9-2.5,9-5.5,12.1-9.1c0,0,0.1-0.1,0.1-0.1c2.3-2.6,6.6-1.1,6.6,2.4v5.4c0,2.1,1.7,3.8,3.8,3.8h16.5c2.1,0,3.8-1.7,3.8-3.8V82.1C916.6,80,914.9,78.3,912.7,78.3z"/>
-          <circle cx="956.9" cy="129" r="18.9"/>
-        </g>
-            </svg>
-        </div>
+    <!-- The same drawing the card on the landing page carries, so the reader arrives on
+       the thing they clicked. It states the whole product in one
+         line - intent and match overlapping, the validation gap in the middle,
+         the NLP engine underneath producing the overlap, then the anonymous
+         reveal and the meetup - before any screen is shown. -->
+    <figure class="fig fig--card">
+      <div class="plane">
+        <svg class="s0" viewBox="0 0 990 375" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="s0t s0d">
+        <title id="s0t">Intent overlapping into a system, through to a meetup</title>
+        <desc id="s0d">Four equally sized circles. Intent and match overlap - a dot sits at the centre of the hatched intersection, with a line rising from it to a caption above the circles reading validation gap, written out in full rather than fitted inside the small overlap itself. Below both circles, a dashed bracket spans the full width of the venn - intent's left edge to match's right edge - labelled NLP engine, showing that mechanism is what produces the whole overlap, not just the gap. From match, a line continues right, labelled progressive disclosure on two lines above it, to the anonymous reveal circle - the one node drawn filled and in ink, because it is the mechanic the study turns on - then on to meetup with no further label, matching the source's own last, unnamed connector. No circle is drawn larger than another - the overlap comes from how close intent and match sit, not from their size.</desc>
+
+        <defs>
+          <clipPath id="s0lens"><circle cx="145" cy="180" r="115"/></clipPath>
+          <pattern id="s0hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line class="hatch" x1="0" y1="0" x2="0" y2="14"/>
+          </pattern>
+        </defs>
+
+        <g clip-path="url(#s0lens)"><circle cx="250" cy="180" r="115" fill="url(#s0hatch)" stroke="none"/></g>
+        <circle class="hard" cx="145" cy="180" r="115"/>
+        <circle class="hard" cx="250" cy="180" r="115"/>
+        <text class="cap" x="82" y="187" text-anchor="middle">Intent</text>
+        <text class="cap" x="312" y="187" text-anchor="middle">Match</text>
+        <circle class="dot" cx="197" cy="180" r="6"/>
+        <line class="soft" x1="197" y1="172" x2="197" y2="40" fill="none"/>
+        <text class="cap2" x="197" y="28" text-anchor="middle">Validation gap</text>
+        <path class="soft" d="M30,300 L30,320 L365,320 L365,300" fill="none"/>
+        <text class="mech" x="197" y="340" text-anchor="middle">NLP engine</text>
+
+        <line class="hard" x1="369" y1="180" x2="426" y2="180"/>
+        <text class="mech" x="397" y="44" text-anchor="middle">Progressive</text>
+        <text class="mech" x="397" y="65" text-anchor="middle">disclosure</text>
+
+        <circle class="hard key-node" cx="545" cy="180" r="115"/>
+        <text class="cap2 key-lab" x="545" y="173" text-anchor="middle">Anonymous</text>
+        <text class="cap2 key-lab" x="545" y="197" text-anchor="middle">Reveal</text>
+
+        <line class="hard" x1="664" y1="180" x2="721" y2="180"/>
+
+        <circle class="hard" cx="840" cy="180" r="115"/>
+        <text class="cap" x="840" y="187" text-anchor="middle">Meetup</text>
+        </svg>
       </div>
     </figure>
-
-      <div class="mac-copy">
-        <p class="cs-lede">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn’t inform them. It confirms the fear.</p>
-        <p class="cs-lede">Mindure started as an attempt to fix the interface. It ended as an argument about what the interface is actually for.</p>
-        <a class="proto" href="https://ardent-main-87232483.figma.site/" target="_blank" rel="noopener">View prototype <span aria-hidden="true">&#8599;</span></a>
-      </div>
-    </div>
-
   </header>
 
   <div class="cs-body" id="read">
 
     <section class="sec" id="s1" data-bar="Overview" aria-labelledby="s1h">
-      <h2 class="sec-label" id="s1h">The problem wasn’t that people lacked data.</h2>
+      <h2 class="sec-label" id="s1h">Connect strangers through intent, not profiles.</h2>
+
       <div class="sec-copy">
-        <p class="sec-lede">Career tools in 2024 were full of data. The problem was timing — information arriving at exactly the moment a person was least able to receive it.</p>
-        <p>Every figure above was already public. Someone worried about their job could find all three in an afternoon — and most career tools were built to hand them over faster. Volume was never the missing piece.</p>
-        <p>What the research describes is the opposite shortage. Attention narrows under threat, working memory has a hard ceiling, and automated judgement erodes the sense of being able to decide for yourself. A screen that answers a frightened question with more evidence is working against all three.</p>
-        <p>So the design question was not what to show. It was what a person can act on right now, what the interface owes them the rest of the time, and how it says where any of it came from.</p>
+        <p class="sec-lede">A social app where one prompt replaces the profile. The whole product rests on a single text field — and the trust required to use it honestly.</p>
+        <p>Tribe connects people through a single prompt. No profile, no browse interface. The user types what they want to do, the AI matches them with people looking for the same thing, and connection happens before either party knows who the other is.</p>
+        <p>The entire product hangs on one text field. The design problem was making someone feel safe enough to be honest in it.</p>
+      </div>
+
+      <!-- three human states between intent and connection, each mapped to the
+           design response it earned - the interaction-gap diagram's own content,
+           set as HTML rather than left as a picture of it -->
+      <div class="gap-cards" role="group" aria-label="Three human states and their design responses">
+        <div class="gap-card">
+          <p class="gap-t">Intent + vulnerability</p>
+          <p class="gap-d">Fear of sharing before trust is established</p>
+          <span class="gap-pill">→ Smart Echo Input</span>
+        </div>
+        <span class="gap-arrow" aria-hidden="true">→</span>
+        <div class="gap-card">
+          <p class="gap-t">Black box anxiety</p>
+          <p class="gap-d">Stress during AI processing</p>
+          <span class="gap-pill">→ XAI teachable wait</span>
+        </div>
+        <span class="gap-arrow" aria-hidden="true">→</span>
+        <div class="gap-card">
+          <p class="gap-t">Decision fatigue</p>
+          <p class="gap-d">Skepticism of match results</p>
+          <span class="gap-pill">→ XAI confidence badges</span>
+        </div>
       </div>
     </section>
 
     <section class="sec" id="s2" data-bar="Problem framing" aria-labelledby="s2h">
-      <h2 class="sec-label" id="s2h">Automation anxiety isn’t one thing. It’s three domains colliding at once.</h2>
+      <h2 class="sec-label" id="s2h">Current platforms prioritise short-term attention. The gap: long-term trust.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Three findings from human factors research, each one a constraint the interface had to answer to.</p>
-        <p>Each one rules something out. If attention narrows under threat, urgency cannot be used to prompt action. If load has a ceiling, completeness stops being a virtue at the point the ceiling is reached. If automated judgement erodes autonomy, a score is not an insight — it is a verdict wearing one.</p>
-        <p>Taken together they decide more of this interface than any preference did. The sections below are the three read as constraints rather than as findings.</p>
+        <p class="sec-lede">The market is saturated with engagement-first products. The unmet need was safer connection, matched on intent instead of identity.</p>
+        <p>The brief was an intent-based social network for Budapest. The real brief, once I’d mapped the competitors, was: how do you get someone to type what they actually want — the uncurated version — into a field connected to a stranger-matching algorithm?</p>
+        <p>That’s a trust problem before it’s a product problem. It shaped every design decision that followed.</p>
       </div>
-      <div class="gap-cards" role="group" aria-label="Three findings from human factors research">
-        <div class="gap-card">
-          <p class="gap-t">Anxiety narrows attention</p>
-          <p class="gap-d">The brain processes less under threat, not more.</p>
-        </div>
-        <span class="gap-arrow" aria-hidden="true">→</span>
-        <div class="gap-card">
-          <p class="gap-t">Cognitive load has a hard ceiling</p>
-          <p class="gap-d">Exceed it and the brain shuts down — not slows down.</p>
-        </div>
-        <span class="gap-arrow" aria-hidden="true">→</span>
-        <div class="gap-card">
-          <p class="gap-t">Automation anxiety erodes autonomy</p>
-          <p class="gap-d">It erodes the ability to make your own decisions.</p>
-        </div>
-      </div>
-      <!-- Two readings of the same problem, side by side the way they were drawn:
-           on the left what career anxiety is made of, on the right why the signals
-           that would answer it never arrive together. -->
-      <div class="duo">
-        <div class="duo-col">
-          <div class="duo-row">
-            <div class="duo-txt">
-              <h3 class="duo-h">Why are even capable people struggling right now?</h3>
-              <p class="duo-p">Career anxiety does not arise from lack of motivation. It emerges when external volatility, internal capacity, and high-stakes decisions interact — overwhelming individual sense-making.</p>
-            </div>
-            <div class="plane plane--venn">
-              <svg class="md" viewBox="0 0 620 470" role="img" aria-labelledby="vT vD">
-                <title id="vT">Career anxiety as the overlap of three pressures</title>
-                <desc id="vD">Three circles of equal size overlap. External volatility and internal capacity sit side by side at the top; decision pressure sits below and between them. Career anxiety is the small area where all three meet — it is what the three produce together, not any one of them on its own.</desc>
-                <circle class="vfill" cx="230" cy="180" r="128"/>
-                <circle class="vfill" cx="390" cy="180" r="128"/>
-                <circle class="vfill" cx="310" cy="310" r="128"/>
-                <circle class="hard" cx="230" cy="180" r="128"/>
-                <circle class="hard" cx="390" cy="180" r="128"/>
-                <circle class="hard" cx="310" cy="310" r="128"/>
-                <text class="cap2" x="172" y="140" text-anchor="middle">External</text>
-                <text class="cap2" x="172" y="164" text-anchor="middle">volatility</text>
-                <text class="cap2" x="448" y="140" text-anchor="middle">Internal</text>
-                <text class="cap2" x="448" y="164" text-anchor="middle">capacity</text>
-                <text class="cap2" x="310" y="356" text-anchor="middle">Decision</text>
-                <text class="cap2" x="310" y="380" text-anchor="middle">pressure</text>
-                <circle class="key-node" cx="310" cy="228" r="62"/>
-                <text class="cap2 key-lab" x="310" y="222" text-anchor="middle">Career</text>
-                <text class="cap2 key-lab" x="310" y="246" text-anchor="middle">anxiety</text>
-              </svg>
-            </div>
-          </div>
-        </div>
 
-        <div class="duo-col">
-          <div class="duo-row">
-            <div class="duo-txt">
-              <h3 class="duo-h">Career orientation spans multiple, disconnected domains</h3>
-              <p class="duo-p">When signals don’t connect, users face stress and uncertainty.</p>
-            </div>
-            <div class="quad">
-              <div class="quad-card"><svg class="quad-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><p class="quad-t">Market signals</p></div>
-              <div class="quad-card"><svg class="quad-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M10 20V4M15 20V14M20 20V8"/></svg><p class="quad-t">Economic signals</p></div>
-              <div class="quad-card"><svg class="quad-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6.5" r="2.5"/><circle cx="6" cy="17.5" r="2.5"/><circle cx="18" cy="17.5" r="2.5"/><path d="M11 8.8 7.2 15.2M13 8.8l3.8 6.4"/></svg><p class="quad-t">Personal signals</p></div>
-              <div class="quad-card"><svg class="quad-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5 5.2 9.7 9.5 5.4"/><path d="M3 17.5 5.2 19.7 9.5 15.4"/><path d="M13 7.5h8M13 17.5h8"/></svg><p class="quad-t">Planning signals</p></div>
-            </div>
-          </div>
-
-          <div class="duo-row">
-            <div class="duo-txt">
-              <h3 class="duo-h">Human sense-making under uncertainty</h3>
-              <p class="duo-p">Each dot is a signal arriving. The box is what one person can hold and act on at once — and it is already full. The volume outside it is not unusual; what fails is the assumption that someone will sort it.</p>
-              <ul class="sm-key">
-                <li><i class="sm-sw sm-d1"></i>Planning pressure</li>
-                <li><i class="sm-sw sm-d2"></i>Personal capacity</li>
-                <li><i class="sm-sw sm-d3"></i>Economy &amp; automation</li>
-                <li><i class="sm-sw sm-d4"></i>Market &amp; skills</li>
-              </ul>
-              <p class="sm-note"><span><i class="sm-sw sm-in"></i>Dots inside &#8594; manageable load</span><span><i class="sm-sw sm-out"></i>Dots outside &#8594; overload</span></p>
-            </div>
-            <div class="plane plane--scatter">
-              <svg class="md" viewBox="0 0 640 400" role="img" aria-labelledby="sT sD">
-                <title id="sT">Sense-making under uncertainty</title>
-                <desc id="sD">A field of dots in four series — planning pressure, personal capacity, economy and automation, market and skills. A rounded box in the middle is packed full of them: that is one person’s workable load, already at its limit. The dots scattered beyond the box are the signals that arrive anyway and have nowhere to go — the overload.</desc>
-                <rect class="sm-box" x="232" y="104" width="196" height="172" rx="18"/>
-                <circle class="sm-d1" cx="319" cy="170" r="7"/>
-                <circle class="sm-d2" cx="370" cy="217" r="7"/>
-                <circle class="sm-d3" cx="339" cy="122" r="7"/>
-                <circle class="sm-d4" cx="284" cy="180" r="7"/>
-                <circle class="sm-d1" cx="385" cy="220" r="7"/>
-                <circle class="sm-d2" cx="365" cy="214" r="7"/>
-                <circle class="sm-d3" cx="396" cy="128" r="7"/>
-                <circle class="sm-d4" cx="341" cy="229" r="7"/>
-                <circle class="sm-d1" cx="398" cy="151" r="7"/>
-                <circle class="sm-d2" cx="357" cy="164" r="7"/>
-                <circle class="sm-d3" cx="268" cy="166" r="7"/>
-                <circle class="sm-d4" cx="318" cy="138" r="7"/>
-                <circle class="sm-d1" cx="294" cy="220" r="7"/>
-                <circle class="sm-d2" cx="302" cy="256" r="7"/>
-                <circle class="sm-d3" cx="299" cy="159" r="7"/>
-                <circle class="sm-d4" cx="332" cy="210" r="7"/>
-                <circle class="sm-d1" cx="305" cy="185" r="7"/>
-                <circle class="sm-d2" cx="271" cy="208" r="7"/>
-                <circle class="sm-d3" cx="313" cy="195" r="7"/>
-                <circle class="sm-d4" cx="339" cy="143" r="7"/>
-                <circle class="sm-d1" cx="262" cy="146" r="7"/>
-                <circle class="sm-d2" cx="308" cy="241" r="7"/>
-                <circle class="sm-d3" cx="340" cy="147" r="7"/>
-                <circle class="sm-d4" cx="285" cy="204" r="7"/>
-                <circle class="sm-d1" cx="401" cy="222" r="7"/>
-                <circle class="sm-d2" cx="371" cy="230" r="7"/>
-                <circle class="sm-d3" cx="290" cy="146" r="7"/>
-                <circle class="sm-d4" cx="368" cy="200" r="7"/>
-                <circle class="sm-d1" cx="404" cy="241" r="7"/>
-                <circle class="sm-d2" cx="275" cy="240" r="7"/>
-                <circle class="sm-d3" cx="248" cy="184" r="7"/>
-                <circle class="sm-d4" cx="396" cy="224" r="7"/>
-                <circle class="sm-d1" cx="274" cy="179" r="7"/>
-                <circle class="sm-d2" cx="319" cy="232" r="7"/>
-                <circle class="sm-d3" cx="263" cy="120" r="7"/>
-                <circle class="sm-d4" cx="311" cy="208" r="7"/>
-                <circle class="sm-d1" cx="259" cy="162" r="7"/>
-                <circle class="sm-d2" cx="402" cy="142" r="7"/>
-                <circle class="sm-d3" cx="310" cy="139" r="7"/>
-                <circle class="sm-d4" cx="341" cy="221" r="7"/>
-                <circle class="sm-d1" cx="305" cy="192" r="7"/>
-                <circle class="sm-d2" cx="362" cy="189" r="7"/>
-                <circle class="sm-d3" cx="353" cy="190" r="7"/>
-                <circle class="sm-d4" cx="333" cy="133" r="7"/>
-                <circle class="sm-d1" cx="363" cy="244" r="7"/>
-                <circle class="sm-d2" cx="412" cy="175" r="7"/>
-                <circle class="sm-d3" cx="281" cy="161" r="7"/>
-                <circle class="sm-d4" cx="381" cy="186" r="7"/>
-                <circle class="sm-d1" cx="321" cy="192" r="7"/>
-                <circle class="sm-d2" cx="410" cy="222" r="7"/>
-                <circle class="sm-d3" cx="278" cy="122" r="7"/>
-                <circle class="sm-d4" cx="376" cy="153" r="7"/>
-                <circle class="sm-d1" cx="282" cy="173" r="7"/>
-                <circle class="sm-d2" cx="341" cy="262" r="7"/>
-                <circle class="sm-d3" cx="193" cy="270" r="7"/>
-                <circle class="sm-d4" cx="199" cy="69" r="7"/>
-                <circle class="sm-d1" cx="477" cy="256" r="7"/>
-                <circle class="sm-d2" cx="207" cy="250" r="7"/>
-                <circle class="sm-d3" cx="216" cy="279" r="7"/>
-                <circle class="sm-d4" cx="458" cy="252" r="7"/>
-                <circle class="sm-d1" cx="412" cy="303" r="7"/>
-                <circle class="sm-d2" cx="276" cy="336" r="7"/>
-                <circle class="sm-d3" cx="247" cy="91" r="7"/>
-                <circle class="sm-d4" cx="486" cy="325" r="7"/>
-                <circle class="sm-d1" cx="456" cy="119" r="7"/>
-                <circle class="sm-d2" cx="321" cy="83" r="7"/>
-                <circle class="sm-d3" cx="346" cy="78" r="7"/>
-                <circle class="sm-d4" cx="241" cy="321" r="7"/>
-                <circle class="sm-d1" cx="419" cy="292" r="7"/>
-                <circle class="sm-d2" cx="182" cy="257" r="7"/>
-                <circle class="sm-d3" cx="389" cy="287" r="7"/>
-                <circle class="sm-d4" cx="187" cy="199" r="7"/>
-                <circle class="sm-d1" cx="441" cy="262" r="7"/>
-                <circle class="sm-d2" cx="474" cy="148" r="7"/>
-                <circle class="sm-d3" cx="197" cy="218" r="7"/>
-                <circle class="sm-d4" cx="449" cy="210" r="7"/>
-                <circle class="sm-d1" cx="472" cy="117" r="7"/>
-                <circle class="sm-d2" cx="441" cy="266" r="7"/>
-                <circle class="sm-d3" cx="373" cy="285" r="7"/>
-                <circle class="sm-d4" cx="211" cy="88" r="7"/>
-                <circle class="sm-d1" cx="456" cy="100" r="7"/>
-                <circle class="sm-d2" cx="394" cy="70" r="7"/>
-                <circle class="sm-d3" cx="466" cy="260" r="7"/>
-                <circle class="sm-d4" cx="318" cy="300" r="7"/>
-                <circle class="sm-d1" cx="353" cy="336" r="7"/>
-                <circle class="sm-d2" cx="174" cy="55" r="7"/>
-                <circle class="sm-d3" cx="213" cy="314" r="7"/>
-                <circle class="sm-d4" cx="337" cy="86" r="7"/>
-              </svg>
-            </div>
-          </div>
+      <!-- Both tracks, both KPIs and both friction lines are the source page's
+           own words. Drawn on one canvas at one scale, because the argument is
+           that the second track carries on where the first one stops. -->
+      <div class="versus">
+        <div class="arch-side is-market">
+          <p class="vs-e">The market</p>
+          <p class="vs-t">Engagement-first</p>
+          <dl class="vs-d">
+            <dt>Primary KPI</dt><dd>Time-on-app / Ad impressions</dd>
+            <dt>Friction</dt><dd>Low barrier to contact, high volume, deferred privacy layers</dd>
+          </dl>
+          <ol class="chain" aria-label="Engagement-first architecture">
+            <li><span>Visual Profiles</span></li>
+            <li><span>Asynchronous Browse</span></li>
+            <li class="is-end"><span>Swipe</span></li>
+          </ol>
         </div>
-
-        <div class="duo-foot">
-          <h3 class="duo-h">Resource links</h3>
-          <ul class="reslinks">
-            <li>The Age of Employment Uncertainty — <a href="https://www.apa.org/" target="_blank" rel="noopener">American Psychological Association &#8594;</a></li>
-            <li>Fragmented information &amp; sense-making — <a href="https://en.wikipedia.org/wiki/Sensemaking" target="_blank" rel="noopener">Wikipedia &#8594;</a></li>
-            <li>Information overload — <a href="https://en.wikipedia.org/wiki/Information_overload" target="_blank" rel="noopener">Wikipedia &#8594;</a></li>
-          </ul>
+        <span class="versus-vs" aria-hidden="true"><span>vs.</span></span>
+        <div class="arch-side is-bet">
+          <p class="vs-e">Tribe’s bet</p>
+          <p class="vs-t">Intent-first</p>
+          <dl class="vs-d">
+            <dt>Primary KPI</dt><dd>High-intent connection efficiency</dd>
+            <dt>Friction</dt><dd>Managed friction, progressive disclosure, structural privacy</dd>
+          </dl>
+          <ol class="chain" aria-label="Intent-first architecture">
+            <li><span>Real-time Intent</span></li>
+            <li><span>Semantic NLP Matching</span></li>
+            <li><span>Anonymity</span></li>
+            <li class="is-end"><span>Safety Layer</span></li>
+          </ol>
         </div>
       </div>
 
-      <div class="blueprint">
-        <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
-          <span class="bp-t">Read the research</span>
-          <span class="bp-e">Three sources · cognitive load, threat attention, autonomy</span>
-        </button>
-        <div class="bp-panel" id="bpPanel" hidden>
-          <p>Sweller, J. (1988). Cognitive load theory — working memory has a strict capacity limit. When exceeded, processing stops entirely.</p>
-          <p>Easterbrook, J.A. (1959). Threat signals narrow attention to immediate danger, away from strategic thinking.</p>
-          <p>Bhorat, Z. (2023). Automation Anxiety and a Right to Freedom from Automated Systems and AI. Carr Center for Human Rights Policy, Harvard Kennedy School. Automated systems that score and decide on behalf of users threaten three core human abilities: to work, to understand information, and to make autonomous decisions. <a href="https://carrcenter.hks.harvard.edu" rel="noopener">carrcenter.hks.harvard.edu</a></p>
-        </div>
-      </div>
-    </section>
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Intent-first — one prompt, no profile</td></tr>
+          <tr><th scope="row">Over</th><td>Engagement-first — profiles, browse, swipe</td></tr>
+          <tr><th scope="row">Because</th><td>the unmet need was safer connection, not more time on app</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">managed friction: a harder first screen than a profile grid</td></tr>
+        </tbody>
+      </table>
 
-    <section class="sec" id="s3" data-bar="System logic" aria-labelledby="s3h">
-      <h2 class="sec-label" id="s3h">A conceptual multi-source model. The design constraint was that the system could only surface what the person was ready to act on.</h2>
-      <div class="sec-copy">
-        <p class="sec-lede">Macroeconomic signals, skills gap mapping, and stress-state detection feeding a single output layer. Everything else had to wait.</p>
-        <p>Every section also tells users where its data comes from — in plain language, at the moment they need it. Not in a privacy policy. Not in a help article. Right there.</p>
-      </div>
-      <p class="eyebrow-b">Six sources, one intelligence</p>
-      <figure class="fig fig--card">
-        <div class="plane plane--hub">
-          <svg class="md" viewBox="0 0 760 670" role="img" aria-labelledby="hT hD">
-            <title id="hT">The multi-modal model: six sources, one intelligence</title>
-            <desc id="hD">Six sources sit around a single centre and each connects to it: nervous system profiling, real-time economic data, job market updates, upskilling and learning, strategic future planning, and wellbeing and resilience. They meet at multi-modal system intelligence in the middle — the point being that no source is read on its own, and none of them reaches the person directly.</desc>
-            <line class="hard" x1="470" y1="335" x2="544" y2="335"/>
-            <line class="hard" x1="425" y1="257" x2="462" y2="193"/>
-            <line class="hard" x1="335" y1="257" x2="298" y2="193"/>
-            <line class="hard" x1="290" y1="335" x2="216" y2="335"/>
-            <line class="hard" x1="335" y1="413" x2="298" y2="477"/>
-            <line class="hard" x1="425" y1="413" x2="462" y2="477"/>
-            <circle class="spoke" cx="630" cy="335" r="78"/>
-            <circle class="spoke" cx="505" cy="118" r="78"/>
-            <circle class="spoke" cx="255" cy="118" r="78"/>
-            <circle class="spoke" cx="130" cy="335" r="78"/>
-            <circle class="spoke" cx="255" cy="552" r="78"/>
-            <circle class="spoke" cx="505" cy="552" r="78"/>
-            <text class="mech" x="630" y="332" text-anchor="middle">Job Market</text>
-            <text class="mech" x="630" y="353" text-anchor="middle">updates</text>
-            <text class="mech" x="505" y="104" text-anchor="middle">Real-time</text>
-            <text class="mech" x="505" y="125" text-anchor="middle">economic</text>
-            <text class="mech" x="505" y="146" text-anchor="middle">data</text>
-            <text class="mech" x="255" y="104" text-anchor="middle">Nervous</text>
-            <text class="mech" x="255" y="125" text-anchor="middle">System</text>
-            <text class="mech" x="255" y="146" text-anchor="middle">profiling</text>
-            <text class="mech" x="130" y="321" text-anchor="middle">Wellbeing</text>
-            <text class="mech" x="130" y="342" text-anchor="middle">and</text>
-            <text class="mech" x="130" y="363" text-anchor="middle">Resilience</text>
-            <text class="mech" x="255" y="538" text-anchor="middle">Strategic</text>
-            <text class="mech" x="255" y="559" text-anchor="middle">Future</text>
-            <text class="mech" x="255" y="580" text-anchor="middle">planning</text>
-            <text class="mech" x="505" y="538" text-anchor="middle">Upskilling</text>
-            <text class="mech" x="505" y="559" text-anchor="middle">and</text>
-            <text class="mech" x="505" y="580" text-anchor="middle">learning</text>
-            <circle class="hub" cx="380" cy="335" r="82"/>
-            <text class="cap2 hub-lab" x="380" y="319" text-anchor="middle">Multi-modal</text>
-            <text class="cap2 hub-lab" x="380" y="343" text-anchor="middle">System</text>
-            <text class="cap2 hub-lab" x="380" y="367" text-anchor="middle">Intelligence</text>
+      <!-- The framework as a map rather than a table: one problem on the left,
+           the five things a person feels fanning out of it, each running across
+           to what the system does about it, and the five responses converging
+           into the outcome. Set in the same hairline vocabulary as the other
+           diagrams - dashed for a relationship, solid for the path that matters,
+           ink for the pair the product turns on. -->
+      <figure class="fig fig--map">
+        <div class="plane plane--map">
+          <svg class="pmap" viewBox="0 0 1280 500" role="img" aria-labelledby="pmT pmD">
+          <title id="pmT">The Tribe Trust Framework, mapped from problem to outcome</title>
+          <desc id="pmD">A map from one problem to one outcome. On the left: people don’t type what they actually need, because the barrier is psychological, not linguistic. That fans out into the five things a person feels before typing, and each one runs across to what the system does about it: Social judgement (What will it think of me?) is answered by Non-evaluative framing (No implicit scoring); Language failure (No words for this) is answered by Intent inference layer (NLP bridges the gap); Trust deficit (Will it use this against me?) is answered by Transparency by design (Visible logic, no black box); Vulnerability (Admitting I don’t know) is answered by Curiosity-safe scaffolding (Not knowing = valid entry); App parasitism (Will it exploit my need?) is answered by Minimal footprint (Tool exits once done). Trust deficit is drawn in ink as the core pair. The five responses converge on the right into the hypothesis the product is built to test: that honest intent gets typed, context is read, and the person finds what they actually needed. The product is pre-launch, so this is the expected result rather than a measured one.</desc>
+  <text class="pm-eyebrow" x="8" y="182">The problem</text>
+  <text class="pm-lead" x="8" y="216">People don’t type</text>
+  <text class="pm-lead" x="8" y="240">what they actually</text>
+  <text class="pm-lead" x="8" y="264">need. The barrier</text>
+  <text class="pm-lead" x="8" y="288">is psychological,</text>
+  <text class="pm-lead" x="8" y="312">not linguistic.</text>
+  <path class="hard" d="M204,266 H232" fill="none"/>
+  <path class="soft" d="M232,86 V446" fill="none"/>
+  <path class="soft" d="M232,86 H254" fill="none"/>
+  <text class="pm-t" x="268" y="92">Social judgement</text>
+  <text class="pm-d" x="268" y="115">What will it think of me?</text>
+  <path class="soft" d="M626,86 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="86" r="3.5"/>
+  <text class="pm-t" x="726" y="92">Non-evaluative framing</text>
+  <text class="pm-d" x="726" y="115">No implicit scoring</text>
+  <path class="soft" d="M990,86 H1012" fill="none"/>
+  <path class="soft" d="M232,176 H254" fill="none"/>
+  <text class="pm-t" x="268" y="182">Language failure</text>
+  <text class="pm-d" x="268" y="205">No words for this</text>
+  <path class="soft" d="M626,176 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="176" r="3.5"/>
+  <text class="pm-t" x="726" y="182">Intent inference layer</text>
+  <text class="pm-d" x="726" y="205">NLP bridges the gap</text>
+  <path class="soft" d="M990,176 H1012" fill="none"/>
+  <path class="soft" d="M232,266 H254" fill="none"/>
+  <text class="pm-t pm-core" x="268" y="272">Trust deficit</text>
+  <text class="pm-d" x="268" y="295">Will it use this against me?</text>
+  <path class="hard" d="M626,266 H700" fill="none"/>
+  <circle class="dot" cx="708" cy="266" r="5"/>
+  <text class="pm-t pm-core" x="726" y="272">Transparency by design</text>
+  <text class="pm-d" x="726" y="295">Visible logic, no black box</text>
+  <path class="soft" d="M990,266 H1012" fill="none"/>
+  <path class="soft" d="M232,356 H254" fill="none"/>
+  <text class="pm-t" x="268" y="362">Vulnerability</text>
+  <text class="pm-d" x="268" y="385">Admitting I don’t know</text>
+  <path class="soft" d="M626,356 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="356" r="3.5"/>
+  <text class="pm-t" x="726" y="362">Curiosity-safe scaffolding</text>
+  <text class="pm-d" x="726" y="385">Not knowing = valid entry</text>
+  <path class="soft" d="M990,356 H1012" fill="none"/>
+  <path class="soft" d="M232,446 H254" fill="none"/>
+  <text class="pm-t" x="268" y="452">App parasitism</text>
+  <text class="pm-d" x="268" y="475">Will it exploit my need?</text>
+  <path class="soft" d="M626,446 H700" fill="none"/>
+  <circle class="pip" cx="708" cy="446" r="3.5"/>
+  <text class="pm-t" x="726" y="452">Minimal footprint</text>
+  <text class="pm-d" x="726" y="475">Tool exits once done</text>
+  <path class="soft" d="M990,446 H1012" fill="none"/>
+  <path class="soft" d="M1012,86 V446" fill="none"/>
+  <path class="hard" d="M1012,266 H1040" fill="none"/>
+  <text class="pm-eyebrow" x="1056" y="182">The hypothesis</text>
+  <text class="pm-lead" x="1056" y="216">Honest intent</text>
+  <text class="pm-lead" x="1056" y="240">typed, context</text>
+  <text class="pm-lead" x="1056" y="264">read, the person</text>
+  <text class="pm-lead" x="1056" y="288">finds what they</text>
+  <text class="pm-lead" x="1056" y="312">actually needed.</text>
           </svg>
         </div>
       </figure>
 
-      <div class="duo-row duo-row--wide">
-        <div class="duo-txt">
-          <h3 class="duo-h">What each section may and may not do</h3>
-        </div>
-          <table class="devsync">
-            <thead><tr><th scope="col">Section</th><th scope="col">Responsible for</th><th scope="col">Not responsible for</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Overview</th><td>Immediate orientation</td><td class="dec-cost">Predicting outcomes</td></tr>
-              <tr><th scope="row">Personal Insights</th><td>Describing thinking patterns</td><td class="dec-cost">Scoring or ranking the user</td></tr>
-              <tr><th scope="row">Career Actions</th><td>Surfacing options with reasoning</td><td class="dec-cost">Telling the user what to do</td></tr>
-              <tr><th scope="row">Market &amp; Economy</th><td>Context for decisions</td><td class="dec-cost">Triggering urgency or fear</td></tr>
-              <tr><th scope="row">Skills Builder</th><td>Learning tied to your profile</td><td class="dec-cost">Imposing a fixed sequence</td></tr>
-              <tr><th scope="row">Strategic Planning</th><td>Quarterly direction</td><td class="dec-cost">Daily commands or schedules</td></tr>
-            </tbody>
-          </table>
+      <div class="tf-close">
+        <p>The search box is a psychological safety problem.</p>
+        <p>Tribe is designed for the moment before the query, not the moment it arrives.</p>
       </div>
+    </section>
 
-      <!-- The map comes last now: it is the whole set of rules in one picture,
-           which only reads once you know what the sources are and what each
-           section is allowed to do. Ahead of them it was an answer to a question
-           the reader had not been asked yet. -->
-      <figure class="fig fig--full">
-        <img src="Mindure/casestudy1_deshboard_responsibility_map_6.png" loading="lazy" decoding="async"
-             alt="Dashboard responsibility map showing each section’s permitted scope and constraints">
+    <section class="sec" id="s3" data-bar="Research" aria-labelledby="s3h">
+      <h2 class="sec-label" id="s3h">Map the vulnerability states before opening a design tool.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Human factors gave me the frame. Three distinct states between intent and connection — each one a specific design problem.</p>
+        <p>The interaction gap diagram was the first deliverable — before any screens. Three human states in the critical path from intent to connection. Each one mapped to a specific design response. This became the brief for every decision that followed.</p>
+        <p class="hmw">“The product’s job is psychological safety — enough of it that someone types the thing they actually want.”</p>
+      </div>
+      <figure class="fig">
+        <img src="tribe/Human-AI_Interaction_gap_design_solutions.png" width="5160" height="2862" loading="lazy" decoding="async"
+             alt="Human-AI interaction gap — three vulnerability states mapped to design responses: Smart Echo Input, XAI teachable wait, XAI confidence badges">
       </figure>
     </section>
 
-    <section class="sec" id="s4" data-bar="Solutions" aria-labelledby="s4h">
-      <h2 class="sec-label" id="s4h">The first version was AI-generated. It was comprehensive, technically coherent, and cognitively harmful.</h2>
+    <section class="sec" id="s4" data-bar="System logic" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">Five moments of vulnerability. Five design responses.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">This section is a side-by-side account of what it got wrong — and why each redesign decision traces back to a human state, not a design preference.</p>
+        <p class="sec-lede">Each decision addresses a specific moment where trust could break — before it is established.</p>
+        <p>Happy path. Fallback logic. The full product — mapped in structure before it existed in pixels.</p>
+        <p>Edge cases carried the most design weight: the no-match screen, the breathe chat, the safety exit. That is where the product’s character was decided.</p>
       </div>
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Designing the fallbacks before the happy path</td></tr>
+          <tr><th scope="row">Over</th><td>finalising the happy-path UI first</td></tr>
+          <tr><th scope="row">Because</th><td>the edge cases are where the product’s character is decided</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">slower to a first screen anyone could look at</td></tr>
+        </tbody>
+      </table>
 
-      <figure class="cmp">
-        <h3 class="cmp-h">Overview</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0844">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_overview_1.png" loading="lazy" decoding="async" alt="AI-generated dashboard overview showing ten scored modules simultaneously">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_overview_1.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Overview — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>10 scored modules displayed simultaneously. No visual hierarchy, no entry point.</li>
-              <li>Without a single place to start, the brain cannot begin — so it freezes instead.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Decision paralysis</em><em class="kw">Cognitive load</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>Five cards. One thing to look at first.</li>
-              <li>One entry point reduces decision paralysis. Volatile data is hidden until the user is ready.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Progressive disclosure</em><em class="kw">Single entry point</em></p>
-          </div>
-        </div>
+      <!-- Moved out of the masthead. It answers "how does this work", which is
+           a later question than "what is this" - and the masthead now answers
+           the earlier one with the product itself. -->
+      <figure class="fig fig--system">
+      <!-- Rebuilt as a three-lane architecture view, replacing the single-row
+           "five stages" reading. That row put a human state (validation gap /
+           privacy hesitation) in the same visual class as backend mechanisms
+           (semantic matching), and could only mark the difference with a line
+           style. Here the difference is structural: HUMAN LAYER holds what the
+           person feels, UI LAYER holds what they see and type, SYSTEM LAYER
+           holds what the backend computes - three tracks joined by the arrows
+           that actually cross between them. Every node name is the case
+           study's own language. The loop reads: intent and hesitation drop
+           from the human layer into the UI; the UI hands validation down to
+           the NLP engine; semantic matching's result rises back up through
+           progressive disclosure; and that is what calibrates trust, which is
+           a human-layer event again, not a system one - the arrow into it
+           comes from below because trust is earned by what surfaces, not
+           computed directly. -->
+      <div class="plane plane--path"><svg class="s2" viewBox="0 0 1690 650" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+        <title id="s3t">How intent becomes a meetup, across three layers</title>
+        <desc id="s3d">A three-lane architecture diagram. The human layer runs left to right: intent input, privacy hesitation, calibrated trust, real-world meetup. The UI layer runs beneath it: prompt field, validation signal, progressive disclosure. The system layer runs beneath that: NLP engine, semantic matching. Intent input drops down to prompt field; privacy hesitation drops down to validation signal; validation signal drops down to the NLP engine. Semantic matching rises up into progressive disclosure, which itself rises up into calibrated trust - the only two upward arrows in the diagram, showing the system's result surfacing back to the person.</desc>
+
+        <defs>
+          <marker id="s3arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="arrow-head"/>
+          </marker>
+        </defs>
+
+        <text x="24" y="115" class="n-lab lane-lab">Human layer</text>
+        <text x="24" y="345" class="n-lab lane-lab">UI layer</text>
+        <text x="24" y="575" class="n-lab lane-lab">System layer</text>
+
+        <!-- human layer -->
+        <rect class="hard" x="225" y="75" width="190" height="70" rx="12"/>
+        <text x="320" y="117" text-anchor="middle" class="n-lab">Intent Input</text>
+
+        <rect class="hard" x="500" y="75" width="300" height="70" rx="35"/>
+        <text x="650" y="117" text-anchor="middle" class="n-lab">Privacy Hesitation</text>
+
+        <rect class="hard" x="925" y="75" width="280" height="70" rx="12"/>
+        <text x="1065" y="117" text-anchor="middle" class="n-lab">Calibrated Trust</text>
+
+        <rect class="hard" x="1330" y="75" width="320" height="70" rx="12"/>
+        <text x="1490" y="117" text-anchor="middle" class="n-lab">Real-World Meetup</text>
+
+        <!-- ui layer -->
+        <rect class="hard" x="210" y="305" width="220" height="70" rx="12"/>
+        <text x="320" y="347" text-anchor="middle" class="n-lab">Prompt Field</text>
+
+        <rect class="hard" x="505" y="305" width="290" height="70" rx="12"/>
+        <text x="650" y="347" text-anchor="middle" class="n-lab">Validation Signal</text>
+
+        <rect class="hard" x="870" y="305" width="390" height="70" rx="12"/>
+        <text x="1065" y="347" text-anchor="middle" class="n-lab">Progressive Disclosure</text>
+
+        <!-- system layer -->
+        <rect class="hard" x="555" y="535" width="190" height="70" rx="12"/>
+        <text x="650" y="577" text-anchor="middle" class="n-lab">NLP Engine</text>
+
+        <rect class="hard" x="910" y="535" width="310" height="70" rx="12"/>
+        <text x="1065" y="577" text-anchor="middle" class="n-lab">Semantic Matching</text>
+
+        <!-- lane-internal, left to right -->
+        <line class="hard" x1="419" y1="110" x2="496" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="804" y1="110" x2="921" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="1209" y1="110" x2="1326" y2="110" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="434" y1="340" x2="501" y2="340" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="799" y1="340" x2="866" y2="340" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="749" y1="570" x2="906" y2="570" marker-end="url(#s3arrow)"/>
+
+        <!-- cross-layer, downward -->
+        <line class="hard" x1="320" y1="149" x2="320" y2="301" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="650" y1="149" x2="650" y2="301" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="650" y1="379" x2="650" y2="531" marker-end="url(#s3arrow)"/>
+
+        <!-- cross-layer, upward: the system's result surfacing back to the person -->
+        <line class="hard" x1="1065" y1="531" x2="1065" y2="379" marker-end="url(#s3arrow)"/>
+        <line class="hard" x1="1065" y1="301" x2="1065" y2="149" marker-end="url(#s3arrow)"/>
+      </svg></div>
       </figure>
 
-      <figure class="cmp">
-        <h3 class="cmp-h">Personal insights</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0846">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_personal_insights_2.png" loading="lazy" decoding="async" alt="AI-generated personal insights showing percentage scores on cognitive traits">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_personal_insights_2.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Personal insights — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>Percentage scores on cognitive traits: 94% spatial reasoning, 87% pattern recognition.</li>
-              <li>Automated scores on internal states threaten the person’s ability to trust their own self-understanding.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Social comparison</em><em class="kw">Automated scoring</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>“How your mind works” — strengths in plain language, compared only to your own history.</li>
-              <li>Self-referential framing removes competitive threat. Insight compared to your own baseline, not population averages.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Self-referential framing</em><em class="kw">Plain language</em></p>
-          </div>
-        </div>
+      <figure class="fig">
+        <img src="tribe/Functional_Sitemap___User_Flow_Hybrid_method.png" width="5345" height="3068" alt="Functional sitemap and user flow hybrid — full IA, screen states, decision points, and safety exit branches" loading="lazy" decoding="async">
+        <figcaption>Functional sitemap + user flow hybrid. Every screen state, every decision point, every safety exit branch — mapped before any visual design.</figcaption>
       </figure>
-
-      <figure class="cmp">
-        <h3 class="cmp-h">Career actions</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0915">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_career_actions_3.png" loading="lazy" decoding="async" alt="AI-generated career actions showing prescribed tasks with exact times and effort labels">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_career_actions_3.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Career actions — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>Actionable roadmap with exact task times, effort labels, deadlines, and a cognitive load tip telling you when to work.</li>
-              <li>Prescribed commands remove perceived control — the primary mediator of anxiety.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Prescriptive automation</em><em class="kw">Loss of perceived control</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>Live job postings with visible reasoning — “why it fits your thinking style” — and an ethical boundary persistent in the sidebar.</li>
-              <li>The system surfaces options and reasoning. The user decides what to do with them.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Perceived control</em><em class="kw">Visible reasoning</em><em class="kw">Ethical boundary</em></p>
-          </div>
-        </div>
-      </figure>
-
-      <figure class="cmp">
-        <h3 class="cmp-h">Market &amp; economy</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0789">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_market&economy_4.png" loading="lazy" decoding="async" alt="AI-generated market dashboard showing live economic indicators updating in real time">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_market&economy_4.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Market and economy — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>Live economic indicators — GDP, unemployment, inflation, tech sector — all updating in real time, timestamped “2 min ago.”</li>
-              <li>Live tickers are threat signals. Threat signals redirect attention from strategic thinking to immediate danger scanning.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Threat attention</em><em class="kw">Manufactured urgency</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>Market Intelligence — the same data framed as background context for decisions, not a live urgency feed.</li>
-              <li>Volatile data framed as stable context. The user chooses when to engage with it, rather than being triggered.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Context framing</em><em class="kw">User-initiated engagement</em></p>
-          </div>
-        </div>
-      </figure>
-
-      <figure class="cmp">
-        <h3 class="cmp-h">Skills builder</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0800">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_skills_builder_5.png" loading="lazy" decoding="async" alt="AI-generated skills builder showing a rigid linear learning sequence with no visible reasoning">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_skills_builder_5.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Skills builder — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>Linear learning path with a fixed sequence and no reasoning visible.</li>
-              <li>Imposed sequences undermine both competence and autonomy — the two conditions required for motivated learning.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Imposed sequence</em><em class="kw">Autonomy loss</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>Smart Skills Builder — learning tied to cognitive profile and career direction. Reasoning visible. Progress shown relative to your own goals.</li>
-              <li>Learning tied to who you are, not an externally defined sequence. Progress is self-referential, not ranked.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Competence and autonomy</em><em class="kw">Self-referential progress</em></p>
-          </div>
-        </div>
-      </figure>
-
-      <figure class="cmp">
-        <h3 class="cmp-h">Strategic planning</h3>
-        <div class="cmp-stage" style="--x:50%;--ar:2.0732">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_strategic_planning_6.png" loading="lazy" decoding="async" alt="AI-generated planning showing a daily calendar with exact time blocks commanded by the algorithm">
-          <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_strategic_planning_6.png" loading="lazy" decoding="async" alt="">
-          </div>
-          <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
-          <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
-                 aria-label="Strategic planning — drag to wipe between the raw AI output and the redesign">
-        </div>
-        <div class="cmp-cols">
-          <div class="cmp-side cmp-side--ai">
-            <p class="cmp-side-k">Raw AI output</p>
-            <ul class="cmp-list">
-              <li>Daily calendar with exact time blocks. The algorithm commands the exact schedule hour by hour.</li>
-              <li>Rigid plans increase anxiety when disrupted. Certainty that breaks is worse than no certainty at all.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Over-specification</em><em class="kw">Brittle certainty</em></p>
-          </div>
-          <div class="cmp-side cmp-side--human">
-            <p class="cmp-side-k">Human-centered redesign</p>
-            <ul class="cmp-list">
-              <li>2026 Activity Roadmap — quarterly blocks, flexible framing, stress regulation practice alongside courses.</li>
-              <li>Quarterly direction provides orientation without over-specifying the path. Long-term clarity without short-term pressure.</li>
-            </ul>
-            <p class="cmp-kw"><em class="kw">Coarse time granularity</em><em class="kw">Stress regulation</em></p>
-          </div>
-        </div>
+      <figure class="fig">
+        <img src="tribe/happypath-fallback.png" width="6045" height="2930" alt="Core happy path — 10 screens from home to post-meet feedback, plus three fallback states: no match, match declined, all matches exhausted" loading="lazy" decoding="async">
+        <figcaption>Core happy path (Screens 1–10) + three fallback states with key states documented per screen. The fallbacks were designed before the happy path UI was finalised.</figcaption>
       </figure>
     </section>
 
-    <section class="sec" id="s5" data-bar="Outcome" aria-labelledby="s5h">
-      <h2 class="sec-label" id="s5h">No live users, no A/B test. What the project produced instead is a documented position.</h2>
+    <section class="sec" id="s5" data-bar="Solutions" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Full IA. Not everything survived the dev sync.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Comprehensiveness and clarity are in direct tension for someone already overwhelmed. That tension doesn’t resolve with better UI. It resolves with a different understanding of what the system is for.</p>
+        <p class="sec-lede">Three generations of input validation designed — two cut after synching with developers on latency, token cost, and structural reliability. What shipped earned it. The rest of the architecture: match logic, processing states, and safety exits, was built around the system that survived.</p>
+        <p class="hmw">How might we teach users what’s needed for prompting that leads to better match quality?</p>
+      </div>
+      <p class="eyebrow-b">Input validation — three generations</p>
+      <div class="gens">
+        <div class="gen">
+          <img class="shot" src="tribe/Gen1-%20manual%20tags%20added%20by%20the%20user.png" width="430" height="932" loading="lazy" decoding="async"
+               alt="Gen 1 — manual tags added by user">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 1 — Cut</span>
+            <div class="gen-label">Manual tags</div>
+            <p class="gen-note">Freeform. No structure. System can’t match on noise.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="tribe/Gen2-AI-generated%20metadata.png" width="430" height="932" loading="lazy" decoding="async"
+               alt="Gen 2 — AI-generated metadata tags from prompt">
+          <div class="gen-cap">
+            <span class="tag tag--cut">Gen 2 — Cut</span>
+            <div class="gen-label">AI metadata extraction</div>
+            <p class="gen-note">Smarter — but unreliable JSON, 1.4s latency, 25× token cost.</p>
+          </div>
+        </div>
+        <div class="gen">
+          <img class="shot" src="tribe/Gen3-%20NLP%20chip%20validation.png" width="390" height="844" loading="lazy" decoding="async"
+               alt="Gen 3 — NLP chip validation, Well done badge, CTA unlocked">
+          <div class="gen-cap">
+            <span class="tag tag--ship">Gen 3 — Shipped</span>
+            <div class="gen-label">Chip validation</div>
+            <p class="gen-note">NLP parses What / When / Where in real time. Hard to build. Worth the fight.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="eyebrow-b">Why Gen 2 died — after synching with devs</p>
+      <table class="devsync">
+        <thead>
+          <tr><th scope="col"><span>Why Gen 2 died</span></th><th scope="col"><span>After synching with devs</span></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Structural unreliability</th>
+            <td data-l="Why Gen 2 died">System expects <code>{"tags":["x","y"]}</code>. LLM returns conversational text. Fatal parse error. Every call needs a retry wrapper — just to extract two words.</td>
+          </tr>
+          <tr>
+            <th scope="row">Latency</th>
+            <td data-l="Why Gen 2 died">800ms standard + 600ms metadata extraction = 1.4s wait before anything useful happens.</td>
+          </tr>
+          <tr>
+            <th scope="row">Token cost</th>
+            <td data-l="Why Gen 2 died">15-word prompt + 400-token system prompt to classify it. 25× more to categorise than to process. Not viable for an MVP budget.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pushed">
+        <p class="pushed-e">Why I pushed for Gen 3</p>
+        <p>Chips are harder to build. I pushed for them because <em>match quality is the entire product bet.</em> Vague input → bad matches → no Tribe. The chips are the quality gate that makes everything downstream worth building.</p>
+      </div>
+
+      <table class="dec">
+        <caption>The decision</caption>
+        <tbody>
+          <tr class="is-chosen"><th scope="row">Chose</th><td>Gen 3 — real-time NLP chip validation</td></tr>
+          <tr><th scope="row">Over</th><td>Gen 2 — AI metadata extraction</td></tr>
+          <tr><th scope="row">Because</th><td>match quality is the entire product bet: vague input, bad matches, no Tribe</td></tr>
+          <tr><th scope="row">Cost</th><td class="dec-cost">harder to build, and the only generation that survived the dev sync</td></tr>
+        </tbody>
+      </table>
+
+      <p class="eyebrow-b">Accepted version — chip validation in action</p>
+      <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Chip validation — 9 states">
+        <div class="car-top">
+          <span class="car-label">Chip validation — 9 states</span>
+          <span class="car-count" id="carCount" aria-live="polite">1 / 9</span>
+        </div>
+        <div class="car-stage">
+          <button class="car-btn car-prev" id="carPrev" aria-label="Previous state" disabled>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M8 2L4 6L8 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="car-window" id="carWindow">
+            <img src="tribe/App_Screen.png" id="carImg" width="3998" height="884" loading="lazy" decoding="async"
+                 alt="Chip validation states — nine frames of the prompt field, from empty to unlocked">
+            <span class="car-veil car-veil--l" id="carVeilL" aria-hidden="true"></span>
+            <span class="car-veil car-veil--r" id="carVeilR" aria-hidden="true"></span>
+            <span class="car-mark" id="carMark" aria-hidden="true"></span>
+          </div>
+          <button class="car-btn car-next" id="carNext" aria-label="Next state">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4 2L8 6L4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="car-bottom">
+          <p class="car-desc" id="carDesc">Empty state — placeholder: “What do you want to do today?”</p>
+          <div class="car-dots" id="carDots" role="tablist" aria-label="Jump to a state"></div>
+        </div>
+      </div>
+
+      <p class="eyebrow-b">Processing → match — decision flow</p>
+      <div class="flow">
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">01 · Processing</span>
+            <img src="tribe/Processing_%20Teachable%20wait.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Processing — teachable wait, 3-stage ascending stack">
+          </div>
+          <div class="ann">
+            <div class="ann-t">Teachable wait</div>
+            <p class="ann-b">A teachable wait makes AI reasoning visible — transparent processing builds trust. The user can see what the system is doing while they wait.</p>
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:56px">
+          <i class="v" style="left:var(--lane-a);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-a);width:calc(var(--lane-b) - var(--lane-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-b);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <div class="ann-t">Used once, then gone</div>
+            <p class="ann-b">GPS ask arrives mid-processing — the only moment it reads as practical, not invasive. My call: delete location post-match and use aggregated data for analytics — to increase user safety and trust.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">02 · Location access</span>
+            <img src="tribe/Processing_Location%20access.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Processing — location access permission">
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:64px">
+          <i class="v" style="left:var(--lane-b);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+          <i class="v" style="left:var(--lane-inner-b);top:50%;height:50%"></i>
+          <b style="left:var(--lane-inner-a)">match found</b>
+          <b style="left:var(--lane-inner-b)">no match</b>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <div class="ann-t">Anonymous until mutual yes</div>
+            <p class="ann-b">Initials and match score — no photos. Identity reveals only after both say yes, removing the power imbalance by design.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">3A · Match</span>
+            <img src="tribe/Match.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="Match results — anonymous until mutual yes">
+          </div>
+          </div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">3B · No match</span>
+            <img src="tribe/NO%20MATCH%20FOUND.png" width="390" height="844" loading="lazy" decoding="async"
+                 alt="No match — Luck is around the corner">
+          </div>
+          <div class="ann">
+            <div class="ann-t">“Luck is around the corner”</div>
+            <p class="ann-b">Warm orange, not red. Nearby intents surface below — real options, no manufactured optimism.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-copy copy-2">
+        <h3>One chat at a time — but what happens when the user wants to leave?</h3>
+        <p>No chat search, one active conversation. The constraint is intentional: users in one chat take it more seriously. When choices are limited, people value what they have. The Breathe Chat (24h pause) and Safety Exit are the pressure valves — without them, a single-chat system becomes a trap. The constraint only works because the exits are designed in. A deliberate bet against dopamine loops — no infinite scroll, no variable reward.</p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-row flow-row--one">
+          <div class="flow-node flow-node--c">
+          <div class="flow-shot">
+            <span class="chip">More menu</span>
+            <img src="tribe/chat_3dots_opened.png" width="406" height="860" loading="lazy" decoding="async"
+                 alt="More menu opened in chat">
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:48px">
+          <i class="v" style="left:50%;top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-inner-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+          <i class="v" style="left:var(--lane-inner-b);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <p class="ann-b">A 24h pause on the chat — reframes stepping away as temporary, not an exit. The user keeps the connection without the pressure.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">Breathe chat</span>
+            <img src="tribe/Group%20683.png" width="350" height="477" loading="lazy" decoding="async"
+                 alt="Breathe chat — 24h pause">
+          </div>
+          </div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">Leave chat</span>
+            <img src="tribe/Group%20689.png" width="365" height="543" loading="lazy" decoding="async"
+                 alt="Leave chat — five exit reasons">
+          </div>
+          <div class="ann">
+            <p class="ann-b">Five exit reasons — “I’m feeling unsafe” separated in red at the bottom. Casual exit stays easy; the safety path stays findable without scanning.</p>
+          </div>
+          </div>
+        </div>
+
+        <div class="conn" style="--h:56px">
+          <i class="v" style="left:var(--lane-inner-b);top:0;height:50%"></i>
+          <i class="h" style="left:var(--lane-inner-a);width:calc(var(--lane-inner-b) - var(--lane-inner-a));top:50%"></i>
+          <i class="v" style="left:var(--lane-inner-a);top:50%;height:50%"></i>
+        </div>
+
+        <div class="flow-row flow-row--pair">
+          <div class="flow-node flow-node--r">
+          <div class="ann">
+            <p class="ann-b">Tapping opens a report inline — no new screen. Zero friction at the highest-stress moment.</p>
+          </div>
+          <div class="flow-shot">
+            <span class="chip">I feel unsafe</span>
+            <img src="tribe/Group%20690.png" width="358" height="543" loading="lazy" decoding="async"
+                 alt="I’m feeling unsafe — selected state">
+          </div>
+          </div>
+          <div class="conn-x" aria-hidden="true"></div>
+          <div class="flow-node flow-node--l">
+          <div class="flow-shot">
+            <span class="chip">Report inline</span>
+            <img src="tribe/Group%20691.png" width="358" height="543" loading="lazy" decoding="async"
+                 alt="Report user — inline, zero navigation cost">
+          </div>
+          <div class="ann">
+            <p class="ann-b">Report appears in the same row — no navigation away. The action completes exactly where the user already is.</p>
+          </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="sec" id="s6" data-bar="Reflection" aria-labelledby="s6h">
-      <h2 class="sec-label" id="s6h">I would start with stress-state research before touching the information architecture.</h2>
-      <div class="sec-copy">
-        <p class="sec-lede">I designed the calm state first and worked backwards. That was the wrong sequence — the anxiety state should have been the primary design surface, not the edge case.</p>
-        <p class="hmw">“A system that gives you everything it knows is not a helpful system. Helpfulness is knowing what to withhold, and when.”</p>
+      <!-- the verdict on the work, at the head of the section that reflects on it -->
+      <div class="said">
+        <blockquote>
+          <p>“This is very, very high level. I like it a lot.”</p>
+          <cite>— CTO, Tribe</cite>
+        </blockquote>
+        <blockquote>
+          <p>“This is an app I’d actually want to see built.”</p>
+          <cite>— AI Engineer &amp; Neuroscientist, Tribe</cite>
+        </blockquote>
       </div>
+      <h2 class="sec-label" id="s6h">What I’d do differently. What I’d do the same.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Send a questionnaire before any screen was drawn. Real user intent data would have sharpened the input validation from day one.</p>
+        <p>Push back on anything that doesn’t serve the user. Every constraint that survived the dev sync survived because it had a human reason behind it.</p>
+        <p>One metric: prompt quality in correlation to match quality. That correlation — or the absence of it — would tell me whether the core thesis holds.</p>
+
+      </div>
+
+      <!-- the heading belongs to the table, not to the copy above it: it names
+           what the table is, and the eyebrow marks it as proposed rather than
+           performed - the distinction the source page draws -->
+      <div class="blueprint">
+        <h3>
+          <button class="bp-toggle" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
+            <span>
+              <span class="bp-t">Alpha Validation Blueprint</span>
+              <span class="bp-e">Proposed Testing Plans · Alpha Phase</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="bpPanel" data-open="false" role="region" aria-labelledby="bpBtn">
+          <div class="bp-inner">
+      <table class="phases">
+        <thead>
+          <tr>
+            <td></td>
+            <th scope="col"><span class="ph-n">Phase 1 — Usability</span><span class="ph-t">Pre-Launch Lab Testing</span></th>
+            <th scope="col"><span class="ph-n">Phase 2 — Telemetry</span><span class="ph-t">Alpha Field Testing</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Objective</th>
+            <td data-ph="Phase 1">Verify if real-time keyword highlighting reduces input anxiety and ensures semantic accuracy.</td>
+            <td data-ph="Phase 2">Validate the NLP matching engine and progressive disclosure mechanics under live infrastructure load.</td>
+          </tr>
+          <tr>
+            <th scope="row">Methodology</th>
+            <td data-ph="Phase 1">Moderated testing (8–10 participants) using low-fidelity click-dummies.</td>
+            <td data-ph="Phase 2">14-day unmoderated field test deployed to a high-density cohort of 500–1,000 target users in Budapest.</td>
+          </tr>
+          <tr>
+            <th scope="row">Signals</th>
+            <td data-ph="Phase 1">Time-on-task, token correction frequency, and subjective workload (SEQ score).</td>
+            <td data-ph="Phase 2">Progress toward the target ≥40% match-to-meetup conversion milestone, live data logging against the &lt;40% engine failure threshold, and exact drop-off points within the unmasking sequence.</td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+        </div>
+      </div>
+
     </section>
 
   </div>
 
+  <footer class="cs-foot">
+    <p class="sec-label">Next case studies</p>
+    <ul class="next">
+      <li><a href="/case-study-02-mindure">
+        <span class="next-n">02</span>
+        <span class="next-t">Giving someone a clear next move when the future feels automated away.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+      <li><a href="/case-study-03-ness">
+        <span class="next-n">03</span>
+        <span class="next-t">Reaching someone through what they make, when words won’t come.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+    </ul>
+  </footer>
+
 </div>
 
-<dialog class="lb" id="lightbox" aria-label="Enlarged image">
-  <button type="button" class="lb-x" id="lightboxClose" aria-label="Close image">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <div class="lb-in"><img id="lightboxImg" src="" alt=""></div>
-</dialog>
 <script>
 (function(){
 "use strict";
@@ -2893,158 +2548,294 @@ document.querySelectorAll('img').forEach(function(im){
   im.addEventListener('load',function(){measure();spy();});});
 measure();spy();
 
-/* The masthead animation and the frame carousel from the Tribe study are not
-   here: both are specific to that one export and would only mislead. What is
-   kept is everything every case study needs - the accessibility panel, the
-   noise toggle, the fold, and the scroll spy that drives the progress bar and
-   marks the route in the header. */
-})();
-/* the wipe. One listener per stage, and the position lives in a custom property
-   so the clip and the seam can never disagree about where the edge is. */
-(function(){
-  [].slice.call(document.querySelectorAll(".cmp-stage")).forEach(function(stage){
-    var range=stage.querySelector(".cmp-range");
-    if(!range)return;
-    function put(){stage.style.setProperty("--x",range.value+"%");}
-    range.addEventListener("input",put);
-    put();
-  });
-})();
-/* The walkthrough. It starts when the frame is actually on screen and stops when
-   it leaves - a minute of video playing to nobody, behind the reader, is
-   bandwidth and battery spent on nothing. A pause the reader chose is
-   remembered, so coming back to the frame does not overrule them. */
-(function(){
-  var fig=document.getElementById("macFig");
-  if(!fig)return;
-  var v=fig.querySelector(".mac-video");
-  if(!v)return;
-  /* Starting a hair after zero, because a video element with nothing decoded
-     paints its box black - the fragment start makes the browser fetch and
-     show a real frame before anyone presses anything.
+/* App_Screen.png is one Figma section exported whole, so it is not nine equal
+   slices: each screen is 390x844, they sit on a 446 pitch from x=20, and the
+   whole thing carries a 20px margin plus the section’s own dashed border.
+   Dividing the width by nine - which both the masthead and the carousel below
+   used to do - makes every window 54px too wide and walks the offset along
+   until the last screens are mostly gutter. Measured once, used by both. */
+var SHOT={w:3998,h:884,frameW:390,frameH:844,pitch:446,x0:20,y0:20,n:9};
+SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
 
-     The file runs 58.4s and the last seven are not worth showing: the pointer
-     stops moving at about 51.5s, the picture then sits frozen for three seconds,
-     and at 54.5s the screen recorder throws its own signup dialog over the
-     prototype. Playback ends at the last movement instead - on the clock and on
-     the scrub bar alike, since a viewer dragging the handle would otherwise land
-     in the dead air or in the advert. Both are still inside the file; cutting
-     them out of it needs a tool this machine does not have. */
-  var CUT=51.5;
-  var ours=false,userPaused=false;
-  function still(){return document.documentElement.getAttribute("data-motion")==="off";}
-  v.addEventListener("pause",function(){
-    if(ours)ours=false; else userPaused=true;
-  });
-  v.addEventListener("play",function(){
-    userPaused=false;
-    if(v.currentTime>=CUT-0.05)v.currentTime=0;   /* played to the cut: start over */
-  });
-  v.addEventListener("timeupdate",function(){
-    if(v.currentTime>=CUT&&!v.paused){ours=true;v.pause();}
-  });
-  v.addEventListener("seeking",function(){
-    if(v.currentTime>CUT)v.currentTime=CUT;
-  });
-  function go(on){
-    if(on){
-      if(still()||userPaused||!v.paused)return;
-      var p=v.play();
-      if(p&&p.catch)p.catch(function(){});   /* refused: the controls are there */
-    }else if(!v.paused){
-      ours=true; v.pause();
-    }
-  }
-  function inView(){var r=fig.getBoundingClientRect();
-    return r.top<window.innerHeight*0.85&&r.bottom>0;}
-  if("IntersectionObserver" in window){
-    new IntersectionObserver(function(es){es.forEach(function(e){
-      go(e.isIntersecting);});},{threshold:.25}).observe(fig);
-  }else{
-    var tick=function(){go(inView());};
-    window.addEventListener("scroll",tick,{passive:true});
-  }
-  if(inView())go(true);
-})();
-/* Every figure image gets a way to be seen at full size. The badge is built
-   here rather than written into each figure so a figure added later picks it
-   up for nothing, and so the markup carries no control that would be dead if
-   this script never ran. */
+/* The masthead types. Four real states are used and nothing is redrawn:
+   screen 1 (empty), screen 2 (focused), screen 6 (understood) and screen 7
+   (refined). Between them the letters are uncovered from the artwork - the
+   layer is a second copy of the strip sitting on the target screen, clipped to
+   a staircase that grows a character at a time, with the wash underneath
+   erasing whatever text the base screen has baked in. So every letter that
+   appears is a delivered pixel, and every state it rests on is a real export
+   rather than an approximation of one.
+
+   The character positions were measured off the file: the ink span of each
+   line is known and the stops interpolate across it. The check that this is
+   honest is screen 7 line 2 - the stop after "basketball" computes to 303.2
+   and the artwork’s ink ends at 303.
+
+   Frames 3, 4 and 5 of the strip are deliberately skipped. They are states
+   like "ba" that exist to explain the parser in a spec, not moments anyone
+   using the app would ever sit in. */
 (function(){
-  var lb=document.getElementById("lightbox"),lbImg=document.getElementById("lightboxImg"),
-      lbBox=lb&&lb.querySelector(".lb-in");
-  if(!lb||!lbImg||!lbBox||!lb.showModal)return;     /* no dialog support: leave the figures alone */
-  var opener=null;
-  var ICON='<svg viewBox="0 0 24 24" aria-hidden="true">'+
-    '<path d="M14 4h6v6M10 20H4v-6M20 4l-7.5 7.5M4 20l7.5-7.5"/></svg>';
-  [].slice.call(document.querySelectorAll(".fig img")).forEach(function(img){
-    var fig=img.closest("figure");
-    if(!fig||fig.querySelector(".zoom"))return;      /* one badge per figure */
-    var b=document.createElement("button");
-    b.type="button"; b.className="zoom"; b.innerHTML=ICON;
-    var what=(img.getAttribute("alt")||"").trim();
-    b.setAttribute("aria-label", what ? "Open full size: "+what : "Open image full size");
-    b.addEventListener("click",function(){
-      opener=b;
-      lbImg.src=img.currentSrc||img.src;
-      lbImg.alt=what;
-      lb.showModal();
-    });
-    fig.appendChild(b);
-  });
-  /* the comparison stages are images too, and the densest ones on the page. The
-     badge opens the redesign - the half the section is arguing for - and sits
-     bottom-right, clear of the two tags and of most of the drag area. */
-  [].slice.call(document.querySelectorAll(".cmp-stage")).forEach(function(stage){
-    if(stage.querySelector(".zoom"))return;
-    var over=stage.querySelector(".cmp-over img");
-    if(!over)return;
-    var cell=stage.closest(".cmp")&&stage.closest(".cmp").querySelector(".cmp-v");
-    var name=cell?cell.textContent.trim():"";
-    var b=document.createElement("button");
-    b.type="button"; b.className="zoom zoom--stage"; b.innerHTML=ICON;
-    b.setAttribute("aria-label",name?"Open "+name+" full screen, both versions"
-                                    :"Open this comparison full screen");
-    /* A copy of the whole stage rather than a still of one half: the point of
-       the section is the difference between the two, and a picture of the
-       redesign on its own does not show a difference. The copy is live - it
-       carries both images, both labels and its own handle - so the reader can
-       wipe it at full size and the one on the page keeps whatever position
-       they had left it at. */
-    b.addEventListener("click",function(){
-      opener=b;
-      var c=stage.cloneNode(true);
-      var z=c.querySelector(".zoom"); if(z)z.remove();
-      var r=c.querySelector(".cmp-range");
-      if(r)r.addEventListener("input",function(){c.style.setProperty("--x",r.value+"%");});
-      lbImg.hidden=true;
-      lb.classList.add("is-cmp");
-      lbBox.appendChild(c);
-      lb.showModal();
-      if(r)r.focus();
-    });
-    stage.appendChild(b);
-  });
-  /* Every way out runs through here rather than through the dialog's own close
-     event: close() does not reliably fire it in every engine, and when it does
-     not, the image stays loaded behind a hidden dialog and focus is left on a
-     button nobody can see. Idempotent, so being called twice costs nothing. */
-  function shut(){
-    if(lb.open)lb.close();
-    lbImg.removeAttribute("src");
-    var c=lbBox.querySelector(".cmp-stage");   /* the copy, if this was one */
-    if(c)c.remove();
-    lbImg.hidden=false;
-    lb.classList.remove("is-cmp");
-    if(opener){opener.focus();opener=null;}
+  var base=document.getElementById("devBase");
+  if(!base)return;
+  var layer=document.getElementById("devLayer"),
+      ink=document.getElementById("devInk"),
+      wash=document.getElementById("devWash"),
+      caret=document.getElementById("devCaret"),
+      chips=document.getElementById("devChips"),
+      chipImg=document.getElementById("devChipImg"),
+      replay=document.getElementById("devReplay");
+
+  function PX(v){return v/SHOT.frameW*100}   /* x, as % of the screen */
+  function PY(v){return v/SHOT.frameH*100}   /* y, as % of the screen */
+  function FY(v){return v/SHOT.h*100}        /* y, as % of the whole strip */
+
+  /* Where the chip row sits for a given number of visible lines. The three
+     anchored values are read off screens 3, 6 and 7; only the two-line case
+     is interpolated, because no exported screen happens to have two lines. */
+  var CHIPROW=[282,336,391,445];
+  var CHIPH=32;
+  /* The row sits at a different height in each source screen, since it follows
+     that screen’s own last line. These are strip coordinates, not screen ones:
+     --fy is measured from the top of the export, and every screen starts 20px
+     down from it, so each value is its in-screen row plus that margin.
+     (282/391/445 in-screen -> 302/411/465 here.) */
+  var CHIPSRC={2:302,3:302,4:302,5:411,6:465};
+
+  /* Line bands sit on the midpoints between the ink rows, so a finished line
+     shows whole and the next is still fully hidden. inkTop is where the caret
+     stands. Both were read off the export. */
+  var RUN=[
+    /* Recognition is not a single event at the end - each chip lights when the
+       word that triggers it has been typed, which is the whole claim the case
+       study makes about the parser. "What" lands on basketball; the amber dot
+       is the parser holding an incomplete reading; "When" and the green dot
+       arrive with "afternoon", which is where screen 6 already is. */
+    {frame:5, wash:[208,380], from:[0,0],
+     chips:[{line:0,char:0,frame:2},   /* present, none lit */
+            {line:1,char:15,frame:3},  /* "basketball" -> What */
+            {line:2,char:0,frame:4}],  /* still incomplete -> amber dot */
+     lines:[
+      {band:[208,272],inkTop:221,text:"I’m looking to",
+       stops:[24,39.6,52,88.2,96,108.7,130.9,153.6,176,188.8,213.9,235.6,243.3,258.5,281]},
+      {band:[272,326],inkTop:275,text:"play basketball",
+       stops:[24,48.6,61.1,82.2,102.4,110.3,134.6,155.8,173.4,196.7,216.8,231.7,255.7,276.9,289.9,303]},
+      {band:[326,380],inkTop:328,text:"this afternoon",
+       stops:[24,39.5,65.3,78.3,96.2,104.1,125.4,140.2,154.1,174.5,192.8,218.6,241.5,264.7,290]}
+    ]},
+    /* screen 7 is screen 6 with " in Budapest" inserted, so the second pass
+       picks up mid-line at the point the two diverge rather than starting over */
+    {frame:6, wash:[208,432], from:[1,15],
+     chips:[{line:1,char:15,frame:5},  /* carries screen 6’s What + When */
+            {line:2,char:8,frame:6}],  /* "Budapest" -> Where */
+     lines:[
+      {band:[208,272],inkTop:221,text:"I’m looking to",
+       stops:[24,39.6,52,88.2,96,108.7,130.9,153.6,176,188.8,213.9,235.6,243.3,258.5,281]},
+      {band:[272,326],inkTop:275,text:"play basketball in",
+       stops:[24,48.6,61.2,82.3,102.4,110.4,134.7,155.9,173.6,196.8,216.9,231.9,255.9,277.1,290.2,303.2,311.2,324.2,350]},
+      {band:[326,379],inkTop:329,text:"Budapest this",
+       stops:[24,49.7,74.4,98.5,119.5,143.6,163.8,181.2,196.5,204.3,219.8,245.3,258.3,276]},
+      {band:[379,432],inkTop:382,text:"afternoon.",
+       stops:[24,45,59.8,73.5,93.7,111.8,137.3,160,183,208.1,221]}
+    ]}
+  ];
+
+  var timer=null,started=false,guard=null;
+
+  function setFrame(el,i){el.style.setProperty("--fx",SHOT.fx(i).toFixed(4));}
+
+  function rest(i){                      /* a real export, nothing on top of it */
+    setFrame(base,i);
+    layer.style.display="none";wash.style.display="none";
+    chips.style.display="none";caret.style.display="none";
   }
-  document.getElementById("lightboxClose").addEventListener("click",shut);
-  /* Escape */
-  lb.addEventListener("cancel",function(e){e.preventDefault();shut();});
-  /* the ground: the picture and the button are inside their own boxes, so a hit
-     on the dialog itself is a hit on the backdrop */
-  lb.addEventListener("click",function(e){if(e.target===lb)shut();});
-  lb.addEventListener("close",shut);
+
+  /* the last mark the typing has reached */
+  function chipAt(run,li,k){
+    var m=null;
+    for(var n=0;n<run.chips.length;n++){
+      var c=run.chips[n];
+      if(c.line<li||(c.line===li&&k>=c.char))m=c;
+    }
+    return m;
+  }
+
+  function draw(run,li,k){
+    var ln=run.lines[li];
+    var t0=PY(run.lines[0].band[0]),tl=PY(ln.band[0]),tb=PY(ln.band[1]),xp=PX(ln.stops[k]);
+    /* full width down to the current line, then only as far as the caret */
+    layer.style.clipPath="polygon(0% "+t0+"%,100% "+t0+"%,100% "+tl+"%,"
+      +xp+"% "+tl+"%,"+xp+"% "+tb+"%,0% "+tb+"%)";
+    caret.style.left=xp+"%";
+    caret.style.top=PY(ln.inkTop-3)+"%";
+    caret.style.height=PY(50)+"%";
+
+    var c=chipAt(run,li,k);
+    if(!c){chips.style.display="none";return;}
+    chips.style.top=PY(CHIPROW[li])+"%";
+    chips.style.height=PY(CHIPH)+"%";
+    chipImg.style.setProperty("--fx",SHOT.fx(c.frame).toFixed(4));
+    chipImg.style.setProperty("--fy",FY(CHIPSRC[c.frame]).toFixed(4));
+    chips.style.display="block";
+  }
+
+  function begin(run){
+    wash.style.top=PY(run.wash[0])+"%";
+    wash.style.height=PY(run.wash[1]-run.wash[0])+"%";
+    wash.style.display="block";
+    setFrame(ink,run.frame);
+    layer.style.display="block";
+    caret.style.display="block";
+  }
+
+  /* a beat after a space, a longer one after a full stop - typing is not a
+     metronome, and an even cadence is the thing that reads as fake */
+  function pace(ch){
+    if(ch==="."||ch===",")return 240;
+    if(ch===" ")return 62;
+    return 34+Math.random()*26;
+  }
+
+  function type(ri,li,k,done){
+    var run=RUN[ri],ln=run.lines[li];
+    draw(run,li,k);
+    if(k>=ln.text.length){
+      if(li>=run.lines.length-1){timer=setTimeout(done,260);return;}
+      timer=setTimeout(function(){type(ri,li+1,0,done);},150);return;
+    }
+    timer=setTimeout(function(){type(ri,li,k+1,done);},pace(ln.text.charAt(k)));
+  }
+
+  function still(){
+    return document.documentElement.getAttribute("data-motion")==="off"
+      || (window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches);
+  }
+
+  function run(){
+    clearTimeout(timer);
+    /* anyone who asked for less motion gets the end of the story at once - the
+       understood state is the point, the typing is only how it arrives */
+    if(still()){rest(RUN[1].frame);if(replay)replay.hidden=false;return;}
+    if(replay)replay.hidden=true;
+    rest(0);
+    timer=setTimeout(function(){
+      rest(1);                                       /* the field takes focus */
+      timer=setTimeout(function(){
+        begin(RUN[0]);
+        type(0,RUN[0].from[0],RUN[0].from[1],function(){
+          rest(RUN[0].frame);                        /* understood: screen 6 */
+          timer=setTimeout(function(){
+            begin(RUN[1]);
+            type(1,RUN[1].from[0],RUN[1].from[1],function(){
+              rest(RUN[1].frame);                    /* refined: screen 7 */
+              if(replay)replay.hidden=false;
+            });
+          },1000);
+        });
+      },520);
+    },900);
+  }
+
+  /* Never one trigger: this is the first thing on the page, and a field stuck
+     empty forever is a worse failure than starting a beat early. */
+  function start(){if(started)return;started=true;clearTimeout(guard);run();}
+  function inView(){var r=base.getBoundingClientRect();
+    return r.top<window.innerHeight*0.9 && r.bottom>0;}
+  if(replay)replay.addEventListener("click",function(){started=true;run();});
+  guard=setTimeout(function(){if(inView())start();},1200);
+  if(inView())start();
+  if(!started){
+    if("IntersectionObserver" in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){if(e.isIntersecting){io.disconnect();start();}});},{threshold:.35});
+      io.observe(base);
+    }
+    var onScroll=function(){if(inView()){window.removeEventListener("scroll",onScroll);start();}};
+    window.addEventListener("scroll",onScroll,{passive:true});
+  }
+})();
+
+/* chip-validation carousel — nine frames in one file.
+   The frame width is derived from the file rather than hard-coded: naturalWidth
+   divided by nine, scaled by however tall the window is drawn. Re-derived on
+   resize, because the window height is a viewport-relative size and a frame
+   measured at one width lands mid-screen at another. */
+(function(){
+  var descs=[
+    'Empty state — placeholder: “What do you want to do today?”',
+    'Cursor active — input focused, chips waiting.',
+    '“ba” typed — partial input, chips not yet triggered.',
+    '“basketball” — What chip fires, highlighted in purple.',
+    'Full sentence typed — When chip activates.',
+    'Budapest added — Where chip activates. All three chips present.',
+    'All chips green — NLP confident. Smiley face appears.',
+    'FIND THEM unlocks — CTA active, user can submit.',
+    'Error state — special characters rejected with inline message.'
+  ];
+  var img=document.getElementById('carImg'),win=document.getElementById('carWindow');
+  if(!img||!win)return;
+  var mark=document.getElementById('carMark');
+  var veilL=document.getElementById('carVeilL'),veilR=document.getElementById('carVeilR');
+  var visible=5;   /* always odd, so there is a middle slot to read */
+  var desc=document.getElementById('carDesc'),count=document.getElementById('carCount');
+  var prev=document.getElementById('carPrev'),next=document.getElementById('carNext'),dotsEl=document.getElementById('carDots');
+  var total=descs.length,cur=0,frameW=0,scale=1,dots=[];
+  for(var i=0;i<total;i++){(function(n){
+    var d=document.createElement('button');
+    d.className='car-dot';d.type='button';
+    d.setAttribute('aria-label','State '+(n+1));
+    d.setAttribute('aria-current',n===0?'true':'false');
+    d.addEventListener('click',function(){go(n);});
+    dotsEl.appendChild(d);dots.push(d);})(i);}
+  function go(n){
+    cur=Math.max(0,Math.min(total-1,n));
+    /* the active frame sits in the middle slot, so the strip is offset by how
+       far the active one is from that slot rather than from the start */
+    var mid=Math.floor(visible/2);
+    /* the strip is moved so the active screen lands in the middle slot, and
+       lifted by the section margin so the exported border never shows */
+    img.style.transform='translate('+(-(SHOT.x0+(cur-mid)*SHOT.pitch)*scale)+'px,'
+      +(-SHOT.y0*scale)+'px)';
+    desc.textContent=descs[cur];
+    count.textContent=(cur+1)+' / '+total;
+    prev.disabled=cur===0;next.disabled=cur===total-1;
+    for(var k=0;k<dots.length;k++)dots[k].setAttribute('aria-current',k===cur?'true':'false');
+  }
+  function fit(){
+    if(!img.naturalWidth)return;
+    /* Room is measured rather than guessed: the stage box less its own padding,
+       the two buttons and the two gaps between them and the strip. A slack
+       constant here was costing the frames about 30px of width for nothing. */
+    var st=getComputedStyle(win.parentNode);
+    var room=win.parentNode.clientWidth
+      -(parseFloat(st.paddingLeft)||0)-(parseFloat(st.paddingRight)||0)
+      -prev.offsetWidth-next.offsetWidth
+      -(parseFloat(st.columnGap)||0)*2-2;
+    visible=room>=620?5:(room>=330?3:1);
+    /* a slot is a whole pitch, so the gutters the design was drawn with are
+       what separates the neighbours - nothing is invented to space them */
+    var slot=Math.floor(room/visible);
+    /* a screen is never drawn larger than it is in the file */
+    var w=Math.min(SHOT.frameW,slot*SHOT.frameW/SHOT.pitch);
+    var hCap=Math.min(460,Math.round(window.innerHeight*0.52));
+    if(w/SHOT.frameW*SHOT.frameH>hCap)w=hCap/SHOT.frameH*SHOT.frameW;
+    scale=w/SHOT.frameW;
+    frameW=w;
+    img.style.height='auto';
+    img.style.width=Math.round(SHOT.w*scale)+'px';
+    /* the window crops to the screen height, so the 20px margin and the
+       exported section border stay outside it */
+    win.style.height=Math.round(SHOT.frameH*scale)+'px';
+    win.style.width=Math.round((visible-1)*SHOT.pitch*scale+w)+'px';
+    mark.style.width=Math.round(w)+'px';
+    var side=Math.round(Math.floor(visible/2)*SHOT.pitch*scale);
+    veilL.style.width=side+'px';veilR.style.width=side+'px';
+    go(cur);
+  }
+  prev.addEventListener('click',function(){go(cur-1);});
+  next.addEventListener('click',function(){go(cur+1);});
+  window.addEventListener('resize',fit);
+  if(img.complete&&img.naturalWidth)fit(); else img.addEventListener('load',fit);
+})();
 })();
 </script>
 </body>

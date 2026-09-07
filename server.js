@@ -4,6 +4,8 @@ const T={'.html':'text/html','.css':'text/css','.js':'text/javascript','.png':'i
 http.createServer((req,res)=>{
   let p=decodeURIComponent(url.parse(req.url).pathname);
   if(p.endsWith('/'))p+='index.html';
+  // cleanUrls parity with Vercel: /case-study-01-tribe serves case-study-01-tribe.html
+  if(!path.extname(p)&&!fs.existsSync(path.join(ROOT,p)))p+='.html';
   const f=path.join(ROOT,p);
   if(!f.startsWith(ROOT)){res.writeHead(403);return res.end('no');}
   const type=T[path.extname(f).toLowerCase()]||'application/octet-stream';
