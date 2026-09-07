@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ness — the guide, live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Lora:ital,wght@0,500;1,500;1,600&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* ═══ Ness — a live session on the artboard ═══
+   This is the artboard file with a session layer added. The artboard chrome is
+   unchanged: same monogram, same five dropdowns, same floating tool rail, same
+   libraries. What is added is the part the guide needs — three flatmates online
+   at once, one pen passed between them, a task strip, and a canvas that is
+   locked for everyone whose turn it is not.
+
+   ── PROVENANCE ─────────────────────────────────────────────
+   Johnathan’s two opening lines, LIGHTENED and WARM_INTO_COOL are verbatim from
+   the delivered screens. THE FOUR TASKS AND EVERY OTHER LINE HE SAYS ARE MINE,
+   as are Dorothy’s and Thomas’s messages. The tasks follow recognised group
+   art-therapy moves — a colour per person so contribution stays legible, unseen
+   labour surfaced, perspective-taking by drawing someone else’s experience, and
+   a joint piece made where the marks already meet — but the wording wants your
+   review before it ships.
+   ──────────────────────────────────────────────────────── */
+
+/* ═══ artboard, as delivered ═══
+   Laid out against the delivered artboard screen rather than approximated: the n
+   monogram, the five dropdowns over the canvas, the floating tool rail, the
+   participant column, the guide panel with its switch and orb, and the painted
+   tool tray standing behind the bottom bar.
+
+   The canvas takes real strokes from six real brushes, the libraries open and do
+   what they say, and the guide is silent for exactly as long as you are making
+   something. Every word Johnathan speaks is verbatim from the delivered sheets.
+   Nothing is written for him. */
+
+:root{
+  --midnight:#4C5A63; --cloud:#F1F5F9; --teal:#3EC9A7;
+  --ocean:#49A6E2;    --lavender:#E0B6F3; --peach:#FF9E7E;
+  --ink:#2E3A44; --muted:#8A95A0; --line:#E2E7ED;
+  --panel:#fff; --stage:#DCE2E9;
+  --display:'Lora',Georgia,serif;
+  --ui:'Poppins',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cloud);color:var(--ink);font-family:var(--ui);
+  font-size:16px;line-height:1.55}
+.wrap{max-width:1400px;margin:0 auto;padding:18px 24px}
+
+.app{background:var(--stage);border-radius:14px;user-select:none;overflow:hidden;
+  display:flex;flex-direction:column;
+  height:clamp(720px, calc(100svh - 96px), 1100px);
+  box-shadow:0 1px 2px rgba(46,58,68,.10),0 22px 52px rgba(46,58,68,.18)}
+
+/* ── top bar ── */
+.top{display:flex;align-items:center;gap:30px;padding:14px 26px;background:var(--cloud)}
+/* the monogram: the app mark, not the wordmark */
+.logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:40px;
+  line-height:.9;color:var(--ink);letter-spacing:-.02em}
+.menu{display:flex;gap:10px}.menu>div{position:relative}
+.mbtn{background:none;border:0;font:inherit;font-size:15px;color:var(--ink);
+  padding:8px 14px;border-radius:9px;cursor:pointer}
+.mbtn:hover,.mbtn[aria-expanded="true"]{background:#fff}
+.file{margin-left:auto;display:flex;align-items:center;gap:16px}
+.fname{background:#fff;border:0;border-radius:9px;padding:11px 16px;font:inherit;
+  font-size:14px;color:var(--muted);width:180px}
+.auto{text-align:center;font-size:11px;color:var(--muted);line-height:1.3}
+.auto i{display:block;width:46px;height:25px;border-radius:999px;background:var(--teal);
+  position:relative;margin:0 auto 3px}
+.auto i::after{content:"";position:absolute;right:3px;top:3px;width:19px;height:19px;
+  border-radius:50%;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:9px;border:0;border-radius:12px;
+  padding:13px 22px;font-family:var(--ui);font-size:15px;font-weight:600;cursor:pointer;
+  transition:background .15s,color .15s,box-shadow .15s}
+.btn--secondary{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn--secondary:hover{background:var(--ink);color:#fff}
+.btn--primary{background:var(--ink);color:#fff;border-radius:999px;padding:13px 26px}
+.btn--primary:hover{color:var(--teal)}
+.btn--teal{background:var(--teal);color:var(--ink);border-radius:999px}
+.btn--teal:hover{background:#35b596}
+
+/* ── popovers ── */
+.pop{position:absolute;z-index:60;background:var(--panel);border-radius:14px;width:264px;
+  box-shadow:0 2px 6px rgba(46,58,68,.14),0 18px 40px rgba(46,58,68,.24);overflow:hidden}
+.pop[hidden]{display:none}
+.pop-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.pop-h b{font-size:15px;font-weight:600}
+.sw-toggle{margin-left:auto;width:40px;height:22px;border-radius:999px;background:var(--ink);
+  position:relative;border:0;cursor:pointer;padding:0}
+.sw-toggle::after{content:"";position:absolute;right:3px;top:3px;width:16px;height:16px;
+  border-radius:50%;background:#fff}
+.pop-b{padding:12px 14px;max-height:320px;overflow:auto}
+.pop .head{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 7px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{border:0;background:var(--cloud);color:var(--ink);font:inherit;font-size:12px;
+  padding:6px 13px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--teal);font-weight:500}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{border:0;background:var(--cloud);border-radius:9px;padding:0;cursor:pointer;
+  overflow:hidden;aspect-ratio:1.15;position:relative;box-shadow:inset 0 0 0 2px transparent}
+.tile[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--teal)}
+.tile span{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.92);
+  font-size:11px;padding:3px 0}
+.tile i{display:block;width:100%;height:100%}
+.field{display:flex;gap:8px;margin-bottom:10px}
+.field label{flex:1;font-size:11px;color:var(--muted)}
+.field input{width:100%;border:0;background:var(--cloud);border-radius:8px;padding:9px 10px;
+  font:inherit;font-size:14px;color:var(--ink)}
+.rough{width:100%;accent-color:var(--teal)}
+.rough-l{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:2px 0 9px}
+.plain{display:block;width:100%;border:0;background:none;font:inherit;font-size:14px;
+  color:var(--ink);text-align:left;padding:10px 11px;border-radius:8px;cursor:pointer}
+.plain:hover{background:var(--cloud)}
+.plain[aria-pressed="true"]{background:#E4F7F1;font-weight:500}
+.dark-add{width:100%;border:0;background:var(--ink);color:#fff;border-radius:10px;padding:12px;
+  font:inherit;font-size:20px;cursor:pointer;margin-bottom:10px}
+
+/* ── body ── */
+.body{display:grid;grid-template-columns:auto minmax(0,1fr) auto 322px;gap:14px;
+  padding:14px 18px 18px;align-items:stretch;flex:1;min-height:0}
+
+/* floating rail card */
+.rail{position:relative;display:flex;flex-direction:column;gap:2px;background:var(--panel);
+  border-radius:16px;padding:12px 10px;align-self:start;box-shadow:0 1px 3px rgba(46,58,68,.10)}
+.rail>button{background:none;border:0;font:inherit;cursor:pointer;border-radius:12px;
+  padding:11px 6px;width:74px;text-align:center;font-size:11px;color:var(--muted)}
+.rail>button svg{display:block;margin:0 auto 5px;color:var(--ink)}
+.rail>button:hover,.rail>button[aria-expanded="true"]{background:var(--cloud)}
+.rail>button[aria-expanded="true"] svg{color:var(--teal)}
+.rail .pop{left:calc(100% + 12px);top:0}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;min-height:0}
+
+/* the five dropdowns over the canvas */
+.optbar{display:flex;align-items:center;gap:10px;background:var(--panel);border-radius:12px;
+  padding:9px 12px;box-shadow:0 1px 3px rgba(46,58,68,.10)}
+.opt{position:relative}
+.opt>button{display:flex;align-items:center;gap:9px;background:var(--cloud);border:0;
+  border-radius:9px;padding:8px 10px;cursor:pointer;font:inherit;font-size:13px;color:var(--ink)}
+.opt>button:hover{background:#E7ECF2}
+.opt .chev{color:var(--muted);font-size:11px}
+.opt .pop{left:0;top:calc(100% + 8px);width:220px}
+.prev-stroke{width:112px;height:16px;border-radius:8px}
+.prev-taper{width:96px;height:14px}
+.prev-dot{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(46,58,68,.2)}
+
+.canvas-wrap{flex:1;min-height:390px;width:100%;display:flex;justify-content:center}
+/* a box of the artboard’s own ratio, as tall as the space allows - so the
+   paper behind and the canvas on top are always exactly the same rectangle */
+.canvas-hold{position:relative;border-radius:6px;box-shadow:0 2px 10px rgba(46,58,68,.14);
+  touch-action:none;overflow:hidden;background:#fff;
+  height:var(--zoom,100%);aspect-ratio:var(--car,4/3);max-width:100%}
+canvas{display:block;border-radius:6px;cursor:crosshair;width:100%;height:100%;position:relative;z-index:1}
+.paper{position:absolute;inset:0;z-index:0;background:#fff}
+.hint{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none;
+  font-size:15px;color:#B3BCC5;transition:opacity .4s}
+.hint.is-gone{opacity:0}
+/* the lock is stated, never implied — you should not have to wonder why the pen
+   is dead. It sits over the canvas and takes the pointer events itself. */
+.lock{position:absolute;inset:0;z-index:4;display:grid;place-items:center;
+  background:rgba(46,58,68,.07);transition:opacity .25s}
+.lock[hidden]{display:none}
+.lock div{display:flex;align-items:center;gap:10px;background:var(--panel);border-radius:999px;
+  padding:11px 20px;font-size:14px;font-weight:500;box-shadow:0 2px 12px rgba(46,58,68,.2)}
+.lock em{font-style:normal;font-weight:400;color:var(--muted)}
+.lock b{width:10px;height:10px;border-radius:50%;animation:hold 1.1s ease-in-out infinite}
+/* while someone else holds the pen, the controls are visibly not yours */
+.app.is-locked .optbar,.app.is-locked .tray,.app.is-locked .rail{opacity:.45;pointer-events:none}
+
+/* ── the task strip ── */
+.taskbar{padding:10px 16px 12px;border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);background:#F7FAFC}
+.taskbar .k{display:flex;align-items:center;gap:8px;margin:0;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.steps{display:flex;gap:4px;margin-left:auto}
+.steps i{width:16px;height:4px;border-radius:2px;background:var(--line)}
+.steps i.on{background:var(--teal)}
+.taskbar .t{font-family:var(--display);font-style:italic;font-weight:600;font-size:16px;
+  line-height:1.32;margin:6px 0 0}
+.taskbar .who{display:flex;align-items:center;gap:7px;margin:8px 0 0;font-size:12px;
+  color:var(--muted)}
+.taskbar .who b{width:9px;height:9px;border-radius:50%;background:var(--muted)}
+
+/* ── the painted tools, standing behind the bar ── */
+.trayhold{position:relative;width:100%;display:flex;flex-direction:column;align-items:center}
+.tray{display:flex;align-items:flex-end;gap:8px;position:relative;z-index:1;margin-bottom:-38px}
+.tool{border:0;background:none;cursor:pointer;padding:0 2px;border-radius:12px;
+  transition:transform .18s cubic-bezier(.16,1,.3,1)}
+.tool svg{display:block}
+.tool:hover{transform:translateY(-8px)}
+.tool[aria-pressed="true"]{transform:translateY(-16px)}
+.tool[aria-pressed="true"] svg{filter:drop-shadow(0 5px 10px rgba(46,58,68,.30))}
+
+.bar{position:relative;z-index:2;display:flex;align-items:center;gap:16px;background:var(--panel);
+  border-radius:14px;padding:7px 18px;box-shadow:0 1px 3px rgba(46,58,68,.10);
+  justify-content:center;white-space:nowrap}
+.recent{display:flex;align-items:center;gap:10px}
+.recent-box{display:flex;align-items:center;gap:7px;background:#fff;border-radius:999px;
+  padding:5px 13px;box-shadow:inset 0 0 0 2px var(--line);min-width:92px;justify-content:center}
+.recent small{display:block;font-size:10px;color:var(--muted);text-align:center;margin-top:3px}
+.bar-b{border:0;background:none;font:inherit;font-size:11px;color:var(--muted);cursor:pointer;
+  text-align:center;border-radius:9px;padding:5px 10px}
+.bar-b:hover{background:var(--cloud)}
+.bar-b span{display:block;font-size:19px;color:var(--ink);line-height:1.1}
+.zoom{display:flex;align-items:center;gap:10px}
+.zoom input{width:104px;accent-color:var(--ink)}
+.zoom b{background:var(--ink);color:#fff;font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px}
+
+/* ── participants ── */
+.people{display:flex;flex-direction:column;align-items:center;gap:12px;align-self:start}
+.addp{width:44px;height:44px;border-radius:50%;border:0;background:var(--teal);color:#fff;
+  font-size:22px;line-height:1;cursor:pointer}
+.person{position:relative;text-align:center;font-size:12px;font-weight:500;
+  transition:opacity .25s}
+.person.is-waiting{opacity:.38}
+/* a green light each, on the whole time — they are all here, taking turns */
+.person .on{position:absolute;top:32px;right:0;width:13px;height:13px;border-radius:50%;
+  background:#35C46B;box-shadow:0 0 0 2.5px var(--cloud)}
+.person .tick{position:absolute;top:32px;right:0;width:13px;height:13px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:9px;line-height:13px;display:none;
+  box-shadow:0 0 0 2.5px var(--cloud)}
+.person.is-done .tick{display:block}.person.is-done .on{display:none}
+.person.is-turn i{animation:hold 1.5s ease-in-out infinite}
+@keyframes hold{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.person .pen{display:block;margin-top:1px;font-size:10px;font-weight:600;
+  color:var(--ink);visibility:hidden}
+.person.is-turn .pen{visibility:visible}
+.person i{display:block;width:46px;height:46px;border-radius:50%;margin-bottom:5px;
+  font-style:normal;font-size:16px;font-weight:600;color:#fff;line-height:46px}
+.person:nth-of-type(1) i{background:var(--peach);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--peach)}
+.person:nth-of-type(2) i{background:var(--ocean);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ocean)}
+.person:nth-of-type(3) i{background:var(--teal);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--teal)}
+
+/* ── the guide ── */
+.guide{background:var(--panel);border-radius:16px;overflow:hidden;display:flex;
+  flex-direction:column;height:100%;min-height:0;box-shadow:0 1px 3px rgba(46,58,68,.10)}
+.guide-top{display:flex;align-items:center;gap:13px;padding:14px 16px}
+.guide-top i{width:52px;height:52px;border-radius:50%;flex:0 0 auto;background:var(--midnight);
+  color:#fff;font-style:normal;font-weight:600;font-size:19px;line-height:52px;text-align:center}
+.guide-top b{display:block;font-size:17px;font-weight:600}
+.guide-top span{font-size:12px;color:var(--muted)}
+.gt-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.gswitch{width:40px;height:21px;border-radius:999px;background:#C9D2DA;position:relative;border:0;
+  cursor:pointer;padding:0}
+.gswitch::after{content:"";position:absolute;left:3px;top:3px;width:15px;height:15px;
+  border-radius:50%;background:#fff;transition:left .18s}
+.gswitch[aria-pressed="true"]{background:var(--ink)}
+.gswitch[aria-pressed="true"]::after{left:22px}
+.orb{width:38px;height:38px;border-radius:50%;border:0;cursor:pointer;
+  background:radial-gradient(circle at 34% 30%,#F3E7FC,var(--lavender))}
+.thread{flex:1;overflow-y:auto;padding:6px 16px 14px;display:flex;flex-direction:column;gap:12px}
+.stamp{font-size:12px;color:var(--muted)}
+.stamp b{color:var(--ink);font-weight:500}
+.msg{background:var(--midnight);color:#fff;border-radius:14px;padding:14px 16px;font-size:15px;
+  line-height:1.5;animation:rise .45s cubic-bezier(.16,1,.3,1) both}
+.msg--you{background:var(--cloud);color:var(--ink);align-self:flex-end;max-width:86%}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.dots{display:flex;gap:5px;padding:15px 16px;background:var(--midnight);border-radius:14px;width:fit-content}
+.dots i{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.45;animation:blink 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.35}30%{opacity:1}}
+.compose{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.cbox{flex:1;display:flex;align-items:center;gap:10px;background:var(--cloud);border-radius:999px;
+  padding:11px 16px}
+.cbox input{flex:1;border:0;background:none;font:inherit;font-size:15px;color:var(--ink)}
+.cbox input:focus{outline:none}
+.send{width:46px;height:46px;border-radius:50%;border:0;background:var(--ocean);color:#fff;
+  cursor:pointer;display:grid;place-items:center}
+
+.demo{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.demo p{margin:0;font-size:14px;color:var(--muted)}
+:focus-visible{outline:2px solid var(--ocean);outline-offset:2px}
+
+@media (max-width:1240px){
+  .body{grid-template-columns:minmax(0,1fr)}
+  .rail{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .rail .pop{left:0;top:calc(100% + 12px)}
+  .people{flex-direction:row;justify-content:center}
+  .guide{height:440px}
+}
+@media (prefers-reduced-motion:reduce){ .msg,.dots i,.tool,.gswitch::after{animation:none;transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+  <div class="app">
+    <div class="top">
+      <span class="logo" aria-hidden="true">n</span>
+      <nav class="menu" aria-label="App menu">
+        <div><button class="mbtn" type="button" data-menu="m-file" aria-expanded="false">File</button>
+          <div class="pop" id="m-file" hidden><div class="pop-b">
+            <button class="plain" type="button" data-act="new">New page</button>
+            <button class="plain" type="button" data-act="download">Download as PNG</button>
+            <button class="plain" type="button" data-act="end">End session</button></div></div></div>
+        <div><button class="mbtn" type="button" data-menu="m-edit" aria-expanded="false">Edit</button>
+          <div class="pop" id="m-edit" hidden><div class="pop-b">
+            <button class="plain" type="button" data-act="undo">Undo</button>
+            <button class="plain" type="button" data-act="redo">Redo</button>
+            <button class="plain" type="button" data-act="clear">Clear canvas</button></div></div></div>
+        <div><button class="mbtn" type="button" data-menu="m-view" aria-expanded="false">View</button>
+          <div class="pop" id="m-view" hidden><div class="pop-b"><p class="head">Zoom</p>
+            <button class="plain" type="button" data-zoom=".33">33%</button>
+            <button class="plain" type="button" data-zoom=".6">60%</button>
+            <button class="plain" type="button" data-zoom="1">100%</button></div></div></div>
+        <div><button class="mbtn" type="button" data-menu="m-help" aria-expanded="false">Help</button>
+          <div class="pop" id="m-help" hidden><div class="pop-b">
+            <button class="plain" type="button" data-act="about">What Johnathan does</button></div></div></div>
+      </nav>
+      <div class="file">
+        <input class="fname" value="Untitled 12" aria-label="Artboard name">
+        <div class="auto" aria-hidden="true"><i></i>Autosave</div>
+        <button class="btn btn--secondary" type="button" data-act="download">Download
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg></button>
+        <button class="btn btn--primary" type="button" data-act="end">End Session</button>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="rail">
+        <button type="button" data-menu="r-size" aria-expanded="false">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M3 10h5"/></svg>Size</button>
+        <div class="pop" id="r-size" hidden>
+          <div class="pop-h"><b>Artboard size</b><button class="sw-toggle" type="button" aria-label="Panel"></button></div>
+          <div class="pop-b">
+            <div class="field">
+              <label>w <input id="cw" type="number" value="1000" min="320" max="1400"></label>
+              <label>h <input id="ch" type="number" value="750" min="240" max="1100"></label></div>
+            <p class="head">Orientation</p>
+            <div class="tabs">
+              <button type="button" data-orient="land" aria-pressed="true">Landscape</button>
+              <button type="button" data-orient="port" aria-pressed="false">Portrait</button></div>
+            <div class="grid">
+              <button class="tile" type="button" data-ratio="1,1"><i style="background:#C8D0D9"></i><span>1 : 1</span></button>
+              <button class="tile" type="button" data-ratio="4,5"><i style="background:#C8D0D9"></i><span>4 : 5</span></button>
+              <button class="tile" type="button" data-ratio="4,3" aria-pressed="true"><i style="background:#C8D0D9"></i><span>4 : 3</span></button>
+              <button class="tile" type="button" data-ratio="3,2"><i style="background:#C8D0D9"></i><span>3 : 2</span></button></div>
+          </div></div>
+
+        <button type="button" data-menu="r-photos" aria-expanded="false">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/></svg>Photos</button>
+        <div class="pop" id="r-photos" hidden>
+          <div class="pop-h"><b>Photo Library</b><button class="sw-toggle" type="button" aria-label="Panel"></button></div>
+          <div class="pop-b"><p class="head">Upload photo</p>
+            <button class="dark-add" type="button" data-act="photo">+</button>
+            <input type="file" id="photo" accept="image/*" hidden>
+            <div class="tabs"><button type="button" aria-pressed="true">Abstract</button>
+              <button type="button" data-needs="assets">Nature</button>
+              <button type="button" data-needs="assets">People</button></div>
+            <div class="grid" id="abstract"></div></div></div>
+
+        <button type="button" data-menu="r-texture" aria-expanded="false">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M6 15l9-9M9 18l9-9M4 12l8-8"/></svg>Texture</button>
+        <div class="pop" id="r-texture" hidden>
+          <div class="pop-h"><b>Texture Library</b><button class="sw-toggle" type="button" aria-label="Panel"></button></div>
+          <div class="pop-b">
+            <input class="rough" id="rough" type="range" min="0" max="100" value="45" aria-label="Smoothen to roughen">
+            <div class="rough-l"><span>Smoothen</span><span>Roughen</span></div>
+            <div class="grid" id="textures"></div></div></div>
+
+        <button type="button" data-menu="r-elements" aria-expanded="false">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M7 3l4 7H3z"/><rect x="13" y="4" width="8" height="7" rx="1"/><circle cx="8" cy="17" r="4"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Elements</button>
+        <div class="pop" id="r-elements" hidden>
+          <div class="pop-h"><b>Element Library</b><button class="sw-toggle" type="button" aria-label="Panel"></button></div>
+          <div class="pop-b"><p class="head">Color fill</p>
+            <div class="tabs"><button type="button" data-fill="solid" aria-pressed="true">Filled</button>
+              <button type="button" data-fill="outline" aria-pressed="false">Outline</button></div>
+            <p class="head">Select shapes</p>
+            <div class="tabs"><button type="button" data-shapeset="geo" aria-pressed="true">Geometric</button>
+              <button type="button" data-shapeset="org" aria-pressed="false">Organic</button></div>
+            <div class="grid" id="shapes"></div></div></div>
+
+        <button type="button" data-menu="r-text" aria-expanded="false">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7V5h9v2M8.5 5v14M6 19h5"/><path d="M14 12v-1h6v1M17 11v8M15.5 19h3"/></svg>Text</button>
+        <div class="pop" id="r-text" hidden>
+          <div class="pop-h"><b>Font Library</b><button class="sw-toggle" type="button" aria-label="Panel"></button></div>
+          <div class="pop-b">
+            <div class="field"><label style="flex:1"><input id="textin" type="text" placeholder="A word for it, if you have one"></label></div>
+            <div class="tabs"><button type="button" data-tsize="26">AA</button>
+              <button type="button" data-tsize="20" aria-pressed="true">Aa</button>
+              <button type="button" data-tsize="15">aa</button></div>
+            <div class="tabs"><button type="button" data-face="'Caveat',cursive" aria-pressed="true">Handwritten</button>
+              <button type="button" data-face="'Lora',serif">Decorative</button>
+              <button type="button" data-face="'Poppins',sans-serif">Plain</button></div>
+            <button class="plain" type="button" data-act="text-arm" style="background:var(--cloud);text-align:center;font-weight:500">Place this text</button>
+          </div></div>
+      </div>
+
+      <div class="stage">
+        <!-- the five dropdowns, as they sit over the canvas -->
+        <div class="optbar">
+          <div class="opt"><button type="button" data-menu="o-stroke" aria-expanded="false">
+            <span class="prev-stroke" id="prevStroke"></span><span class="chev">▾</span></button>
+            <div class="pop" id="o-stroke" hidden><div class="pop-b" id="strokeList"></div></div></div>
+          <div class="opt"><button type="button" data-menu="o-taper" aria-expanded="false">
+            <svg class="prev-taper" viewBox="0 0 96 14" aria-hidden="true"><path id="taperPath" d="M2 7 Q48 2 94 7 Q48 12 2 7Z" fill="#2E3A44"/></svg><span class="chev">▾</span></button>
+            <div class="pop" id="o-taper" hidden><div class="pop-b">
+              <button class="plain" type="button" data-taper="1" aria-pressed="true">Tapered</button>
+              <button class="plain" type="button" data-taper="0">Even</button></div></div></div>
+          <div class="opt"><button type="button" data-menu="o-colour" aria-expanded="false">
+            <span class="prev-dot" id="prevDot" style="background:#4C5A63"></span><span class="chev">▾</span></button>
+            <div class="pop" id="o-colour" hidden><div class="pop-b" id="colourList"></div></div></div>
+          <div class="opt"><button type="button" data-menu="o-size" aria-expanded="false">
+            <b id="prevSize" style="font-weight:500">3</b><span class="chev">▾</span></button>
+            <div class="pop" id="o-size" hidden><div class="pop-b" id="sizeList"></div></div></div>
+          <div class="opt"><button type="button" data-menu="o-op" aria-expanded="false">
+            <b id="prevOp" style="font-weight:500">100%</b><span class="chev">▾</span></button>
+            <div class="pop" id="o-op" hidden><div class="pop-b" id="opList"></div></div></div>
+        </div>
+
+        <div class="canvas-wrap">
+          <div class="canvas-hold" id="hold">
+            <div class="paper" id="paper"></div>
+            <canvas id="board" width="1000" height="750" aria-label="Drawing canvas"></canvas>
+            <div class="hint" id="hint">Start making something</div>
+            <div class="lock" id="lock" hidden><div><b id="lockdot"></b>
+              <span id="locktext">Dorothy is drawing</span><em id="locktool"></em></div></div>
+          </div>
+        </div>
+
+        <div class="trayhold">
+          <div class="tray" id="tray" role="group" aria-label="Tool"></div>
+          <div class="bar">
+            <div class="recent"><div><div class="recent-box" id="recentBox"></div>
+              <small>Recently used</small></div></div>
+            <button class="bar-b" type="button" data-act="undo"><span>←</span>undo</button>
+            <button class="bar-b" type="button" data-act="redo"><span>→</span>redo</button>
+            <button class="bar-b" type="button" data-act="new"><span>❐</span>New Page</button>
+            <div class="zoom"><button class="bar-b" type="button" data-zstep="-.1">−</button>
+              <input id="zoom" type="range" min="30" max="100" value="100" aria-label="Zoom">
+              <button class="bar-b" type="button" data-zstep=".1">+</button><b id="zval">100%</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="people" aria-label="In this session">
+        <button class="addp" type="button" aria-label="Add someone">+</button>
+        <div class="person" id="p-dorothy"><i>D</i>Dorothy<span class="on"></span>
+          <span class="tick">✓</span><span class="pen">has the pen</span></div>
+        <div class="person" id="p-thomas"><i>T</i>Thomas<span class="on"></span>
+          <span class="tick">✓</span><span class="pen">has the pen</span></div>
+        <div class="person" id="p-you"><i>Y</i>You<span class="on"></span>
+          <span class="tick">✓</span><span class="pen">has the pen</span></div>
+      </div>
+
+      <div class="guide">
+        <div class="guide-top"><i aria-hidden="true">J</i>
+          <div><b>Johnathan</b><span>AI Therapy Guide</span></div>
+          <div class="gt-right">
+            <button class="gswitch" type="button" aria-pressed="false" aria-label="Guide voice"></button>
+            <button class="orb" type="button" aria-label="Voice"></button></div></div>
+        <div class="taskbar">
+          <p class="k">Task <span id="tasknum">—</span>
+            <span class="steps" id="steps" aria-hidden="true"><i></i><i></i><i></i><i></i></span></p>
+          <p class="t" id="tasktext">Waiting to begin</p>
+          <p class="who" id="turnline"><b></b>No one has the pen yet</p>
+        </div>
+        <div class="thread" id="thread" aria-live="polite" aria-label="Johnathan"></div>
+        <form class="compose" id="compose">
+          <div class="cbox">
+            <svg width="20" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A95A0" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12v1M7 8v8M11 5v14M15 9v6M19 11v2"/></svg>
+            <input id="say" placeholder="Type here" aria-label="Message Johnathan" autocomplete="off"></div>
+          <button class="send" type="submit" aria-label="Send">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20l19-8L3 4v6l12 2-12 2z"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo">
+    <button type="button" id="replay" class="btn btn--teal">Start the session again</button>
+    <button type="button" id="clear" class="btn btn--secondary">Skip my turn</button>
+    <p id="status">Three people share a flat. Only one holds the pen at a time.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var OPENING=["Hi Everyone! I am Johnathan, your AI therapy guide!",
+    "In this group session, we'll be focusing on strengthening your friendship, express frustrations, and find solutions together. With creativity and real-time feedback, we'll create a space for growth and support. Let's begin!"];
+  var LIGHTENED="Dorothy, the gradual shift in color from muted shades to something brighter shows a potential change in mood or thought – let's keep exploring what that might mean for you.";
+  var WARM_INTO_COOL="The way the red seems to twist and break into the blue—does that remind you of anything? Maybe a feeling that's trying to push through, or a tension between two states of mind?";
+
+  var PALETTE=[{hex:"#4C5A63",name:"Midnight Grey",warm:false},{hex:"#49A6E2",name:"Ocean Breeze",warm:false},
+    {hex:"#3EC9A7",name:"Serene Teal",warm:false},{hex:"#FF9E7E",name:"Dusty Peach",warm:true},
+    {hex:"#E0B6F3",name:"Lavender Blush",warm:true}];
+  function lightness(h){var r=parseInt(h.substr(1,2),16)/255,g=parseInt(h.substr(3,2),16)/255,
+    b=parseInt(h.substr(5,2),16)/255;return .2126*r+.7152*g+.0722*b;}
+
+  var board=document.getElementById("board"),ctx=board.getContext("2d"),
+      hold=document.getElementById("hold"),paper=document.getElementById("paper"),
+      thread=document.getElementById("thread"),hint=document.getElementById("hint"),
+      status=document.getElementById("status");
+  var colour="#4C5A63",size=14,opac=1,taper=1,tool="brush",shape="",fill="solid",
+      pendingText="",textFace="'Caveat',cursive",textSize=20,
+      strokes=[],drawing=false,idle=null,spoken=false,history=[],future=[],last=null,recent=[];
+
+  /* ── the painted tools, drawn to stand like the tray in the app ── */
+  var TOOLS=[
+    {id:"pencil",label:"Pencil",svg:
+      '<path d="M14 44 L30 8 L46 44Z" fill="#F5D24E"/>'+
+      '<path d="M25 20 L30 8 L35 20Z" fill="#1C1C1C"/>'+
+      '<rect x="14" y="44" width="32" height="98" fill="#4DA3F5"/>'
+    },
+    {id:"marker",label:"Marker",svg:
+      '<rect x="25" y="8" width="10" height="20" rx="5" fill="#1C1C1C"/>'+
+      '<path d="M12 52 Q12 30 30 26 Q48 30 48 52 L48 142 L12 142Z" fill="#FBC646"/>'
+    },
+    {id:"brush",label:"Brush",svg:
+      '<path d="M30 4 C41 15 45 30 45 48 L15 48 C15 30 19 15 30 4Z" fill="#F2632A"/>'+
+      '<rect x="15" y="48" width="30" height="36" fill="#EFEFEF"/>'+
+      '<rect x="15" y="84" width="30" height="58" fill="#B3B3B3"/>'
+    },
+    {id:"flat",label:"Flat brush",svg:
+      '<rect x="16" y="8" width="28" height="54" rx="3" fill="#1C1C1C"/>'+
+      '<rect x="18" y="62" width="24" height="30" fill="#C4901F"/>'+
+      '<rect x="18" y="92" width="24" height="50" fill="#FBC646"/>'
+    },
+    {id:"highlight",label:"Highlighter",svg:
+      '<rect x="26" y="6" width="8" height="11" fill="#2A2A2A"/>'+
+      '<path d="M12 56 Q12 26 30 18 Q48 26 48 56Z" fill="#D9E9F7"/>'+
+      '<path d="M12 46 L48 33 L48 54 L12 62Z" fill="#16232E"/>'+
+      '<rect x="12" y="56" width="36" height="86" fill="#9B7ED8"/>'
+    },
+    {id:"sponge",label:"Sponge",svg:
+      '<path d="M10 44 Q10 28 30 28 Q50 28 50 44 L50 118 Q50 134 30 134 Q10 134 10 118Z" fill="#FBC02D"/>'+
+      '<ellipse cx="21" cy="60" rx="6" ry="7" fill="#E8A317"/>'+
+      '<ellipse cx="39" cy="78" rx="7" ry="6" fill="#E8A317"/>'+
+      '<ellipse cx="22" cy="98" rx="6.5" ry="7" fill="#E8A317"/>'+
+      '<ellipse cx="38" cy="115" rx="5" ry="5.5" fill="#E8A317"/>'+
+      '<ellipse cx="31" cy="44" rx="4.5" ry="4" fill="#E8A317"/>'
+    }
+  ];
+  var tray=document.getElementById("tray");
+  TOOLS.forEach(function(t){
+    var b=document.createElement("button");
+    b.className="tool";b.type="button";b.dataset.tool=t.id;
+    b.setAttribute("aria-pressed",t.id==="brush"?"true":"false");
+    b.setAttribute("aria-label",t.label);b.title=t.label;
+    b.innerHTML='<svg width="54" height="122" viewBox="0 0 60 150" aria-hidden="true">'+t.svg+'</svg>';
+    b.addEventListener("click",function(){ setTool(t.id); });
+    tray.appendChild(b);
+  });
+  function setTool(id){
+    tool=id;shape="";pendingText="";
+    [].forEach.call(tray.children,function(o){o.setAttribute("aria-pressed",o.dataset.tool===id?"true":"false");});
+    var t=TOOLS.filter(function(x){return x.id===id;})[0];
+    if(t) remember(t);
+    paintStrokePreview();
+    status.textContent="Johnathan is watching, not listening.";
+  }
+  function remember(t){
+    recent=[t].concat(recent.filter(function(r){return r.id!==t.id;})).slice(0,2);
+    document.getElementById("recentBox").innerHTML=recent.map(function(r){
+      return '<svg width="14" height="32" viewBox="0 0 60 150" aria-hidden="true">'+r.svg+'</svg>';}).join("");
+  }
+
+  /* ── popovers ── */
+  function closeAll(except){
+    [].forEach.call(document.querySelectorAll(".pop"),function(p){
+      if(p!==except){p.hidden=true;
+        var t=document.querySelector('[data-menu="'+p.id+'"]');
+        if(t)t.setAttribute("aria-expanded","false");}});
+  }
+  [].forEach.call(document.querySelectorAll("[data-menu]"),function(btn){
+    btn.addEventListener("click",function(e){e.stopPropagation();
+      var pop=document.getElementById(btn.dataset.menu),open=pop.hidden;
+      closeAll(open?pop:null);pop.hidden=!open;
+      btn.setAttribute("aria-expanded",open?"true":"false");});
+  });
+  document.addEventListener("click",function(e){if(!e.target.closest(".pop"))closeAll(null);});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeAll(null);});
+  function press(scope,el,sel){
+    [].forEach.call(scope.querySelectorAll(sel||"[aria-pressed]"),function(b){b.setAttribute("aria-pressed","false");});
+    if(el)el.setAttribute("aria-pressed","true");}
+
+  /* ── the five dropdowns ── */
+  var strokeList=document.getElementById("strokeList");
+  TOOLS.forEach(function(t){
+    var b=document.createElement("button");
+    b.className="plain";b.type="button";b.dataset.stroke=t.id;
+    b.setAttribute("aria-pressed",t.id==="brush"?"true":"false");
+    b.textContent=t.label;
+    b.addEventListener("click",function(){setTool(t.id);press(strokeList,b);closeAll(null);});
+    strokeList.appendChild(b);
+  });
+  function paintStrokePreview(){
+    var el=document.getElementById("prevStroke"),g;
+    if(tool==="pencil") g="repeating-linear-gradient(90deg,"+colour+"55 0 2px,transparent 2px 4px)";
+    else if(tool==="marker") g="linear-gradient(90deg,"+colour+"66,"+colour+"66)";
+    else if(tool==="sponge") g="radial-gradient(circle at 20% 50%,"+colour+"99 2px,transparent 3px),radial-gradient(circle at 50% 40%,"+colour+"88 3px,transparent 4px),radial-gradient(circle at 78% 60%,"+colour+"99 2px,transparent 3px)";
+    else if(tool==="flat") g="linear-gradient(90deg,"+colour+","+colour+")";
+    else if(tool==="highlight") g="linear-gradient(90deg,"+colour+"44,"+colour+"44)";
+    else g="linear-gradient(90deg,transparent,"+colour+",transparent)";
+    el.style.background=g;
+    document.getElementById("prevDot").style.background=colour;
+  }
+  var colourList=document.getElementById("colourList");
+  PALETTE.forEach(function(c,i){
+    var b=document.createElement("button");
+    b.className="plain";b.type="button";b.setAttribute("aria-pressed",i===0?"true":"false");
+    b.innerHTML='<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:'+
+      c.hex+';vertical-align:-3px;margin-right:9px;box-shadow:inset 0 0 0 1.5px rgba(46,58,68,.18)"></span>'+c.name;
+    b.addEventListener("click",function(){colour=c.hex;press(colourList,b);paintStrokePreview();closeAll(null);});
+    colourList.appendChild(b);
+  });
+  var sizeList=document.getElementById("sizeList");
+  [1,2,3,5,8,12].forEach(function(n,i){
+    var px=[4,8,14,22,32,44][i];
+    var b=document.createElement("button");
+    b.className="plain";b.type="button";b.textContent=n;
+    b.setAttribute("aria-pressed",n===3?"true":"false");
+    b.addEventListener("click",function(){size=px;document.getElementById("prevSize").textContent=n;
+      press(sizeList,b);closeAll(null);});
+    sizeList.appendChild(b);
+  });
+  var opList=document.getElementById("opList");
+  [25,50,75,100].forEach(function(n){
+    var b=document.createElement("button");
+    b.className="plain";b.type="button";b.textContent=n+"%";
+    b.setAttribute("aria-pressed",n===100?"true":"false");
+    b.addEventListener("click",function(){opac=n/100;document.getElementById("prevOp").textContent=n+"%";
+      press(opList,b);closeAll(null);});
+    opList.appendChild(b);
+  });
+  document.getElementById("o-taper").addEventListener("click",function(e){
+    var b=e.target.closest("[data-taper]"); if(!b)return;
+    taper=+b.dataset.taper; press(document.getElementById("o-taper"),b);
+    document.getElementById("taperPath").setAttribute("d",
+      taper?"M2 7 Q48 2 94 7 Q48 12 2 7Z":"M2 4 H94 V10 H2Z");
+    closeAll(null);
+  });
+
+  /* ── the guide ── */
+  function bubble(t,mine){var d=document.createElement("div");
+    d.className="msg"+(mine?" msg--you":"");d.textContent=t;
+    thread.appendChild(d);thread.scrollTop=thread.scrollHeight;}
+  function say(t,delayed){
+    if(!delayed){bubble(t);return;}
+    var d=document.createElement("div");d.className="dots";d.innerHTML="<i></i><i></i><i></i>";
+    thread.appendChild(d);thread.scrollTop=thread.scrollHeight;
+    setTimeout(function(){d.remove();bubble(t);},1400);}
+  (function(){var s=document.createElement("div");s.className="stamp";var n=new Date();
+    s.innerHTML="<b>Johnathan</b> "+n.getHours()+":"+String(n.getMinutes()).padStart(2,"0");
+    thread.appendChild(s);bubble(OPENING[0]);bubble(OPENING[1]);})();
+  document.getElementById("compose").addEventListener("submit",function(e){
+    e.preventDefault();var f=document.getElementById("say"),v=f.value.trim();if(!v)return;
+    bubble(v,true);f.value="";
+    status.textContent="He heard you. He answers the canvas, not the chat.";});
+  document.querySelector(".gswitch").addEventListener("click",function(){
+    var on=this.getAttribute("aria-pressed")==="true";
+    this.setAttribute("aria-pressed",on?"false":"true");});
+
+  /* ── texture ── */
+  var TEXTURES=[{id:"concrete",freq:.42,oct:4,alpha:.20},{id:"liquid",freq:.012,oct:3,alpha:.26},
+    {id:"soft fibre",freq:.85,oct:2,alpha:.14},{id:"rocky",freq:.28,oct:5,alpha:.30},
+    {id:"smooth",freq:0,oct:0,alpha:0}];
+  function paperCSS(t,rough){
+    if(!t.freq)return "#fff";
+    var a=(t.alpha*(.45+rough/100)).toFixed(3),f=(t.freq*(.6+rough/70)).toFixed(3);
+    return "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='190' height='190'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='"+f+"' numOctaves='"+t.oct+"'/%3E%3CfeColorMatrix values='0 0 0 0 0.48 0 0 0 0 0.52 0 0 0 0 0.56 0 0 0 "+a+" 0'/%3E%3C/filter%3E%3Crect width='190' height='190' filter='url(%23f)'/%3E%3C/svg%3E\"), #fff";}
+  var texGrid=document.getElementById("textures"),rough=document.getElementById("rough"),activeTex=TEXTURES[4];
+  TEXTURES.forEach(function(t){
+    var b=document.createElement("button");
+    b.className="tile";b.type="button";b.dataset.tex=t.id;
+    b.setAttribute("aria-pressed",t.id==="smooth"?"true":"false");
+    b.innerHTML='<i style="background:'+paperCSS(t,60)+'"></i><span>'+t.id+'</span>';
+    b.addEventListener("click",function(){activeTex=t;paper.style.background=paperCSS(t,+rough.value);
+      press(texGrid,b);status.textContent="Paper changed. Your marks are untouched.";});
+    texGrid.appendChild(b);});
+  rough.addEventListener("input",function(){paper.style.background=paperCSS(activeTex,+rough.value);});
+
+  /* ── elements ── */
+  var SHAPES={geo:["square","triangle","circle","star"],org:["blob","leaf","pebble","wave"]};
+  var shapeGrid=document.getElementById("shapes");
+  function drawShapes(set){
+    shapeGrid.innerHTML="";
+    SHAPES[set].forEach(function(s){
+      var b=document.createElement("button");b.className="tile";b.type="button";b.dataset.shape=s;
+      b.innerHTML='<i style="display:grid;place-items:center;font-size:22px;color:#5b6873">'+
+        ({square:"■",triangle:"▲",circle:"●",star:"★",blob:"❍",leaf:"❦",pebble:"⬬",wave:"〰"}[s])+
+        '</i><span>'+s+'</span>';
+      b.addEventListener("click",function(){shape=s;tool="";pendingText="";
+        [].forEach.call(tray.children,function(o){o.setAttribute("aria-pressed","false");});
+        press(shapeGrid,b);status.textContent="Click the canvas to place a "+s+".";closeAll(null);});
+      shapeGrid.appendChild(b);});}
+  drawShapes("geo");
+  var elPop=document.getElementById("r-elements");
+  elPop.addEventListener("click",function(e){
+    var s=e.target.closest("[data-shapeset]");
+    if(s){drawShapes(s.dataset.shapeset);press(elPop,s,"[data-shapeset]");return;}
+    var f=e.target.closest("[data-fill]");
+    if(f){fill=f.dataset.fill;press(elPop,f,"[data-fill]");}});
+
+  /* ── fonts ── */
+  var txtPop=document.getElementById("r-text");
+  txtPop.addEventListener("click",function(e){
+    var f=e.target.closest("[data-face]");
+    if(f){textFace=f.dataset.face;press(txtPop,f,"[data-face]");return;}
+    var s=e.target.closest("[data-tsize]");
+    if(s){textSize=+s.dataset.tsize;press(txtPop,s,"[data-tsize]");return;}
+    if(e.target.closest('[data-act="text-arm"]')){
+      pendingText=document.getElementById("textin").value.trim();shape="";tool="";
+      [].forEach.call(tray.children,function(o){o.setAttribute("aria-pressed","false");});
+      status.textContent=pendingText?"Click the canvas to place it.":"Type something first.";
+      if(pendingText)closeAll(null);}});
+
+  /* ── artboard size ── */
+  var sizePop=document.getElementById("r-size"),orient="land";
+  function resize(w,h){var snap=board.toDataURL();board.width=w;board.height=h;
+    var i=new Image();i.onload=function(){ctx.drawImage(i,0,0);};i.src=snap;
+    hold.style.setProperty("--car",w+"/"+h);
+    document.getElementById("cw").value=w;document.getElementById("ch").value=h;}
+  sizePop.addEventListener("click",function(e){
+    var r=e.target.closest("[data-ratio]");
+    if(r){var p=r.dataset.ratio.split(","),W=orient==="land"?1000:760;
+      resize(W,Math.round(W*p[1]/p[0]));press(sizePop,r,"[data-ratio]");return;}
+    var o=e.target.closest("[data-orient]");
+    if(o){orient=o.dataset.orient;press(sizePop,o,"[data-orient]");resize(board.height,board.width);}});
+  ["cw","ch"].forEach(function(id){document.getElementById(id).addEventListener("change",function(){
+    resize(+document.getElementById("cw").value,+document.getElementById("ch").value);});});
+
+  /* ── photos ── */
+  var abs=document.getElementById("abstract");
+  ["linear-gradient(135deg,#4C5A63,#49A6E2)","linear-gradient(135deg,#3EC9A7,#E0B6F3)",
+   "linear-gradient(135deg,#FF9E7E,#E0B6F3)","radial-gradient(circle at 30% 30%,#49A6E2,#4C5A63)"]
+   .forEach(function(g,i){
+    var b=document.createElement("button");b.className="tile";b.type="button";
+    b.innerHTML='<i style="background:'+g+'"></i>';
+    b.addEventListener("click",function(){snapshot();
+      var pairs=[["#4C5A63","#49A6E2"],["#3EC9A7","#E0B6F3"],["#FF9E7E","#E0B6F3"],["#49A6E2","#4C5A63"]][i];
+      var gr=ctx.createLinearGradient(80,80,560,420);
+      gr.addColorStop(0,pairs[0]);gr.addColorStop(1,pairs[1]);
+      ctx.fillStyle=gr;ctx.fillRect(80,80,Math.min(480,board.width-160),Math.min(340,board.height-160));
+      hint.classList.add("is-gone");strokes.push({hex:pairs[1]});closeAll(null);});
+    abs.appendChild(b);});
+  document.getElementById("r-photos").addEventListener("click",function(e){
+    if(e.target.closest('[data-act="photo"]'))document.getElementById("photo").click();
+    if(e.target.closest("[data-needs]"))status.textContent="Nature and People need your own image sets.";});
+  document.getElementById("photo").addEventListener("change",function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;
+    var img=new Image();img.onload=function(){snapshot();
+      var s=Math.min(board.width*.55/img.width,board.height*.55/img.height);
+      ctx.drawImage(img,60,60,img.width*s,img.height*s);
+      hint.classList.add("is-gone");URL.revokeObjectURL(img.src);};
+    img.src=URL.createObjectURL(f);closeAll(null);});
+
+  /* ── zoom ── */
+  var zoom=document.getElementById("zoom");
+  function setZoom(v){v=Math.max(30,Math.min(100,v));zoom.value=v;
+    document.getElementById("zval").textContent=Math.round(v)+"%";
+    hold.style.setProperty("--zoom",v+"%");}
+  zoom.addEventListener("input",function(){setZoom(+zoom.value);});
+  document.addEventListener("click",function(e){
+    var z=e.target.closest("[data-zstep]");if(z)setZoom(+zoom.value+(+z.dataset.zstep*100));
+    var zz=e.target.closest("[data-zoom]");if(zz)setZoom(+zz.dataset.zoom*100);});
+
+  /* ── drawing ── */
+  function snapshot(){history.push(board.toDataURL());future=[];if(history.length>26)history.shift();}
+  function pos(e){var r=board.getBoundingClientRect();
+    return{x:(e.clientX-r.left)*(board.width/r.width),y:(e.clientY-r.top)*(board.height/r.height)};}
+  function finishStamp(){strokes.push({hex:colour});hint.classList.add("is-gone");
+    clearTimeout(idle);idle=setTimeout(observe,2200);}
+  function stamp(p){
+    snapshot();ctx.globalAlpha=opac;ctx.globalCompositeOperation="source-over";
+    var s=size*2.2;ctx.fillStyle=colour;ctx.strokeStyle=colour;ctx.lineWidth=Math.max(2,size/3);
+    ctx.beginPath();
+    if(shape==="square")ctx.rect(p.x-s,p.y-s,s*2,s*2);
+    else if(shape==="circle")ctx.arc(p.x,p.y,s,0,Math.PI*2);
+    else if(shape==="triangle"){ctx.moveTo(p.x,p.y-s);ctx.lineTo(p.x+s,p.y+s);ctx.lineTo(p.x-s,p.y+s);ctx.closePath();}
+    else if(shape==="star"){for(var i=0;i<10;i++){var a=Math.PI/5*i-Math.PI/2,r=i%2?s*.45:s;
+      ctx[i?"lineTo":"moveTo"](p.x+Math.cos(a)*r,p.y+Math.sin(a)*r);}ctx.closePath();}
+    else if(shape==="blob"||shape==="pebble")ctx.ellipse(p.x,p.y,s*1.15,s*.8,.4,0,Math.PI*2);
+    else if(shape==="leaf"){ctx.moveTo(p.x,p.y-s);ctx.quadraticCurveTo(p.x+s,p.y,p.x,p.y+s);
+      ctx.quadraticCurveTo(p.x-s,p.y,p.x,p.y-s);}
+    else if(shape==="wave"){ctx.moveTo(p.x-s,p.y);ctx.bezierCurveTo(p.x-s/2,p.y-s,p.x+s/2,p.y+s,p.x+s,p.y);
+      ctx.lineWidth=Math.max(3,size/2);ctx.stroke();ctx.globalAlpha=1;finishStamp();return;}
+    else if(pendingText){ctx.font="500 "+(textSize*1.6)+"px "+textFace;
+      ctx.fillText(pendingText,p.x,p.y);pendingText="";ctx.globalAlpha=1;finishStamp();return;}
+    else{ctx.globalAlpha=1;return;}
+    if(fill==="outline")ctx.stroke();else ctx.fill();
+    ctx.globalAlpha=1;finishStamp();}
+
+  function mark(a,b){
+    var w=size,dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);
+    ctx.globalCompositeOperation="source-over";
+    ctx.strokeStyle=colour;ctx.fillStyle=colour;ctx.lineCap="round";ctx.lineJoin="round";
+    if(tool==="pen"){ctx.globalAlpha=opac;ctx.lineWidth=w*.7;
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    else if(tool==="pencil"){ctx.globalAlpha=opac*.5;ctx.lineWidth=Math.max(1,w*.28);
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+      for(var i=0;i<d;i+=1.6){var t=i/d;ctx.globalAlpha=opac*Math.random()*.32;
+        ctx.fillRect(a.x+dx*t+(Math.random()-.5)*w*.5,a.y+dy*t+(Math.random()-.5)*w*.5,1.2,1.2);}}
+    else if(tool==="brush"){var sp=Math.min(1,d/22),lw=taper?w*(1.15-sp*.55):w;
+      ctx.globalAlpha=opac*.85;ctx.lineWidth=lw;
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    else if(tool==="marker"){ctx.globalAlpha=opac*.32;ctx.lineWidth=w*1.5;
+      ctx.lineCap="butt";ctx.lineJoin="miter";
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    else if(tool==="sponge"){for(var j=0;j<Math.max(4,d/2);j++){var u=Math.random(),r=w*(.16+Math.random()*.34);
+      ctx.globalAlpha=opac*(.10+Math.random()*.28);ctx.beginPath();
+      ctx.arc(a.x+dx*u+(Math.random()-.5)*w*1.5,a.y+dy*u+(Math.random()-.5)*w*1.5,r,0,Math.PI*2);ctx.fill();}}
+    else if(tool==="flat"){ /* a chisel: square ends, no taper, full strength */
+      ctx.globalAlpha=opac;ctx.lineWidth=w*1.25;ctx.lineCap="butt";ctx.lineJoin="miter";
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    else if(tool==="highlight"){ /* flat, wide and see-through, darker where it crosses */
+      ctx.globalCompositeOperation="multiply";ctx.globalAlpha=opac*.22;ctx.lineWidth=w*2.1;
+      ctx.lineCap="butt";ctx.lineJoin="miter";
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";}
+
+  function down(e){closeAll(null);if(!yourTurn)return;var p=pos(e);
+    if(shape||pendingText){stamp(p);return;}
+    if(!tool)return;
+    drawing=true;board.setPointerCapture(e.pointerId);
+    clearTimeout(idle);hint.classList.add("is-gone");
+    status.textContent="Johnathan is watching, not listening.";
+    snapshot();last=p;
+    strokes.push({hex:colour});
+    mark(p,{x:p.x+.01,y:p.y+.01});}
+  function move(e){if(!drawing)return;var p=pos(e);mark(last,p);last=p;}
+  function up(){if(!drawing)return;drawing=false;clearTimeout(idle);
+    idle=setTimeout(function(){endTurn();},2400);}
+  board.addEventListener("pointerdown",down);board.addEventListener("pointermove",move);
+  board.addEventListener("pointerup",up);board.addEventListener("pointerleave",up);
+  board.addEventListener("pointercancel",up);
+
+  function observe(){
+    if(spoken||strokes.length<4)return;
+    var half=Math.floor(strokes.length/2),early=strokes.slice(0,half),late=strokes.slice(half),
+      mean=function(a){return a.reduce(function(s,x){return s+lightness(x.hex);},0)/a.length;};
+    if(mean(late)-mean(early)>0.08){spoken=true;
+      status.textContent="He saw a shift from muted to brighter, and said so.";say(LIGHTENED,true);return;}
+    var warm=strokes.filter(function(s){var c=PALETTE.filter(function(p){return p.hex===s.hex;})[0];return c&&c.warm;});
+    var cool=strokes.filter(function(s){var c=PALETTE.filter(function(p){return p.hex===s.hex;})[0];return c&&!c.warm;});
+    if(warm.length>=2&&cool.length>=2){spoken=true;
+      status.textContent="He saw warm and cool worked into each other, and said so.";say(WARM_INTO_COOL,true);return;}
+    status.textContent="No pattern he has words for. He stays quiet.";}
+
+  function restore(url){var i=new Image();
+    i.onload=function(){ctx.clearRect(0,0,board.width,board.height);ctx.drawImage(i,0,0);};i.src=url;}
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-act]");if(!b)return;var a=b.dataset.act;
+    if(a==="download"){var out=document.createElement("canvas");out.width=board.width;out.height=board.height;
+      var o=out.getContext("2d");o.fillStyle="#fff";o.fillRect(0,0,out.width,out.height);o.drawImage(board,0,0);
+      var l=document.createElement("a");l.download=(document.querySelector(".fname").value||"Untitled")+".png";
+      l.href=out.toDataURL("image/png");l.click();}
+    else if(a==="undo"){var p=history.pop();if(!p){status.textContent="Nothing to undo.";return;}
+      future.push(board.toDataURL());restore(p);strokes.pop();}
+    else if(a==="redo"){var n=future.pop();if(!n){status.textContent="Nothing to redo.";return;}
+      history.push(board.toDataURL());restore(n);}
+    else if(a==="clear"||a==="new")reset();
+    else if(a==="end")status.textContent="A session ends by choice, not by timer.";
+    else if(a==="about")status.textContent="He observes pattern. He reflects without labelling. What it means is yours.";
+    closeAll(null);});
+
+  function reset(){ctx.clearRect(0,0,board.width,board.height);
+    strokes=[];spoken=false;history=[];future=[];shape="";pendingText="";
+    if(!tool)setTool("brush");
+    clearTimeout(idle);hint.classList.remove("is-gone");
+    status.textContent="Johnathan is watching, not listening.";
+    [].slice.call(thread.querySelectorAll(".msg")).forEach(function(m,i){if(i>1)m.remove();});
+    [].slice.call(thread.querySelectorAll(".dots")).forEach(function(d){d.remove();});}
+
+  /* ═══ the session ═══
+     Three flatmates are on the same artboard at once, but the pen goes round:
+     Johnathan sets a task, hands it to one person, and the other two watch with
+     the surface locked. Everything they draw goes through the artboard’s own
+     mark(), with the artboard’s own tools, palette and textures - so what you
+     watch them do is exactly what you can do when it comes round to you. */
+
+  var PEOPLE=[
+    {id:"dorothy",el:"p-dorothy",name:"Dorothy",hex:"#FF9E7E",swatch:3},
+    {id:"thomas", el:"p-thomas", name:"Thomas", hex:"#49A6E2",swatch:1},
+    {id:"you",    el:"p-you",    name:"You",    hex:"#3EC9A7",swatch:2}
+  ];
+  var YOU=2;
+
+  /* each of them has a hand of their own, and you can see it: their tools, their
+     paper, their kind of mark. Dorothy fills and tallies, Thomas sweeps and
+     pools, you work smaller than either of them. */
+  var STYLE={
+    dorothy:{tools:["marker","flat"],  tex:0, marks:["block","list"],  size:22, op:1},
+    thomas: {tools:["brush","sponge"], tex:1, marks:["sweep","blob"],  size:32, op:1},
+    you:    {tools:["pencil","brush"], tex:2, marks:["sweep","list"],  size:14, op:1}
+  };
+
+  /* the tasks are mine, not hers - see the provenance note at the top */
+  var TASKS=[
+    {title:"Draw a normal Tuesday evening in the flat, as you actually experience it.",
+     opens:"No words for this one. One of you at a time, in your own colour. There is no correct version — that is rather the point.",
+     order:[0,1,2],
+     chatter:[{who:1,text:"do we have to be good at this"},{who:0,text:"I already know what mine looks like"}]},
+    {title:"Add one thing you do here that you think nobody notices.",
+     opens:"Same colour, same canvas. You do not have to make it obvious.",
+     order:[1,2,0],
+     chatter:[{who:0,text:"this one is easy for me"},{who:1,text:"ok that is fair actually"}]},
+    {title:"Pick up someone else’s colour and draw their Tuesday evening as you imagine it.",
+     opens:"You are not being asked to get it right. You are being asked to try. Choose whoever you understand least.",
+     order:[2,0,1],
+     chatter:[{who:1,text:"I genuinely do not know what Dorothy’s evening is"},{who:0,text:"try anyway"}]},
+    {title:"Find where your three colours already touch. Make one thing there, together.",
+     opens:"There is at least one place on this canvas where all three of you have been. Work there, one at a time.",
+     order:[0,2,1],
+     chatter:[{who:1,text:"bottom middle is all three of us"},{who:0,text:"that is the kitchen, obviously"}]}
+  ];
+
+  /* what he is allowed to say: what is on the surface, never what it means */
+  function reflect(n,f){
+    if(n===0) return f.separated
+      ? "Three evenings, three corners, almost no overlap. You are living in the same rooms and drawing them as different places — sit with that before anyone explains themselves."
+      : "You have all worked into the same part of the canvas. Whatever else is going on, you are describing the same hours.";
+    if(n===1) return f.smallest
+      ? "The things you each think go unnoticed are the smallest marks here. You have drawn them the size you feel they are seen."
+      : "Everything added just now sits at the edge of what you drew first. The work you think is invisible, you have put at the margins.";
+    if(n===2) return f.crossed
+      ? "The versions you drew of each other are sitting on top of the ones they drew of themselves. Look at where they agree before you look at where they do not."
+      : "You each drew someone else’s evening somewhere new, away from their own. You have imagined them living somewhere you are not.";
+    return "This is the first thing on the canvas that none of you could have made alone. It is not tidy. Neither is the flat.";
+  }
+  var CLOSING="You have not agreed on anything tonight, and you were not asked to. You have a picture three people made without arguing. Keep it where you can all see it.";
+
+  var app=document.querySelector(".app"),
+      lock=document.getElementById("lock"),
+      lockdot=document.getElementById("lockdot"),
+      locktext=document.getElementById("locktext"),
+      locktool=document.getElementById("locktool"),
+      turnline=document.getElementById("turnline");
+  var yourTurn=false,stepN=-1,turnN=0,doneNow=[],simT=[],placed=[];
+
+  function T(fn,ms){var t=setTimeout(fn,ms);simT.push(t);return t;}
+  function stopAll(){simT.forEach(clearTimeout);simT=[];clearTimeout(idle);}
+
+  /* ── driving the real controls, not a shadow copy of them ── */
+  function useTool(id){
+    setTool(id);
+    press(strokeList,strokeList.querySelector('[data-stroke="'+id+'"]'));
+  }
+  function useColour(i){
+    colour=PALETTE[i].hex;
+    press(colourList,colourList.children[i]);
+    paintStrokePreview();
+  }
+  function useSize(px){
+    var scale=[4,8,14,22,32,44],lab=[1,2,3,5,8,12],k=scale.indexOf(px);
+    if(k<0)k=2;size=scale[k];
+    document.getElementById("prevSize").textContent=lab[k];
+    press(sizeList,sizeList.children[k]);
+  }
+  function useTexture(i){
+    activeTex=TEXTURES[i];
+    paper.style.background=paperCSS(activeTex,+rough.value);
+    press(texGrid,texGrid.children[i]);
+  }
+
+  /* ── who is where ── */
+  function room(active){
+    PEOPLE.forEach(function(p,i){
+      var el=document.getElementById(p.el);
+      el.classList.toggle("is-turn",i===active);
+      el.classList.toggle("is-done",doneNow.indexOf(i)>=0);
+      el.classList.toggle("is-waiting",active>=0&&i!==active&&doneNow.indexOf(i)<0);
+    });
+  }
+  function line(p,mine){
+    turnline.innerHTML='<b style="background:'+(p?p.hex:"#8A95A0")+'"></b>';
+    turnline.appendChild(document.createTextNode(
+      p ? (mine?"Your turn — the other two are watching":p.name+" has the pen")
+        : "No one has the pen yet"));
+  }
+  function lockTo(name,hex,note){
+    yourTurn=false;app.classList.add("is-locked");lock.hidden=false;
+    lockdot.style.background=hex;locktext.textContent=name;
+    locktool.textContent=note?" "+note:"";
+  }
+  function unlock(){
+    yourTurn=true;app.classList.remove("is-locked");lock.hidden=true;
+  }
+
+  /* ── a turn: pick up a tool, lay your paper, make your marks, put it down ──
+     The pauses are the readable part. Without them three people "drawing" is
+     just three lines appearing at once. */
+  function play(idx,then){
+    var p=PEOPLE[idx],st=STYLE[p.id],
+        pick=st.tools[stepN%st.tools.length],
+        kind=st.marks[stepN%st.marks.length],
+        lab=TOOLS.filter(function(t){return t.id===pick;})[0].label,
+        /* task 3 is the swap: they pick up someone else’s colour, not their own */
+        sw=stepN===2 ? PEOPLE[(idx+1)%3].swatch : p.swatch;
+
+    lockTo(p.name+" is drawing",p.hex,"· reaching for the "+lab.toLowerCase());
+    T(function(){
+      useTool(pick);useColour(sw);useSize(st.size);opac=st.op;
+      locktool.textContent=" · "+lab+" · "+TEXTURES[st.tex].id+" paper";
+      status.textContent=p.name+" has the pen, working in "+lab.toLowerCase()+".";
+      useTexture(st.tex);
+      run();
+    },1000);
+
+    /* task 4 is the joint one: everyone works in the middle, where they meet */
+    var zone = stepN===3
+      ? {x:board.width*.30,y:board.height*.42,w:board.width*.40,h:board.height*.30}
+      : {x:board.width*(idx===0?.05:idx===1?.56:.30),
+         y:board.height*(idx===2?.54:stepN>0?.42:.09),
+         w:board.width*.37,h:board.height*.33};
+
+    function one(n){
+      var w=size;
+      if(kind==="sweep"){                       /* long, leaning, a single gesture */
+        var y=zone.y+(n+.5)/4*zone.h,x0=zone.x+Math.random()*zone.w*.14,
+            len=zone.w*(.6+Math.random()*.4),prev={x:x0,y:y};
+        for(var t=0;t<=1;t+=.035){
+          var q={x:x0+len*t,y:y+Math.sin(t*Math.PI*1.6+idx)*zone.h*.13};
+          mark(prev,q);prev=q;}
+        placed.push({who:p.id,x:x0+len/2,y:y});
+      } else if(kind==="block"){                /* filled in, corner to corner */
+        var bx=zone.x+(n%2)*zone.w*.5+zone.w*.05,by=zone.y+Math.floor(n/2)*zone.h*.5+zone.h*.05,
+            bw=zone.w*.38,bh=zone.h*.34;
+        for(var yy=0;yy<=bh;yy+=Math.max(4,w*.6))
+          mark({x:bx,y:by+yy},{x:bx+bw,y:by+yy});
+        placed.push({who:p.id,x:bx+bw/2,y:by+bh/2});
+      } else if(kind==="list"){                 /* short parallel strokes, tallied */
+        var lx=zone.x+zone.w*.1+(n%2)*zone.w*.44,ly=zone.y+zone.h*.12+Math.floor(n/2)*zone.h*.42;
+        for(var k=0;k<4;k++){
+          var sx=lx+k*Math.max(9,w*1.5);
+          mark({x:sx,y:ly},{x:sx+w*.35,y:ly+zone.h*.2});
+          placed.push({who:p.id,x:sx,y:ly+zone.h*.1});}
+      } else {                                  /* blob: a loaded brush, pressed down */
+        var cx=zone.x+zone.w*(.2+Math.random()*.6),cy=zone.y+zone.h*(.2+Math.random()*.6),
+            r=zone.h*(.10+Math.random()*.08),prev2=null;
+        for(var a=0;a<=6.6;a+=.3){
+          var q2={x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r*.8};
+          if(prev2)mark(prev2,q2);prev2=q2;}
+        placed.push({who:p.id,x:cx,y:cy});
+      }
+      strokes.push({hex:colour});
+      hint.classList.add("is-gone");
+    }
+
+    function run(){
+      var total=stepN===1?2:4,n=0;
+      (function next(){
+        if(n>=total){
+          locktool.textContent=" · putting the "+lab.toLowerCase()+" down";
+          T(then,1100);return;
+        }
+        one(n);n++;
+        T(next,900+Math.random()*450);   /* they are not a metronome */
+      })();
+    }
+  }
+
+  /* ── passing the pen ── */
+  function startTurn(n){
+    var t=TASKS[stepN];
+    if(n>=t.order.length){ closeTask(); return; }
+    turnN=n;
+    var idx=t.order[n],p=PEOPLE[idx];
+    room(idx);line(p,idx===YOU);
+    if(idx===YOU){
+      var st=STYLE.you;
+      useTool(st.tools[stepN%st.tools.length]);
+      useColour(stepN===2?PEOPLE[0].swatch:p.swatch);
+      useSize(st.size);useTexture(st.tex);
+      unlock();
+      hint.textContent="Your turn — draw when you are ready";
+      hint.classList.remove("is-gone");
+      T(function(){hint.classList.add("is-gone");},2600);
+      status.textContent="Your turn. He will not interrupt — stop drawing and the pen passes on.";
+    } else {
+      status.textContent=p.name+" has the pen. You cannot draw until it comes round to you.";
+      play(idx,endTurn);
+    }
+  }
+  function endTurn(){
+    if(stepN<0)return;
+    clearTimeout(idle);
+    var idx=TASKS[stepN].order[turnN];
+    if(doneNow.indexOf(idx)<0)doneNow.push(idx);
+    room(-1);line(null);
+    lockTo("Passing the pen","#8A95A0","");
+    T(function(){ startTurn(turnN+1); },1300);
+  }
+
+  /* ── what he can see on the surface ── */
+  function facts(){
+    var by={};placed.forEach(function(m){(by[m.who]=by[m.who]||[]).push(m);});
+    var ids=Object.keys(by),
+        c=ids.map(function(id){var a=by[id];
+          return{x:a.reduce(function(s,m){return s+m.x;},0)/a.length,
+                 y:a.reduce(function(s,m){return s+m.y;},0)/a.length,n:a.length};});
+    var far=true,crossed=false;
+    for(var i=0;i<c.length;i++)for(var j=i+1;j<c.length;j++){
+      var d=Math.hypot(c[i].x-c[j].x,c[i].y-c[j].y);
+      if(d<board.width*.30)far=false;
+      if(d<board.width*.20)crossed=true;}
+    var n=c.map(function(o){return o.n;});
+    return{separated:far&&ids.length>=3,crossed:crossed,
+      smallest:n.length>=3&&Math.min.apply(null,n)<Math.max.apply(null,n)*.5};
+  }
+
+  function paintSteps(){
+    [].forEach.call(document.getElementById("steps").children,function(i,n){
+      i.className=n<=stepN?"on":"";});
+  }
+  function nextTask(){
+    stepN++;
+    if(stepN>=TASKS.length){ finish(); return; }
+    var t=TASKS[stepN];
+    doneNow=[];
+    document.getElementById("tasknum").textContent=(stepN+1)+" of "+TASKS.length;
+    document.getElementById("tasktext").textContent=t.title;
+    paintSteps();
+    say(t.opens,true);
+    t.chatter.forEach(function(c,n){
+      T(function(){ bubble(PEOPLE[c.who].name+": "+c.text,true); },3000+n*2500);});
+    T(function(){ startTurn(0); },2600);
+  }
+  function closeTask(){
+    doneNow=[0,1,2];room(-1);
+    lockTo("Johnathan is looking at the canvas","#4C5A63","");
+    line(null);
+    status.textContent="He reflects on what is on the surface, not on what it means.";
+    say(reflect(stepN,facts()),true);
+    T(nextTask,7400);
+  }
+  function finish(){
+    stopAll();
+    lockTo("Session complete","#4C5A63","");
+    document.getElementById("tasknum").textContent="done";
+    document.getElementById("tasktext").textContent="One canvas, made by three people who could not talk about it.";
+    line(null);
+    say(CLOSING,true);
+    /* and only now his own line about the canvas, if the colour actually shifted */
+    T(function(){ spoken=false; observe(); },3200);
+    status.textContent="Session complete. The canvas stays with the flat.";
+  }
+
+  /* they can text the panel whether or not they hold the pen. He takes it and
+     does not interpret it — he answers the canvas, not the chat. */
+  var REPLIES=[
+    "Noted — put it on the canvas when the pen comes round, and I will look at it there.",
+    "You can say that here, and you can also draw it. The drawing is the part I can answer.",
+    "Held. I will speak when there is something on the surface to speak about."
+  ],replyN=0;
+  document.getElementById("compose").addEventListener("submit",function(){
+    T(function(){ say(REPLIES[replyN++%REPLIES.length],true); },700);
+  });
+
+  document.getElementById("clear").addEventListener("click",function(){
+    if(stepN>=0&&yourTurn)endTurn();});
+  document.getElementById("replay").addEventListener("click",begin);
+
+  function begin(){
+    stopAll();reset();
+    placed=[];stepN=-1;turnN=0;doneNow=[];
+    room(-1);line(null);paintSteps();
+    lockTo("Johnathan is setting the first task","#4C5A63","");
+    document.getElementById("tasknum").textContent="—";
+    document.getElementById("tasktext").textContent="Waiting to begin";
+    hint.textContent="Three of you are here. The pen goes round.";
+    hint.classList.remove("is-gone");
+    useTexture(4);
+    status.textContent="Three people share a flat. Only one holds the pen at a time.";
+    T(nextTask,3000);
+  }
+
+  setTool("brush"); paintStrokePreview();
+  begin();
+})();
+</script>
+</body>
+</html>
