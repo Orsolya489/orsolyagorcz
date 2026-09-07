@@ -1293,6 +1293,17 @@ a{color:inherit}
   aspect-ratio:1280/582}
 .mac-video{display:block;width:100%;height:100%;max-width:none;max-height:none;
   margin:0;object-fit:cover;background:#0a0a0a}
+/* The mark, over the recording rather than burned into it - the mp4 stays the
+   prototype exactly as it ran, and re-encoding it would cost a generation of
+   quality for a stamp CSS can place. Bottom left, this dashboard’s quietest
+   corner, at a weight that reads as a signature and never as chrome belonging
+   to the product. The shadow is there because the screens are dark but not
+   uniformly so, and the 46px lifts it clear of the browser’s own control bar,
+   which is a fixed height and would otherwise sit on top of it whenever the
+   video is paused or hovered. */
+.mac-mark{position:absolute;left:calc(var(--stack)*.8);bottom:46px;
+  width:clamp(74px,9%,132px);height:auto;z-index:2;pointer-events:none;
+  color:#fff;opacity:.42;filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
 /* The frame gives up its full measure so the claim can sit beside it and be
    read against it - the screen on one side, what is wrong with that kind of
    screen on the other. The copy is centred against the frame rather than hung
@@ -2477,11 +2488,13 @@ measure();spy();
   if(!fig)return;
   var v=fig.querySelector(".mac-video");
   if(!v)return;
-  /* The capture runs 58.4s, but at 54.5s the screen recorder throws up its own
-     signup dialog over the prototype. That is the recorder advertising itself,
-     not the work, so playback stops before it - on the clock and on the scrub
-     bar alike, since a viewer dragging the handle would otherwise land in it.
-     The tail is still inside the file; it wants trimming properly. */
+  /* The file runs 58.4s and the last seven are not worth showing: the pointer
+     stops moving at about 51.5s, the picture then sits frozen for three seconds,
+     and at 54.5s the screen recorder throws its own signup dialog over the
+     prototype. Playback ends at the last movement instead - on the clock and on
+     the scrub bar alike, since a viewer dragging the handle would otherwise land
+     in the dead air or in the advert. Both are still inside the file; cutting
+     them out of it needs a tool this machine does not have. */
   var CUT=54.2;
   var ours=false,userPaused=false;
   function still(){return document.documentElement.getAttribute("data-motion")==="off";}
