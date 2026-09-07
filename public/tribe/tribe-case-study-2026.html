@@ -213,32 +213,6 @@ a{color:inherit}
 .btn:hover{border-color:var(--edge-ctrl);transition-duration:var(--in)}
 .btn--icon{width:var(--control);padding:0;flex:0 0 auto}
 .btn--icon svg{width:13px;height:13px}
-/* hover bubble — the icon carries the action, this names it */
-.btn[data-tip]{position:relative}
-.btn[data-tip]::after{
-  content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
-  translate:-50% -4px;
-  background:var(--ink);color:var(--page);
-  font-weight:500;font-size:var(--micro);line-height:1;
-  letter-spacing:0;text-transform:lowercase;white-space:nowrap;
-  padding:.62em .9em;border-radius:var(--r-pill);
-  opacity:0;pointer-events:none;z-index:1;
-  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
-}
-.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
-@media (hover:hover){
-  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
-}
-/* pinned to the bottom of the window, so the bubble opens upward - a
-   downward one would simply leave the viewport */
-.c-br .btn[data-tip]::after{top:auto;bottom:calc(100% + 8px);translate:-50% 4px}
-.c-br .btn[data-tip]:focus-visible::after{translate:-50% 0}
-@media (hover:hover){ .c-br .btn[data-tip]:hover::after{translate:-50% 0} }
-/* the first control sits on the left of the group, the last on the margin,
-   so their bubbles hang from the near edge rather than overrunning it */
-.c-br > *:first-child[data-tip]::after{left:0;translate:0 4px}
-.c-br > *:first-child[data-tip]:focus-visible::after{translate:0 0}
-@media (hover:hover){ .c-br > *:first-child[data-tip]:hover::after{translate:0 0} }
 .btn--on{background:var(--ink);color:var(--page);border-color:var(--ink)}
 
 /* accessibility panel — text size, contrast, motion */
@@ -398,14 +372,6 @@ a{color:inherit}
   margin-top:calc(var(--stack)*.4);padding-top:calc(var(--stack)*.4);border-top:1px solid var(--edge);
   text-transform:none;letter-spacing:0}
 
-/* toast */
-.toast{position:absolute;z-index:700;bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 10px);right:var(--margin);
-  padding:0 1.1em;height:var(--control);display:inline-flex;align-items:center;
-  background:var(--ink);color:var(--page);border-radius:var(--r-pill);
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
-  opacity:0;translate:0 6px;pointer-events:none;
-  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
-.toast[data-show="true"]{opacity:1;translate:0 0}
 /* the note under the switches, as on the landing page */
 .pnote{font-family:var(--serif);font-size:var(--micro);line-height:1.55;color:var(--muted);
   margin:var(--stack) 0 0}
@@ -1606,15 +1572,6 @@ a{color:inherit}
   </nav>
 
   <div class="chrome c-br">
-    <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
-    </a>
-    <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let’s connect on LinkedIn" data-tip="Let’s connect">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
-    </a>
-    <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-    </button>
     <div class="noise" id="noise" data-on="false">
       <div class="noise-vol">
         <input type="range" id="vol" min="0" max="100" value="8" aria-label="Noise volume" disabled>
@@ -1648,7 +1605,6 @@ a{color:inherit}
     <p class="pnote">Pink noise plays a steady, even tone that can help with focus. It stays off until you turn it on.</p>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">email copied</div>
 </div>
 
 <div class="wrap">
@@ -2377,20 +2333,6 @@ a{color:inherit}
 (function(){
 "use strict";
 var root=document.documentElement;
-
-/* email copy — the address goes to the clipboard, and the toast says so.
-   Where the clipboard is unavailable (an insecure origin, an older engine) the
-   toast shows the address itself, so the button always does something useful. */
-var MAIL='orsigorcz@gmail.com',toast=document.getElementById('toast'),tt;
-function shout(m){if(!toast)return;toast.textContent=m;toast.setAttribute('data-show','true');
-  clearTimeout(tt);tt=setTimeout(function(){toast.removeAttribute('data-show');},2200);}
-function copyMail(){
-  if(navigator.clipboard&&window.isSecureContext){
-    navigator.clipboard.writeText(MAIL).then(function(){shout('email copied');},function(){shout(MAIL);});
-  }else{shout(MAIL);}
-}
-var mailBtn=document.getElementById('mailBtn');
-if(mailBtn)mailBtn.addEventListener('click',copyMail);
 
 /* accessibility panel */
 var panel=document.getElementById('panel'),a11y=document.getElementById('a11yBtn');

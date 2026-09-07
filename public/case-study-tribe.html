@@ -76,24 +76,6 @@ em{font-style:italic}
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease),color var(--out) var(--ease)}
 .btn:hover{background:var(--page);border-color:rgba(25,21,23,.42);color:var(--ink);transition-duration:var(--in)}
 .btn--icon{padding:0;width:var(--control);flex:0 0 var(--control)}
-/* hover bubble — the icon carries the action, this names it */
-.btn[data-tip]{position:relative}
-.btn[data-tip]::after{
-  content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
-  translate:-50% -4px;background:var(--ink);color:var(--page);
-  font-weight:500;font-size:var(--micro);line-height:1;
-  letter-spacing:0;text-transform:lowercase;white-space:nowrap;
-  padding:.62em .9em;border-radius:var(--r-pill);
-  opacity:0;pointer-events:none;z-index:1;
-  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
-.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
-@media (hover:hover){
-  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
-}
-/* the last control sits on the margin, so its bubble hangs from the right */
-.c-tr > *:last-child[data-tip]::after{left:auto;right:0;translate:0 -4px}
-.c-tr > *:last-child[data-tip]:focus-visible::after{translate:0 0}
-@media (hover:hover){ .c-tr > *:last-child[data-tip]:hover::after{translate:0 0} }
 .btn--on{background:var(--ink);border-color:var(--ink);color:var(--page)}
 
 /* ═══ noise for focus ═══
@@ -457,13 +439,7 @@ main .wrap{padding-left:calc(var(--margin) + var(--rail) + var(--gutter))}
 </div>
 <div class="chrome c-tr">
   <a class="btn" href="index.html">All work</a>
-  <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
-  </a>
-  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let’s connect on LinkedIn" data-tip="Let’s connect">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
-  </a>
-  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
+  <button class="btn btn--icon" id="mailBtn" aria-label="Copy email address">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
 </div>
