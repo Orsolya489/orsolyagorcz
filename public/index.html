@@ -810,12 +810,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .site-foot{position:relative;background:var(--card);
   border-top:1px solid var(--edge);
   padding-top:calc(var(--section)*.4);
-  /* one --gutter, which is what puts the last row of controls on exactly the
-     line the fixed pills in the corner hold: both are then --gutter plus half
-     a control off the bottom of the page, so at the end of the scroll the
-     email, the profiles, the noise switch and the accessibility control read
-     as one row across the foot of the window. */
-  padding-bottom:var(--gutter)}
+  /* the notice and the mark are the last line now, and the fixed pills hold
+     the bottom-right corner - so the padding under that line has to clear
+     them, or the wordmark would sit beneath the noise switch. A control, a
+     gutter and a little air: enough that the pills float in empty page below
+     the signature rather than on top of it. */
+  padding-bottom:calc(var(--control) + var(--gutter) + max(16px, var(--stack)*.5))}
 /* the way back up, above the rule rather than in the footer */
 .to-top{display:flex;justify-content:flex-end;
   margin:calc(var(--section)*.2) 0 calc(var(--stack)*1.2)}
@@ -827,7 +827,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .site-foot h2{grid-column:1;grid-row:1;margin:0;max-width:24ch}
 .site-foot .t-body{grid-column:1;grid-row:2;margin:0;max-width:46ch}
 /* the notice and the mark share one line, held to the two margins */
-.foot-end{grid-column:1/-1;grid-row:3;display:flex;align-items:center;
+.foot-end{grid-column:1/-1;grid-row:4;display:flex;align-items:center;
   justify-content:space-between;gap:var(--stack)}
 .foot-note{margin:0;font-family:var(--sans);font-weight:300;
   font-size:var(--micro);line-height:1.5;color:var(--muted)}
@@ -850,17 +850,13 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* one line, one baseline: every control is --control tall, so they align
    without any per-item sizing */
 .contact-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-btn)}
-/* last line of the page, below the notice rather than above it: that is what
-   drops it onto the same line as the fixed pills in the corner, so the ways
-   to reach her run along the foot of the window with the noise switch and the
-   accessibility control finishing the row from the right. */
-.site-foot .contact-row{grid-column:1/-1;grid-row:4;
+/* the ways to reach her, under the terms and above the signature */
+.site-foot .contact-row{grid-column:1/-1;grid-row:3;
   margin-top:calc(var(--stack)*.35)}
-/* these three are the last line on the page, so their labels open upward: a
-   label below them would fall off the bottom edge, and - because a hidden
-   label still has a box - it was adding seven pixels of scroll under the
-   footer, which is exactly what pulled this row off the line the fixed pills
-   in the corner hold. */
+/* their labels open upward: these sit at the foot of the page, so a label
+   below them would fall off the bottom edge. It also keeps their boxes inside
+   the footer - a hidden label still has one, and downward they were adding
+   seven pixels of scroll under the page. */
 .site-foot .btn[data-tip]::after{top:auto;bottom:calc(100% + 8px);translate:-50% 4px}
 .site-foot .btn[data-tip]:focus-visible::after{translate:-50% 0}
 @media (hover:hover){ .site-foot .btn[data-tip]:hover::after{translate:-50% 0} }
@@ -871,8 +867,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .contact-loc{grid-column:1;grid-row:1;justify-self:start}
   .site-foot h2{grid-row:2;max-width:none}
   .site-foot .t-body{grid-row:3}
-  .foot-end{grid-row:4}
-  .site-foot .contact-row{grid-column:1;grid-row:5}
+  .site-foot .contact-row{grid-column:1;grid-row:4}
+  .foot-end{grid-row:5}
 }
 /* on a phone the row is wider than the card, so both corners rejoin the flow */
 @media (max-width:767px){
