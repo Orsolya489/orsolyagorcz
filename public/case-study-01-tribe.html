@@ -535,7 +535,7 @@ a{color:inherit}
    Lifted with its stroke rules intact; non-scaling-stroke is what keeps the
    line weight honest as the viewBox stretches to the column. */
 .plane{width:100%;max-width:640px;margin-inline:auto;aspect-ratio:848/563}
-.plane--path{aspect-ratio:1690/650}
+.plane--path{aspect-ratio:1690/690}
 /* nine nodes need real horizontal room - shrinking the whole canvas to a phone's
    width would take node labels below 5px. Below 768px it scrolls at a fixed,
    still-legible size instead of shrinking to fit. */
@@ -1177,11 +1177,6 @@ a{color:inherit}
 .dec-lab{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
   margin-bottom:calc(var(--stack)*.45)}
-/* the joints, set the way every other label on this page is set */
-.dec-p b{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-/* the choice itself. It was a filled row; it is the emphasis in the line now */
-.dec-p em{font-style:normal;font-weight:500}
 /* the price of the choice, in the same red the page uses for what was given up */
 .dec-p .dec-cost{color:var(--red-ink)}
 .pairs{width:100%;border-collapse:collapse;margin-top:var(--stack)}
@@ -1804,7 +1799,7 @@ a{color:inherit}
         </div>
       </div>
 
-      <p class="dec-p"><span class="dec-lab">The decision</span><b>Chose</b> <em>Intent-first — one prompt, no profile</em> <b>over</b> Engagement-first — profiles, browse, swipe, <b>because</b> the unmet need was safer connection, not more time on app. <b>Cost:</b> <span class="dec-cost">managed friction: a harder first screen than a profile grid</span>.</p>
+      <p class="dec-p"><span class="dec-lab">The decision</span>Chose Intent-first — one prompt, no profile over Engagement-first — profiles, browse, swipe, because the unmet need was safer connection, not more time on app. Cost: <span class="dec-cost">managed friction: a harder first screen than a profile grid</span>.</p>
 
       <!-- The framework as a map rather than a table: one problem on the left,
            the five things a person feels fanning out of it, each running across
@@ -1903,7 +1898,7 @@ a{color:inherit}
         <p>Happy path. Fallback logic. The full product — mapped in structure before it existed in pixels.</p>
         <p>Edge cases carried the most design weight: the no-match screen, the breathe chat, the safety exit. That is where the product’s character was decided.</p>
       </div>
-      <p class="dec-p"><span class="dec-lab">The decision</span><b>Chose</b> <em>Designing the fallbacks before the happy path</em> <b>over</b> finalising the happy-path UI first, <b>because</b> the edge cases are where the product’s character is decided. <b>Cost:</b> <span class="dec-cost">slower to a first screen anyone could look at</span>.</p>
+      <p class="dec-p"><span class="dec-lab">The decision</span>Chose Designing the fallbacks before the happy path over finalising the happy-path UI first, because the edge cases are where the product’s character is decided. Cost: <span class="dec-cost">slower to a first screen anyone could look at</span>.</p>
 
       <!-- Moved out of the masthead. It answers "how does this work", which is
            a later question than "what is this" - and the masthead now answers
@@ -1924,21 +1919,24 @@ a{color:inherit}
            a human-layer event again, not a system one - the arrow into it
            comes from below because trust is earned by what surfaces, not
            computed directly. -->
-      <div class="plane plane--path"><svg class="s2" viewBox="0 0 1690 650" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+      <div class="plane plane--path"><svg class="s2" viewBox="0 -5 1690 690" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
         <title id="s3t">How intent becomes a meetup, across three layers</title>
         <desc id="s3d">A three-lane architecture diagram. The human layer runs left to right: intent input, privacy hesitation, calibrated trust, real-world meetup. The UI layer runs beneath it: prompt field, validation signal, progressive disclosure. The system layer runs beneath that: NLP engine, semantic matching. Intent input drops down to prompt field; privacy hesitation drops down to validation signal; validation signal drops down to the NLP engine. Semantic matching rises up into progressive disclosure, which itself rises up into calibrated trust - the only two upward arrows in the diagram, showing the system's result surfacing back to the person.</desc>
 
         <defs>
-          <marker id="s3arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <marker id="s3arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" class="arrow-head"/>
           </marker>
+        <!-- One block, three touching stripes. The layers are a stack: a gap
+             between them would read as three diagrams rather than one. -->
+        <clipPath id="s3lanes"><rect x="8" y="-5" width="1674" height="690" rx="18"/></clipPath>
         </defs>
 
-        <!-- The lanes are told apart by ground, not by the label alone: a band
-             behind each row, and the nodes on it keyed to the same family. -->
-        <rect class="lane lane-h" x="8" y="55" width="1674" height="110" rx="18"/>
-        <rect class="lane lane-u" x="8" y="285" width="1674" height="110" rx="18"/>
-        <rect class="lane lane-s" x="8" y="515" width="1674" height="110" rx="18"/>
+        <g clip-path="url(#s3lanes)">
+          <rect class="lane lane-h" x="8" y="-5" width="1674" height="230"/>
+          <rect class="lane lane-u" x="8" y="225" width="1674" height="230"/>
+          <rect class="lane lane-s" x="8" y="455" width="1674" height="230"/>
+        </g>
 
         <!-- human layer -->
         <g class="lay lay--h">
@@ -2069,7 +2067,7 @@ a{color:inherit}
         <p>Chips are harder to build. I pushed for them because <em>match quality is the entire product bet.</em> Vague input → bad matches → no Tribe. The chips are the quality gate that makes everything downstream worth building.</p>
       </div>
 
-      <p class="dec-p"><span class="dec-lab">The decision</span><b>Chose</b> <em>Gen 3 — real-time NLP chip validation</em> <b>over</b> Gen 2 — AI metadata extraction, <b>because</b> match quality is the entire product bet: vague input, bad matches, no Tribe. <b>Cost:</b> <span class="dec-cost">harder to build, and the only generation that survived the dev sync</span>.</p>
+      <p class="dec-p"><span class="dec-lab">The decision</span>Chose Gen 3 — real-time NLP chip validation over Gen 2 — AI metadata extraction, because match quality is the entire product bet: vague input, bad matches, no Tribe. Cost: <span class="dec-cost">harder to build, and the only generation that survived the dev sync</span>.</p>
 
       <p class="eyebrow-b">Accepted version — chip validation in action</p>
       <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Chip validation — 9 states">
