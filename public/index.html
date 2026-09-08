@@ -801,34 +801,37 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .cred-row:hover .t-body{color:var(--ink);transition-duration:var(--in)}
 
 /* 5 · contact */
-.site-foot{position:relative;
-  /* one closed rule across the measure and nothing else drawn. The footer is
-     where the page stops, not another object sitting on it, so it carries no
-     ground of its own and no radius - the rule alone closes the column. */
+/* the last band of the page: one step darker than the ground the page has run
+   on, and running the full width of the window rather than held inside the
+   column. It sits outside .wrap and carries a .wrap of its own, which is what
+   keeps its content on the same left margin as every section above it - a
+   50vw pull would have been a scrollbar's width out. Square: the colour is
+   the page ending, not another card sitting on it. */
+.site-foot{position:relative;background:var(--card);
   border-top:1px solid var(--edge);
   padding-top:calc(var(--section)*.4);
   /* enough for the fixed controls in the bottom corner to clear the last
      line, and not a pixel more. A full --section under it read as a section
      that had failed to load rather than as the end of the page. */
-  padding-bottom:calc(var(--control) + var(--gutter));
-  /* two tracks, so the weight is not all in the left margin: the question and
-     the terms hold the left, the tag and every control answer from the right */
-  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  padding-bottom:calc(var(--control) + var(--gutter))}
+/* two tracks, so the weight is not all in the left margin: the question and
+   the terms hold the left, the tag answers from the right */
+.foot-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;
   column-gap:var(--stack);row-gap:calc(var(--stack)*1.15);
   align-items:start}
 .site-foot h2{grid-column:1;grid-row:1;margin:0;max-width:24ch}
 .site-foot .t-body{grid-column:1;grid-row:2;margin:0;max-width:46ch}
-.foot-note{grid-column:1/-1;grid-row:3;margin:0;
+.foot-note{grid-column:1/-1;grid-row:4;margin:0;
   font-family:var(--sans);font-weight:300;
   font-size:var(--micro);line-height:1.5;color:var(--muted)}
-/* the same pill the hero labels use - card tone on the page ground, so it
-   lifts without needing a border. It takes the corner opposite the question,
-   which is where it sat when the block still had a box. */
+/* the same pill the hero labels use, inverted for the darker band: page tone
+   on the card ground, since card on card would leave it invisible. It takes
+   the corner opposite the question. */
 .contact-loc{grid-column:2;grid-row:1;justify-self:end;
   display:inline-flex;align-items:center;gap:.7em;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
-  background:var(--card);border-radius:var(--r-pill);
+  background:var(--page);border-radius:var(--r-pill);
   padding:.72em 1.15em;white-space:nowrap}
 /* the dot does the "right now" work that the word alone leaves implied. Ink
    rather than a status green, which would cost a ninth colour. */
@@ -836,21 +839,21 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* one line, one baseline: every control is --control tall, so they align
    without any per-item sizing */
 .contact-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-btn)}
-/* the controls sit in the right track, on the terms' line and ending flush
-   with the tag above them. The way back up is the last control in that row,
-   so it shares the row's single baseline instead of starting a line of its
-   own further down. */
-.site-foot .contact-row{grid-column:2;grid-row:2;justify-self:end;
-  justify-content:flex-end}
+/* the controls sit under the terms, not beside them - one full-width row of
+   its own, so nothing is pushed up beside the question and the divider. The
+   ways to reach her open the row from the left; the way back up closes it
+   from the right, on the same single baseline. */
+.site-foot .contact-row{grid-column:1/-1;grid-row:3;
+  margin-top:calc(var(--stack)*.35)}
+.foot-top{margin-left:auto}
 /* below the card breakpoint the right track has no room left to answer from,
    so the footer goes back to one column and reads top to bottom */
 @media (max-width:1023px){
-  .site-foot{grid-template-columns:1fr;row-gap:var(--stack)}
+  .foot-grid{grid-template-columns:1fr;row-gap:var(--stack)}
   .contact-loc{grid-column:1;grid-row:1;justify-self:start}
   .site-foot h2{grid-row:2;max-width:none}
   .site-foot .t-body{grid-row:3}
-  .site-foot .contact-row{grid-column:1;grid-row:4;justify-self:start;
-    justify-content:flex-start}
+  .site-foot .contact-row{grid-column:1;grid-row:4}
   .foot-note{grid-row:5}
 }
 /* on a phone the row is wider than the card, so both corners rejoin the flow */
@@ -1301,8 +1304,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   </section>
 
 
+  </div><!-- /wrap: the footer runs the full window, so it takes its own -->
+
   <!-- 4 · FOOTER -->
   <footer class="site-foot">
+    <div class="wrap"><div class="foot-grid">
     <span class="contact-loc"><span class="loc-dot" aria-hidden="true"></span>Currently in Szombathely, Hungary</span>
     <h2 class="t-title">Building complex AI products or safety-critical software?</h2>
     <p class="t-body">Open to full-time and project based contract opportunities. Preferable remote, but open to relocation.</p>
@@ -1320,8 +1326,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       <a class="btn foot-top" href="#top">↑ Back to top</a>
     </div>
     <p class="foot-note">© 2026 Orsolya Gorcz · Built with calm technology principles.</p>
+    </div></div>
   </footer>
-</div>
 </main>
 
 <script>
