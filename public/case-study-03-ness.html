@@ -1224,6 +1224,10 @@ a{color:inherit}
 .eyebrow-b{grid-column:1 / -1;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
   margin:var(--section) 0 0;padding-bottom:.8em;border-bottom:1px solid var(--edge)}
+/* in the gallery the same label separates two runs of screens rather than two
+   arguments, so it takes a fraction of the space it takes in the prose */
+#s8 .eyebrow-b{margin-top:calc(var(--section)*.4)}
+#s8 .eyebrow-b:first-of-type{margin-top:var(--stack)}
 /* The block is capped to the three screens plus the space between them. Left to
    span the section, the columns came out 389 wide around 300 wide shots, so each
    one floated in 44px of slack and the neighbours ended up 121px apart - three
@@ -1577,8 +1581,9 @@ a{color:inherit}
         <li><a href="#s3">The guide</a></li>
         <li><a href="#s4">Testing</a></li>
         <li><a href="#s5">Progress</a></li>
-        <li><a href="#s6">Design system</a></li>
         <li><a href="#s7">Reflection</a></li>
+        <li><a href="#s8">Screens</a></li>
+        <li><a href="#s6">Design system</a></li>
       </ol>
     </nav>
   </nav>
@@ -1641,9 +1646,6 @@ a{color:inherit}
       </figure>
     </div>
 
-    <figure class="fig">
-      <img src="ness/ness_user_retention_illustration_desktop.png" loading="lazy" decoding="async" alt="User retention chart showing the gap between existing apps and Ness’s engagement approach">
-    </figure>
   </header>
 
   <div class="cs-body" id="read">
@@ -1672,14 +1674,6 @@ a{color:inherit}
 
     <section class="sec" id="s2" data-bar="Check-in" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">Before the canvas opens, the app learns what state you’re in — without asking you to explain it.</h2>
-      <figure class="fig fig--pair">
-        <img src="ness/desktop/Prototype_test1.png" loading="lazy" decoding="async" alt="Check-in start screen — welcome to today’s session">
-        <img src="ness/desktop/prototype_test2.png" loading="lazy" decoding="async" alt="Mood slider — from Terrible to Amazing">
-      </figure>
-      <figure class="fig fig--pair">
-        <img src="ness/desktop/prototype_test3.png" loading="lazy" decoding="async" alt="Sleep thermometer check-in screen">
-        <img src="ness/desktop/prototype_test4.png" loading="lazy" decoding="async" alt="Emotion vocabulary selector screen">
-      </figure>
     </section>
 
     <section class="sec" id="s3" data-bar="The guide" aria-labelledby="s3h">
@@ -1687,11 +1681,6 @@ a{color:inherit}
       <div class="sec-copy">
         <p>Johnathan observes pattern. He reflects without labelling. The person stays in control of what the observation means — or whether it means anything at all.</p>
       </div>
-      <figure class="fig fig--pair">
-        <img src="ness/desktop/Artboard_brush-1.png" loading="lazy" decoding="async" alt="Blank artboard, three people in session, and Johnathan’s opening message">
-        <img src="ness/desktop/Artboard_brush.png" loading="lazy" decoding="async" alt="The same artboard mid-session — a made image, and Johnathan naming the colour shift">
-        <figcaption>“The gradual shift in colour from muted shades to something brighter shows a potential change in mood or thought — let’s keep exploring what that might mean for you.”</figcaption>
-      </figure>
     </section>
 
     <section class="sec" id="s4" data-bar="Testing" aria-labelledby="s4h">
@@ -1705,11 +1694,6 @@ a{color:inherit}
         </tbody>
       </table>
       <p class="eyebrow-b">n=5 per round. Small sample — findings used directionally, not as conclusive evidence.</p>
-      <figure class="fig fig--pair">
-        <img src="ness/ness_iterationpcoress_1st_wireframe.png" loading="lazy" decoding="async" alt="First wireframe iteration of the Ness interface">
-        <img src="ness/ness_iterationpcoress_3rd_wireframe.png" loading="lazy" decoding="async" alt="Third wireframe iteration with labelled Johnathan panel">
-        <figcaption>Before: “Jonathan” reads as a participant list, not a therapy guide. After: “Johnathan, AI Therapy Guide” — role is explicit, chat is unambiguous.</figcaption>
-      </figure>
     </section>
 
     <section class="sec" id="s5" data-bar="Progress" aria-labelledby="s5h">
@@ -1717,10 +1701,53 @@ a{color:inherit}
       <div class="sec-copy">
         <p>The arc uses mood symbols as its Y-axis — not clinical scores. Johnathan’s weekly reflection is written in plain language. Creations are titled by the person, not the system.</p>
       </div>
+    </section>
+
+    <section class="sec" id="s7" data-bar="Reflection" aria-labelledby="s7h">
+      <h2 class="sec-label" id="s7h">What I got wrong.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">The check-in asks “How are you feeling today?” before the person has touched the canvas. That directly contradicts the core thesis — make something first, understand it second.</p>
+        <p>I’d redesign the entry point so the artboard opens first and the check-in follows the session, not precedes it. The data would be richer and the friction would disappear.</p>
+        <p class="hmw">You don’t need to know what you’re feeling to start. That’s the whole point.</p>
+      </div>
+    </section>
+
+    <!-- Every screen in one place. They were spread through the argument,
+         one or two under each section, which made the page a scroll rather
+         than a read; the sections carry the reasoning now and the work sits
+         together at the end, where it can be taken in one pass. -->
+    <section class="sec" id="s8" data-bar="Screens" aria-labelledby="s8h">
+      <h2 class="sec-label" id="s8h">Screens</h2>
+      <p class="eyebrow-b">Check-in</p>
+      <figure class="fig fig--pair">
+        <img src="ness/desktop/Prototype_test1.png" loading="lazy" decoding="async" alt="Check-in start screen — welcome to today’s session">
+        <img src="ness/desktop/prototype_test2.png" loading="lazy" decoding="async" alt="Mood slider — from Terrible to Amazing">
+      </figure>
+      <figure class="fig fig--pair">
+        <img src="ness/desktop/prototype_test3.png" loading="lazy" decoding="async" alt="Sleep thermometer check-in screen">
+        <img src="ness/desktop/prototype_test4.png" loading="lazy" decoding="async" alt="Emotion vocabulary selector screen">
+      </figure>
+      <p class="eyebrow-b">The guide</p>
+      <figure class="fig fig--pair">
+        <img src="ness/desktop/Artboard_brush-1.png" loading="lazy" decoding="async" alt="Blank artboard, three people in session, and Johnathan’s opening message">
+        <img src="ness/desktop/Artboard_brush.png" loading="lazy" decoding="async" alt="The same artboard mid-session — a made image, and Johnathan naming the colour shift">
+        <figcaption>“The gradual shift in colour from muted shades to something brighter shows a potential change in mood or thought — let’s keep exploring what that might mean for you.”</figcaption>
+      </figure>
+      <p class="eyebrow-b">Testing — before and after</p>
+      <figure class="fig fig--pair">
+        <img src="ness/ness_iterationpcoress_1st_wireframe.png" loading="lazy" decoding="async" alt="First wireframe iteration of the Ness interface">
+        <img src="ness/ness_iterationpcoress_3rd_wireframe.png" loading="lazy" decoding="async" alt="Third wireframe iteration with labelled Johnathan panel">
+        <figcaption>Before: “Jonathan” reads as a participant list, not a therapy guide. After: “Johnathan, AI Therapy Guide” — role is explicit, chat is unambiguous.</figcaption>
+      </figure>
+      <p class="eyebrow-b">Progress</p>
       <figure class="fig fig--row">
         <img src="ness/desktop/Profile%20Overview.png" loading="lazy" decoding="async" alt="Profile overview with mood arc chart">
         <img src="ness/desktop/Profile%20Progress.png" loading="lazy" decoding="async" alt="Engagement and AI weekly reflection">
         <img src="ness/desktop/Profile%20Creations.png" loading="lazy" decoding="async" alt="Creations gallery">
+      </figure>
+      <p class="eyebrow-b">Retention</p>
+      <figure class="fig">
+        <img src="ness/ness_user_retention_illustration_desktop.png" loading="lazy" decoding="async" alt="User retention chart showing the gap between existing apps and Ness’s engagement approach">
       </figure>
     </section>
 
@@ -1752,17 +1779,9 @@ a{color:inherit}
       </figure>
     </section>
 
-    <section class="sec" id="s7" data-bar="Reflection" aria-labelledby="s7h">
-      <h2 class="sec-label" id="s7h">What I got wrong.</h2>
-      <div class="sec-copy">
-        <p class="sec-lede">The check-in asks “How are you feeling today?” before the person has touched the canvas. That directly contradicts the core thesis — make something first, understand it second.</p>
-        <p>I’d redesign the entry point so the artboard opens first and the check-in follows the session, not precedes it. The data would be richer and the friction would disappear.</p>
-        <p class="hmw">You don’t need to know what you’re feeling to start. That’s the whole point.</p>
-      </div>
-      <figure class="fig">
-        <img src="ness/ness_bottom_banner.png" loading="lazy" decoding="async" alt="Ness — create to heal">
-      </figure>
-    </section>
+    <figure class="fig">
+      <img src="ness/ness_bottom_banner.png" loading="lazy" decoding="async" alt="Ness — create to heal">
+    </figure>
 
   </div>
 
