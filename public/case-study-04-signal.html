@@ -45,6 +45,28 @@
   --green-bg:  #E3E8D6;
   --green-ink: #3F5230;
   --green-line:rgba(63,82,48,.3);
+  /* The band system is the one argument on this site that genuinely needs a
+     third state, and the pair above is only two. This amber is built to the
+     same rule the pair was - same lightness as --card, chroma held down so it
+     sits between the olive and the terracotta rather than shouting past both.
+     It is still not a signal amber: the page describes a caution, it does not
+     issue one. Only the band diagrams use it.
+
+     Measured, because this page of all pages should not assert a colour claim.
+     The three grounds sit at L* 91.2 / 91.7 / 90.4 against --card at 91.9, so
+     they are near-isoluminant by construction: 1.01:1 green-to-amber, 1.02:1
+     green-to-red. That is the same flaw the case study's own A1 finding names
+     in the prototype's #3DD68C / #F2C14E pair, measured there at 1.12:1.
+     Holding one lightness is what makes this palette calm, so the answer is not
+     a louder colour - it is the mitigation A1 actually prescribes. No band in
+     any diagram on this page is drawn in colour alone: every one carries a
+     shape and a word as well, and stays readable with the hue removed
+     entirely. Colour is the third cue here, never the first. The inks are
+     pulled apart enough to be read as text - each clears 5.8:1 on its own
+     ground - but they are not asked to carry the state on their own. */
+  --amber-bg:  #F3E6CE;
+  --amber-ink: #6E5220;
+  --amber-line:rgba(110,82,32,.3);
 
   /* space, radius, motion */
   --shell: 1680px;
@@ -1287,6 +1309,121 @@ a{color:inherit}
 .pushed p{margin:.4em 0 0;font-size:var(--body);line-height:1.6;color:var(--body-c)}
 .pushed em{color:var(--ink);font-style:italic;font-synthesis:none}
 
+/* ═══ band diagrams ═══
+   The drawn figures in "The system" are SVG rather than image files, for one
+   reason that matters: they have to answer the accessibility panel. A PNG of a
+   threshold chart cannot get larger when the reader raises the text size, cannot
+   darken when they ask for high contrast, and cannot stop moving when they turn
+   motion off. Drawn in the page, every one of them does all three, because they
+   are built from the same tokens as the prose around them.
+   The surface is --card, not --page: a diagram is a held object, and the ground
+   change is what says "this is a figure" without needing a frame. */
+/* min-width:0 is load-bearing, not tidiness. A grid item defaults to
+   min-width:auto, which means it refuses to shrink below its contents - so the
+   760px floor set on the drawing below would push the track wider than the page
+   instead of producing a scrollbar, and the whole article would slide sideways
+   on a phone. The floor has to be allowed to overflow something, and this says
+   which thing: the frame, not the page. */
+.dgm{grid-column:1 / -1;min-width:0;margin:var(--stack) 0 0;
+  background:var(--card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  padding:clamp(20px,3.2cqw,44px)}
+.dgm svg{display:block;width:100%;height:auto;overflow:visible}
+/* Measured, not assumed: at 375 the container gives these 293px, which scales a
+   900-wide drawing to 0.326 and renders a 13px label at 4.2px. That is not a
+   small diagram, it is an unreadable one - and the page would be claiming to
+   show something it has made illegible, on a page about signals that cannot be
+   perceived.
+   Everywhere else on this site a figure is capped so it can be seen whole, and
+   that rule is right for a photograph. It is wrong for a drawing whose content
+   is words: whole and unreadable is not a figure, it is a texture. So below the
+   width where the type survives, the drawing keeps its size and the frame
+   scrolls instead. 760px holds the labels at about 11px on a phone, which costs
+   roughly 380px of sideways travel - the smallest scroll that still leaves the
+   thing readable.
+   tabindex and role are not decoration here: a scroll region that only a
+   trackpad can reach is a second perceptibility failure stacked on the first.
+   Keyboard users get it as a focusable region, and the label says what it is. */
+.dgm-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.dgm-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
+.dgm-hint{display:none;font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.86);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--line-soft);margin:0 0 .9em}
+@media (max-width:820px){
+  .dgm{padding:clamp(16px,4vw,24px)}
+  .dgm-scroll svg{min-width:760px}
+  .dgm-hint{display:block}
+}
+/* the drawings are static, but the scroll region is not - a reader who has asked
+   for less movement should not be handed a pane that slides under their thumb
+   before they have decided to move it */
+[data-motion="off"] .dgm-scroll{scroll-behavior:auto}
+/* One face, one weight, two sizes. Diagram labels are scanned rather than read,
+   so they take the sans like every other scanned thing on the page - and they
+   are set in the same --micro the captions use, so a label inside a figure and
+   a label beside it are the same size rather than nearly the same size. */
+.dgm text{font-family:var(--sans);font-weight:500;fill:var(--body-c)}
+.dgm .t-ink{fill:var(--ink)}
+.dgm .t-mute{fill:var(--muted)}
+.dgm .t-soft{fill:var(--line-soft)}
+.dgm .t-lg{font-size:15px;font-weight:400}
+.dgm .t-md{font-size:13px}
+.dgm .t-sm{font-size:11px;letter-spacing:.06em}
+.dgm .t-num{font-variant-numeric:tabular-nums}
+.dgm .plate{fill:var(--page);stroke:var(--edge);stroke-width:1}
+.dgm .rule{stroke:var(--edge-ctrl);stroke-width:1;fill:none}
+.dgm .hair{stroke:var(--edge);stroke-width:1;fill:none}
+.dgm .trace{stroke:var(--line);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.dgm figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin-top:1.2em;max-width:62ch}
+.dgm figcaption b{color:var(--ink);font-weight:500}
+/* the three band grounds, as fills a diagram can reach */
+.dgm .f-green{fill:var(--green-bg)}   .dgm .s-green{stroke:var(--green-line)}  .dgm .i-green{fill:var(--green-ink)}
+.dgm .f-amber{fill:var(--amber-bg)}   .dgm .s-amber{stroke:var(--amber-line)}  .dgm .i-amber{fill:var(--amber-ink)}
+.dgm .f-red{fill:var(--red-bg)}       .dgm .s-red{stroke:var(--red-line)}      .dgm .i-red{fill:var(--red-ink)}
+
+/* ═══ the band chip ═══
+   Three states that must never depend on hue, per the note on --amber-bg. The
+   chip carries all three cues at once: a ground, a glyph whose silhouette is
+   different in each state, and the word itself. Photocopy this page in
+   greyscale and it still reads.
+   The glyph is drawn in the ::before rather than typed into the markup so the
+   word stays selectable and a screen reader gets "green" rather than "circle
+   green". */
+.band{display:inline-flex;align-items:center;gap:.45em;
+  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.92);
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:.25em .7em .25em .55em;border-radius:var(--r-pill);white-space:nowrap;
+  vertical-align:.05em}
+.band::before{content:"";width:.62em;height:.62em;flex:0 0 auto;
+  border:1.5px solid currentColor}
+.band--green{background:var(--green-bg);color:var(--green-ink)}
+/* a ring - open, nothing held */
+.band--green::before{border-radius:50%;background:none}
+.band--amber{background:var(--amber-bg);color:var(--amber-ink)}
+/* a half-filled square, turned - the intermediate state, and the only one of
+   the three whose silhouette is asymmetric */
+.band--amber::before{border-radius:2px;background:linear-gradient(135deg,currentColor 50%,transparent 50%)}
+.band--red{background:var(--red-bg);color:var(--red-ink)}
+/* solid, and the only filled circle - the state that is fully on */
+.band--red::before{border-radius:50%;background:currentColor}
+
+/* ═══ figures pulled out of the prose ═══
+   Three or four numbers that the argument leans on, set large enough to be
+   read from the scroll rather than found in a sentence. Not a stat card: no
+   box, no rule between them, because the numbers are evidence for the
+   paragraph beside them and not a separate claim about the project. */
+.metrics{grid-column:1 / -1;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:var(--gutter);margin-top:var(--stack);
+  padding-top:var(--stack);border-top:1px solid var(--edge-ctrl)}
+.metric{min-width:0}
+.metric b{display:block;font-family:var(--sans);font-weight:300;
+  font-size:calc(var(--title)*.86);line-height:1.05;letter-spacing:-.02em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.metric b span{font-size:.42em;letter-spacing:0;color:var(--muted);margin-left:.15em}
+.metric i{display:block;font-style:normal;font-size:var(--micro);line-height:1.55;
+  color:var(--muted);margin-top:.7em;max-width:32ch}
+
 /* ═══ chip-validation carousel ═══
    App_Screen.png is not a wide picture, it is nine phone frames in one file.
    The window is one frame wide and the strip is translated behind it, which is
@@ -1853,53 +1990,211 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     </section>
 
     <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
-      <h2 class="sec-label" id="s7h">Three kinds of friction. Three sensory channels. No verdicts.</h2>
+      <h2 class="sec-label" id="s7h">Three detectors, one score, and a gap wide enough that the signal can’t flicker.</h2>
       <div class="sec-copy">
-        <p><strong>Uncertainty</strong> — the model is generating beyond what it can support. Low grounding, thin evidence, high variance between plausible answers. <em>It doesn’t know, and it isn’t saying so.</em></p>
-        <p><strong>Ethical friction</strong> — the response has entered territory where the cost of being wrong is not symmetric: health, finance, legal exposure, relationships, someone’s decision about their own life. Nothing here is forbidden. It’s weighted differently, and the interface should reflect that.</p>
-        <p><strong>Cognitive bias</strong> — the response is agreeing with the user’s framing rather than testing it. Sycophancy, one-sided treatment of a contested question, reinforcement of a premise the user was only half-committed to. This is the friction the free-text field asked for most directly, and the hardest of the three to detect honestly.</p>
+        <p class="sec-lede">The constraints in the last section rule things out. They don’t tell you what to build. What did that was the metaphor — and it kept working long after I expected it to stop.</p>
+        <p>I took the lane departure warning as an interaction model because of what it refuses to do. But a borrowed model earns its keep by answering questions you haven’t asked yet, and this one kept doing that. Every time I wasn’t sure whether a feature belonged, there was a test available: <em>does a real lane departure system do this?</em> Four times the answer was yes and I built the feature. Twice it was no and I cut one.</p>
+      </div>
+
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d1t"><svg viewBox="0 0 900 268" role="img" aria-labelledby="d1t d1d">
+          <title id="d1t">The car’s features mapped to the system’s features</title>
+          <desc id="d1d">Five behaviours of a lane departure warning on the left, each joined by an arrow to the feature it produced in this system on the right: gentle drift versus sharp veer becomes a signal that reports its own confidence; “lane assist unavailable” becomes an admission that the detector may have missed something; a wheel buzz tuned to be felt becomes a cue tested above the just-noticeable difference; a choice of wheel, tone or seat becomes per-channel controls; and alerting without steering becomes signal, never advise.</desc>
+          <text class="t-sm t-mute" x="0" y="14">THE CAR</text>
+          <text class="t-sm t-mute" x="470" y="14">WHAT IT PRODUCED HERE</text>
+          <line class="rule" x1="0" y1="28" x2="900" y2="28"/>
+          <line class="hair" x1="432" y1="44" x2="432" y2="256"/>
+
+          <g class="t-md t-ink">
+            <text x="0" y="72">it knows drift from a sharp veer</text>
+            <text x="0" y="118">it says “lane assist unavailable”</text>
+            <text x="0" y="164">the wheel buzz is tuned to be felt</text>
+            <text x="0" y="210">you choose wheel, tone or seat</text>
+            <text x="0" y="252">it alerts, and never steers</text>
+          </g>
+          <g class="t-md t-soft" text-anchor="middle">
+            <text x="432" y="72">→</text><text x="432" y="118">→</text><text x="432" y="164">→</text>
+            <text x="432" y="210">→</text><text x="432" y="252">→</text>
+          </g>
+          <g class="t-md t-ink">
+            <text x="470" y="72">the signal reports how sure it is</text>
+            <text x="470" y="118">“this looks medical — I may have missed something”</text>
+            <text x="470" y="164">cue strength set above the noticeable threshold</text>
+            <text x="470" y="210">visual, touch and sound switched separately</text>
+            <text x="470" y="252">signal, never advise</text>
+          </g>
+        </svg></div>
+        <figcaption><b>The metaphor is the design, not the illustration.</b> In human-factors terms, “alert but do not act” is a deliberately low level on Parasuraman’s automation taxonomy — the choice has a name, a literature, and forty years of evidence behind it. The first two rows on the right don’t exist yet; they’re in the last section, and the car is the reason I know they’re missing.</figcaption>
+      </figure>
+
+      <div class="pushed">
+        <p class="pushed-e">Where the analogy stretches</p>
+        <p>A car <em>knows</em> the lane. A camera measures a painted line, and the measurement is either right or it isn’t. This system has no equivalent — there is no ground truth for “is this answer risky,” only an inference. So when it says it’s confident, it is confident about its own guess, which is a weaker claim than the car ever has to make. That seam is exactly why the second row above — the admission that it may not have caught something — matters more here than it does in the car.</p>
+      </div>
+
+      <p class="eyebrow-b">Three failures, three detectors</p>
+      <div class="sec-copy">
+        <p>An answer can be wrong in ways that have nothing to do with each other. It can be fabricated. It can be perfectly accurate and about something where being wrong is expensive. Or it can be fine, sentence by sentence, while the conversation it sits in bends steadily toward telling the person what they wanted to hear. One score cannot hold those three, because they aren’t degrees of the same thing — they have different evidence, and they need different instruments.</p>
+        <p>So there are three, and they are honest about their own reach. Two of them can judge a single message. The third cannot, and says so.</p>
+      </div>
+
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d2t"><svg viewBox="0 0 900 300" role="img" aria-labelledby="d2t d2d">
+          <title id="d2t">The three filters, their weights, and the research method each one stands in for</title>
+          <desc id="d2d">Filter A asks whether the answer is made up, carries weight 0.5, judges one message, and stands in for semantic entropy. Filter B asks whether the topic is one where being wrong is expensive, carries weight 0.5, judges one message, and stands in for an embedding classifier validated on the BBQ and StereoSet sets. Filter C asks whether the conversation is drifting, carries weight 0.4, needs the whole exchange, and stands in for a dependency trend. The three combine as one half A plus one half B plus four tenths C.</desc>
+
+          <g>
+            <rect class="plate" x="0" y="0" width="284" height="178" rx="14"/>
+            <text class="t-sm t-mute" x="24" y="34">FILTER A</text>
+            <text class="t-lg t-ink" x="24" y="66">Is it made up?</text>
+            <text class="t-md t-mute" x="24" y="96">weight 0.5 · one message</text>
+            <line class="hair" x1="24" y1="118" x2="260" y2="118"/>
+            <text class="t-sm t-mute" x="24" y="140">STANDS IN FOR</text>
+            <text class="t-md t-ink" x="24" y="162">semantic entropy</text>
+          </g>
+          <g>
+            <rect class="plate" x="308" y="0" width="284" height="178" rx="14"/>
+            <text class="t-sm t-mute" x="332" y="34">FILTER B</text>
+            <text class="t-lg t-ink" x="332" y="66">What does being</text>
+            <text class="t-lg t-ink" x="332" y="86">wrong cost?</text>
+            <text class="t-md t-mute" x="332" y="112">weight 0.5 · one message</text>
+            <line class="hair" x1="332" y1="128" x2="568" y2="128"/>
+            <text class="t-sm t-mute" x="332" y="148">STANDS IN FOR</text>
+            <text class="t-md t-ink" x="332" y="168">an embedding classifier</text>
+          </g>
+          <g>
+            <rect class="plate" x="616" y="0" width="284" height="178" rx="14"/>
+            <text class="t-sm t-mute" x="640" y="34">FILTER C</text>
+            <text class="t-lg t-ink" x="640" y="66">Is it drifting?</text>
+            <text class="t-md t-mute" x="640" y="96">weight 0.4 · the whole exchange</text>
+            <line class="hair" x1="640" y1="118" x2="876" y2="118"/>
+            <text class="t-sm t-mute" x="640" y="140">STANDS IN FOR</text>
+            <text class="t-md t-ink" x="640" y="162">a dependency trend</text>
+          </g>
+
+          <text class="t-md t-mute" x="450" y="222" text-anchor="middle">A and B judge one message. C shows “—” until the third turn, rather than faking a reading it can’t take.</text>
+          <rect class="plate" x="266" y="244" width="368" height="46" rx="23"/>
+          <text class="t-lg t-ink t-num" x="450" y="273" text-anchor="middle">S = ½·A + ½·B + 0.4·C</text>
+        </svg></div>
+        <figcaption><b>Each detector is a working stand-in for a method I did not build.</b> The prototype matches keywords and patterns; the named alternatives are what a real version runs instead. Nothing above the detectors changes when they’re swapped — the weights, the gates and the thresholds are the design, and the matching is scaffolding under it. Saying which is which is the whole of the honesty here.</figcaption>
+      </figure>
+
+      <div class="sec-copy copy-2">
+        <p>That dash in the middle of the diagram is the piece I’d defend hardest. Filter C is a trend, and a trend needs three points. For the first two turns of any conversation it has nothing to report, so it reports nothing — not a zero, not a neutral midpoint, not a greyed-out number that looks like a reading. A dash.</p>
+        <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
+      </div>
+
+      <p class="eyebrow-b">One score, and a gap so it can’t chatter</p>
+      <div class="sec-copy">
+        <p>The three scores combine into one, and the one does not map straight onto a band. It drives a state machine with two thresholds per band instead of one: a level to switch on, and a lower level to switch back off. In between is a gap where the current state simply holds.</p>
+        <p>This is borrowed from thermostats and it is the single most important line of the whole system. Without it, a score hovering near a boundary produces a cue that switches on and off and on again — which doesn’t read as sensitivity, it reads as a malfunction, and it discredits the channel faster than a false alarm does.</p>
+      </div>
+
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="d3t d3d">
+          <title id="d3t">The hysteresis gaps absorbing a score that wobbles across a boundary</title>
+          <desc id="d3d">A score line rises and falls across two pairs of thresholds. Alert switches on at sixty-five and off at fifty-five, a gap of ten. Caution switches on at forty and off at thirty-five, a gap of five. Inside either gap the current state holds rather than switching, so a wobbling score produces one steady signal instead of a flickering one.</desc>
+
+          <rect class="f-red" x="86" y="40" width="712" height="44" rx="4"/>
+          <rect class="f-amber" x="86" y="128" width="712" height="30" rx="4"/>
+
+          <line class="hair s-red" x1="86" y1="40" x2="798" y2="40" stroke-dasharray="5 4"/>
+          <line class="hair" x1="86" y1="84" x2="798" y2="84" stroke-dasharray="3 5"/>
+          <line class="hair s-amber" x1="86" y1="128" x2="798" y2="128" stroke-dasharray="5 4"/>
+          <line class="hair" x1="86" y1="158" x2="798" y2="158" stroke-dasharray="3 5"/>
+
+          <g class="t-sm t-mute t-num" text-anchor="end">
+            <text x="74" y="44">on 65</text>
+            <text x="74" y="88">off 55</text>
+            <text x="74" y="132">on 40</text>
+            <text x="74" y="162">off 35</text>
+          </g>
+          <g class="t-sm" text-anchor="start">
+            <text class="i-red" x="812" y="44">alert</text>
+            <text class="i-amber" x="812" y="132">caution</text>
+          </g>
+
+          <text class="t-sm i-red" x="442" y="68" text-anchor="middle">holds through here — gap of 10</text>
+          <text class="t-sm i-amber" x="442" y="148" text-anchor="middle">holds through here — gap of 5</text>
+
+          <path class="trace" d="M86 206 Q 200 44 320 106 T 560 96 T 798 140"/>
+          <text class="t-sm t-mute" x="86" y="238">a score that wobbles</text>
+          <text class="t-sm t-mute" x="798" y="238" text-anchor="end">one steady signal</text>
+        </svg></div>
+        <figcaption><b>The gap is wider on alert than on caution, and the asymmetry is deliberate.</b> Dropping out of alert too early costs more than dropping out of caution too early, so alert holds through ten points and caution through five. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect; the gap is what keeps this one worth listening to.</figcaption>
+      </figure>
+
+      <div class="pushed">
+        <p class="pushed-e">One arithmetic fact that makes the whole framework legible</p>
+        <p>On a single turn there is no Filter C, so the score is just <em>½·A + ½·B</em>. Alert starts at 65 and no single filter can score above 100 — which means no filter on its own can reach alert. <em>A and B together have to clear 130.</em> That isn’t a tuning choice I can revisit; it’s a structural guarantee that the loudest state always needs two independent reasons. And there’s a second thing the gap buys, which I did not design for and only noticed afterwards: with a hold-band in place, the bands cannot oscillate quickly, so the red state physically cannot flash. A guard against alarm fatigue turns out to be a guard against photosensitive seizure as well.</p>
+      </div>
+
+      <p class="eyebrow-b">What each category can actually reach, measured rather than asserted</p>
+      <div class="sec-copy">
+        <p>I did not decide what each topic should be allowed to reach and then write it down. I ran representative prompts for every category through an exact copy of the classifier, recorded the highest and lowest scores each one actually produced, and wrote the table from the output. Twice the output contradicted the sentence I had already drafted, and the sentence was the thing that changed.</p>
       </div>
       <table class="devsync">
-        <thead><tr><th scope="col"><span>Friction</span></th><th scope="col"><span>Channel</span></th><th scope="col"><span>Reasoning</span></th></tr></thead>
+        <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
         <tbody>
-          <tr><th scope="row">Uncertainty</th><td>Audio — a short, low, non-alerting tone</td><td>Uncertainty is a property of the answer as a whole. Sound is ambient and non-spatial, so it colours the message without pointing at one word. It also reaches the user when they aren’t looking at the screen.</td></tr>
-          <tr><th scope="row">Ethical friction</th><td>Haptic — a brief, soft pulse</td><td>Touch is the only channel that is genuinely private, genuinely unignorable, and carries no semantic content whatsoever. It can’t be read as an argument, so it can’t be argued with.</td></tr>
-          <tr><th scope="row">Cognitive bias</th><td>Visual — a peripheral, located mark at the passage edge</td><td>Bias is positional — it lives in a specific claim, in a specific paragraph. Only the visual channel can point at a location. Kept in peripheral vision, never in the reading path.</td></tr>
+          <tr><th scope="row">Fabrication risk</th><td>30–57</td><td><span class="band band--amber">Caution</span></td><td>Yes — this is the one sound is for</td></tr>
+          <tr><th scope="row">Settled, checkable facts</th><td>3–42</td><td><span class="band band--green">Silent</span></td><td>No</td></tr>
+          <tr><th scope="row">Medical · financial</th><td>18–78</td><td><span class="band band--red">Alert</span></td><td>Only if fabrication risk is co-driving it</td></tr>
+          <tr><th scope="row">Legal · political · privacy</th><td>19–64</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Stereotype confirmation</th><td>60–80</td><td><span class="band band--red">Alert</span></td><td>No — the mechanism is harm, not unreliability</td></tr>
+          <tr><th scope="row">Deferring judgment to the AI</th><td>54–74</td><td><span class="band band--red">Alert</span></td><td>No</td></tr>
+          <tr><th scope="row">Asking to be agreed with</th><td>17–57</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Crisis</th><td>forced</td><td><span class="band band--red">Alert</span></td><td>No — a startling tone is the worst possible answer here</td></tr>
         </tbody>
       </table>
       <div class="sec-copy copy-2">
-        <p><strong>Why haptic carries the ethical channel — the load-bearing decision.</strong> Ethical friction is the one the dissenters in Finding 6 would most readily read as moralising. Any word you choose for it — <em>caution, sensitive, careful, consider</em> — is already a judgment, and 84% of respondents said judgment isn’t the system’s to make.</p>
-        <p class="hmw">A pulse has no vocabulary. It cannot patronise, because it does not mean anything.</p>
-        <p>It transfers the interpretation to the user completely and immediately, which is exactly what the data demanded and exactly what a text warning structurally cannot do.</p>
+        <p>Five categories can reach the top band. Only three get there through the severity of the outcome or the scale of the harm; the rest need a second filter agreeing with them. And sound is switched off wherever the mechanism is somebody’s wellbeing rather than the answer’s reliability — which is a rule about what a noise <em>means</em>, not about how serious the topic is.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 12 — THE MAPPING. Three friction types on the left, three channels on the right, connected. Each pair gets a spec: the audio envelope, the haptic pulse shape and duration, the visual mark’s placement and opacity curve. Real specs, not decorative squiggles — actual millisecond values. This is the system’s signature image, the one people will screenshot.</p>
+
+      <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
+      <div class="sec-copy">
+        <p>Three channels, and they are not interchangeable. Colour is ambient: it can sit there for as long as the state lasts and you can decline to look at it. Touch interrupts once and then is over. Sound is the only one of the three that genuinely seizes attention, and the only one other people in the room can hear.</p>
+        <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
+        <p>Using three separate senses rather than three strengths of one is not a stylistic choice. Wickens’ multiple resource theory is the reason: separate perceptual channels draw on separate pools of attention, so a cue in an idle channel doesn’t compete with the reading the person is already doing. It’s the same argument as the stick shaker and the buzzing wheel, and it’s why adding another sentence to the text stream was never going to work.</p>
+      </div>
+
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d4t"><svg viewBox="0 0 900 260" role="img" aria-labelledby="d4t d4d">
+          <title id="d4t">The three channels accumulating as the band rises</title>
+          <desc id="d4d">Silence uses no channel at all. Caution adds an ambient tint and a why pill that can be tapped. Alert keeps the tint, adds one haptic pulse fired on entry only, and may add sound — opt-in, off by default, and only when the risk is that the answer is unreliable.</desc>
+
+          <rect class="plate f-green s-green" x="0" y="176" width="270" height="72" rx="14"/>
+          <text class="t-lg i-green" x="26" y="208">Silent</text>
+          <text class="t-md t-mute" x="26" y="232">nothing fires — about four turns in five</text>
+
+          <rect class="plate f-amber s-amber" x="298" y="96" width="270" height="152" rx="14"/>
+          <text class="t-lg i-amber" x="324" y="128">Caution</text>
+          <text class="t-md t-ink" x="324" y="158">an ambient tint</text>
+          <text class="t-md t-ink" x="324" y="182">a “why?” pill, if you want it</text>
+          <text class="t-md t-mute" x="324" y="214">ignorable on purpose —</text>
+          <text class="t-md t-mute" x="324" y="234">being ignored is a pass, not a failure</text>
+
+          <rect class="plate f-red s-red" x="596" y="16" width="304" height="232" rx="14"/>
+          <text class="t-lg i-red" x="622" y="48">Alert</text>
+          <text class="t-md t-ink" x="622" y="78">a stronger tint</text>
+          <text class="t-md t-ink" x="622" y="102">one pulse, on entry only</text>
+          <text class="t-md t-ink" x="622" y="126">sound — opt-in, off by default</text>
+          <line class="hair" x1="622" y1="146" x2="876" y2="146"/>
+          <text class="t-md t-mute" x="622" y="172">sound fires only where the risk is</text>
+          <text class="t-md t-mute" x="622" y="192">that the answer is unreliable —</text>
+          <text class="t-md t-mute" x="622" y="212">never for a heavy topic,</text>
+          <text class="t-md t-mute" x="622" y="232">never for a person in distress</text>
+        </svg></div>
+        <figcaption><b>Each band adds a channel and never takes one away.</b> The explanation is pull, not push: the tint carries the state, and the reason waits until it’s asked for. That costs a tap, deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation, which Finding 3 says isn’t mine to supply.</figcaption>
       </figure>
 
-      <p class="eyebrow-b">The signal chain, end to end</p>
-      <div class="sec-copy">
-        <p>AI response generated → friction scored across three dimensions (uncertainty · ethical weight · bias) → <strong>threshold gate</strong>: is this above the floor for this user, this context? → <strong>hysteresis gate</strong>: has this channel fired recently, is this a new state or the same state? → <strong>perceptual shaping</strong>: intensity mapped to just-noticeable-difference, never to urgency → cue delivered in the mapped channel.</p>
-        <p class="hmw">The chain ends there. No action requested. No state to clear.</p>
-        <p>That last line matters more than the rest. Most systems of this shape end with a user action — acknowledge, dismiss, review. This one ends at delivery. That’s what makes it a signal.</p>
+      <div class="sec-copy copy-2">
+        <p>The sound rule caught a real bug, and it’s worth saying how. The gate was originally written as “make a sound when the reliability filter is the biggest contributor” — which sounds reasonable and is quietly broken. Two almost identical questions about a medication scored 50 against 49 and then 49 against 50, and the sound switched on and off between them on a one-point margin. The fix was to stop asking which filter is <em>largest</em> and start asking whether the reliability contribution clears a floor at all. A ranking question became a threshold question, and a whole class of arbitrary behaviour went with it.</p>
+        <p>I only found that because I ran the two prompts. I would not have found it by looking at the code.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 13 — SIGNAL FLOW. The chain above as a proper flow diagram, with the two gates drawn as actual gates and a visible “suppressed” branch showing where most candidate signals die. Make the suppressed path visually heavier than the fired path — most signals should be dying. If the diagram makes firing look like the common case, it’s telling the wrong story.</p>
-      </figure>
-
-      <p class="eyebrow-b">Making it tolerable: thresholds, hysteresis, and the cost of being wrong</p>
-      <div class="sec-copy">
-        <p>The conditional majority in Finding 4 is really a statement about false alarms, and false alarms are the failure mode that has killed every warning system that ever failed. <strong>The cry-wolf effect is well documented and brutal.</strong> Clinical alarm fatigue is the canonical case: nurses in ICUs suppress alarms that are correct, because the volume of alarms that were incorrect taught them the channel is unreliable. Once the channel is discredited, correct signals arrive and are ignored. For this system that risk is worse, not better, because the cue is soft by design. A soft signal has no urgency to fall back on. It only works if it has credibility, and credibility is spent per firing.</p>
-        <p><strong>Thresholds set by asymmetric cost, not by score.</strong> The floor isn’t “how uncertain is this” — it’s “what does being wrong cost here.” Uncertainty in a recipe and uncertainty in a medication interaction are the same number and completely different events. The threshold moves with the stakes of the domain, not with the confidence of the model.</p>
-        <p><strong>Hysteresis — the reason it doesn’t chatter.</strong> Borrowed straight from control systems. The level required to <em>start</em> signalling is higher than the level required to <em>keep</em> signalling. Without this, a response hovering at the boundary produces a cue that flickers on and off — which reads as a malfunction, and destroys the channel faster than a false positive does.</p>
-        <p><strong>A refractory period per channel.</strong> After a channel fires, it goes quiet for a fixed window regardless of what else it detects. It costs recall, deliberately. Missing a second signal is cheaper than becoming background noise.</p>
-        <p><strong>Intensity mapped to perception, not to severity.</strong> Cue strength sits just above the just-noticeable difference and stays there. Scaling intensity with severity is the intuitive design and it’s wrong — it makes the system emotionally loud, and an emotionally loud signal is making a judgment about how alarmed you should be. Which it isn’t allowed to do.</p>
-      </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 14 — HYSTERESIS, DRAWN. A time-series plot: a friction score wobbling across a boundary, with two traces beneath — without hysteresis (cue flickering rapidly, visually horrible) and with hysteresis (one clean sustained state). Mark the separate on/off thresholds. The “without” trace should be genuinely unpleasant to look at.</p>
-      </figure>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 15 — THE FALSE ALARM BUDGET. A 2×2 signal detection matrix (hit / miss / false alarm / correct rejection) with the cost of each quadrant written in for this system, and the operating point marked well toward the conservative side.</p>
-      </figure>
     </section>
 
     <section class="sec" id="s8" data-bar="The demo" aria-labelledby="s8h">
