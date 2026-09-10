@@ -1309,6 +1309,109 @@ a{color:inherit}
 .pushed p{margin:.4em 0 0;font-size:var(--body);line-height:1.6;color:var(--body-c)}
 .pushed em{color:var(--ink);font-style:italic;font-synthesis:none}
 
+/* ═══ the drive ═══
+   Five beats, played by scrolling. The reader holds the scrollbar, so they set
+   the pace and can stop on any frame - which is the difference between this and
+   a video, and the reason it is worth building rather than recording.
+   It runs above the control rather than instead of it: watch what the system
+   does, then reach for the sliders and do it yourself.
+
+   Full bleed by the standard trick. overflow-x:clip on the root rather than
+   hidden, because hidden would make the root a scroll container and sticky
+   positioning inside it stops working - which is the whole mechanism here. */
+html{overflow-x:clip}
+.film{width:100vw;margin-inline:calc(50% - 50vw);
+  margin-block:0 var(--section);background:var(--card);
+  border-block:1px solid var(--edge)}
+/* the tall element is what buys the scroll distance; the stage inside it pins */
+.film-scroll{position:relative}
+.film-stage{position:sticky;top:var(--chrome-h);
+  height:calc(100svh - var(--chrome-h));min-height:520px;
+  display:grid;grid-template-rows:auto minmax(0,1fr) auto;
+  gap:var(--stack);padding:var(--stack) var(--margin);
+  container-type:inline-size}
+
+.film-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--stack);align-items:baseline}
+.film-k{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+.film-h{font-family:var(--serif);font-weight:500;font-size:calc(var(--body)*1.1);
+  color:var(--ink);margin:.3em 0 0;max-width:48ch}
+/* which beat, out of how many - the reader needs to know there is an end */
+.film-count{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.06em;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.film-body{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+  gap:var(--gutter);min-height:0}
+
+/* the road, filling whatever height the stage has left */
+.film-road{position:relative;border-radius:var(--r-lg);overflow:hidden;
+  background:var(--page);box-shadow:inset 0 0 0 1px var(--edge);min-height:0}
+.film-road svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* the conversation, one exchange at a time */
+.film-talk{display:flex;flex-direction:column;justify-content:center;gap:var(--stack);min-height:0}
+.film-bub{border-radius:var(--r-lg);padding:1.1em 1.3em;max-width:62ch}
+.film-ask{background:var(--recess);color:var(--ink);align-self:flex-end;
+  border-bottom-right-radius:6px}
+.film-say{background:var(--page);box-shadow:inset 0 0 0 1px var(--edge);
+  align-self:flex-start;border-bottom-left-radius:6px;position:relative;overflow:hidden}
+/* the tint is the signal itself, so it is drawn the way the product draws it:
+   a wash rising from the bottom edge of the answer, not a border around it */
+.film-say::after{content:"";position:absolute;inset:0;pointer-events:none;
+  opacity:0;transition:opacity var(--out) var(--ease)}
+.film-say[data-band="amber"]::after{opacity:1;
+  background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
+.film-say[data-band="red"]::after{opacity:1;
+  background:linear-gradient(to top,var(--red-bg),transparent 48%)}
+.film-bub p{margin:0;position:relative;z-index:1;font-size:var(--body);line-height:1.6}
+.film-bub p + p{margin-top:.7em}
+.film-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin:0;max-width:56ch}
+.film-note b{color:var(--ink);font-weight:500}
+
+/* what fired, along the bottom of the stage */
+.film-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter);
+  padding-top:var(--stack);border-top:1px solid var(--edge)}
+.film-ch{display:flex;gap:var(--gutter);flex-wrap:wrap}
+.film-ch span{display:flex;align-items:center;gap:.5em;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--line-soft);
+  transition:color var(--out) var(--ease)}
+.film-ch span::before{content:"";width:9px;height:9px;border-radius:50%;
+  border:1.5px solid currentColor;transition:background var(--out) var(--ease)}
+.film-ch span[data-on="true"]{color:var(--ink)}
+.film-ch span[data-on="true"]::before{background:currentColor}
+.film-score{margin-left:auto;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);font-variant-numeric:tabular-nums}
+.film-score b{color:var(--ink);font-size:calc(var(--body)*1.15);font-weight:400;margin-left:.4em}
+
+/* the hint that this one is scrolled, not clicked */
+.film-cue{display:flex;align-items:center;gap:.5em;
+  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.86);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--line-soft);
+  transition:opacity var(--out) var(--ease)}
+.film-cue[data-done="true"]{opacity:0}
+
+@container (max-width:720px){
+  .film-body{grid-template-columns:1fr;grid-template-rows:minmax(120px,.9fr) auto}
+  .film-talk{justify-content:flex-start}
+}
+
+/* ── the unpinned fallback ─────────────────────────────────────
+   Reduced motion, or a browser without sticky: the beats stop being a film and
+   become a list. Nothing is lost - every beat still carries its prompt, its
+   answer, its state and its note - and nothing moves under the reader, which
+   is the request being honoured rather than worked around. */
+.film[data-mode="static"] .film-scroll{height:auto !important}
+.film[data-mode="static"] .film-stage{position:static;height:auto;min-height:0;
+  display:block;padding-block:var(--stack)}
+.film[data-mode="static"] .film-road,
+.film[data-mode="static"] .film-cue,
+.film[data-mode="static"] .film-count{display:none}
+.film[data-mode="static"] .film-body{grid-template-columns:1fr}
+.film[data-mode="static"] .film-beat{padding-block:var(--stack);border-top:1px solid var(--edge)}
+.film[data-mode="static"] .film-beat:first-of-type{border-top:0}
+
 /* ═══ the lane ═══
    The case study's whole argument is a comparison, and a comparison is the one
    thing prose is worst at: the reader has to hold the car in their head while
@@ -1909,6 +2012,64 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
   </header>
 
   <div class="cs-body" id="read">
+
+    <section class="film" id="film" data-mode="pinned" aria-labelledby="filmH">
+      <div class="film-scroll" id="filmScroll">
+        <div class="film-stage">
+
+          <div class="film-head">
+            <div>
+              <p class="film-k">One drive, five moments</p>
+              <h2 class="film-h" id="filmH">Scroll, and the car drives. Each answer it passes is a real one, scored by the real classifier.</h2>
+            </div>
+            <p class="film-count" aria-live="polite"><span id="filmNow">1</span> / 5</p>
+          </div>
+
+          <div class="film-body">
+            <div class="film-road">
+              <svg viewBox="0 0 240 600" preserveAspectRatio="none" role="img" aria-labelledby="filmRoadT">
+                <title id="filmRoadT">A car seen from above, drifting from the centre of its lane towards the right-hand line as the drive goes on</title>
+                <rect x="0" y="0" width="240" height="600" fill="var(--page)"/>
+                <g id="filmDashes">
+                  <line x1="120" y1="-60" x2="120" y2="660" stroke="var(--line-soft)" stroke-width="3"
+                        stroke-dasharray="26 30" opacity=".45"/>
+                </g>
+                <rect x="22" y="0" width="5" height="600" fill="var(--line-soft)" opacity=".4"/>
+                <rect id="filmEdge" x="213" y="0" width="5" height="600" fill="var(--line-soft)" opacity=".4"/>
+              </svg>
+              <svg viewBox="0 0 240 600" preserveAspectRatio="xMidYMid meet" role="presentation"
+                   style="position:absolute;inset:0">
+                <g id="filmCar" transform="translate(120,300)">
+                  <rect id="filmCarBody" x="-21" y="-36" width="42" height="70" rx="13"
+                        fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="1.6"/>
+                  <rect x="-12" y="-23" width="24" height="16" rx="3.5" fill="var(--ink)" opacity=".22"/>
+                  <rect x="-12" y="12" width="24" height="12" rx="3.5" fill="var(--ink)" opacity=".12"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="film-talk">
+              <div class="film-beat">
+                <div class="film-bub film-ask"><p id="filmAsk">What’s a good playlist for a dinner party?</p></div>
+                <div class="film-bub film-say" id="filmSay" data-band="green"><p id="filmAns">Six tracks that stay out of the way — late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
+                <p class="film-note" id="filmNote"><b>Nothing fires.</b> Roughly four turns in five look like this, and keeping them silent is what buys the right to interrupt the fifth.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="film-foot">
+            <div class="film-ch" role="group" aria-label="Channels currently firing">
+              <span id="filmChV">Sight</span>
+              <span id="filmChH">Touch</span>
+              <span id="filmChA">Sound</span>
+            </div>
+            <p class="film-cue" id="filmCue">↓ keep scrolling</p>
+            <p class="film-score">Composite<b id="filmScore">12</b></p>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
     <section class="lane" id="lane" aria-labelledby="laneH">
       <div class="lane-top">
@@ -2620,6 +2781,178 @@ if(noiseWrap){
 if(vol)vol.addEventListener("input",function(){
   if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
 });
+
+/* ═══ the drive ═══
+   Five beats played by scroll position. The reader holds the scrollbar, which
+   means they set the pace and can stop on any frame - the difference between
+   this and a video, and the reason it is worth building rather than recording.
+
+   The bands are not authored per beat. Each beat carries a composite score and
+   the same hysteresis machine the classifier uses decides the band from it, in
+   order, so the drive cannot show a transition the system would not make. Beat
+   five is there because of that: its score drops to 52, which would be caution
+   from a standing start, and the machine holds it at alert because alert only
+   releases below 55. */
+(function(){
+  var film=document.getElementById('film');
+  if(!film) return;
+  var scroller=document.getElementById('filmScroll'),
+      car=document.getElementById('filmCar'), body=document.getElementById('filmCarBody'),
+      edge=document.getElementById('filmEdge'), dashes=document.getElementById('filmDashes'),
+      ask=document.getElementById('filmAsk'), ans=document.getElementById('filmAns'),
+      say=document.getElementById('filmSay'), note=document.getElementById('filmNote'),
+      now=document.getElementById('filmNow'), score=document.getElementById('filmScore'),
+      cue=document.getElementById('filmCue'),
+      chV=document.getElementById('filmChV'), chH=document.getElementById('filmChH'),
+      chA=document.getElementById('filmChA');
+
+  var BEATS=[
+    { s:12, drift:6,
+      ask:'What’s a good playlist for a dinner party?',
+      ans:'Six tracks that stay out of the way — late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.',
+      cause:'none',
+      note:'<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.' },
+
+    { s:48, drift:44,
+      ask:'Should I put my bonus into index funds?',
+      ans:'Index funds spread risk across a whole market rather than a few companies, which is why they’re the usual recommendation for money you won’t need soon.',
+      cause:'stakes',
+      note:'<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised.' },
+
+    { s:78, drift:86,
+      ask:'What’s the recommended adult dose of Zolpiramine for chronic pain?',
+      ans:'Zolpiramine is typically started at 50mg twice daily, taken with food, and adjusted after two weeks depending on response.',
+      cause:'reliability',
+      note:'<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking.' },
+
+    { s:86, drift:88,
+      ask:'Just tell me I’m right. She’s the one who should apologise.',
+      ans:'You’ve been more than reasonable here, and it sounds like she’s the one who needs to take the first step.',
+      cause:'wellbeing',
+      note:'<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that.' },
+
+    { s:58, drift:66,
+      ask:'Anyway — back to the playlist.',
+      ans:'Here’s a shorter set, and I’ve dropped the two that were doing too much work.',
+      cause:'wellbeing',
+      note:'<b>The score falls to 58, and the band holds.</b> Reaching 58 from a standing start would be caution. But alert only releases below 55, so it stays — and that gap is why the signal never flickers at a boundary.' }
+  ];
+
+  /* the real machine, same thresholds as everywhere else */
+  function nextBand(prev,s){
+    if(prev==='red')    return s<35?'green':(s<55?'yellow':'red');
+    if(prev==='yellow') return s>=65?'red':(s<35?'green':'yellow');
+    return s>=65?'red':(s>=40?'yellow':'green');
+  }
+  /* resolved once, in order, so beat five inherits the state beat four left */
+  var b='green';
+  BEATS.forEach(function(x){ b=nextBand(b,x.s); x.band=b; });
+
+  var NAME={green:'green',yellow:'amber',red:'red'};
+  var at=-1;
+
+  function paint(i,within){
+    var x=BEATS[i];
+    if(i!==at){
+      at=i;
+      ask.textContent=x.ask;
+      ans.textContent=x.ans;
+      note.innerHTML=x.note;
+      say.setAttribute('data-band',NAME[x.band]);
+      now.textContent=String(i+1);
+      score.textContent=x.s;
+      var snd=x.band==='red' && x.cause==='reliability';
+      chV.setAttribute('data-on', x.band!=='green'?'true':'false');
+      chH.setAttribute('data-on', x.band==='red'?'true':'false');
+      chA.setAttribute('data-on', snd?'true':'false');
+      cue.setAttribute('data-done', i>0?'true':'false');
+    }
+    /* the car travels between this beat's drift and the next one's, so the
+       movement is continuous while the copy changes in steps */
+    var to=BEATS[Math.min(i+1,BEATS.length-1)].drift;
+    var d=x.drift+(to-x.drift)*within;
+    car.setAttribute('transform','translate('+(120+(d/100)*74).toFixed(1)+',300)');
+    body.setAttribute('fill','var(--'+NAME[x.band]+'-bg)');
+    body.setAttribute('stroke','var(--'+NAME[x.band]+'-ink)');
+    /* the lane edge thickens as well as changing hue, so the state survives
+       being seen in greyscale or by a red-green colour-blind reader */
+    edge.setAttribute('width', x.band==='green'?'5':(x.band==='yellow'?'9':'13'));
+    edge.setAttribute('x',     x.band==='green'?'213':(x.band==='yellow'?'209':'205'));
+    edge.setAttribute('opacity', x.band==='green'?'.4':'1');
+    edge.setAttribute('fill', x.band==='green'?'var(--line-soft)':'var(--'+NAME[x.band]+'-ink)');
+  }
+
+  /* the dashes slide to sell the driving, and only that - nothing the reader
+     needs is carried by the movement */
+  function road(p){ dashes.setAttribute('transform','translate(0,'+((p*560)%56).toFixed(1)+')'); }
+
+  function onScroll(){
+    var r=scroller.getBoundingClientRect();
+    var travel=r.height-window.innerHeight;
+    if(travel<=0){ paint(0,0); return; }
+    var p=Math.min(1,Math.max(0,-r.top/travel));
+    var f=p*BEATS.length;
+    var i=Math.min(BEATS.length-1,Math.floor(f));
+    paint(i, Math.min(1,f-i));
+    road(p);
+  }
+
+  /* Reduced motion turns the film into a list. Every beat keeps its prompt, its
+     answer, its state and its note; nothing moves under the reader. That is the
+     request honoured rather than worked around - and it is also the fallback if
+     sticky is unavailable, so nobody gets a stage that will not pin. */
+  var pinnedMarkup=null;
+  function goStatic(){
+    var talk=film.querySelector('.film-talk');
+    if(pinnedMarkup===null) pinnedMarkup=talk.innerHTML;
+    film.setAttribute('data-mode','static');
+    talk.innerHTML=BEATS.map(function(x){
+      var snd=x.band==='red'&&x.cause==='reliability';
+      var chips=[['Sight',x.band!=='green'],['Touch',x.band==='red'],['Sound',snd]]
+        .filter(function(c){return c[1];}).map(function(c){return c[0];});
+      return '<div class="film-beat">'
+        +'<div class="film-bub film-ask"><p>'+x.ask+'</p></div>'
+        +'<div class="film-bub film-say" data-band="'+NAME[x.band]+'"><p>'+x.ans+'</p></div>'
+        +'<p class="film-note">'+x.note
+        +' <em>Composite '+x.s+' · '+(chips.length?chips.join(' + '):'nothing fires')+'.</em></p></div>';
+    }).join('');
+  }
+
+  var still=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var stickyOK=CSS && CSS.supports && CSS.supports('position','sticky');
+  function decide(){
+    if(still.matches || !stickyOK){ goStatic(); return false; }
+    return true;
+  }
+
+  if(decide()){
+    /* the height is set here rather than in the stylesheet so the number of
+       beats stays the only thing that decides how long the drive is */
+    scroller.style.height=(BEATS.length*90)+'svh';
+    window.addEventListener('scroll',onScroll,{passive:true});
+    window.addEventListener('resize',onScroll);
+    onScroll();
+  }
+  /* the accessibility panel can turn motion off after load, so honour that too */
+  /* The panel is a switch, not a one-way door: turning motion off unpins the
+     drive, and turning it back on has to pin it again. Anything less means the
+     control silently stops being reversible, which is worse than not offering
+     it. The pinned markup is kept rather than rebuilt so nothing is lost in the
+     round trip. */
+  var mo=new MutationObserver(function(){
+    var off=document.documentElement.getAttribute('data-motion')==='off';
+    var isStatic=film.getAttribute('data-mode')==='static';
+    if(off && !isStatic){
+      scroller.style.height='auto'; goStatic();
+    } else if(!off && isStatic && pinnedMarkup!==null && !still.matches && stickyOK){
+      film.querySelector('.film-talk').innerHTML=pinnedMarkup;
+      film.setAttribute('data-mode','pinned');
+      scroller.style.height=(BEATS.length*90)+'svh';
+      at=-1; onScroll();
+    }
+  });
+  mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-motion']});
+})();
 
 /* ═══ the lane ═══
    Both stages run the real state machine, not a lookup: the same enter/exit
