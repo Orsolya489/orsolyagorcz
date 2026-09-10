@@ -1,0 +1,2206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feeling the Machine Hesitate — making AI uncertainty perceptible</title>
+<meta name="description" content="A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.">
+<link rel="canonical" href="https://orsolyagorcz.com/case-study-04-signal">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Orsolya G.">
+<meta property="og:url" content="https://orsolyagorcz.com/case-study-04-signal">
+<meta property="og:title" content="Feeling the Machine Hesitate — making AI uncertainty perceptible">
+<meta property="og:description" content="A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.">
+<meta property="og:image" content="https://orsolyagorcz.com/og/og-home.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Feeling the Machine Hesitate">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+/* ═══ tokens — identical to index.html; design-system.md is the source of truth ═══ */
+:root{
+  /* colour — 8 values */
+  --page:      #FAF5F3;
+  --card:      #F2E5E2;
+  --recess:    #EDDCD9;
+  --ink:       #191517;
+  --body-c:    #4E4649;
+  --muted:     #6B5F62;
+  --line:      #5B5257;
+  --line-soft: #B3A5A3;
+  --edge:      rgba(25,21,23,.09);
+  --lattice:   rgba(25,21,23,.06);
+  --edge-ctrl: rgba(25,21,23,.22);
+  --glass:     rgba(250,245,243,.90);
+  /* a warm terracotta and a warm olive, held at the same lightness and the
+     same low chroma as --card - this system's red and green, not a signal
+     red and green. Used wherever the page reads for friction and response:
+     the market/Tribe comparison, and the trust-framework card grids. */
+  --red-bg:    #F5DFDA;
+  --red-ink:   #7A3226;
+  --red-line:  rgba(122,50,38,.3);
+  --green-bg:  #E3E8D6;
+  --green-ink: #3F5230;
+  --green-line:rgba(63,82,48,.3);
+
+  /* space, radius, motion */
+  --shell: 1680px;
+  --margin:  clamp(20px, 5.6vw, 140px);
+  --gutter:  clamp(16px, 2.2vw, 48px);
+  --stack:   clamp(16px, 2.2vw, 40px);
+  --section: clamp(96px, 12vw, 240px);   /* space between sections */
+  --control: clamp(44px, 2.4vw, 56px);
+  /* the route row under the bar; folded into --chrome-h so the blur strip and
+     every section anchor stay tied to the real height of the header */
+  /* just over the 24px target floor - the old .72 made a box far taller than
+     the type inside it, which is what created the dead space */
+  --route-h: calc(var(--control) * .55);
+  --chrome-h: calc(var(--gutter)*2 + var(--control) + var(--route-h));
+  --gap-btn: 8px;
+  --r-lg: 20px;
+  --r-pill: 999px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --in:  180ms;
+  --out: 520ms;
+
+  /* type — 4 sizes, cqw against the capped container */
+  --tscale: 1;
+  --micro: calc(clamp(12px, 1.00cqw, 14px) * var(--tscale));
+  --body:  calc(clamp(16px, 1.35cqw, 19px) * var(--tscale));
+  --title: calc(clamp(24px, 3.20cqw, 46px) * var(--tscale));
+  --hero:  calc(clamp(32px, 5.40cqw, 76px) * var(--tscale));
+
+  --sans:  "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Literata", Georgia, "Times New Roman", serif;
+}
+[data-contrast="high"]{
+  --body-c: var(--ink);
+  --muted: var(--ink);
+  --line-soft: var(--line);
+  --edge: rgba(25,21,23,.34);
+  --edge-ctrl: rgba(25,21,23,.58);
+  --lattice: rgba(25,21,23,.14);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+[data-motion="off"] *{animation:none !important;transition:none !important}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--page);color:var(--body-c);
+  font-family:var(--serif);font-size:var(--body);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* ═══ shared shell ═══ */
+.wrap{container-type:inline-size;max-width:var(--shell);margin-inline:auto;padding-inline:var(--margin)}
+/* --body is clamp(16px, 1.35cqw, 19px). Asked on <body> there is no container,
+   so cqw falls back to the viewport and answers 19px; asked anywhere inside
+   .wrap it answers 1.35% of the container instead. The page was running body
+   copy at 19px and every re-declared size at 17px - one token, two answers.
+   The base is declared on the children of .wrap rather than on .wrap itself:
+   an element's own container-type does not apply to its own properties, so a
+   font-size on .wrap resolves against the viewport and changes nothing. One
+   level down, every size on the page reads from the same measurement. */
+.cs-head,.cs-body,.cs-foot{font-size:var(--body)}
+
+/* focus + skip — same treatment as the landing page */
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:var(--r-pill)}
+.skip{
+  position:fixed;left:50%;top:10px;translate:-50% -200%;z-index:900;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  background:var(--ink);color:var(--page);padding:.7em 1.2em;border-radius:var(--r-pill);
+  text-decoration:none;transition:translate var(--out) var(--ease)}
+.skip:focus{translate:-50% 0}
+
+/* ═══ chrome ═══ */
+.chrome-shell{position:fixed;inset:0;z-index:500;pointer-events:none;
+  width:min(100%, var(--shell));margin-inline:auto;padding-inline:var(--margin)}
+/* A softened strip behind the header, wider than the band itself. The band
+   has always blurred what sits directly under it, but the gaps above and
+   beside it did not - so a diagram or a line of type scrolling through that
+   margin arrived in full focus right next to the wordmark and read as
+   clutter. This blurs the whole strip and fades out at the bottom, so there
+   is no hard edge where sharp content suddenly resumes. ~4mm of blur.
+   z-index:-1 keeps it behind the chrome it protects while staying inside the
+   chrome stacking context, so it is still above the article. */
+.chrome-shell::before{content:"";position:fixed;left:0;right:0;top:0;
+  /* Half the reach it had below the capsule. --chrome-h is the offset every
+     section anchor is measured from, so the strip takes its own height rather
+     than that token - shortening --chrome-h would tuck headings under the
+     header when you jump to one. */
+  height:calc(var(--chrome-h) - var(--gutter)*.8);
+  pointer-events:none;z-index:-1;
+  /* Mostly a wash, barely a blur. At blur(15px) the strip was smearing whatever
+     scrolled under it into an unreadable band that drew more attention than the
+     header itself. A light veil of the page colour lifts the content away
+     instead, and a little blur is only there to stop hard edges reading through
+     it - the effect should be that the article fades under the menu, not that
+     it dissolves. */
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  background:rgba(250,245,243,.62);
+  -webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 58%,transparent 100%)}
+/* nothing to soften when the page cannot scroll under it */
+@media (prefers-reduced-transparency:reduce){
+  .chrome-shell::before{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--page)}
+}
+.chrome{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:var(--gap-btn)}
+/* pulled left by its own padding plus the empty run-in inside the logo file, so
+   the wordmark starts on the page margin — the same correction as index.html */
+/* A header band rather than a pill: the wordmark holds the left edge, the
+   progress runs the full measure beside it, and the count lands on the right
+   margin. Same width the article below uses, so the two line up. */
+/* Two rows: the wordmark and progress on top, the route underneath. It stays
+   the capsule it always was and simply grows to hold the second line - the
+   end caps are wide enough that neither the wordmark nor the count comes near
+   the curve at the height they sit. */
+/* One grid for the whole band: wordmark, back, section name, rail, count on
+   the first row, and the route on the second sitting in the rail’s own column.
+   Sharing a column is what keeps them aligned - any offset copied by hand
+   would drift the moment the section name changed length. */
+/* Equal insets left and right. It used to be pulled ~22px leftwards so the
+   wordmark’s glyphs would line up with the page’s text margin, but that offset
+   is what stopped the floating capsule from sitting centred on the page - the
+   bar is its own object now, not a label attached to the column beneath it. */
+.c-tl{top:var(--gutter);left:var(--margin);
+  right:var(--margin);
+  /* Symmetric again. The uneven padding here was correcting a composition that
+     no longer exists - back when the wordmark sat on the first line. With the
+     track alone up there it only pushed everything down, leaving the names
+     almost touching the bottom edge. */
+  height:auto;padding:calc(var(--control)*.1) calc(var(--control)*.42);
+  display:grid;align-items:center;
+  /* wordmark, back, spacer, the track-and-route block, spacer, count. The two
+     spacers are equal, so the block sits centred rather than stretching to fill
+     whatever is left over - which is what made the bar so much longer than the
+     line of names beneath it. */
+  grid-template-columns:auto auto 1fr auto 1fr auto;
+  /* The first row holds nothing but the 2px track now that the wordmark, the
+     back link and the count span the whole capsule, so it has to be given a
+     height - left on auto it collapsed to the thickness of the line and the
+     names climbed onto the wordmark. Sized so the air above the track equals
+     the air under the names: the route row leaves half its spare height below
+     its type, and half of (row - 2px) has to match that. */
+  grid-template-rows:calc(var(--route-h) * .61) auto;
+  /* row-gap explicitly, or the gap shorthand on .chrome puts 8px between the
+     bar and the route and they stop reading as one thing */
+  column-gap:calc(var(--control)*.34);row-gap:0;
+  min-width:0;
+  /* Opaque, not glass. --glass is the page colour at 90%, so against this page
+     the capsule had no edge at all and a tenth of the article showed straight
+     through it - which is what turned the header into a smear once anything
+     scrolled underneath. It also carried its own backdrop-filter on top of the
+     strip behind it, and stacking two of those is its own source of artefacts.
+     Solid ground and nothing else - no outline, no drop shadow. Both of those
+     drew the eye to the container instead of to what it holds, and the header
+     is the last thing on the page that should be asking for attention. It is
+     opaque, so the article passes cleanly behind it, and the blurred strip
+     behind it is what softens its surroundings rather than an edge on the
+     capsule itself. */
+  background:var(--page);border-radius:var(--r-pill)}
+/* the top row keeps the height the band used to have, so the wordmark and the
+   progress bar sit exactly where they did before the route arrived */
+/* these two only ever grouped things for the old flex row - they hand their
+   children straight to the grid now */
+.c-tl-row{display:contents}
+.c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin)}
+.brand{display:flex;align-items:center;height:100%;flex:0 0 auto;text-decoration:none;color:var(--ink)}
+.logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55em;
+  min-height:var(--control);padding:0 calc(var(--control)*.42);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink);
+  background:var(--glass);border:1px solid var(--edge);border-radius:var(--r-pill);
+  text-decoration:none;cursor:pointer;white-space:nowrap;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:border-color var(--out) var(--ease),background var(--out) var(--ease)}
+.btn:hover{border-color:var(--edge-ctrl);transition-duration:var(--in)}
+.btn--icon{width:var(--control);padding:0;flex:0 0 auto}
+.btn--icon svg{width:13px;height:13px}
+.btn--on{background:var(--ink);color:var(--page);border-color:var(--ink)}
+
+/* accessibility panel — text size, contrast, motion */
+.panel{position:absolute;z-index:600;right:var(--margin);
+  opacity:0;visibility:hidden;translate:0 6px;pointer-events:none;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease),visibility 0s linear var(--out);
+  bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 12px);
+  width:min(300px, calc(100vw - var(--gutter)*2));padding:calc(var(--stack)*.7);
+  background:var(--page);border:1px solid var(--edge-ctrl);border-radius:var(--r-lg)}
+.panel[data-open="true"]{opacity:1;visibility:visible;translate:0 0;pointer-events:auto;
+  transition:opacity var(--in) var(--ease),translate var(--in) var(--ease),visibility 0s}
+.panel h2{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-btn);
+  font-family:var(--sans);font-size:var(--micro);color:var(--ink);margin-bottom:var(--gap-btn)}
+.prow:last-child{margin-bottom:0}
+.pset{display:flex;gap:var(--gap-btn)}
+.panel .btn{min-height:36px;padding:0 .9em}
+.panel .btn--icon{width:36px}
+/* 36px is comfortable with a mouse and too small for a thumb. Rather than
+   push every screen to the larger size, the target grows only where the
+   input is coarse - the panel keeps its density on a desktop. */
+@media (pointer:coarse){
+  .panel .btn{min-height:44px}
+  .panel .btn--icon{width:44px}
+}
+
+/* ═══ noise for focus ═══
+   Carried over from the landing page unchanged, so the control behaves the
+   same wherever it is met: the level opens for five seconds when the sound
+   starts and afterwards on hover, and the explainer introduces itself once. */
+.noise{display:flex;align-items:center;gap:0;flex:none;height:var(--control);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
+.noise:hover{background:var(--page);border-color:rgba(25,21,23,.42);transition-duration:var(--in)}
+/* flex:none on the button as well: when the level opens the pill gets wider,
+   and the only thing allowed to change size is the level. Without this the
+   button is the flexible item and the label is what gets squeezed away. */
+.noise .noise-btn{height:100%;flex:none;background:none;border-color:transparent;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.noise .noise-btn:hover{background:none;border-color:transparent;color:var(--ink)}
+/* Playing: the whole pill goes to ink and everything on it turns page-coloured.
+   Inverting the pill rather than the button is the part that matters - the
+   button has no ground of its own in here, so painting only its text white is
+   what put white on white the first time round. These rules sit after the hover
+   rules above deliberately: same specificity, so source order is what keeps the
+   pill black while the pointer is on it. */
+.noise[data-on="true"],
+.noise[data-on="true"]:hover{background:var(--ink);border-color:var(--ink)}
+.noise[data-on="true"] .noise-btn,
+.noise[data-on="true"] .noise-btn:hover{color:var(--page)}
+/* the level has to read on ink too: a page-coloured thumb on a dimmed page-
+   coloured track, rather than the ink-on-light pair used when the pill is off */
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
+/* Back inside the pill and back in the flow, so its width is what opens the
+   pill up. Kept to 1.5 controls rather than the 3.2 it was: the button steps
+   left by exactly this much when the sound comes on, and the shorter the step,
+   the less of the button passes out from under the pointer. flex:none because
+   overflow:hidden drops its automatic minimum size to zero, and the row will
+   otherwise squeeze it straight back to nothing. */
+.noise-vol{display:flex;align-items:center;height:100%;overflow:hidden;flex:none;
+  width:0;padding-inline:0;opacity:0;pointer-events:none;
+  transition:width var(--out) var(--ease),opacity var(--out) var(--ease),
+             padding-inline var(--out) var(--ease)}
+/* Two conditions, not one: playing, and being approached. Playing alone leaves
+   the pill at its default size sitting against the accessibility button, which
+   is what it should look like at rest. :focus-within is the keyboard half of
+   the same condition, so the level is still reachable without a pointer. */
+.noise[data-on="true"]:hover .noise-vol,
+.noise[data-on="true"]:focus-within .noise-vol{width:calc(var(--control)*1.5);
+  padding-inline:calc(var(--control)*.3);
+  opacity:1;pointer-events:auto;transition-duration:var(--in)}
+.noise-vol input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:var(--control);
+  background:transparent;cursor:pointer;margin:0}
+.noise-vol input[type="range"]::-webkit-slider-runnable-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;
+  border-radius:var(--r-pill);background:var(--ink);margin-top:-4px;
+  transition:scale var(--out) var(--ease)}
+.noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1.18;transition-duration:var(--in)}
+.noise-vol input[type="range"]::-moz-range-track{height:2px;background:var(--line-soft);border-radius:var(--r-pill)}
+.noise-vol input[type="range"]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:var(--r-pill);background:var(--ink)}
+.noise{position:relative}
+.n-ico{position:relative;width:1.05em;height:1.05em;flex:0 0 auto}
+/* the wave only travels while the sound is on - it is the state indicator,
+   not decoration, so it says nothing when there is nothing to say */
+.n-wave{transform-box:view-box;transform-origin:center}
+.noise-btn[aria-pressed="true"] .n-wave{animation:n-wave 1.9s linear infinite}
+@keyframes n-wave{to{transform:translateX(-12px)}}
+/* Explainer. Sits above the control because this group is pinned to the
+   bottom of the window - a bubble below it would leave the viewport. */
+.n-tip{
+  position:absolute;bottom:calc(100% + 10px);right:0;
+  width:max-content;max-width:min(34ch, calc(100vw - var(--margin)*2));
+  background:var(--ink);color:var(--page);
+  font-family:var(--serif);font-weight:400;font-size:var(--micro);line-height:1.5;
+  letter-spacing:0;text-align:left;
+  padding:.85em 1.05em;border-radius:var(--r-lg);
+  opacity:0;translate:0 4px;pointer-events:none;z-index:2;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
+}
+.n-tip-t{display:block;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);line-height:1.35;margin-bottom:.5em}
+/* Shown once and then done with, so the only thing that raises it is the
+   attribute JS sets on the first approach - no standing :hover rule, which
+   would bring it back on every pass of the pointer for the rest of the
+   session. It stays in the accessibility tree either way: the button
+   points at it with aria-describedby and it is faded, not hidden. */
+.noise[data-explain="true"] .n-tip{
+  opacity:1;translate:0 0;
+  transition:opacity var(--in) var(--ease),translate var(--in) var(--ease)}
+.n-ico svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity var(--out) var(--ease)}
+.noise-btn[aria-pressed="false"] .n-on{opacity:0}
+.noise-btn[aria-pressed="true"] .n-off{opacity:0}
+.brand{display:flex;align-items:center;height:100%;gap:calc(var(--control)*.38);text-decoration:none;color:var(--ink)}
+.logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
+
+/* bottom tab — one capsule, sliding indicator */
+.tabs{position:relative;display:flex;align-items:center;
+  padding:0 3px;height:var(--control);
+  /* hairline as an inset shadow, not a border: a border would eat 2px from the
+     content box and drop the tab hit area under 44px */
+  background:var(--glass);box-shadow:inset 0 0 0 1px var(--edge-ctrl);border:0;border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.tab-ind{position:absolute;top:3px;left:0;height:calc(var(--control) - 6px);
+  background:var(--ink);border-radius:var(--r-pill);pointer-events:none;will-change:transform,width;
+  transition:transform 460ms var(--ease),width 460ms var(--ease)}
+.tab{position:relative;z-index:1;height:100%;width:var(--control);padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:none;border:0;border-radius:var(--r-pill);color:var(--muted);
+  font-family:var(--serif);font-weight:500;font-size:var(--micro);letter-spacing:0;text-transform:lowercase;cursor:pointer;white-space:nowrap;
+  transition:color var(--out) var(--ease),background var(--out) var(--ease)}
+.tab:hover{background:rgba(25,21,23,.06);color:var(--ink);transition-duration:var(--in)}
+.tab[aria-selected="true"]{color:var(--page)}
+.tab[aria-selected="true"]:hover{background:none;color:var(--page)}
+.tab svg{width:1.05em;height:1.05em;flex:0 0 auto}
+
+/* accessibility panel */
+.panel{position:absolute;z-index:600;right:var(--margin);
+  opacity:0;visibility:hidden;translate:0 6px;pointer-events:none;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease),visibility 0s linear var(--out);
+  bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + 12px);
+  width:min(300px, calc(100vw - var(--gutter)*2));padding:calc(var(--stack)*.7);
+  background:var(--page);border:1px solid var(--edge-ctrl);border-radius:var(--r-lg)}
+.panel[data-open="true"]{opacity:1;visibility:visible;translate:0 0;pointer-events:auto;
+  transition:opacity var(--in) var(--ease),translate var(--in) var(--ease),visibility 0s}
+.panel .panel-h{margin:0 0 calc(var(--stack)*.5);font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:calc(var(--stack)*.4)}
+.prow>span{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--body-c)}
+.pgrp{display:flex;gap:6px}
+.pnote{font-family:var(--serif);font-size:var(--micro);line-height:1.55;color:var(--muted);
+  margin-top:calc(var(--stack)*.4);padding-top:calc(var(--stack)*.4);border-top:1px solid var(--edge);
+  text-transform:none;letter-spacing:0}
+
+/* the note under the switches, as on the landing page */
+.pnote{font-family:var(--serif);font-size:var(--micro);line-height:1.55;color:var(--muted);
+  margin:var(--stack) 0 0}
+
+/* ═══ which face does what ═══
+   Literata is the reading face. Anything the eye reads as prose is set in it,
+   including the small headings that sit inside prose - a lede, a sub-head, an
+   annotation title, a caption. Those were in Plus Jakarta Sans, which meant a
+   paragraph opened in one face and continued in another a line later; the
+   change of voice landed on nothing and just read as a mistake. Where a line
+   like that needs to stand up, it is now the copy face at 500 rather than a
+   different family.
+   Plus Jakarta Sans keeps everything the eye scans instead of reads: eyebrows,
+   chips, tags, counts, buttons, the contents list, the section label in its own
+   column, and the display title. Those sit outside the prose, so no paragraph
+   ever changes face inside itself. */
+
+/* ═══ case-study head ═══ */
+.cs-head{padding-top:calc(var(--gutter)*2 + var(--control));padding-bottom:var(--section)}
+.cs-eyebrow{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
+/* 48px, flat. The fluid version only reached 40 at about 1440 and fell away
+   below it - 35px at 1280, 28px at 1024 - so asking for 40 and getting the
+   old size back was the fluid curve, not the number. It holds at 48 on every
+   desktop width and steps down once, on a phone, where 40px would run the
+   headline to nine lines. */
+.cs-title{font-family:var(--sans);font-weight:300;font-size:48px;
+  line-height:1.1;letter-spacing:-.02em;color:var(--ink);margin:0;max-width:24ch}
+@media (max-width:767px){.cs-title{font-size:30px}}
+.cs-prompt{font-family:var(--sans);font-weight:300;font-style:italic;font-synthesis:none;
+  font-size:calc(var(--body)*1.5);line-height:1.3;letter-spacing:-.015em;color:var(--muted);
+  margin:var(--stack) 0 0;max-width:26ch}
+/* The facts sit under the section list, in the same column: a reader scanning
+   the contents to find their place lands on who did the work and what state
+   it is in without leaving that column. Separated by air alone, not a rule. */
+/* ═══ facts row ═══
+   Four facts where a recruiter looks first. This used to sit in the contents
+   column, which meant the one line answering "what did she actually do" was
+   below the fold and behind a scroll of its own. It wraps rather than
+   scrolls, and each pair stays whole when it wraps - a value orphaned from
+   its label is worse than a second line. */
+/* Four facts as four columns, label over value, divided by hairlines. Read
+   in a line they were four label-value pairs the eye had to separate for
+   itself; ruled apart and stacked, each one is a field with an answer under
+   it and the row reads as a spec block. The count per row is fixed at each
+   width rather than left to wrap, because the divider has to be dropped from
+   whichever item starts a row and that is only knowable if the column count
+   is known. */
+.cs-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  margin:calc(var(--stack)*1.2) 0 0;padding:0}
+.cs-facts div{display:flex;flex-direction:column;gap:.35em;min-width:0;
+  padding-left:var(--gutter);border-left:1px solid var(--edge)}
+/* the first of each row sits on the text margin, so it takes no rule */
+.cs-facts div:nth-child(4n+1){padding-left:0;border-left:0}
+.cs-facts dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.cs-facts dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  line-height:1.4;letter-spacing:.02em;color:var(--ink)}
+@media (max-width:900px){
+  .cs-facts{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--stack)}
+  .cs-facts div:nth-child(4n+1){padding-left:var(--gutter);border-left:1px solid var(--edge)}
+  .cs-facts div:nth-child(2n+1){padding-left:0;border-left:0}
+}
+@media (max-width:600px){
+  /* one per line: the rule turns and sits above each field instead */
+  .cs-facts{grid-template-columns:1fr;row-gap:0}
+  .cs-facts div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
+  .cs-facts div:nth-child(2n+1),.cs-facts div:nth-child(4n+1){padding-left:0;border-left:0}
+  .cs-facts div:first-child{padding-top:0;border-top:0}
+}
+.toc-facts{margin-top:calc(var(--stack)*1.1);display:flex;flex-direction:column;gap:.85em}
+.toc-facts dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 .3em}
+.toc-facts dd{margin:0;font-size:var(--micro);line-height:1.45;color:var(--ink)}
+
+/* The lede sits beside the mockup and starts level with it. Centring the two
+   against each other left the first line floating somewhere down the side of
+   the phone, so the page appeared to begin twice. */
+.cs-intro{display:grid;grid-template-columns:4fr 5fr;gap:var(--gutter);
+  align-items:start;margin-top:var(--section)}
+@media (max-width:1023px){.cs-intro{grid-template-columns:1fr;gap:var(--section)}}
+.cs-lede{font-size:var(--body);color:var(--ink);margin:0;max-width:62ch}
+.cs-lede + .cs-lede{margin-top:1.1em}
+/* ═══ the phone ═══
+   A plain bezel, because the artwork inside is the thing being shown and a
+   heavily rendered device would start competing with it. The screen crops to
+   exactly one screen of the export - see SHOT in the script for the measured
+   geometry, which is not nine equal slices. */
+.cs-hero{margin:0;display:flex;flex-direction:column;align-items:center;gap:.9em}
+.phone{width:100%;max-width:300px;padding:9px;border-radius:30px;
+  background:var(--card);
+  box-shadow:inset 0 0 0 1px var(--edge-ctrl),
+             0 1px 2px rgba(25,21,23,.12),0 14px 38px rgba(25,21,23,.14)}
+/* Measured off the file rather than assumed: the strip is 3998x884, but the
+   nine screens inside it are 390x844 each, laid at x=20 with a 446 pitch and
+   a 20px top margin - so there are 56px gutters between them. Slicing the
+   strip into nine equal parts made every frame 14% too wide and walked the
+   offset along until the last one was mostly gutter, which is why it looked
+   like the artwork vanished. The window is the true 390:844 and the strip is
+   translated by exact percentages of its own width. */
+/* the artwork’s own screen colour, so the wash below and any seam at the
+   rounded edge are the same grey the design is drawn on */
+.phone-screen{position:relative;overflow:hidden;border-radius:22px;
+  aspect-ratio:390 / 844;background:#393939}
+/* scoped past the generic .cs-hero img rule, which is a hair more specific and
+   would otherwise squeeze the strip back down to the width of the screen */
+.phone-screen .phone-frames{position:absolute;top:0;left:0;
+  width:calc(100% * 3998 / 390);max-width:none;height:auto;
+  transform-origin:0 0;
+  /* --fx and --fy are the origin of the wanted band, each as a percentage of
+     the strip. --fy defaults to the 20px top margin, which is the top of a
+     whole screen; the chip layer overrides it to sit on the chip row instead. */
+  transform:translate(calc(var(--fx) * -1%), calc(var(--fy, 2.26244) * -1%))}
+
+/* The three pieces the reveal is made of. The wash erases whatever text the
+   base frame has baked into it; the layer is a second copy of the strip,
+   parked on the target frame and clipped to just the part that has been
+   "typed"; the caret sits at the clip edge. All three are positioned in
+   percentages of the 390x844 screen, so they hold at any size. */
+.phone-wash{position:absolute;left:0;right:0;background:#393939;display:none}
+.phone-layer{position:absolute;inset:0;overflow:hidden;display:none}
+/* The chip row is its own layer because it is its own piece of information:
+   it belongs to the last line of text, so it travels down as the sentence
+   wraps, and it is sourced from whichever screen holds the lit state the
+   parser has actually reached. It glides rather than jumps - the row really
+   does move when text rewraps, and a hard cut there reads as a glitch. */
+.phone-chips{position:absolute;left:0;right:0;overflow:hidden;display:none;
+  transition:top var(--out) var(--ease)}
+[data-motion="off"] .phone-chips{transition:none}
+@media (prefers-reduced-motion:reduce){.phone-chips{transition:none}}
+.phone-caret{position:absolute;width:2px;background:#F5F0E8;display:none;
+  animation:phone-blink 1.06s steps(1,end) infinite}
+@keyframes phone-blink{0%,55%{opacity:1}55.01%,100%{opacity:0}}
+[data-motion="off"] .phone-caret{animation:none}
+@media (prefers-reduced-motion:reduce){.phone-caret{animation:none}}
+
+/* the run is under four seconds and does not loop, so no pause control is
+   owed - but anyone who looked away should be able to see it again */
+.dev-replay{align-self:center;min-height:var(--control);padding:0 1em;
+  background:none;border:0;cursor:pointer;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  transition:color var(--out) var(--ease)}
+.dev-replay:hover{color:var(--ink)}
+.cs-hero > img{width:auto;max-width:100%;height:auto;margin-inline:auto}
+
+/* ═══ the schematic ═══
+   The same drawing the card on the landing page carries, so the page opens on
+   the thing that was clicked and states the problem before any screen is shown.
+   Lifted with its stroke rules intact; non-scaling-stroke is what keeps the
+   line weight honest as the viewBox stretches to the column. */
+.plane{width:100%;max-width:640px;margin-inline:auto;aspect-ratio:848/563}
+.plane--path{aspect-ratio:1690/650}
+/* nine nodes need real horizontal room - shrinking the whole canvas to a phone's
+   width would take node labels below 5px. Below 768px it scrolls at a fixed,
+   still-legible size instead of shrinking to fit. */
+@media (max-width:767px){
+  .cs-hero{min-width:0}
+  .plane--path{aspect-ratio:auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cs-hero .plane--path svg{width:640px;max-width:none;height:auto}
+}
+/* node captions run to three words; at 26px two of them would collide with
+   the next node along */
+.plane svg .n-lab{font-size:23px}
+/* the one node that is the design decision, not just a stage it passes through:
+   filled and set in ink rather than muted, the way the flow diagrams already
+   mark the thing that matters differently from the thing that merely happens */
+.plane svg .n-core{fill:var(--card);stroke:var(--ink);stroke-width:2.4px;vector-effect:non-scaling-stroke}
+.plane svg .n-emph{fill:var(--ink);font-weight:500}
+.plane svg .n-conn{font-size:16px}
+.plane svg .n-node{font-size:21px}
+.plane svg .n-veil{fill:var(--card);opacity:.55;stroke:var(--line-soft);
+  stroke-width:2.4px;vector-effect:non-scaling-stroke}
+/* the lane name sits at the left margin, not on a node - it is what tells
+   the reader which world a row of boxes belongs to */
+.plane svg .lane-lab{font-size:15px;letter-spacing:2.4px}
+.plane svg .arrow-head{fill:var(--muted);stroke:none}
+/* the validation-gap drawing sits inside a section, not beside the copy */
+.fig .plane{max-width:560px}
+/* The card drawing gets more room than the other figures - it is the shape of
+   the whole product in one line, and at the 560 the rest use, the four circles
+   stop reading as one sentence. It stops at 880 rather than running the full
+   measure: that is the width of the reading track (the section less its label
+   column and gutter), so the extra width still lands on the grid instead of
+   spanning edge to edge. Centred, and on its own viewBox ratio so nothing is
+   letterboxed. */
+/* Doubled class on purpose: the plain .fig rule further down the sheet sets the
+   margin shorthand, and at equal specificity it was winning and resetting this
+   back to --stack. That is why the diagram sat 32px under the mockup instead of
+   the section gap it was supposed to have. It closes the masthead, so it takes
+   the full space between sections and reads as separate from the phone rather
+   than as a caption under it. */
+.fig.fig--card,.fig.fig--map{margin-top:var(--section)}
+.fig--card .plane{max-width:880px;aspect-ratio:990/375}
+/* at a phone width the circle captions would fall under 9px, so below 768 it
+   holds a legible size and scrolls sideways instead of shrinking to fit */
+@media (max-width:767px){
+  .fig--card .plane{aspect-ratio:auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .fig--card .plane svg{width:640px;max-width:none;height:auto}
+}
+.plane svg{display:block;width:100%;height:100%}
+.plane svg .hard,
+.plane svg .soft{
+  stroke-width:2.4px;vector-effect:non-scaling-stroke;
+  stroke-linecap:round;stroke-linejoin:round;fill:none}
+.plane svg .soft{stroke:var(--line-soft);stroke-dasharray:6 16}
+.plane svg .hard{stroke:var(--line)}
+.plane svg .dot{fill:var(--ink);stroke:none}
+.plane svg text{font-family:var(--sans);font-weight:500;font-size:26px;letter-spacing:1.8px;
+  text-transform:uppercase;fill:var(--muted)}
+.plane svg .hatch{stroke:var(--line-soft);stroke-width:2;vector-effect:non-scaling-stroke}
+
+/* ═══ the problem map ═══
+   Was a table between two banners: five rows of listing that the reader had to
+   reassemble into a relationship. As a map the relationship is the drawing -
+   the problem fans into what people feel, each feeling runs across to what was
+   built for it, and the responses converge on the outcome. Same hairlines as
+   the rest of the page: dashed where something merely relates, solid on the
+   path the argument travels, ink on the one pair the product turns on.
+   The base text rule in here is 26px uppercase for node labels, which these
+   are not - they are read, so they are reset to sentence case. */
+/* scoped past .fig .plane, which is more specific and was pinning the map to
+   560px - the same cascade trap the card figure hit */
+.fig .plane--map{max-width:none;aspect-ratio:1280/500}
+.plane svg.pmap text{text-transform:none;letter-spacing:0}
+.plane svg.pmap .pm-eyebrow{font-family:var(--sans);font-weight:500;font-size:15px;
+  letter-spacing:.12em;text-transform:uppercase;fill:var(--muted)}
+.plane svg.pmap .pm-lead{font-family:var(--serif);font-size:19px;fill:var(--ink)}
+.plane svg.pmap .pm-t{font-family:var(--sans);font-weight:500;font-size:19px;fill:var(--ink)}
+.plane svg.pmap .pm-d{font-family:var(--sans);font-size:15px;fill:var(--muted)}
+/* the pip marks where a response answers a feeling; the core pair gets the
+   filled dot and a solid connector instead of a dashed one */
+.plane svg.pmap .pip{fill:var(--page);stroke:var(--line);stroke-width:1.5px;
+  vector-effect:non-scaling-stroke}
+/* at a phone width these labels would fall under 8px, so below 900 the map
+   holds a legible size and scrolls sideways inside its own box */
+@media (max-width:900px){
+  /* min-width:0 or the 1040px drawing becomes the grid item’s minimum size and
+     widens the whole page instead of scrolling inside its own box - the same
+     intrinsic-minimum trap the hero diagram hit */
+  .fig--map,.plane--map{min-width:0}
+  .plane--map{aspect-ratio:auto;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .plane--map svg{width:1040px;max-width:none;height:auto}
+}
+.plane svg.s0 .cap{font-size:23px}
+.plane svg.s0 .cap2{font-size:21px}
+.plane svg.s0 .mech{font-size:17px}
+/* Anonymous reveal is the mechanic this study turns on, so it is the one node
+   that carries weight rather than the one that fades: card tone behind it, ink
+   on the outline and in the label. Same two tokens the page already uses. */
+.plane svg.s0 .key-node{fill:var(--card);stroke:var(--ink);stroke-width:3px}
+.plane svg.s0 .key-lab{fill:var(--ink)}
+@media (max-width:767px){.plane svg .hard,.plane svg .soft{stroke-width:2px}}
+
+/* ═══ the three-track article grid ═══
+   2fr : 2fr : 5fr — a navigation column, a label column and a reading column.
+   The reference this follows runs 3:2:4, but its body type is 16px against a
+   528px column. This system sets body at 19px, and a 4/9 track gives it only
+   48 characters a line. Widening the reading track to 5/9 puts the measure
+   back to about 60 - the proportions bend to the type, not the other way.
+   The reading column is capped well below its track so the measure stays at
+   roughly 66 characters however wide the window gets; the track only decides
+   where the text starts, not how far it runs. */
+/* The contents column is gone. It was a third of the width holding a list
+   that, on a laptop, had to be scrolled on its own before it could even be
+   read - the one element whose job is to orient you was the one you had to
+   hunt for. Its three jobs (where am I, how far in, how do I leave) now sit
+   in a 44px bar at the top, and the article gets the width back. */
+.cs-body{display:block;padding-bottom:var(--section)}
+
+/* ═══ the route, under the progress bar ═══
+   What the reader is about to be taken through, in order. It sits in the
+   chrome rather than in the article because it is a property of the page,
+   not a part of it - stating it inside the Overview made it read as the
+   first thing to read rather than a map of everything after.
+   Tertiary, deliberately: one quiet line under the bar that answers "what is
+   coming and how much of it", and never competes with the section it labels.
+   No heading - the count beside the progress bar already says six. */
+/* Tucked up under the rail so the two read as one block - the track and the
+   names it is running through - rather than as two separate lines. The first
+   row has to stay a full control height for the wordmark and the back target,
+   but the rail inside it is a 2px hairline sitting at the middle, so all the
+   room beneath it is empty and the route can rise into it. The negative pull
+   is taken out of the row it belongs to, so the band ends up shorter rather
+   than overlapping anything. */
+.cs-route{grid-column:4;grid-row:2;min-width:0;align-self:start}
+/* Grouped at the left rather than spread edge to edge. Spaced across the full
+   band each name read as its own destination, which made the row a menu; sat
+   together they read as one list of what is coming. The gap is in em so it
+   tracks the type rather than the layout. */
+.cs-route ol{list-style:none;display:flex;align-items:center;
+  justify-content:flex-start;
+  gap:0 1.55em;margin:0;padding:0;counter-reset:route;
+  /* min- not a fixed height: the links set their own target size and were
+     spilling 2px past the bottom of the band */
+  min-height:var(--route-h);min-width:0}
+/* flex, so the link is a flex item rather than an inline box sitting on a
+   baseline: the list inherits the body line-height, and its strut was adding
+   10px under every link and holding the two lines apart */
+.cs-route li{counter-increment:route;min-width:0;display:flex}
+/* the link fills the row rather than just its own line box - at the text
+   height alone these were 22px targets, under the 24px floor the rest of the
+   page holds to */
+/* Text centred in its target again. Pinning it to the top did tighten the gap
+   to the bar, but it left the spare height of the box sitting as dead space
+   under the names, and with the first row flush to the top of the capsule the
+   whole thing read as shoved upwards. The box is close to the type now, so
+   centring costs almost nothing and the two lines sit evenly in the capsule. */
+.cs-route a{display:inline-flex;align-items:center;gap:.45em;
+  min-height:var(--route-h);
+  font-family:var(--sans);font-weight:500;
+  /* Smaller than anything else in the chrome on purpose: a glance at what is
+     coming, not a menu to work through. Set as written rather than in caps -
+     caps at this size need tracking to stay legible, and the tracking was what
+     made a quiet row look like navigation. A touch larger than the capitalised
+     version was, because lowercase loses the height caps were carrying. */
+  font-size:calc(var(--micro) * .86);
+  letter-spacing:.01em;
+  color:var(--line-soft);text-decoration:none;white-space:nowrap;
+  transition:color var(--out) var(--ease)}
+.cs-route a::before{content:"0" counter(route);
+  font-variant-numeric:tabular-nums;opacity:.7}
+.cs-route a:hover,.cs-route a:focus-visible{color:var(--ink);transition-duration:var(--in)}
+/* the one you are in, marked by the same spy that writes the bar */
+.cs-route a[data-here="true"]{color:var(--ink)}
+/* A route needs room to be a route. Once the six names cannot sit on one
+   line the whole thing stops being tertiary and starts being a menu, so
+   below 900 it goes and the progress bar carries position on its own. */
+@media (max-width:900px){
+  .cs-route{display:none}
+  /* with no second row there is nothing to align to, and a five-column grid
+     would only make the shed-from-the-right rules below fight it */
+  .c-tl{display:flex;align-items:center;height:var(--control)}
+  .c-tl-row{display:flex;align-items:center;flex:1 1 auto;min-width:0;height:100%}
+  .csbar{flex:1 1 auto;display:flex;align-items:center;
+    gap:calc(var(--control)*.34);min-width:0}
+  /* zero the token too, not just the element - the blur strip and every
+     section anchor are measured from it, and they would otherwise reserve
+     room for a row that is no longer there */
+  :root{--route-h:0px}
+}
+
+/* ═══ the section bar, inside the logo pill ═══
+   It lives in the chrome now rather than in the article, which is where a
+   reader already looks to find out where they are. Nothing is sticky and
+   nothing is duplicated: the pill that carries the wordmark carries the
+   position too. It grows to the right of the mark and collapses from the
+   right as the screen narrows, so the logo is never the thing that gives.
+   Three things at most: the way out, where you are, how much is left. */
+.csbar{display:contents}
+/* the wordmark keeps a little more air than the gap between the controls,
+   which is what the hairline used to provide before it was removed */
+/* Everything on the first line shares one optical centre: wordmark, back,
+   section name, rail and count. Spanning the wordmark and the back link across
+   both rows did centre them on the capsule, but it dropped them 16px below the
+   section name they sit beside, and two texts on one line stopped lining up.
+   They sit in the first row with everything else instead.
+   The row is only as tall as its type, so the targets are held to the 24px
+   floor here and opened to the full control size where a finger is used -
+   forcing 44 on every pointer is what padded the row out and held the two
+   lines apart in the first place. */
+/* scoped to the band: the base .cs-back rule sits further down the sheet at
+   the same specificity and would otherwise win and put the row back to 44 */
+/* The wordmark, the way out and the count belong to the capsule rather than to
+   its first line, so they span both rows. Only the track and the names it
+   belongs to are a stacked pair - those two stay on their own lines, which is
+   the whole reason the capsule has two rows.
+
+   --chrome-drop is an optical correction, not a centring fix: measured, these
+   three already sit at exactly half the capsule height. But the two lines they
+   sit against are nothing like equal in weight - a 2px hairline above, a whole
+   line of type below - so the capsule’s centre of mass is well under its
+   geometric middle, and anything parked at 0.5 reads as floating near the top.
+   This drops them onto the weight instead of onto the maths. */
+:root{--chrome-drop:calc(var(--control) * .085)}
+.c-tl .brand{grid-column:1;grid-row:1 / -1;align-self:center;
+  margin-top:var(--chrome-drop);
+  margin-right:calc(var(--control)*.34);height:auto;min-height:24px}
+/* The wordmark and the way out are one group, the track and the count are
+   another. A wider gap here than the one holding the columns apart is what
+   says so - without it the back link reads as the start of the progress
+   readout rather than the end of the navigation. */
+/* No extra margin here any more: the flexible spacer either side of the track
+   already holds it well clear, and an extra margin on this side only made the
+   left gap wider than the right and threw the balance off. */
+.c-tl .cs-back{grid-column:2;grid-row:1 / -1;align-self:center;min-height:24px;
+  margin-top:var(--chrome-drop)}
+@media (pointer:coarse){
+  .c-tl .brand,.c-tl .cs-back{min-height:var(--control)}
+}
+.csbar-count{grid-column:6;grid-row:1 / -1;align-self:center;margin-top:var(--chrome-drop);
+  font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+/* A hairline, not a bar - but the track has to be visible or there is no bar at
+   all, only the filled part of one. At --lattice (6%) the groove vanished into
+   the page and what showed was a short black stub floating over a much longer
+   row of names: the two are the same width, but only a sixth of the bar could
+   be seen. The groove is now readable and the fill runs along it, so the bar
+   and the names it belongs to visibly share an edge at both ends. */
+/* The track takes its width from the route below it - they share a column and
+   the column is sized to content, so the bar is exactly as long as the line of
+   names it belongs to. */
+.csbar-rail{grid-column:4;width:100%;min-width:40px;height:2px;border-radius:var(--r-pill);
+  background:rgba(25,21,23,.15);overflow:hidden}
+.csbar-fill{display:block;height:100%;width:0;border-radius:inherit;
+  background:var(--ink);transition:width var(--out) var(--ease)}
+/* The pill can only take so much before it reaches the controls on the other
+   side, so it sheds from the right in the order the reader needs least: the
+   rail first, then the section name, and the count last - two characters
+   still answer "how much is left" when nothing else fits. */
+@media (max-width:1023px){
+  .csbar-rail{display:none}
+}
+@media (max-width:767px){
+  .csbar{gap:calc(var(--control)*.26)}
+  /* with the word gone the chevron is all that is left, and a 12px-wide
+     target is not something a thumb can hit - the link keeps a full-width
+     target even though the thing drawn inside it is small */
+  .cs-back span{display:none}
+  .cs-back{min-width:var(--control);justify-content:center}
+}
+
+/* the contents list holds the whole left column and sticks inside it. Spanning
+   every row is what gives it something to stick against - a sticky item can
+   only travel inside its own grid area. */
+.cs-toc{grid-column:1;grid-row:1 / -1;position:sticky;align-self:start;
+  top:calc(var(--gutter)*2 + var(--control));
+  max-height:calc(100vh - (var(--gutter)*3 + var(--control)));overflow:auto}
+/* the way out sits above the contents rather than in the corner: the reader
+   is inside one case study, and the column that says where they are is the
+   honest place to say how to leave */
+/* text, not a control: it leaves the page rather than doing something on it,
+   and a pill here competed with the noise and accessibility buttons for the
+   look of the only two real controls on the page */
+.cs-back{display:inline-flex;align-items:center;gap:.55em;flex:0 0 auto;
+  min-height:var(--control);padding:0;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;white-space:nowrap;
+  transition:color var(--out) var(--ease)}
+.cs-back:hover{color:var(--ink);transition-duration:var(--in)}
+.cs-back:hover svg{translate:-3px 0}
+.cs-back svg{transition:translate var(--out) var(--ease)}
+.cs-back svg{width:12px;height:12px;flex:0 0 auto}
+/* Chrome labels, not headings. The nav and the dialog already carry their
+   names through aria-label, so marking these up as h2 only put two more
+   entries in the outline at the same level as the case study sections - and
+   the panel, which sits in the fixed chrome, opened the document with an h2
+   before the h1. The six section headlines are the only h2s on the page. */
+.cs-toc .toc-h{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
+.cs-toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+.cs-toc li{counter-increment:toc;margin-bottom:.15em}
+.cs-toc ol a{display:grid;grid-template-columns:2.4em 1fr;gap:.4em;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.45;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--line-soft);text-decoration:none;
+  padding:.35em .5em .35em 0;border-radius:6px;
+  transition:color var(--out) var(--ease)}
+.cs-toc ol a::before{content:"0" counter(toc);color:var(--line-soft);font-variant-numeric:tabular-nums;
+  transition:color var(--out) var(--ease)}
+.cs-toc ol a:hover{color:var(--ink);transition-duration:var(--in)}
+.cs-toc ol a:hover::before{color:var(--ink)}
+/* the current section, marked by the scroll spy */
+.cs-toc ol a[data-here="true"]{color:var(--ink)}
+.cs-toc ol a[data-here="true"]::before{color:var(--ink)}
+
+/* every section starts in the label column and runs to the right edge, so the
+   left third is reserved for navigation and never has copy set against it */
+/* The label column stays - a heading rail you can read straight down is the
+   page's best skimming device, and it is what the contents list was mostly
+   duplicating. It just starts at the left edge now. */
+.sec{display:grid;grid-template-columns:2fr 5fr;gap:var(--gutter);
+  align-items:start;padding-bottom:var(--section);scroll-margin-top:var(--chrome-h)}
+.sec:last-of-type{padding-bottom:0}
+/* The label column is a heading, not a control: it is read, so it is set in the
+   copy face at 500 like every other heading inside the prose. The contents list
+   in the column to its left stays in the sans - that is scanned, not read, and
+   the difference between the two columns is the point. */
+/* Sized against the title rather than against the copy, so the gap between h1
+   and h2 stays proportional at every width instead of the h2 creeping up on the
+   h1 as the screen narrows. The max() keeps it clear of the body text on a
+   phone, where --title is already at its 24px floor. */
+.sec-label{font-weight:500;line-height:1.25;letter-spacing:-.005em;color:var(--ink);margin:0;
+  font-size:max(calc(var(--body)*1.25), calc(var(--title)*.72))}
+/* Prose that follows a full-width component still belongs in the reading
+   column. It has to be a class rather than an inline grid-column: at one
+   column the placement creates an implicit second track and squeezes the
+   whole section into 94px, which is exactly what it did. */
+.copy-2{grid-column:2 / -1}
+.sec-copy{max-width:66ch}
+.sec-copy > * + *{margin-top:1.15em}
+.sec-copy p{margin:0}
+/* the first line of a section carries the whole section - set a step up */
+.sec-lede{font-weight:500;font-size:var(--body);line-height:1.7;letter-spacing:0;color:var(--ink)}
+.sec-copy h3{font-weight:500;font-size:var(--body);line-height:1.7;color:var(--ink);margin:2.2em 0 0}
+.blueprint h3{margin:0;font-size:inherit;font-weight:inherit}
+/* A question the project put to itself. It carries itself on the change of
+   voice - italic, in ink against the body grey - and does not need a box to sit
+   in; the extra room above and below is what holds it apart from the argument. */
+.hmw{font-weight:400;font-style:italic;font-synthesis:none;
+  font-size:var(--body);line-height:1.7;color:var(--ink);
+  margin:1.9em 0 .8em;padding:0;background:none;box-shadow:none}
+
+/* figures break out of the reading column to the full width of the section,
+   which is where the page changes gear between one argument and the next */
+.fig{grid-column:1 / -1;margin:var(--stack) 0 0}
+/* An image is never drawn larger than the file it came from. The screens are
+   390-450px wide originals; stretched to fill a 965px column they were being
+   run up as much as 163%, which is where the interface goes soft. width:auto
+   takes the intrinsic size, max-width:100% still lets the big diagrams come
+   down to fit, and the auto margins centre whatever is left over - in a plain
+   figure and inside a grid cell alike. */
+/* No card, no ring, no radius by default. Nine of these files are cut-out
+   PNGs with transparent corners, so a fill was painting a rectangular slab
+   behind a rounded phone - the artwork already carries its own edge and is
+   the only frame it needs. Only the flat screenshots, which arrive as bare
+   rectangles with square corners, are softened; .shot marks those. */
+/* Sized to the screen, not just to the column. These are wide diagrams - one is
+   5160px - and at max-width alone a single figure could stand taller than the
+   window, so you scrolled through one picture with no idea how much was left.
+   Capped against the viewport less the header, a figure is always seen whole. */
+.fig img{width:auto;max-width:100%;height:auto;margin-inline:auto;
+  max-height:calc(100svh - var(--chrome-h) - var(--section)*.5);object-fit:contain}
+.shot{border-radius:var(--r-lg)}
+.fig figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin-top:.9em;max-width:62ch}
+.fig--row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
+.fig--pair{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gutter)}
+.fig--row figcaption,.fig--pair figcaption{grid-column:1 / -1}
+@media (max-width:767px){
+  .noise-vol{display:none}
+  .fig--row,.fig--pair{grid-template-columns:1fr}
+}
+
+/* The validation blueprint. Two phases against three questions is a comparison,
+   so it is set as one: phases across the top, questions down the side, and a
+   rule under each row. Two cards side by side made the reader carry Phase 1 in
+   their head to compare it with Phase 2; a table puts the answers next to each
+   other. It breaks out of the reading column because a comparison needs the
+   width, and it stays visibly separate from the work that was actually done —
+   the distinction the source page itself draws. */
+/* The blueprint is proposed work, not performed work, so it is folded away and
+   opens on request: a reader following the argument is not made to walk through
+   a testing plan that never ran, and anyone who wants it is one press away. The
+   title and its qualifier are the control, so the whole heading is the target
+   rather than a chevron beside it. */
+.blueprint{grid-column:1 / -1;margin-top:var(--section)}
+.bp-toggle{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+  gap:var(--stack);width:100%;text-align:left;cursor:pointer;
+  padding:1.1em 0;background:none;border:0;
+  border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl)}
+.bp-t{font-family:var(--serif);font-weight:500;font-size:var(--body);line-height:1.4;
+  color:var(--ink);margin:0}
+/* the qualifier sits under the title: with the cards gone this is the only thing
+   marking the work as proposed rather than performed */
+.bp-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:.45em 0 0}
+.bp-ico{position:relative;width:var(--control);height:var(--control);flex:0 0 auto;
+  border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);justify-self:end;
+  transition:background var(--out) var(--ease),border-color var(--out) var(--ease)}
+.bp-ico::before,.bp-ico::after{content:"";position:absolute;inset:50% 32%;
+  border-top:1px solid var(--muted);
+  transition:transform var(--out) var(--ease),border-color var(--out) var(--ease)}
+.bp-ico::after{transform:rotate(90deg)}
+.bp-toggle:hover .bp-ico{border-color:var(--ink)}
+.bp-toggle[aria-expanded="true"] .bp-ico{background:var(--ink);border-color:var(--ink)}
+.bp-toggle[aria-expanded="true"] .bp-ico::before,
+.bp-toggle[aria-expanded="true"] .bp-ico::after{border-top-color:var(--page)}
+.bp-toggle[aria-expanded="true"] .bp-ico::after{transform:rotate(0)}
+/* rows rather than max-height, so the panel is exactly as tall as it needs */
+.bp-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
+.bp-panel[data-open="true"]{grid-template-rows:1fr}
+.bp-inner{overflow:hidden;min-height:0}
+.bp-panel[data-open="true"] .bp-inner{padding-top:var(--stack)}
+.phases{width:100%;margin-top:var(--stack);
+  border-collapse:collapse;text-align:left}
+.phases thead th{padding:0 var(--gutter) 1.1em 0;vertical-align:bottom;font-weight:400}
+.phases thead tr{border-bottom:1px solid var(--edge-ctrl)}
+.ph-n{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45em}
+.ph-t{font-family:var(--serif);font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink)}
+.phases tbody th{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;white-space:nowrap}
+.phases tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top}
+.phases tbody tr{border-bottom:1px solid var(--edge)}
+.phases tbody tr:last-child{border-bottom:0}
+.phases th:last-child,.phases td:last-child{padding-right:0}
+@media (max-width:900px){
+  /* three columns of prose will not hold; each phase becomes its own block and
+     the row labels move above their answers */
+  .phases,.phases thead,.phases tbody,.phases tr,.phases th,.phases td{display:block;width:auto}
+  .phases thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .phases tbody tr{border-bottom:0}
+  .phases tbody th{padding:var(--stack) 0 .5em;border-top:1px solid var(--edge)}
+  .phases tbody td{padding:0 0 .9em}
+  .phases tbody td::before{content:attr(data-ph);display:block;
+    font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+    text-transform:uppercase;color:var(--line-soft);margin-bottom:.3em}
+}
+
+/* What the room said, standing between the build and the reflection on it.
+   No rule down the side: a border made two sentences read as an aside inside
+   somebody else's argument, and these are not asides - they are the verdict on
+   everything above. They get the width of a section and the space of one, so the
+   separation comes from air and scale rather than from a line. */
+.said{grid-column:1 / -1;display:grid;grid-template-columns:1fr;
+  gap:calc(var(--section)*.5);padding-bottom:var(--section)}
+.said blockquote{margin:0}
+/* one under the other, each on a single line: both are short enough to hold
+   one, and a spoken sentence broken across two reads as a paragraph */
+.said p{margin:0;font-size:calc(var(--body)*1.4);line-height:1.4;color:var(--ink);
+  letter-spacing:-.005em;text-wrap:balance}
+.said cite{display:block;font-family:var(--sans);font-style:normal;font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  margin-top:1.1em}
+@media (max-width:1023px){
+  .said{gap:calc(var(--section)*.4)}
+}
+
+/* ═══ foot ═══ */
+.cs-foot{border-top:1px solid var(--edge);padding:var(--section) 0 calc(var(--section)*.5)}
+.cs-foot .sec-label{margin-bottom:var(--stack)}
+/* a list, not a row of controls: these are places to go on reading, and a
+   pill would make them look like the same kind of thing as the noise toggle */
+.next{list-style:none;margin:0;padding:0;border-top:1px solid var(--edge)}
+.next a{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:var(--stack);
+  align-items:baseline;padding:1.1em 0;border-bottom:1px solid var(--edge);
+  text-decoration:none;color:var(--body-c);
+  transition:color var(--out) var(--ease)}
+.next a:hover{color:var(--ink);transition-duration:var(--in)}
+.next-n{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  color:var(--line-soft);font-variant-numeric:tabular-nums;
+  transition:color var(--out) var(--ease)}
+.next a:hover .next-n{color:var(--ink)}
+.next-t{font-size:var(--body);line-height:1.45}
+.next-go{font-family:var(--sans);font-size:var(--micro);color:var(--muted);
+  transition:translate var(--out) var(--ease)}
+.next a:hover .next-go{translate:3px -3px;transition-duration:var(--in)}
+@media (max-width:767px){
+  .next a{grid-template-columns:2.6em minmax(0,1fr);gap:var(--stack)}
+  .next-go{display:none}
+}
+
+/* ═══ two architectures, side by side ═══
+   Section 02 argues that the market optimises for attention and the gap is
+   trust. Both chains come from the source page verbatim, and the argument is
+   in where they stop: one ends at Swipe, the other carries on through Anonymity
+   to a Safety Layer. The last step of each is filled rather than outlined,
+   because the endpoint is the whole comparison - everything before it is
+   plumbing both products share. */
+/* Two columns, read left-to-right in three beats: what it optimises for, its two
+   facts, then how far its architecture actually runs. A thin rule down the middle
+   and a small "vs." are the only orientation a skim needs - no colour-coding, the
+   system carries none, and the comparison does not need it to be legible. */
+/* Red and green, but held at the same lightness and the same low chroma as the
+  rest of the page: a warm terracotta and a warm olive rather than a signal red
+  and a signal green, so the two cards read as this system's colour rather than
+  a colour borrowed from somewhere else. Each side sets its own ink and ground
+  through custom properties, so every element inside it - eyebrow, facts, the
+  chips in its chain - draws from the one pair of values instead of being
+  recoloured individually. */
+.versus{grid-column:1 / -1;margin-top:var(--stack);
+  position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter)}
+.versus-vs{position:absolute;top:50%;left:50%;translate:-50% -50%;z-index:1;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);color:var(--line-soft)}
+.arch-side{padding:var(--stack);border-radius:var(--r-lg);background:var(--tint-bg)}
+.arch-side.is-market{--tint-bg:var(--red-bg);--tint-ink:var(--red-ink);--tint-line:var(--red-line)}
+.arch-side.is-bet{--tint-bg:var(--green-bg);--tint-ink:var(--green-ink);--tint-line:var(--green-line)}
+
+/* the architecture as a chain of stages, one line per side, so the two chains sit
+   at the same vertical position and a skim catches the length difference without
+   following either one node to node */
+.chain{list-style:none;display:flex;flex-wrap:wrap;align-items:center;
+  gap:.5em 0;margin:calc(var(--stack)*.8) 0 0;padding:0}
+.chain li{display:flex;align-items:center;min-width:0}
+.chain span{display:inline-block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  color:var(--tint-ink);background:var(--page);border-radius:var(--r-pill);
+  padding:.4em .9em;box-shadow:inset 0 0 0 1px var(--tint-line);white-space:nowrap}
+/* where each architecture actually lands */
+.chain li.is-end span{background:var(--tint-ink);color:var(--page);box-shadow:none}
+.chain li:not(:last-child)::after{content:"";width:16px;height:0;
+  border-top:1.5px dashed var(--tint-line);margin:0 .4em;flex:0 0 auto}
+@media (max-width:760px){
+  .versus{grid-template-columns:1fr;gap:calc(var(--stack)*1.1)}
+  .versus-vs{display:none}
+}
+.vs-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--tint-ink);margin:0;opacity:.85}
+.vs-t{font-weight:500;font-size:var(--body);line-height:1.4;color:var(--ink);margin:.3em 0 0}
+
+/* Each architecture is read as a block - who it is, what it optimises for, then
+   the shape of it - and the two blocks stack. Both drawings share one viewBox
+   and one set of node positions, so a stage sits at the same x in either and
+   the market's row visibly stops two thirds across while the other fills the
+   width. The stage name goes inside its node: a node with the label underneath
+   is a list with decoration on top, which is what the earlier attempts were. */
+
+
+
+.vs-d{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.3em var(--gutter);
+  margin:calc(var(--stack)*.55) 0 0}
+.vs-d dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--tint-ink);opacity:.75;white-space:nowrap}
+.vs-d dd{margin:0;font-size:var(--body);line-height:1.6;color:var(--tint-ink)}
+@media (max-width:600px){
+  .vs-d{grid-template-columns:1fr;gap:.15em}
+  .vs-d dd{margin-bottom:.7em}
+}
+
+/* ═══ trust framework — the problem, the five frictions, the five responses ═══
+   Colour is how the source diagram tells friction from response from core at a
+   glance - red, purple, green. This system has eight colours and none of them
+   are red or green, so the same read has to come from position and weight
+   instead: friction always sits in the row above response, and the one pair
+   that spans both groups (Trust deficit / Transparency by design) carries a
+   solid tag rather than a tint, reusing the same mark the generation strip
+   already uses for "the one that mattered." */
+.tf{grid-column:1 / -1;margin-top:var(--stack)}
+/* Held to a reading measure and centred. Run at the full width of the section
+   these were single sentences stretched across 1228px with a 30px hairline
+   between them - full-bleed banners that read as unrelated blocks rather than
+   as one statement leading to another. Narrow, stacked and centred, the
+   connector has two objects to join and the sequence is legible: the problem,
+   the five pairs that answer it, the outcome. */
+.tf-frame{max-width:54ch;margin-inline:auto;
+  background:var(--card);border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);
+  padding:var(--stack);text-align:center}
+.tf-frame p{margin:0}
+.tf-ft{font-weight:500;font-size:var(--body);color:var(--ink)}
+.tf-fb{margin-top:.4em;font-size:var(--micro);color:var(--muted)}
+/* a hairline drop with a dot terminator - the same mark the flow diagrams use
+   for "this leads to that," so the vocabulary stays one vocabulary */
+.tf-conn{display:flex;justify-content:center;height:44px}
+.tf-conn i{width:0;border-left:1.5px dashed var(--line-soft)}
+.tf-label{font-family:var(--sans);font-size:var(--micro);color:var(--muted);
+  margin:var(--stack) 0 .9em;text-align:center}
+.tf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gutter)}
+/* the two grids pick up the same red and green: friction is the state the
+   person is in, response is what the system does about it, and the colour
+   carries that grouping the instant the section label is skimmed past */
+.tf-grid.is-friction{--tint-bg:var(--red-bg);--tint-ink:var(--red-ink)}
+.tf-grid.is-response{--tint-bg:var(--green-bg);--tint-ink:var(--green-ink)}
+.tf-card{padding:var(--stack);background:var(--tint-bg);border-radius:var(--r-lg);text-align:center}
+.tf-card .tag{margin-bottom:.6em}
+.tf-t{font-weight:500;font-size:var(--body);color:var(--tint-ink);margin:0}
+.tf-d{margin:.35em 0 0;font-size:var(--micro);color:var(--tint-ink);opacity:.82}
+/* ═══ friction paired with response ═══
+   These were two five-card grids stacked with a connector between them -
+   about fifty elements to say five things. Set as one table the pairing is
+   the structure rather than something the reader has to reconstruct, and
+   the row is where the empathy actually shows: what the person feels, and
+   what was built because of it, on one line. */
+/* ═══ the decision ═══
+   One per section, always the same four lines, always in the same place: what
+   was chosen, what it was chosen over, why, and what it cost. The cost line is
+   what earns the component - a choice on its own is a claim, a choice with its
+   price is judgment, and that is the part a polished-looking case study cannot
+   fake.
+
+   A table rather than a card holding a list. It has to span the section: with
+   no column set it fell into the label track and rendered 342px wide against a
+   1228px section, which is why four short lines looked cramped and odd. Rows
+   also let the chosen option carry weight - it is the decision, and the other
+   three rows exist to qualify it. */
+.dec{grid-column:1 / -1;width:100%;border-collapse:collapse;margin-top:var(--stack)}
+.dec caption{text-align:left;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);padding-bottom:var(--stack)}
+.dec th{width:1%;white-space:nowrap;text-align:left;vertical-align:baseline;
+  padding:.9em var(--gutter) .9em 0;border-top:1px solid var(--edge);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.dec td{padding:.9em 0;border-top:1px solid var(--edge);
+  font-size:var(--body);line-height:1.5;color:var(--ink)}
+/* the chosen row is the decision itself: card ground behind it, its label in
+   ink rather than muted, and the value carrying the weight */
+.dec .is-chosen th,.dec .is-chosen td{background:var(--card)}
+.dec .is-chosen th{color:var(--ink);padding-left:calc(var(--gutter)*.5);
+  border-radius:var(--r-lg) 0 0 var(--r-lg)}
+.dec .is-chosen td{font-weight:500;padding-right:calc(var(--gutter)*.5);
+  border-radius:0 var(--r-lg) var(--r-lg) 0}
+/* the price of the choice, in the same red the page uses for what was given up */
+.dec .dec-cost{color:var(--red-ink)}
+@media (max-width:600px){
+  /* a term and its value stay together and the eye keeps one column */
+  .dec,.dec tbody,.dec tr,.dec th,.dec td{display:block;width:auto}
+  .dec th{border-top:1px solid var(--edge);padding:.7em 0 0}
+  .dec td{padding:.15em 0 .8em}
+  .dec .is-chosen th{border-radius:var(--r-lg) var(--r-lg) 0 0;padding-inline:calc(var(--gutter)*.5)}
+  .dec .is-chosen td{border-radius:0 0 var(--r-lg) var(--r-lg);padding-inline:calc(var(--gutter)*.5)}
+}
+.pairs{width:100%;border-collapse:collapse;margin-top:var(--stack)}
+.pairs caption{text-align:left;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);padding-bottom:var(--stack)}
+.pairs thead th{text-align:left;padding:0 var(--gutter) .9em 0;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.pairs thead tr{border-bottom:1px solid var(--edge-ctrl)}
+.pairs tbody tr{border-bottom:1px solid var(--edge)}
+.pairs th[scope="row"],.pairs td{padding:1.05em var(--gutter) 1.05em 0;
+  vertical-align:top;text-align:left;font-weight:400}
+.pairs th[scope="row"]{width:50%}
+.p-t{display:block;font-family:var(--sans);font-weight:500;font-size:var(--body);
+  line-height:1.3;color:var(--ink)}
+.pairs td .p-t{color:var(--green-ink)}
+.pairs th[scope="row"] .p-t{color:var(--red-ink)}
+.p-d{display:block;margin-top:.3em;font-size:var(--micro);line-height:1.5;color:var(--body-c)}
+/* the one row that is the whole thesis gets the ink treatment the rest do not */
+.pairs tr.is-core{background:var(--card)}
+.pairs tr.is-core .p-t{color:var(--ink)}
+@media (max-width:767px){
+  .pairs thead{display:none}
+  .pairs tr{display:grid;gap:.2em;padding-block:.9em}
+  .pairs th[scope="row"],.pairs td{width:auto;padding:.25em 0}
+  .pairs td::before{content:"→ ";color:var(--muted)}
+}
+.tf-legend{margin-top:calc(var(--stack)*1.2);padding-top:var(--stack);border-top:1px solid var(--edge);
+  display:flex;flex-wrap:wrap;gap:.6em 2em}
+.tf-legend div{display:flex;align-items:center;gap:.55em;font-size:var(--micro);color:var(--muted)}
+.tf-legend b{font-weight:500;color:var(--ink)}
+.tf-swatch{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+.tf-swatch.is-friction{background:var(--red-ink)}
+.tf-swatch.is-core{background:var(--ink)}
+.tf-swatch.is-response{background:var(--green-ink)}
+.tf-close{margin-top:calc(var(--stack)*1.1);text-align:center}
+.tf-close p{margin:0;font-size:var(--micro);color:var(--line-soft);line-height:1.7}
+@media (max-width:700px){.tf-grid{grid-template-columns:1fr}}
+
+/* ═══ generation strip — three versions, two of them cut ═══
+   The status is carried by fill rather than by hue: a solid pill for what
+   shipped, a hairline one for what did not. The system has eight colours and
+   no red or green in it, and inventing them for two labels is not worth the
+   exception - the words already say Cut and Shipped. */
+.eyebrow-b{grid-column:1 / -1;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  margin:var(--section) 0 0;padding-bottom:.8em;border-bottom:1px solid var(--edge)}
+/* in the gallery the same label separates two runs of screens rather than two
+   arguments, so it takes a fraction of the space it takes in the prose */
+#s8 .eyebrow-b{margin-top:calc(var(--section)*.4)}
+#s8 .eyebrow-b:first-of-type{margin-top:var(--stack)}
+/* The block is capped to the three screens plus the space between them. Left to
+   span the section, the columns came out 389 wide around 300 wide shots, so each
+   one floated in 44px of slack and the neighbours ended up 121px apart - three
+   separate pictures rather than one sequence. Still fr rather than fixed tracks,
+   so they shrink normally once the screen is narrower than the cap. */
+.gens{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--stack);max-width:calc(300px*3 + var(--stack)*2);
+  margin-top:var(--stack);align-items:start}
+/* Three shots of the same screen at three stages, so they have to read as the
+   same screen. They were not: the exports are 430x932, 430x932 and 390x844, and
+   with width:auto each one stopped at its own natural size the moment the column
+   grew past it - Gen 3 came out 40px narrower and 88px shorter than the other
+   two, with its caption riding up above theirs.
+   One box for all three and a shared ratio, so the heights match exactly. The
+   cap is 300 rather than the 390 of the smallest export: at full size a single
+   screen stood 845px tall and three of them were a wall of phone. They are
+   evidence of a sequence, not screens to read - and 300 is the width the
+   mockup in the masthead already uses, so the two agree. */
+.gen img{display:block;width:100%;max-width:300px;height:auto;
+  aspect-ratio:430/932;object-fit:contain;margin-inline:auto}
+.gen-cap{padding-top:.9em}
+.tag{display:inline-block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;padding:.25em .8em;border-radius:var(--r-pill);
+  margin-bottom:.6em}
+.tag--cut{color:var(--muted);box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+.tag--ship{color:var(--page);background:var(--ink)}
+.gen-label{font-weight:500;font-size:var(--micro);color:var(--ink);line-height:1.6}
+.gen-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:.35em}
+
+/* ═══ dev-sync table — why the middle generation was cut ═══ */
+.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;text-align:left}
+.devsync thead th{padding:0 var(--gutter) .9em 0;vertical-align:bottom;font-weight:400}
+.devsync thead tr{border-bottom:1px solid var(--edge-ctrl)}
+.devsync th span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.devsync tbody th{font-weight:500;font-size:var(--body);color:var(--ink);
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;white-space:nowrap;text-align:left}
+.devsync tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
+  padding:1.2em 0 1.2em 0;vertical-align:top}
+.devsync tbody tr{border-bottom:1px solid var(--edge)}
+.devsync tbody tr:last-child{border-bottom:0}
+.devsync code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
+  background:var(--recess);padding:.1em .4em;border-radius:4px;color:var(--ink)}
+@media (max-width:900px){
+  .devsync,.devsync thead,.devsync tbody,.devsync tr,.devsync th,.devsync td{display:block;width:auto}
+  .devsync thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .devsync tbody th{padding:var(--stack) 0 .4em;border-top:1px solid var(--edge)}
+  .devsync tbody td{padding:0 0 .9em}
+  .devsync tbody tr{border-bottom:0}
+}
+/* the case made for the harder path, held apart with a spine rather than a box
+   on every side - the emphasis belongs to the one sentence in em, not the frame */
+.pushed{grid-column:1 / -1;margin-top:var(--stack);padding-left:var(--stack);
+  border-left:2px solid var(--line)}
+.pushed-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0}
+.pushed p{margin:.4em 0 0;font-size:var(--body);line-height:1.6;color:var(--body-c)}
+.pushed em{color:var(--ink);font-style:italic;font-synthesis:none}
+
+/* ═══ chip-validation carousel ═══
+   App_Screen.png is not a wide picture, it is nine phone frames in one file.
+   The window is one frame wide and the strip is translated behind it, which is
+   the only way to show it without either squashing nine screens into a column
+   or slicing the file into nine. */
+.carousel{grid-column:1 / -1;margin-top:var(--stack);
+  border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden;background:var(--card)}
+.car-top{display:flex;align-items:center;justify-content:space-between;gap:var(--stack);
+  padding:.9em var(--stack);border-bottom:1px solid var(--edge)}
+.car-label{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted)}
+.car-count{font-family:var(--sans);font-size:var(--micro);color:var(--muted);font-variant-numeric:tabular-nums}
+/* Several frames at once, because the point of nine states is the progression
+   between them - one at a time turns a sequence into nine separate pictures.
+   The strip slides under a frame that never moves, so the state being read is
+   always the middle one; at the first and last states the strip runs out and
+   the empty slots are honest - there is no state before the first. */
+.car-stage{position:relative;display:flex;align-items:center;justify-content:center;
+  gap:calc(var(--stack)*.5);padding:calc(var(--stack)*.5);background:var(--page)}
+.car-window{position:relative;overflow:hidden;flex:0 0 auto}
+.car-window img{display:block;height:auto;width:auto;max-width:none;
+  transition:transform var(--out) var(--ease)}
+[data-motion="off"] .car-window img{transition:none}
+/* the two neighbours stay legible but stand back */
+.car-veil{position:absolute;top:0;bottom:0;background:var(--page);opacity:.62;
+  pointer-events:none;transition:width var(--out) var(--ease)}
+.car-veil--l{left:0} .car-veil--r{right:0}
+/* and the middle slot is drawn around, not filled */
+.car-mark{position:absolute;top:0;bottom:0;left:50%;translate:-50% 0;pointer-events:none;
+  border:2px solid var(--ink);border-radius:calc(var(--r-lg)*.6);
+  transition:width var(--out) var(--ease)}
+.car-btn{flex:0 0 auto;z-index:2;
+  width:var(--control);height:var(--control);border-radius:var(--r-pill);
+  border:1px solid var(--edge);background:var(--glass);color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;padding:0;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:opacity var(--out) var(--ease),border-color var(--out) var(--ease)}
+.car-btn:hover:not(:disabled){border-color:var(--edge-ctrl)}
+.car-btn:disabled{opacity:.22;pointer-events:none}
+.car-bottom{padding:1em var(--stack) 1.1em;border-top:1px solid var(--edge)}
+.car-desc{font-size:var(--micro);line-height:1.6;color:var(--body-c);min-height:2.6em}
+/* The dot you see is 7px; the thing you press is 28. A 7px target is under
+   half the 24px WCAG minimum and unusable with a thumb, but a 28px dot would
+   be a row of buttons instead of a position indicator - so the button carries
+   the target and paints the dot inside itself. */
+.car-dots{display:flex;gap:2px;margin-top:.5em;margin-left:-6px}
+.car-dot{width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center}
+.car-dot::before{content:"";width:7px;height:7px;border-radius:var(--r-pill);
+  background:var(--line-soft);
+  transition:background var(--out) var(--ease),scale var(--out) var(--ease)}
+.car-dot[aria-current="true"]::before{background:var(--ink);scale:1.35}
+.car-dot:hover::before{background:var(--muted)}
+
+/* ═══ gap cards — three human states, arrow-joined to their design response ═══
+   Real content the old build carried as scannable HTML rather than as a raster
+   image: a state, what it feels like, and the response it earned. The pill
+   text keeps the source's own arrow rather than an icon, so it reads as a
+   continuation of the same arrow that joins the three cards. */
+.gap-cards{grid-column:1 / -1;margin-top:var(--stack);
+  display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:var(--stack)}
+.gap-card{padding:var(--stack);background:var(--card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);display:flex;flex-direction:column;gap:.5em}
+.gap-t{font-weight:500;font-size:var(--body);line-height:1.35;color:var(--ink);margin:0}
+.gap-d{font-size:var(--micro);line-height:1.5;color:var(--muted);margin:0}
+.gap-pill{align-self:flex-start;margin-top:.4em;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);letter-spacing:.03em;color:var(--ink);
+  background:var(--recess);border-radius:var(--r-pill);padding:.4em 1em}
+.gap-arrow{align-self:center;font-size:var(--title);line-height:1;color:var(--line-soft);
+  font-family:var(--sans)}
+@media (max-width:900px){
+  .gap-cards{grid-template-columns:1fr}
+  .gap-arrow{transform:rotate(90deg);justify-self:center;padding:.2em 0}
+}
+
+/* ═══ flows — mockups joined by dashed runs ═══
+   The connectors are drawn with dashed borders on positioned elements rather
+   than as SVG paths. The source page used a fixed 800-unit viewBox with the
+   corners hard-coded at x=130/400/670, which only lines up at one width; these
+   are placed on the lane centres as percentages, so the corners stay under the
+   screens they join at every size. */
+/* The lane centres are not at 25% and 75%: a two-column grid with a gutter
+   puts the left cell centre at 25% minus a quarter of the gap, and the right
+   one the same distance the other way. Held as variables so the connectors and
+   the screens cannot drift apart when the gutter changes with the viewport. */
+/* Lane positions are derived from the screen column, not from the grid: a
+   connector has to meet the screen, and the screen sits at the outer edge of
+   its lane inside a fixed --shot column. Half that column in from each side is
+   the screen centre, at every width, whatever the crop. */
+.flow{grid-column:1 / -1;margin-top:var(--stack);
+  --shot:clamp(190px, 16.5vw, 270px);
+  /* how far the note sits off the screen it belongs to */
+  --ann-gap:clamp(12px, 1.4vw, 24px);
+  /* How far the leader carries on past the edge of the screen. Six pixels put
+     the end circle straddling the edge, which read as a stroke stopping at the
+     phone rather than landing on it; a proportion of the screen width lands the
+     circle properly inside and holds that relationship as the screen scales. */
+  --lead-in:calc(var(--shot) * .13);
+  --lead:calc(var(--ann-gap) + var(--lead-in));
+  --lane-a:calc(var(--shot)/2);
+  --lane-b:calc(100% - var(--shot)/2);
+  /* Screen centres when the pair faces inwards: the right edge of the left
+     column, and its mirror. A two-screen row used to sit its screens on the
+     outer edges with both notes filling the middle, which pushed the two
+     screens about a third of the section apart - so the row read as two
+     unrelated pictures rather than one branch. Notes outside, screens together. */
+  --lane-inner-a:calc((100% - var(--gutter))/2 - var(--shot)/2);
+  --lane-inner-b:calc(100% - var(--lane-inner-a))}
+.flow-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);align-items:start}
+.flow-row--one{grid-template-columns:1fr}
+/* the last row links its two screens directly, so they face each other across
+   a gutter-width run rather than sitting on the outer edges */
+.flow-row--pair{grid-template-columns:1fr var(--gutter) 1fr;gap:0}
+
+/* A node is one screen and the note that explains it, side by side and read as
+   one object. The screen sits in a fixed column - --shot - so that every
+   screen in a flow occupies the same width whatever its own crop is, and every
+   connector can be aimed at the centre of that column instead of at the centre
+   of a lane. --l puts the screen on the left of its note, --r mirrors it, and
+   the mirror is what keeps a screen on the outside edge of its lane where the
+   connectors run. */
+.flow-node{display:grid;gap:var(--ann-gap);align-items:center;min-width:0}
+.flow-node--l{grid-template-columns:var(--shot) minmax(0,1fr)}
+.flow-node--r{grid-template-columns:minmax(0,1fr) var(--shot)}
+.flow-node--c{grid-template-columns:var(--shot);justify-content:center}
+.flow-shot{display:flex;flex-direction:column;gap:.6em;align-items:center;min-width:0}
+/* the box already separates the note from the screen; ragging the text right
+   as well only makes it harder to read */
+.flow-node--r .ann{text-align:left}
+/* A note is capped at 34ch, so on a full-width row its column is far wider than
+   the card. Left in place it would sit at the far side of that column and the
+   tail would point across empty space; pushed to the end, it stays against the
+   screen it belongs to whatever the row is doing. */
+.flow-node--l .ann{justify-self:start}
+.flow-node--r .ann{justify-self:end}
+/* The width of --shot is what sets the size; this only stops a tall window
+   from being irrelevant and a short one from being scrolled to death. At the
+   usual desktop heights the width wins and the height cap never binds. */
+.flow-shot img{width:auto;max-width:100%;height:auto;max-height:clamp(320px, 58vh, 620px)}
+.chip{display:inline-block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink);
+  background:var(--card);border-radius:var(--r-pill);padding:.3em .9em;
+  box-shadow:inset 0 0 0 1px var(--edge)}
+/* A note is a card joined to its screen by a leader: a hairline stroke with a
+   small circle at each end, one on the card and one landing inside the screen.
+   Not a speech bubble - a bubble says the screen is talking, and these are
+   annotations pointing at it. The stroke is solid where the flow connectors are
+   dashed, so a line that labels something never reads as a line that sequences
+   it. Both end circles come from one element: ::after draws the near one and a
+   box-shadow offset by the leader length draws the far one, which keeps them on
+   the same colour and radius by construction.
+   z-index because in a mirrored node the note is written before the screen, and
+   without it the leader would pass underneath. */
+.ann{position:relative;z-index:1;max-width:34ch;
+  padding:calc(var(--stack)*.5) calc(var(--stack)*.62);
+  background:var(--card);border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge)}
+.ann::before,.ann::after{content:"";position:absolute;top:50%}
+.ann::before{height:0;width:var(--lead);border-top:1.5px solid var(--line-soft)}
+.ann::after{width:7px;height:7px;margin-top:-3.5px;border-radius:var(--r-pill);
+  background:var(--line-soft)}
+/* screen on the left: the leader leaves the card going left */
+.flow-node--l .ann::before{left:calc(-1 * var(--lead))}
+.flow-node--l .ann::after{left:calc(-1 * var(--lead) - 3.5px);
+  box-shadow:var(--lead) 0 0 0 var(--line-soft)}
+/* mirrored: screen on the right */
+.flow-node--r .ann::before{right:calc(-1 * var(--lead))}
+.flow-node--r .ann::after{right:calc(-1 * var(--lead) - 3.5px);
+  box-shadow:calc(-1 * var(--lead)) 0 0 0 var(--line-soft)}
+.ann-t{font-weight:500;font-size:var(--micro);color:var(--ink);line-height:1.6}
+.ann-b{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:.45em}
+
+/* one connector element, positioned segments inside it */
+.conn{position:relative;height:var(--h,90px)}
+.conn i{position:absolute;display:block;border:0 dashed var(--line-soft)}
+.conn i.v{border-left-width:1.5px}
+.conn i.h{border-top-width:1.5px}
+.conn b{position:absolute;top:calc(50% - 2.1em);translate:-50% 0;font-weight:500;
+  font-family:var(--sans);font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);background:var(--page);padding:0 .6em;white-space:nowrap}
+
+/* the last row of the edge-case flow: two screens with a short run between */
+.flow-row--pair .conn-x{align-self:center;border-top:1.5px dashed var(--line-soft);height:0}
+
+/* ═══ narrow ═══
+   one column, and the contents list stops sticking and becomes a block the
+   reader can fold away - a list pinned to a short screen costs more than it
+   gives back */
+/* A lane has to hold a screen and its note side by side. Below about 1200 it
+   cannot without cutting the note to sixteen characters a line, so the flow
+   drops to a single file, the note goes back under its screen, and every
+   connector becomes one dashed drop down the middle. */
+@media (max-width:1199px){
+  .flow-row,.flow-row--pair{grid-template-columns:1fr;gap:var(--stack)}
+  .flow-node,.flow-node--l,.flow-node--r,.flow-node--c{grid-template-columns:1fr;gap:var(--ann-gap);justify-content:stretch}
+  /* A mirrored node writes its note before its screen, which is right when they
+     sit side by side and wrong the moment they stack: the note would land above
+     the screen with its tail pointing up at nothing. Put the screen first in
+     source order for the stacked case only. */
+  .flow-node--r .flow-shot{order:-1}
+  .flow-node--r .ann{text-align:left}
+  .flow-node--l .ann,.flow-node--r .ann{justify-self:center}
+  /* stacked, so the leader stands up between the screen and the note */
+  .flow-node--l .ann::before,.flow-node--r .ann::before{
+    left:50%;right:auto;top:calc(-1 * var(--lead));width:0;height:var(--lead);
+    border-top:0;border-left:1.5px solid var(--line-soft)}
+  .flow-node--l .ann::after,.flow-node--r .ann::after{
+    left:calc(50% - 3.5px);right:auto;top:calc(-1 * var(--lead) - 3.5px);margin-top:0;
+    box-shadow:0 var(--lead) 0 0 var(--line-soft)}
+  .flow-shot img{max-height:clamp(320px, 52vh, 560px)}
+  .ann{max-width:52ch}
+  .flow-row--pair .conn-x{border-top:0;border-left:1.5px dashed var(--line-soft);
+    height:36px;width:0;justify-self:center}
+  .conn{height:52px}
+  .conn i{display:none}
+  .conn::before{content:"";position:absolute;left:50%;top:0;bottom:0;
+    border-left:1.5px dashed var(--line-soft)}
+  .conn b{left:50% !important}
+}
+
+/* ═══ text sits at the measure of the prose ═══
+   Everything listed here is read, not looked at, so none of it should be wider
+   than the paragraphs it argues alongside. Spanning the section they ran 1228
+   against a 635 column of copy - the same sentence changed length depending on
+   which component it landed in. They now start where the prose starts and stop
+   where it stops. Figures, the carousel and the flows are excluded on purpose:
+   those are looked at, and they earn the width. .versus is out for the same
+   reason, and so is .gap-cards: those are several columns set beside each
+   other, and at the measure of a paragraph each column halves and the thing
+   stops being comparable. The rule is for running text, not for any block that
+   happens to be made of words.
+   They take the measure of the prose but not its indent: these start at the
+   left edge of the section, where the section title starts, rather than being
+   pushed into the reading column. Same line length, left margin of the page.
+   Declared after the components themselves so it wins at equal specificity. */
+.dec,.devsync,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
+  grid-column:1 / -1;max-width:66ch}
+
+@media (max-width:1023px){
+  .cs-body{grid-template-columns:1fr}
+  .cs-toc{grid-column:1;grid-row:auto;position:static;max-height:none;overflow:visible;
+    margin-bottom:var(--section);padding-bottom:var(--stack);border-bottom:1px solid var(--edge)}
+  .sec{grid-column:1;grid-template-columns:1fr;gap:var(--stack)}
+  .cs-title{max-width:none}
+  /* the flows stop being two lanes and become one column; every connector
+     collapses to a single dashed drop down the middle, which is all a
+     one-column reading order can honestly show */
+  .copy-2{grid-column:1}
+  /* one track here, so there is no reading column for them to sit in */
+  .dec,.devsync,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
+    grid-column:1;max-width:none}
+  .gens{grid-template-columns:1fr}
+}
+/* ═══ scaffold markers ═══
+   Everything still to be supplied, shown rather than hidden in a comment: this
+   page is not linked from the landing page yet, and a marker you can see is a
+   marker you will actually clear. Delete this rule and every .fill with it. */
+.fill{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  line-height:1.6;letter-spacing:.01em;text-transform:none;color:var(--red-ink);
+  background:var(--red-bg);border-left:2px solid var(--red-ink);
+  border-radius:0 var(--r-lg) var(--r-lg) 0;
+  padding:calc(var(--stack)*.5) calc(var(--stack)*.7);margin:0}
+.fill code{font-family:var(--sans);font-weight:500;background:rgba(122,50,38,.09);
+  border-radius:4px;padding:.1em .35em}
+span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
+.fill--fig{text-align:left}
+.cs-facts .fill{margin-top:.2em}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#read">Skip to the case study</a>
+
+<div class="chrome-shell">
+  <nav class="chrome c-tl" aria-label="Case study">
+    <div class="c-tl-row">
+    <a class="brand" href="/" aria-label="Orsolya G. — home"><svg height="100%" class="logo-mark" aria-hidden="true" viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <path d="M145.6,64.9c-3.1-7.3-7.4-13.7-12.8-19c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1C150.2,80.3,148.7,72.2,145.6,64.9z M112.9,114c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C121.5,99.4,118.6,107.7,112.9,114z"/>
+        <path d="M335,88.8c-3.5-2.5-7.4-4.5-11.7-6.2c-4.3-1.7-8.5-3.2-12.7-4.4c-4.2-1.3-8.1-2.6-11.7-4c-3.6-1.4-6.4-3-8.6-5c-2.1-1.9-3.2-4.3-3.2-7.2c0-3.5,1.3-6.1,3.9-8c2.6-1.8,5.7-2.8,9.4-2.8c4,0,7.4,1.3,10.2,3.8c1.7,1.5,3.1,3.5,4.1,5.8c1.3,2.9,4.4,4.5,7.4,3.7l15.6-4.1c3.6-1,5.7-4.9,4.3-8.4c-2.3-6.1-6.4-11.3-12.1-15.4c-7.7-5.6-17.3-8.4-28.9-8.4c-8.5,0-15.9,1.4-22.3,4.1c-6.4,2.7-11.4,6.7-15,12c-3.6,5.3-5.5,11.6-5.5,19c0,5.6,1.1,10.3,3.2,14.1c2.1,3.8,5,7,8.5,9.5c3.5,2.5,7.4,4.6,11.6,6.3c4.2,1.7,8.4,3.2,12.6,4.5c4.2,1.3,8,2.7,11.5,4c3.5,1.3,6.3,3,8.4,5c2.1,2,3.2,4.4,3.2,7.5c0,3.4-1.3,6-3.9,8.1c-2.6,2-6.4,3-11.2,3c-4.6,0-8.5-1.6-11.8-4.7c-2.2-2.1-3.9-4.7-5.1-7.8c-1.2-2.9-4.1-4.5-7.1-3.8l-15.6,3.5c-3.7,0.8-5.9,4.8-4.6,8.4c2.7,7.4,7.3,13.4,13.9,18.3c8.5,6.3,19,9.4,31.6,9.4c8.4,0,15.9-1.7,22.4-5c6.5-3.3,11.7-7.7,15.4-13.1c3.7-5.4,5.6-11.4,5.6-18c0-5.6-1.1-10.3-3.3-14.1C341.4,94.4,338.5,91.2,335,88.8z"/>
+        <path d="M462.8,45c-5.5-5.3-11.9-9.5-19.2-12.4c-7.3-3-15.2-4.4-23.6-4.4c-8.3,0-16.1,1.5-23.4,4.4c-7.3,3-13.7,7.1-19.2,12.4c-5.5,5.3-9.8,11.6-12.9,19c-3.1,7.3-4.7,15.4-4.7,24.3c0,8.7,1.6,16.8,4.7,24.1c3.1,7.3,7.4,13.7,12.9,19.1c5.5,5.4,11.9,9.5,19.2,12.5c7.3,3,15.1,4.4,23.4,4.4c8.4,0,16.2-1.5,23.5-4.4c7.3-3,13.7-7.1,19.2-12.5c5.5-5.4,9.8-11.7,12.9-19.1c3.1-7.3,4.6-15.4,4.6-24.1c0-8.8-1.5-16.9-4.6-24.3C472.6,56.7,468.3,50.4,462.8,45z M442.9,113.1c-5.8,6.3-13.4,9.4-22.9,9.4c-9.5,0-17.1-3.1-22.8-9.4c-5.7-6.3-8.6-14.5-8.6-24.8c0-10.5,2.9-18.9,8.6-25c5.7-6.2,13.3-9.2,22.8-9.2c9.5,0,17.1,3.1,22.9,9.2c5.8,6.2,8.6,14.5,8.6,25C451.6,98.6,448.7,106.9,442.9,113.1z"/>
+        <path d="M628.8,27.5h-17.3c-2.5,0-4.7,1.4-5.8,3.7l-15.4,33.5c-2.3,4.9-9.2,4.9-11.5,0l-15.5-33.5c-1-2.2-3.3-3.7-5.8-3.7H540c-4.8,0-7.8,5-5.6,9.3l35.1,68.1c0.5,0.9,0.7,1.9,0.7,2.9V139c0,3.5,2.8,6.3,6.3,6.3h15.7c3.5,0,6.3-2.8,6.3-6.3v-31.2c0-1,0.2-2,0.7-2.9l35.1-68.1C636.6,32.6,633.5,27.5,628.8,27.5z"/>
+        <path d="M698.5,31.7c-0.9-2.5-3.3-4.2-6-4.2h-23.8c-2.7,0-5.1,1.7-6,4.2l-38,105.2c-1.5,4.1,1.6,8.5,6,8.5h16.1c2.7,0,5.1-1.7,6-4.3l4.1-12.2c0.9-2.6,3.3-4.3,6-4.3h35.2c2.7,0,5.2,1.8,6,4.4l4,12.1c0.9,2.6,3.3,4.4,6,4.4h16.3c4.4,0,7.5-4.4,6-8.5L698.5,31.7z M686.3,102.6h-11.7c-4.3,0-7.4-4.3-6-8.4l5.9-17.4c1.9-5.8,10.1-5.7,12,0l5.8,17.4C693.7,98.3,690.6,102.6,686.3,102.6z"/>
+        <path d="M240.3,113.6c-4.2-6.1-9.1-10.8-14.7-14.1c-2.7-1.6-2.4-5.2,0.4-6.5c4.4-2,8.1-4.8,11.1-8.3c4.8-5.6,7.2-12,7.2-19.3c0-10.9-4-19.6-12-26.2c-8-6.6-19.4-9.9-34.2-9.9h-46c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.6,10.5,38.5,50.7,1.1,106.5c-1.3,1.9,0.1,4.4,2.4,4.4h28.2c1.1,0,2.1-0.6,2.5-1.6c2.3-4.6,8.9-18.8,11.6-37.3c3.2,1.2,6,2.7,8.6,4.5c5.1,3.7,9,8.6,11.6,14.6c2.2,5.2,3.7,10.9,4.4,17.3c0.2,1.9,1.9,3.3,3.9,3.3h24.4c2.4,0,4.3-2,3.9-4.3C249.5,131.4,245.8,121.6,240.3,113.6z M209.1,77.5c-2.9,2.8-7.2,4.2-12.8,4.2h-1c-1-9.6-3.6-19.5-8.4-29.4h9.4c5.5,0,9.7,1.3,12.7,3.9c3,2.6,4.5,6.1,4.5,10.3C213.5,71.1,212,74.7,209.1,77.5z"/>
+        <path d="M541,123.4h-20.2c5.6-23.6,8.8-62.8-14.3-94.5c-0.3-0.3,0-0.8-0.4-0.8l-6.5,0.1H483c-3.2,0-4.8,3.2-3.5,5.5c0,0.1,0.1,0.1,0.1,0.2c0,0,0.1,0.1,0.1,0.2c0.1,0.1,0.1,0.1,0.2,0.2c8.3,10.2,36.6,48.2,4.4,101.3c-2.6,4.2,0.5,9.6,5.4,9.6H511c0.3,0,0.6,0,0.9-0.1c0.4,0.3,0.9,0.4,1.4,0.4H541c3.5,0,6.3-2.8,6.3-6.3v-9.3C547.3,126.2,544.5,123.4,541,123.4z"/>
+        <path d="M912.7,78.3h-54.3c-2.1,0-3.8,1.7-3.8,3.8v14.4c0,2.1,1.7,3.8,3.8,3.8h25.2c2.9,0,4.8,3.2,3.3,5.7c-0.9,1.5-1.9,3-3.1,4.5c-2.6,3.2-5.7,5.8-9.5,7.8c-3.8,2-7.9,2.9-12.5,2.9c-6.5,0-12.2-1.4-17.2-4.2c-5-2.8-8.9-6.8-11.8-12c-2.9-5.2-4.3-11.5-4.3-18.9c0-10.3,2.8-18.6,8.4-24.8c5.6-6.2,13.1-9.3,22.5-9.3c6.4,0,11.7,1.6,16,4.7c3.4,2.5,6.1,5.7,8,9.7c0.9,1.8,2.9,2.7,4.8,2l20.4-7.5c2.1-0.8,3.1-3.1,2.2-5.1c-4-9.2-10.3-16.3-18.6-21.2c-9.5-5.6-20.4-8.4-32.7-8.4c-11.4,0-21.6,2.5-30.6,7.6c-9,5-16.1,12.1-21.3,21.1c-5.2,9-7.8,19.4-7.8,31.3c0,9,1.5,17.1,4.4,24.4c3,7.3,7.1,13.7,12.3,19.1c5.2,5.4,11.2,9.5,18,12.4c6.8,2.9,14,4.4,21.5,4.4c6.8,0,12.7-1.2,17.6-3.7c4.9-2.5,9-5.5,12.1-9.1c0,0,0.1-0.1,0.1-0.1c2.3-2.6,6.6-1.1,6.6,2.4v5.4c0,2.1,1.7,3.8,3.8,3.8h16.5c2.1,0,3.8-1.7,3.8-3.8V82.1C916.6,80,914.9,78.3,912.7,78.3z"/>
+        <circle cx="956.9" cy="129" r="18.9"/>
+      </g>
+    </svg></a>
+    <!-- Where am I, how much is left, how do I get out - written by the same
+         spy that used to light up the contents list. -->
+    <div class="csbar">
+      <a class="cs-back" href="/#work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span>Work</span>
+      </a>
+      <span class="csbar-rail" aria-hidden="true"><i class="csbar-fill" id="barFill"></i></span>
+      <span class="csbar-count" id="barCount">1 / 6</span>
+    </div>
+    </div>
+    <!-- what is coming, in order - the bar says where you are, this says how
+         far the whole thing runs. Tertiary on purpose. -->
+    <nav class="cs-route" aria-label="Sections in this case study">
+      <ol>
+        <li><a href="#s1">In short</a></li>
+        <li><a href="#s2">The problem</a></li>
+        <li><a href="#s4">The study</a></li>
+        <li><a href="#s5">Findings</a></li>
+        <li><a href="#s6">Constraints</a></li>
+        <li><a href="#s7">The system</a></li>
+        <li><a href="#s8">The demo</a></li>
+        <li><a href="#s9">Reflection</a></li>
+      </ol>
+    </nav>
+  </nav>
+
+  <div class="chrome c-br">
+    <div class="noise" id="noise" data-on="false">
+      <div class="noise-vol">
+        <input type="range" id="vol" min="0" max="100" value="8" aria-label="Noise volume" disabled>
+      </div>
+      <button class="btn noise-btn" id="noiseBtn" aria-pressed="false" aria-describedby="noiseTip">
+        <span class="n-ico" aria-hidden="true">
+          <svg class="n-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="n-wave"><path d="M-12 12q3-6 6 0t6 0t6 0t6 0t6 0t6 0"/></g></svg>
+          <svg class="n-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2l2-5 3 10 3-13 3 16 2-8h3"/></svg>
+        </span>
+        <span>Noise for focus</span>
+      </button>
+      <span class="n-tip" id="noiseTip" role="note"><span class="n-tip-t">Having a long day?</span>Pink noise, even across every octave with a slow 10 Hz swell, takes the edge off the room. Attention lasts longer when less is competing for it.</span>
+    </div>
+    <button class="btn btn--icon" id="a11yBtn" aria-label="Accessibility options" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.4" r="2" fill="currentColor" stroke="none"/><path d="M5.4 9h13.2M12 9v5.6M12 14.6 8.6 20M12 14.6 15.4 20"/></svg>
+    </button>
+  </div>
+
+  <div class="panel" id="panel" data-open="false" role="dialog" aria-label="Accessibility options">
+    <h2 class="panel-h">Accessibility</h2>
+    <div class="prow"><span>Text size</span>
+      <span class="pset">
+        <button class="btn btn--icon" data-text="-" aria-label="Smaller text">&minus;</button>
+        <button class="btn btn--icon" data-text="0" aria-label="Reset text size">A</button>
+        <button class="btn btn--icon" data-text="+" aria-label="Larger text">+</button>
+      </span></div>
+    <div class="prow"><span>High contrast</span>
+      <button class="btn" id="contrastBtn" aria-pressed="false">Off</button></div>
+    <div class="prow"><span>Reduce motion</span>
+      <button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
+    <p class="pnote">Pink noise plays a steady, even tone that can help with focus. It stays off until you turn it on.</p>
+  </div>
+
+</div>
+
+<div class="wrap">
+
+  <header class="cs-head">
+    <p class="cs-eyebrow">Multi-modal Feedback Design · Human-AI Interaction · Human Factors</p>
+    <h1 class="cs-title">Feeling the Machine Hesitate</h1>
+    <p class="cs-prompt">Lane departure warning, for language models</p>
+
+    <dl class="cs-facts">
+      <div><dt>Discipline</dt><dd>Human-AI Interaction · Human Factors · Trust-Centred Design</dd></div>
+      <div><dt>Type</dt><dd>Self-directed research and system design. Unaffiliated with any employer or client.</dd></div>
+      <div><dt>Role</dt><dd>Sole researcher and designer — study design, instrument authoring, bilingual fielding, analysis, system architecture, interaction design, prototyping, testing</dd></div>
+      <div><dt>Research base</dt><dd>83 respondents · 2 languages · 31 questions · 5 instrument sections</dd></div>
+      <div><dt>Timeline</dt><dd><span class="fill">FILL — e.g. Feb – Sep 2026, ongoing</span></dd></div>
+      <div><dt>Status</dt><dd><span class="fill">FILL — research complete · working prototype / interactive simulation / system specified, build in progress</span></dd></div>
+      <div><dt>Tools</dt><dd><span class="fill">FILL — Figma, Claude Code, prototyping stack, Google Forms, Python/pandas</span></dd></div>
+    </dl>
+
+    <div class="cs-intro">
+      <div>
+        <p class="cs-lede">A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.</p>
+        <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
+      </div>
+      <figure class="cs-hero">
+        <p class="fill fill--fig">VISUAL 1 — HERO. A conversation panel mid-answer, a thin amber edge-glow along the left border of the message, and beside it a hand-and-device silhouette with two concentric rings for a short haptic pulse. No dashboard, no charts, no score numbers, no red. The cue must look like it belongs to the surface, not like a notification stuck on top of it.</p>
+      </figure>
+    </div>
+
+  </header>
+
+  <div class="cs-body" id="read">
+
+    <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
+      <h2 class="sec-label" id="s1h">Read this if you read nothing else.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Chat AI communicates in exactly one channel: text. So when the model is guessing, drifting off the brief, or wandering into territory that deserves more care than a sentence can carry, it has only one way to tell you — more text. And more text reads exactly like the confident text around it.</p>
+        <p>I ran an independent study with 83 people to find out whether that gap actually costs anyone anything, and what a fix would have to look like to be tolerable. It does, and the answer was narrower than I expected: people don’t want a second opinion, and they don’t want a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</strong> What they want is a <em>notice</em> — a cue that something in the last answer has a different weight to it — delivered quietly enough that they can ignore it.</p>
+        <p>So I designed a signalling layer instead of an advisory one. Three kinds of friction, three sensory channels, no verdicts. It borrows its interaction model from lane departure warning in cars: the steering wheel buzzes, you look, you decide. The car never turns the wheel.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 2 — THE ONE-LINE DIAGRAM. A horizontal three-step strip: AI response → friction detected → sensory cue. Under the middle node, three labels branching: uncertainty · ethical weight · bias. Under the third, three icons: sound · touch · sight. Grey and ink only — colour arrives later, when the mapping is explained. No arrows into the user; the flow ends at the cue.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
+      <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
+      <div class="sec-copy">
+        <p class="fill">FILL — replace with the real first moment: the specific conversation, the specific task. One scene, not a category. Small and concrete. What follows is written to receive it.</p>
+        <p>It’s the same shape every time. You’re an hour into something — a long piece of writing, a decision you’re working through, a problem with real stakes. The answers keep arriving in the same even, well-formed voice. And at some point the model quietly stops doing the thing you asked. It drops the constraint you set at the start. It starts agreeing with a premise you were half-testing. It states something as fact that it does not have.</p>
+        <p class="hmw">None of that looks different on screen.</p>
+        <p>You find out later. You find out when you re-read, or when someone else reads it, or when you’ve already sent it. One respondent described this without being prompted, in an open text box, when I asked what one thing they would improve:</p>
+      </div>
+      <div class="said">
+        <blockquote>“Consistency, and a signal from the AI when it loses focus. You only find out afterwards that it stopped following the instructions it was given for the task, that it dropped the character — but it never signalled it.”</blockquote>
+        <p class="eyebrow-b">Respondent, Hungarian sample, age 35–44</p>
+      </div>
+      <div class="sec-copy copy-2">
+        <p>That is a person specifying this product in a survey box, unprompted, before I had described it to anyone.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 3 — THE PROBLEM, SHOWN. Two message bubbles side by side, identical in typography, weight and colour. Left labelled high-confidence, well-grounded. Right labelled low-confidence, partially fabricated. They must be genuinely indistinguishable — resist making the right one subtly worse. Caption: “Same font. Same weight. Same certainty. One of these is a guess.”</p>
+      </figure>
+
+      <p class="eyebrow-b">Confidence is a property the system has and the interface throws away.</p>
+      <div class="sec-copy">
+        <p class="sec-lede">The obvious fix is to make the model more accurate, or to make it say “I’m not sure” more often. Both are real work and neither is mine to do.</p>
+        <p>Mine is the part underneath: even a perfectly calibrated model has no way to tell you how much to lean on a given sentence. Text flattens it. Every answer arrives at the same volume.</p>
+        <p>That’s a display problem, and display problems have a literature. Aviation and automotive safety spent forty years learning that when a system knows something the operator doesn’t, you do not put it in the primary channel — you put it in a spare one. A stall warning is a stick shaker, not a line of text on the PFD. A lane departure warning is a buzz in the wheel, not a dialog. The reason is load: the pilot’s eyes and the driver’s eyes are already fully committed to the task, and a message in the busy channel either gets missed or costs them the thing they were doing.</p>
+        <p>A person deep in a long conversation with an AI is in the same state. Their visual and verbal attention is spent on reading and composing. Adding a sentence to that stream is adding to the exact channel that’s saturated. Adding a pulse to a channel that’s idle is not.</p>
+      </div>
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>Lane departure warning</span></th><th scope="col"><span>This system</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Detects drift from the lane</th><td>Detects drift from grounding, brief, or neutrality</td></tr>
+          <tr><th scope="row">Signals in an idle channel — the wheel</th><td>Signals in an idle channel — touch, ambient sound, peripheral vision</td></tr>
+          <tr><th scope="row">Does not steer</th><td>Does not rewrite, block, or advise</td></tr>
+          <tr><th scope="row">Tolerates being ignored</th><td>Tolerates being ignored</td></tr>
+          <tr><th scope="row">Punished hard for false alarms</th><td>Punished hard for false alarms</td></tr>
+          <tr><th scope="row">Driver stays responsible</th><td>User stays responsible</td></tr>
+        </tbody>
+      </table>
+      <div class="sec-copy copy-2">
+        <p>That last row is not a design preference. It’s what the data told me people demand, and it’s the constraint that killed several better-looking versions of this system.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 4 — THE BORROWED MODEL. Two panels. Left: simplified top-down car in a lane, drifting over the line, steering wheel highlighted with a pulse ring. Right: a chat surface, an answer drifting off-brief, the message edge highlighted with the same pulse ring. Identical visual language across both — same ring, same weight. Line-art, single accent colour, no photography, no car branding.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s4" data-bar="The study" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">I had a hypothesis I liked, so the study was built to break it.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Four questions. Does anyone actually experience this failure, or is it only visible to people who work in AI? Would a real-time signal build trust or destroy it — both are plausible, since a machine that constantly flags itself may just look unreliable. Who do people think is responsible for judging a sensitive answer, themselves or the AI? And under what conditions would a cue be welcome rather than an irritation — the question that decides whether the thing is shippable.</p>
+        <p><strong>31 questions across 5 sections:</strong> usage and avoidance patterns · tone, personalisation and control · attention and continuity in long conversations · ethics, bias and responsibility · reflection and overall experience.</p>
+        <p><strong>Two languages, two separate deployments.</strong> Hungarian (n=71) and English (n=12), each fielded independently. Not a translation of convenience — the Hungarian version carried one additional question (4.5) that the English version didn’t, which turned out to produce the study’s single most important number.</p>
+        <p><strong>Deliberate skip logic on the attention block.</strong> Sections 3 and 5 opened with “skip this if it isn’t relevant to you.” That cost me sample size on those items — n dropped to 50–61 — and it was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
+      </div>
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>Sample</span></th><th scope="col"><span>Hungarian</span></th><th scope="col"><span>English</span></th><th scope="col"><span>Total</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Respondents</th><td>71</td><td>12</td><td>83</td></tr>
+          <tr><th scope="row">Use AI daily or more</th><td>50 (70%)</td><td>8 (67%)</td><td>58 (70%)</td></tr>
+          <tr><th scope="row">Age range covered</th><td>Under 18 → 65+</td><td>25–44</td><td>Under 18 → 65+</td></tr>
+        </tbody>
+      </table>
+      <div class="sec-copy copy-2">
+        <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44 (15), 45–54 (14) and under-18 (14), with 55–64 and 65+ both represented. That spread is unusual for a self-fielded AI study, and it’s the reason I trust the responsibility finding as much as I do: it isn’t a room full of people who work in tech agreeing with each other.</p>
+      </div>
+      <div class="blueprint">
+        <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
+          <span class="bp-t">What’s weak about it, stated plainly</span>
+          <span class="bp-e">Four limitations · self-selection, English n, attitudinal design, a lost grid</span>
+        </button>
+        <div class="bp-panel" id="bpPanel" hidden>
+          <p><strong>Self-selected sample.</strong> People who answer a survey about AI ethics are more interested in AI ethics than the average user. Every number here skews toward awareness.</p>
+          <p><strong>English n=12 is not a sample, it’s a signal.</strong> I report it separately throughout and never blend it into a headline figure without saying so. Where the two groups diverge, I say that too.</p>
+          <p><strong>Attitudinal, not behavioural.</strong> People reported how they think they’d feel about a cue they had never experienced. That gap is exactly why the study is the beginning of the project and not the end of it.</p>
+          <p><strong>The 4.2 grid labels were lost in export.</strong> Seven valid means and no certainty about which topic each column measured. I’ve reported the shape of the result and flagged the limitation rather than guessing at labels.</p>
+        </div>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 5 — THE INSTRUMENT. An honest artefact shot, not a mockup: the survey structure as a 5-section map with question counts and types per section, both language versions side by side, the extra Hungarian 4.5 marked, skip-logic markers included. If a fragment of the raw response sheet can be shown without exposing anyone, show it — the ugliness is credibility. This is the most load-bearing image on the page for a hiring manager.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Six findings. Two contradicted what I expected, and one changed the direction of the project.</h2>
+
+      <p class="eyebrow-b">Finding 1 — People already assume the AI is biased. That isn’t the problem.</p>
+      <div class="sec-copy">
+        <p><strong>Mean 4.02 / 5</strong> on “how much do you consider that AI responses may be biased or partial” (n=83). <strong>69% answered 4 or 5.</strong> But when I asked how much <em>noticing</em> bias affects their trust, the mean dropped to <strong>2.80 / 5</strong>.</p>
+        <p>That gap is the finding. People have already priced bias in. They expect it, they’ve absorbed it, and discovering it doesn’t shock them. Overall satisfaction sat at <strong>3.86 / 5</strong> — they’re not disillusioned, they’re <em>acclimatised</em>.</p>
+        <p>A system that announces “this response may be biased” is telling people something they already believe. Generic bias warnings are noise. The only useful signal is a <em>located</em> one — this passage, this claim, right here.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 6 — THE AWARENESS/IMPACT GAP. Two horizontal gauges stacked on a shared 1–5 axis: “I assume bias exists” at 4.02 above “Noticing bias changes my trust” at 2.80, so the gap is visually obvious. Two marks on one axis. No 3D, no gradient fills, no icons. Label the gap itself.</p>
+      </figure>
+
+      <p class="eyebrow-b">Finding 2 — The controls already exist and nobody uses them.</p>
+      <div class="sec-copy">
+        <p><strong>60% of respondents (50 of 83) either had never noticed ChatGPT’s personalisation settings or had noticed them and never used them.</strong> In the English sample that rose to 9 of 12. And when people <em>do</em> want the AI to behave differently, they don’t go to settings: <strong>33 of 83 just type the instruction into the chat</strong> (“be more formal”). Only 7 adjust preferences.</p>
+        <p>There’s a second layer under this that I didn’t expect: <strong>22 respondents said they don’t want the tone to change at all</strong>, and 49 of 71 Hungarians said they <em>never</em> or <em>rarely</em> feel the need to change it.</p>
+        <p>The control-panel approach to AI behaviour has already failed in the field. Settings that require you to anticipate a problem before it happens don’t get used. Whatever this system is, it cannot be a preferences screen, and it cannot ask the user to configure it in advance.</p>
+      </div>
+
+      <p class="eyebrow-b">Finding 3 — The human keeps the judgment. All of it.</p>
+      <div class="sec-copy">
+        <p><strong>84% (70 of 83) said interpretation of an uncertain, sensitive, or morally complex answer is the human’s responsibility</strong> — 43% “definitely the human,” 41% “mostly the human.” Mean 1.72 on a 1–4 scale where 4 is “definitely the AI.” This held across every age band and both languages.</p>
+        <p>This is the constraint that defines the product. The system is not permitted to conclude, recommend, soften, block, or rewrite. The moment it offers a judgment, it takes on a role that 84% of users explicitly do not want it to have — and it stops being a signal and becomes another opinion in a conversation that already has too many.</p>
+        <p class="hmw">This is what turned a “warning system” into a “signalling system.” It’s the difference between the whole project working and not.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 7 — WHERE RESPONSIBILITY SITS. A single stacked horizontal bar, 1→4, with the 84% mass sitting hard on the human end. One annotation: “the system is allowed to point. It is not allowed to decide.”</p>
+      </figure>
+
+      <p class="eyebrow-b">Finding 4 — “Helpful. But only sometimes.”</p>
+      <div class="sec-copy">
+        <p>I asked twice, in two different sections, whether a gentle real-time signal would be welcome. Both times, the single most-chosen answer — in both languages — was the conditional one.</p>
+        <p>On real-time signalling of uncertainty, sensitivity or ethical implications with no advice given, <strong>66% responded positively</strong> (54 of 82 who answered) — but that splits into 29 who said <em>“useful, it would help me notice”</em> and 25 who said <em>“somewhat useful — only for certain topics.”</em> On subtle focus cues in long conversations, of 61 who answered categorically, <strong>“helpful, but only in certain situations” was the most-chosen response in both samples</strong> (29 of 61). 16 were neutral. 10 were negative.</p>
+        <p>This is not a soft result, it’s a specification. It says the engineering problem isn’t <em>whether</em> to signal — it’s <em>when to shut up</em>. A cue that fires on the wrong content is worse than no cue at all, because it trains the user to ignore the channel.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 8 — THE CONDITIONAL MAJORITY. A stacked bar of the 4.5/4.6 response distribution with the conditional segment (“only for certain topics”) pulled forward and annotated. Show all five response options including the negatives — don’t hide the 13% who’d find it disruptive; Finding 6 needs them.</p>
+      </figure>
+
+      <p class="eyebrow-b">Finding 5 — Two people described the product without being asked.</p>
+      <div class="sec-copy">
+        <p>The free-text box at 5.3 said only: <em>“If you could improve one thing about chat-based AI, what would it be?”</em> No prompting, no framing, nothing about signals or cues. Two answers came back as specifications.</p>
+      </div>
+      <div class="said">
+        <blockquote>“Chat-based AI should pay full attention to whether the context of the conversation is personal, and periodically signal to the user at a given point whether the direction of the conversation is reinforcing a false belief, or actually moving toward a solution. This is a continuous contextual responsibility.”</blockquote>
+      </div>
+      <div class="sec-copy copy-2">
+        <p>That is a real-time epistemic drift detector, described in a survey box, unprompted. The rest of the free-text field clustered tightly around the same territory, which is what makes those two more than anecdotes: <strong>hallucination and false confidence</strong> was the largest cluster (“Don’t lie, don’t fantasise.” · “If it doesn’t know something, it should say so, not invent nonsense.” · “stop ‘lying’ if it does not have data.”), followed by <strong>drift and instability</strong> (“Context and character stabilisation.” · “Keep track of personification changes. It does forget my preferences.”), <strong>sycophancy</strong> (“Don’t flatter and don’t compliment.” · “However much I ask for more human reactions — criticism, for example — it circles back to praise.”), and <strong>autonomy</strong> (“It shouldn’t give a complete answer to everything; it should encourage people to think independently.”).</p>
+        <p>The demand is not for a safer AI. It’s for a <em>legible</em> one. People are asking to be able to see the machine’s state, and then decide for themselves.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 9 — THE VERBATIM WALL. Eight to ten verbatims, Hungarian originals with English translation beneath in a lighter weight, in a loose masonry grid, colour-coded by cluster (hallucination / drift / sycophancy / autonomy). Keep the Hungarian visible — it’s evidence the research was really fielded, not paraphrased. Attribute by age band only, no names.</p>
+      </figure>
+
+      <p class="eyebrow-b">Finding 6 — The people who would hate this, and why they matter</p>
+      <div class="sec-copy">
+        <p>Not everyone wants a cue. <strong>13% found the idea disruptive or unwanted</strong> (“I’d rather decide for myself,” “I don’t want these signals”), and 11 more were flatly neutral. The free-text field explains them, and it’s the same objection in different words: <em>“Fewer filters — it should answer sensitive topics more boldly.”</em> · <em>“I wouldn’t restrict it.”</em> · <em>“It shouldn’t try to protect the user from themselves.”</em></p>
+        <p>These people have watched safety features become paternalism, and they are reading my system as one more layer of that. <strong>They’re not wrong to.</strong> A cue that fires on anything “sensitive” — which is how most content-safety systems behave — is functionally a scold. The difference between a signal and a scold is that a signal has no opinion and asks for nothing.</p>
+        <p>The dissenters set the failure mode. The system has to be legible enough that this group can tell it apart from a filter within the first few minutes of using it, or it loses them permanently.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 10 — THE FULL DISTRIBUTION. One honest chart showing all response positions on the two signalling questions, dissenters included and labelled. Showing the people who disagreed with you is the strongest credibility move on the page.</p>
+      </figure>
+
+      <p class="eyebrow-b">What I didn’t find — and why it redirected the project</p>
+      <div class="sec-copy">
+        <p>I expected attention loss to be a major driver. It isn’t. <strong>Mean 1.94 / 5</strong> on losing track of the topic in long conversations. <strong>Mean 1.98 / 5</strong> on feeling emotionally detached or disengaged. Both near the floor. When people did lose the thread, they fixed it themselves: rephrase the question (38%), take a short break (31%) — only 25% wanted the AI to summarise for them.</p>
+        <p>I had framed this as an attention and continuity problem. The data said it isn’t one. People are not losing focus; <strong>they are being confidently misled by a well-formatted answer while fully focused.</strong></p>
+        <p>That killed the focus-assistance features and moved the whole system from <em>cognitive support</em> to <em>epistemic signalling</em>. It’s the single most useful thing the study did, and it did it by contradicting me.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s6" data-bar="Constraints" aria-labelledby="s6h">
+      <h2 class="sec-label" id="s6h">Five constraints. Each one traces to a finding, and each one closed off a direction I’d otherwise have taken.</h2>
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>What it forbids</span></th><th scope="col"><span>Evidence</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Signal, never advise</th><td>May indicate that friction exists. May not characterise it, resolve it, or recommend anything. No “consider verifying this.” A pointer, not a verdict.</td><td>Finding 3 — 84%</td></tr>
+          <tr><th scope="row">Locate it, don’t announce it</th><td>The cue attaches to the passage that triggered it, or it’s noise. Bias awareness is already 4.02/5; a general warning is redundant.</td><td>Finding 1</td></tr>
+          <tr><th scope="row">Zero configuration cost</th><td>Works on install with no setup, or it doesn’t get used. Any tuning happens after the user has felt the thing once — never before.</td><td>Finding 2 — 60% never used existing settings</td></tr>
+          <tr><th scope="row">Ignorable by design</th><td>Dismissible by doing nothing. No acknowledgement, no modal, no blocking, no state to clear. If ignoring it costs anything, it’s a demand.</td><td>Finding 4 — the conditional majority</td></tr>
+          <tr><th scope="row">Silence is the default</th><td>The correct number of cues in a normal conversation is zero. Every firing spends trust. Measured by how rarely it speaks, not how much it catches.</td><td>Finding 6 — the dissenters</td></tr>
+        </tbody>
+      </table>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 11 — PRINCIPLES → EVIDENCE. Five principle cards, each with the finding and the specific statistic printed underneath as its provenance line. The statistic must be as visually prominent as the principle — same weight, not a footnote. This is the image that separates a designer who ran research from a designer who has opinions.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
+      <h2 class="sec-label" id="s7h">Three kinds of friction. Three sensory channels. No verdicts.</h2>
+      <div class="sec-copy">
+        <p><strong>Uncertainty</strong> — the model is generating beyond what it can support. Low grounding, thin evidence, high variance between plausible answers. <em>It doesn’t know, and it isn’t saying so.</em></p>
+        <p><strong>Ethical friction</strong> — the response has entered territory where the cost of being wrong is not symmetric: health, finance, legal exposure, relationships, someone’s decision about their own life. Nothing here is forbidden. It’s weighted differently, and the interface should reflect that.</p>
+        <p><strong>Cognitive bias</strong> — the response is agreeing with the user’s framing rather than testing it. Sycophancy, one-sided treatment of a contested question, reinforcement of a premise the user was only half-committed to. This is the friction the free-text field asked for most directly, and the hardest of the three to detect honestly.</p>
+      </div>
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>Friction</span></th><th scope="col"><span>Channel</span></th><th scope="col"><span>Reasoning</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Uncertainty</th><td>Audio — a short, low, non-alerting tone</td><td>Uncertainty is a property of the answer as a whole. Sound is ambient and non-spatial, so it colours the message without pointing at one word. It also reaches the user when they aren’t looking at the screen.</td></tr>
+          <tr><th scope="row">Ethical friction</th><td>Haptic — a brief, soft pulse</td><td>Touch is the only channel that is genuinely private, genuinely unignorable, and carries no semantic content whatsoever. It can’t be read as an argument, so it can’t be argued with.</td></tr>
+          <tr><th scope="row">Cognitive bias</th><td>Visual — a peripheral, located mark at the passage edge</td><td>Bias is positional — it lives in a specific claim, in a specific paragraph. Only the visual channel can point at a location. Kept in peripheral vision, never in the reading path.</td></tr>
+        </tbody>
+      </table>
+      <div class="sec-copy copy-2">
+        <p><strong>Why haptic carries the ethical channel — the load-bearing decision.</strong> Ethical friction is the one the dissenters in Finding 6 would most readily read as moralising. Any word you choose for it — <em>caution, sensitive, careful, consider</em> — is already a judgment, and 84% of respondents said judgment isn’t the system’s to make.</p>
+        <p class="hmw">A pulse has no vocabulary. It cannot patronise, because it does not mean anything.</p>
+        <p>It transfers the interpretation to the user completely and immediately, which is exactly what the data demanded and exactly what a text warning structurally cannot do.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 12 — THE MAPPING. Three friction types on the left, three channels on the right, connected. Each pair gets a spec: the audio envelope, the haptic pulse shape and duration, the visual mark’s placement and opacity curve. Real specs, not decorative squiggles — actual millisecond values. This is the system’s signature image, the one people will screenshot.</p>
+      </figure>
+
+      <p class="eyebrow-b">The signal chain, end to end</p>
+      <div class="sec-copy">
+        <p>AI response generated → friction scored across three dimensions (uncertainty · ethical weight · bias) → <strong>threshold gate</strong>: is this above the floor for this user, this context? → <strong>hysteresis gate</strong>: has this channel fired recently, is this a new state or the same state? → <strong>perceptual shaping</strong>: intensity mapped to just-noticeable-difference, never to urgency → cue delivered in the mapped channel.</p>
+        <p class="hmw">The chain ends there. No action requested. No state to clear.</p>
+        <p>That last line matters more than the rest. Most systems of this shape end with a user action — acknowledge, dismiss, review. This one ends at delivery. That’s what makes it a signal.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 13 — SIGNAL FLOW. The chain above as a proper flow diagram, with the two gates drawn as actual gates and a visible “suppressed” branch showing where most candidate signals die. Make the suppressed path visually heavier than the fired path — most signals should be dying. If the diagram makes firing look like the common case, it’s telling the wrong story.</p>
+      </figure>
+
+      <p class="eyebrow-b">Making it tolerable: thresholds, hysteresis, and the cost of being wrong</p>
+      <div class="sec-copy">
+        <p>The conditional majority in Finding 4 is really a statement about false alarms, and false alarms are the failure mode that has killed every warning system that ever failed. <strong>The cry-wolf effect is well documented and brutal.</strong> Clinical alarm fatigue is the canonical case: nurses in ICUs suppress alarms that are correct, because the volume of alarms that were incorrect taught them the channel is unreliable. Once the channel is discredited, correct signals arrive and are ignored. For this system that risk is worse, not better, because the cue is soft by design. A soft signal has no urgency to fall back on. It only works if it has credibility, and credibility is spent per firing.</p>
+        <p><strong>Thresholds set by asymmetric cost, not by score.</strong> The floor isn’t “how uncertain is this” — it’s “what does being wrong cost here.” Uncertainty in a recipe and uncertainty in a medication interaction are the same number and completely different events. The threshold moves with the stakes of the domain, not with the confidence of the model.</p>
+        <p><strong>Hysteresis — the reason it doesn’t chatter.</strong> Borrowed straight from control systems. The level required to <em>start</em> signalling is higher than the level required to <em>keep</em> signalling. Without this, a response hovering at the boundary produces a cue that flickers on and off — which reads as a malfunction, and destroys the channel faster than a false positive does.</p>
+        <p><strong>A refractory period per channel.</strong> After a channel fires, it goes quiet for a fixed window regardless of what else it detects. It costs recall, deliberately. Missing a second signal is cheaper than becoming background noise.</p>
+        <p><strong>Intensity mapped to perception, not to severity.</strong> Cue strength sits just above the just-noticeable difference and stays there. Scaling intensity with severity is the intuitive design and it’s wrong — it makes the system emotionally loud, and an emotionally loud signal is making a judgment about how alarmed you should be. Which it isn’t allowed to do.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 14 — HYSTERESIS, DRAWN. A time-series plot: a friction score wobbling across a boundary, with two traces beneath — without hysteresis (cue flickering rapidly, visually horrible) and with hysteresis (one clean sustained state). Mark the separate on/off thresholds. The “without” trace should be genuinely unpleasant to look at.</p>
+      </figure>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 15 — THE FALSE ALARM BUDGET. A 2×2 signal detection matrix (hit / miss / false alarm / correct rejection) with the cost of each quadrant written in for this system, and the operating point marked well toward the conservative side.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s8" data-bar="The demo" aria-labelledby="s8h">
+      <h2 class="sec-label" id="s8h">Everything before this was argument. This is the thing itself.</h2>
+      <div class="sec-copy">
+        <p class="fill">FILL — this section needs the real artefacts. Each block below is a shot list. If a demo doesn’t exist yet, delete the block rather than describing it — a described demo reads as a demo you didn’t build.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 16 — BEFORE / AFTER, SIDE BY SIDE. The same real exchange, run twice. Left: as it exists today. Right: with the system active — cue visible, moment marked. Use a real conversation with a real drift or real overconfidence in it; a fabricated example will read as fabricated. Both panels identical apart from the cue. Caption names the specific failure the exchange contains.</p>
+      </figure>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 17 — THREE CLIPS, ONE PER CHANNEL, ~3 SECONDS EACH. Uncertainty/audio: waveform visualisation synced to the tone, envelope shown, since the reader may have sound off. Ethical friction/haptic: device silhouette with the pulse rendered as concentric rings and the timing on a strip beneath — hardest to show on a webpage and the most important. Bias/visual: the peripheral mark appearing at a passage edge, at real speed and real opacity. Every haptic frame needs a visual proxy. Caption each with its actual spec.</p>
+      </figure>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 18 — LIVE SCORING. A response with its three friction scores shown as they’re computed, threshold line drawn across each. Show at least one dimension scoring high and one staying flat — the reader needs to see the system not firing as much as firing. FILL: state plainly what the detector actually runs on — rules-based, embedding similarity, model logprobs, an LLM judge, Wizard-of-Oz. A well-executed Wizard-of-Oz stated honestly is more credible than an implied model.</p>
+      </figure>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 19 — WHAT DOESN’T FIRE. Three or four candidate signals that scored above zero and were suppressed — by threshold, by refractory period, by hysteresis — with the reason labelled on each. Nobody shows this, and it’s the best evidence on the page that the system was designed for restraint rather than coverage. The direct visual answer to Finding 6.</p>
+      </figure>
+      <div class="sec-copy copy-2">
+        <p class="fill">FILL — INTERACTIVE. Two working prototypes exist for this section but are not yet in the repository: the conversation simulator (band system, live measurement, signal breakdown, scripted conversations) and the interpretation flow (five personas, each prompt read two ways). Drop them at <code>public/signal/conversation-simulator.html</code> and <code>public/signal/interpretation-flow.html</code> and the links below will resolve. A single control the reader can trigger themselves beats any video — reading about a haptic pulse and feeling one on a phone are different experiences.</p>
+      </div>
+
+      <p class="eyebrow-b">Testing</p>
+      <div class="sec-copy">
+        <p class="fill">FILL — scaffolded, not written. What was tested (participants, method, duration, tasks); Round 1 finding and what changed; Round 2 finding and what changed. What I was trying to find out: whether the cues are noticed without being intrusive; whether people can tell a signal from a warning; whether the false alarm rate stays under the tolerance the survey implied; whether the mapping is learnable without instruction. Measures worth reporting if they exist: noticed-without-prompting rate · false alarm rate per session · unprompted correct interpretation of each channel · whether anyone described it as a warning (they shouldn’t) · post-task trust delta. If testing hasn’t happened, cut this block and say so in “Where it stands” instead — an empty testing section is worse than an absent one.</p>
+      </div>
+      <figure class="fig">
+        <p class="fill fill--fig">VISUAL 21 — ITERATION TRAIL. A version-by-version strip of one cue as it changed across testing rounds, with the specific participant reaction that forced each change written beneath. Iteration you can see beats iteration you claim.</p>
+      </figure>
+    </section>
+
+    <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
+      <h2 class="sec-label" id="s9h">What I got wrong, and where it stands.</h2>
+      <div class="sec-copy">
+        <p class="sec-lede">Portfolio sections like this are usually decorative. This one isn’t — three of these genuinely changed the system.</p>
+        <p><strong>I designed for the wrong problem for the first <span class="fill">FILL — weeks/months</span>.</strong> I built the concept around attention and continuity in long conversations. The data put focus loss at 1.94/5 and detachment at 1.98/5. People aren’t drifting — they’re being confidently misled while fully attentive. I had to throw away the focus-assistance layer entirely. The survey question that killed it was one I nearly cut for length.</p>
+        <p><strong>I initially had the system explaining itself.</strong> Early versions paired each cue with a short line of text — <em>“this response may involve uncertainty.”</em> Finding 3 makes that indefensible: the moment you supply words, you’ve supplied an interpretation, and 84% said interpretation isn’t the system’s job. The text came out. What’s left is harder to design and much harder to make legible, which is the actual work.</p>
+        <p><strong>I underweighted the dissenters until late.</strong> 13% found the idea intrusive and I treated them as an acceptable loss for too long. They’re not a loss — they’re the specification for the failure mode. They’re the people who will correctly identify this as paternalism the first time it fires on something that didn’t warrant it. Designing so <em>they</em> can tell it apart from a content filter made the system better for everyone.</p>
+        <p><strong>The 4.2 grid labels are gone and that’s on me.</strong> Google Forms exported the topic-sensitivity matrix with blank column headers. I have seven valid means — one topic scored 4.52, the highest sensitivity rating anywhere in the study, and one scored 2.20, the lowest — and no certainty which topic each column belonged to. A test export before fielding would have caught it in a minute. <span class="fill">FILL — if the grid order can be reconstructed from the original form, replace this with the actual finding; a 4.52 is a strong result and worth recovering.</span></p>
+      </div>
+
+      <p class="eyebrow-b">Where it stands</p>
+      <div class="sec-copy">
+        <p class="fill">FILL — honest status. What runs and what doesn’t, exactly.</p>
+        <p><strong>Next, in order.</strong> Behavioural validation: everything in the findings is attitudinal — people predicting their reaction to something they’ve never felt. The next study has to put the cues in front of people during a real task and measure what they do, not what they say. Threshold calibration per domain: the asymmetric-cost model is principled and untuned, and needs real data per context. Longitudinal tolerance: the question that actually decides whether this ships — does a well-tuned signal stay meaningful after three weeks, or does it become furniture? Accessibility as a first-class question, not a retrofit: a three-channel system has an obvious and serious redundancy story for users who can’t access one of the channels, and no version of this is finished until each friction type is fully legible through at least two channels.</p>
+        <p><strong>Where it would matter.</strong> Anywhere the cost of acting on a confident wrong answer is asymmetric — clinical decision support, legal research, financial advice, safety-critical operations. In those settings the interpretive burden is already on a trained human by regulation. This gives them a channel they currently don’t have.</p>
+        <p class="hmw">I don’t think the answer to AI systems being sometimes wrong is AI systems being more careful with us. Eighty-three people told me quite clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that’s an interface problem, which means it’s mine.</p>
+        <p class="fill">FILL — close in your own voice, one short paragraph, no summary. The reader has just read four thousand words; don’t recap them.</p>
+      </div>
+
+      <div class="blueprint">
+        <button class="bp-btn" id="apxBtn" aria-expanded="false" aria-controls="apxPanel">
+          <span class="bp-t">Appendix — every figure used above</span>
+          <span class="bp-e">All computed directly from the two project CSVs · HU n=71 · EN n=12</span>
+        </button>
+        <div class="bp-panel" id="apxPanel" hidden>
+          <p>Daily or more frequent use — HU 50 (70%) · EN 8 (67%) · combined 58 / 83 (70%)</p>
+          <p>Interpretive responsibility on human (1–2 of 4) — HU 61 (86%) · EN 9 (75%) · combined 70 / 83 (84%)</p>
+          <p>Responsibility scale mean (1=human, 4=AI) — HU 1.68 · EN 1.92 · combined 1.72</p>
+          <p>Considers AI bias likely (4–5 of 5) — HU 51 (72%) · EN 6 (50%) · combined 57 / 83 (69%)</p>
+          <p>Bias awareness mean — HU 4.07 · EN 3.75 · combined 4.02</p>
+          <p>Noticing bias affects trust (mean) — HU 2.77 · EN 3.00 · combined 2.80</p>
+          <p>Never noticed / never used personalisation — HU 41 (58%) · EN 9 (75%) · combined 50 / 83 (60%)</p>
+          <p>Never/rarely need a tone change — HU 49 (69%) · EN 7 (58%) · combined 56 / 83 (67%)</p>
+          <p>Types the tone request into chat directly — HU 24 · EN 9 · combined 33 / 83</p>
+          <p>Loses focus in long chats (mean 1–5) — HU 1.86 (n=59) · EN 2.36 (n=11) · combined 1.94</p>
+          <p>Feels emotionally detached (mean 1–5) — HU 1.90 (n=50) · EN 2.36 (n=11) · combined 1.98</p>
+          <p>Real-time gentle signal, positive — HU 49 (69%) · EN 5 of 11 · combined 54 / 82 (66%)</p>
+          <p>Real-time gentle signal, disruptive or unwanted — HU 11 (15%) · EN 0 · combined 11 / 82 (13%)</p>
+          <p>Consistent uncertainty signalling would increase trust — HU 44 (62%) · not asked in EN</p>
+          <p>Overall experience (mean 1–5) — HU 3.87 · EN 3.83 · combined 3.86</p>
+          <p>Top avoided topics — HU: too private/intimate 41%, emotional/personal 34%, financial/legal 30%, sensitive social 27%, health 17%; 42% avoid nothing. EN: emotional/personal 58%, too private 58%, health 33%, sensitive social 33%.</p>
+          <p>Stated reasons for avoiding — privacy and data retention dominate, followed by distrust of the company rather than the model, and (English sample) “I don’t want to outsource decision-making.”</p>
+          <p>What helps when the thread is lost — rephrase the question (HU 38% / EN 55%), take a short break (31% / 27%), AI-provided summary (25% / 9%).</p>
+          <p>4.2 topic-sensitivity grid means, labels lost in export — 3.46 · 3.77 · 3.23 · 4.52 · 3.08 · 3.92 · 2.20 (HU). The 2.20–4.52 range confirms respondents strongly differentiate between topic types, which is itself the justification for per-domain thresholds, even without the labels.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+</div>
+
+<script>
+(function(){
+"use strict";
+var root=document.documentElement;
+
+/* accessibility panel */
+var panel=document.getElementById('panel'),a11y=document.getElementById('a11yBtn');
+function closePanel(){panel.setAttribute('data-open','false');
+  a11y.setAttribute('aria-expanded','false');a11y.classList.remove('btn--on');}
+a11y.addEventListener('click',function(e){e.stopPropagation();
+  if(panel.getAttribute('data-open')==='true'){closePanel();return;}
+  panel.setAttribute('data-open','true');
+  a11y.setAttribute('aria-expanded','true');a11y.classList.add('btn--on');});
+document.addEventListener('click',function(e){
+  if(panel.getAttribute('data-open')!=='true')return;
+  if(panel.contains(e.target)||e.target.closest('#a11yBtn'))return;closePanel();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePanel();});
+
+/* text size */
+var scale=1;
+document.querySelectorAll('[data-text]').forEach(function(b){b.addEventListener('click',function(){
+  var k=b.getAttribute('data-text');
+  if(k==='+')scale=Math.min(1.4,scale+.1);else if(k==='-')scale=Math.max(.85,scale-.1);else scale=1;
+  root.style.setProperty('--tscale',scale.toFixed(2));});});
+
+/* contrast */
+var cb=document.getElementById('contrastBtn');
+cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')==='high';
+  if(on)root.removeAttribute('data-contrast');else root.setAttribute('data-contrast','high');
+  cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'Off':'On';
+  cb.classList.toggle('btn--on',!on);});
+
+/* motion — overrides the system preference in both directions */
+var mb=document.getElementById('motionBtn');
+mb.addEventListener('click',function(){var off=root.getAttribute('data-motion')==='off';
+  if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
+  mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
+  mb.classList.toggle('btn--on',!off);});
+if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
+  mb.textContent='On';mb.classList.add('btn--on');}
+
+/* noise for focus — toggle plus a volume dragger that slides out */
+var ac=null,src=null,gain=null,swell=null,lfo=null,lfoAmt=null;
+var noiseWrap=document.getElementById("noise"),
+    noiseBtn=document.getElementById("noiseBtn"),
+    vol=document.getElementById("vol"),
+    noiseBtnM=document.getElementById("noiseBtnM");
+function level(){return (vol?+vol.value:8)/100*0.6;}
+function startNoise(){
+  var C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
+  if(!ac)ac=new C();
+  if(ac.state==="suspended")ac.resume();
+  /* Pink noise (Paul Kellett's filter): equal energy per octave, which is
+     what rain and wind are, and what the reading on attention restoration
+     points to. Brown noise - what this was - rolls off far more steeply and
+     sits as a low rumble rather than a broadband mask. */
+  var len=ac.sampleRate*4,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0),i,w,
+      b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(i=0;i<len;i++){
+    w=Math.random()*2-1;
+    b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759; b2=0.96900*b2+w*0.1538520;
+    b3=0.86650*b3+w*0.3104856; b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+    d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+  }
+  src=ac.createBufferSource();src.buffer=buf;src.loop=true;
+  gain=ac.createGain();gain.gain.value=level();
+  /* A shallow swell at 10 Hz - upper alpha. Kept to a few percent so it reads
+     as the sound breathing rather than pulsing; anything deeper becomes the
+     thing you listen to instead of the thing you work through. */
+  swell=ac.createGain();swell.gain.value=1;
+  lfo=ac.createOscillator();lfo.type="sine";lfo.frequency.value=10;
+  lfoAmt=ac.createGain();lfoAmt.gain.value=0.05;
+  lfo.connect(lfoAmt);lfoAmt.connect(swell.gain);lfo.start();
+  src.connect(swell);swell.connect(gain);gain.connect(ac.destination);src.start();
+  return true;
+}
+/* Suspending rather than closing: a closed context cannot be reused, and the
+   next press would have to build a new one and lose the resume path. */
+function release(){
+  if(ac&&!src&&ac.state==="running"){try{ac.suspend();}catch(e){}}
+}
+function stopNoise(){
+  if(!src)return;
+  var s=src,l=lfo;src=null;lfo=null;
+  if(gain&&ac){gain.gain.setTargetAtTime(0,ac.currentTime,0.06);
+    setTimeout(function(){try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}
+      /* and let go of the output device, so the tab stops reporting itself
+         as playing audio once the sound has actually gone */
+      release();},260);}
+  else{try{s.stop();}catch(e){}try{if(l)l.stop();}catch(e){}release();}
+}
+function setNoise(on){
+  if(on&&!startNoise())return;
+  if(!on)stopNoise();
+  [noiseBtn,noiseBtnM].forEach(function(b){
+    if(!b)return;
+    b.setAttribute("aria-pressed",on?"true":"false");
+    /* btn--on inverts a button: ink ground, page-coloured text. That is right
+       for the standalone icon button on mobile, and wrong for the one inside
+       the pill, which has no ground of its own - there it left page-coloured
+       text on near-white glass. The pill version says "on" with ink text and
+       the travelling wave instead, so it never depends on the inversion. */
+    if(b!==noiseBtn) b.classList.toggle("btn--on",on);
+  });
+  if(noiseBtnM)noiseBtnM.setAttribute("aria-label",on?"Stop noise for focus":"Play noise for focus");
+  if(noiseWrap)noiseWrap.setAttribute("data-on",on?"true":"false");
+  /* a collapsed slider is still in the tab order unless it is disabled, and
+     tabbing onto an invisible control with no level to set is a dead stop */
+  if(vol)vol.disabled=!on;
+}
+/* Switching the sound on shows the level and the explainer, then hands both
+   back to hover after the same five seconds. One helper drives them so the
+   two can never drift apart. Re-armed rather than stacked: off and on again
+   restarts the five seconds instead of leaving an older timer to close it
+   early. */
+var FLASH=5000,flashT={};
+function flash(attr){
+  if(!noiseWrap)return;
+  clearTimeout(flashT[attr]);
+  noiseWrap.setAttribute(attr,"true");
+  flashT[attr]=setTimeout(function(){noiseWrap.removeAttribute(attr);},FLASH);
+}
+function unflash(attr){
+  clearTimeout(flashT[attr]);
+  if(noiseWrap)noiseWrap.removeAttribute(attr);
+}
+/* The explainer introduces itself the first time the reader comes near the
+   control - pointer or keyboard, whichever happens first - holds for the
+   same five seconds, and is then spent for the rest of the visit. Reaching
+   a control should not re-explain it to someone who has already read it. */
+/* Two passes, not one. Once was too eager to be useful - the first approach is
+   often accidental, and by the time someone comes back deliberately the note
+   had already been spent. It still stops after the second, so it never nags. */
+var TIP_TIMES=2,tipSeen=0;
+function firstTip(){if(tipSeen>=TIP_TIMES)return;tipSeen++;flash("data-explain");}
+if(noiseWrap){
+  noiseWrap.addEventListener("pointerenter",firstTip);
+  noiseWrap.addEventListener("focusin",firstTip);
+}
+[noiseBtn,noiseBtnM].forEach(function(b){
+  if(!b)return;
+  b.addEventListener("click",function(){
+    setNoise(b.getAttribute("aria-pressed")!=="true");
+  });
+});
+if(vol)vol.addEventListener("input",function(){
+  if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
+});
+
+/* the blueprints fold away until asked for - two of them on this page, so the
+   handler binds to the class rather than to a single id */
+[].slice.call(document.querySelectorAll('.bp-btn')).forEach(function(btn){
+  var panel=document.getElementById(btn.getAttribute('aria-controls'));
+  if(!panel)return;
+  btn.addEventListener('click',function(){
+    var open=btn.getAttribute('aria-expanded')==='true';
+    btn.setAttribute('aria-expanded',open?'false':'true');
+    panel.setAttribute('data-open',open?'false':'true');
+    /* everything below it moves, so the section spy has to re-measure once the
+       panel has finished opening */
+    setTimeout(function(){window.dispatchEvent(new Event('resize'));},560);
+  });
+});
+
+/* contents — mark the section being read.
+   Driven off cached offsets rather than an IntersectionObserver: the handler
+   does arithmetic only, never a layout read, so it is cheap enough to run
+   straight off the scroll event. The offsets are re-measured on resize and,
+   importantly, whenever a lazy image lands - every figure that loads below the
+   fold moves every section under it, and a spy working from stale offsets
+   marks the wrong entry for the rest of the page. */
+/* The sections are the source now, not a list of links - the bar is written
+   from the page rather than kept in step with a second copy of it. Each
+   section carries its own short name in data-bar. */
+var secs=[].slice.call(document.querySelectorAll('.sec[id]'));
+var routeLinks=[].slice.call(document.querySelectorAll('.cs-route a'));
+var barCount=document.getElementById('barCount');
+var barFill=document.getElementById('barFill');
+var tops=[],docH=0;
+function measure(){
+  tops=secs.map(function(s){return s.getBoundingClientRect().top+window.scrollY;});
+  docH=document.documentElement.scrollHeight;
+}
+function spy(){
+  if(!secs.length)return;
+  /* Offsets are cached so the scroll handler stays arithmetic-only, but a
+     cache that never notices the page changing height marks the wrong
+     section for the rest of the visit. A lazy figure landing, the blueprint
+     unfolding, a carousel sizing itself - all of them move everything below.
+     One property read per scroll is cheap; being wrong is not. */
+  if(document.documentElement.scrollHeight!==docH)measure();
+  /* reading position: a little above the middle, so the bar turns over as a
+     section arrives rather than when its last line leaves */
+  var line=window.scrollY+window.innerHeight*0.28,at=0;
+  for(var i=0;i<tops.length;i++){if(tops[i]<=line)at=i;}
+  var name=secs[at].getAttribute('data-bar')||'';
+  for(var r=0;r<routeLinks.length;r++)
+    routeLinks[r].setAttribute('data-here',r===at?'true':'false');
+  if(barCount)barCount.textContent=(at+1)+' / '+secs.length;
+  /* how far through the article, not how far through the window: the last
+     section should read as full when it is reached, not when the page ends */
+  if(barFill)barFill.style.width=Math.round((at+1)/secs.length*100)+'%';
+}
+window.addEventListener('scroll',spy,{passive:true});
+window.addEventListener('resize',function(){measure();spy();});
+document.querySelectorAll('img').forEach(function(im){
+  im.addEventListener('load',function(){measure();spy();});});
+measure();spy();
+
+/* The masthead animation and the frame carousel from the Tribe study are not
+   here: both are specific to that one export and would only mislead. What is
+   kept is everything every case study needs - the accessibility panel, the
+   noise toggle, the fold, and the scroll spy that drives the progress bar and
+   marks the route in the header. */
+})();
+</script>
+</body>
+</html>
