@@ -954,7 +954,7 @@ a{color:inherit}
    title and its qualifier are the control, so the whole heading is the target
    rather than a chevron beside it. */
 .blueprint{grid-column:1 / -1;margin-top:var(--section)}
-.bp-toggle{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+.bp-btn{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
   padding:1.1em 0;background:none;border:0;
   border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl)}
@@ -971,11 +971,11 @@ a{color:inherit}
   border-top:1px solid var(--muted);
   transition:transform var(--out) var(--ease),border-color var(--out) var(--ease)}
 .bp-ico::after{transform:rotate(90deg)}
-.bp-toggle:hover .bp-ico{border-color:var(--ink)}
-.bp-toggle[aria-expanded="true"] .bp-ico{background:var(--ink);border-color:var(--ink)}
-.bp-toggle[aria-expanded="true"] .bp-ico::before,
-.bp-toggle[aria-expanded="true"] .bp-ico::after{border-top-color:var(--page)}
-.bp-toggle[aria-expanded="true"] .bp-ico::after{transform:rotate(0)}
+.bp-btn:hover .bp-ico{border-color:var(--ink)}
+.bp-btn[aria-expanded="true"] .bp-ico{background:var(--ink);border-color:var(--ink)}
+.bp-btn[aria-expanded="true"] .bp-ico::before,
+.bp-btn[aria-expanded="true"] .bp-ico::after{border-top-color:var(--page)}
+.bp-btn[aria-expanded="true"] .bp-ico::after{transform:rotate(0)}
 /* rows rather than max-height, so the panel is exactly as tall as it needs */
 .bp-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
 .bp-panel[data-open="true"]{grid-template-rows:1fr}
@@ -1883,16 +1883,21 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44 (15), 45–54 (14) and under-18 (14), with 55–64 and 65+ both represented. That spread is unusual for a self-fielded AI study, and it’s the reason I trust the responsibility finding as much as I do: it isn’t a room full of people who work in tech agreeing with each other.</p>
       </div>
       <div class="blueprint">
-        <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
-          <span class="bp-t">What’s weak about it, stated plainly</span>
-          <span class="bp-e">Four limitations · self-selection, English n, attitudinal design, a lost grid</span>
-        </button>
-        <div class="bp-panel" id="bpPanel" hidden>
+        <h3>
+          <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
+            <span>
+              <span class="bp-t">What’s weak about it, stated plainly</span>
+              <span class="bp-e">Four limitations · self-selection, English n, attitudinal design, a lost grid</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="bpPanel" data-open="false" role="region" aria-labelledby="bpBtn"><div class="bp-inner">
           <p><strong>Self-selected sample.</strong> People who answer a survey about AI ethics are more interested in AI ethics than the average user. Every number here skews toward awareness.</p>
           <p><strong>English n=12 is not a sample, it’s a signal.</strong> I report it separately throughout and never blend it into a headline figure without saying so. Where the two groups diverge, I say that too.</p>
           <p><strong>Attitudinal, not behavioural.</strong> People reported how they think they’d feel about a cue they had never experienced. That gap is exactly why the study is the beginning of the project and not the end of it.</p>
           <p><strong>The 4.2 grid labels were lost in export.</strong> Seven valid means and no certainty about which topic each column measured. I’ve reported the shape of the result and flagged the limitation rather than guessing at labels.</p>
-        </div>
+        </div></div>
       </div>
       <figure class="fig">
         <p class="fill fill--fig">VISUAL 5 — THE INSTRUMENT. An honest artefact shot, not a mockup: the survey structure as a 5-section map with question counts and types per section, both language versions side by side, the extra Hungarian 4.5 marked, skip-logic markers included. If a fragment of the raw response sheet can be shown without exposing anyone, show it — the ugliness is credibility. This is the most load-bearing image on the page for a hiring manager.</p>
@@ -2248,11 +2253,16 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
 
       <div class="blueprint">
-        <button class="bp-btn" id="apxBtn" aria-expanded="false" aria-controls="apxPanel">
-          <span class="bp-t">Appendix — every figure used above</span>
-          <span class="bp-e">All computed directly from the two project CSVs · HU n=71 · EN n=12</span>
-        </button>
-        <div class="bp-panel" id="apxPanel" hidden>
+        <h3>
+          <button class="bp-btn" id="apxBtn" aria-expanded="false" aria-controls="apxPanel">
+            <span>
+              <span class="bp-t">Appendix — every figure used above</span>
+              <span class="bp-e">All computed directly from the two project CSVs · HU n=71 · EN n=12</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="apxPanel" data-open="false" role="region" aria-labelledby="apxBtn"><div class="bp-inner">
           <p>Daily or more frequent use — HU 50 (70%) · EN 8 (67%) · combined 58 / 83 (70%)</p>
           <p>Interpretive responsibility on human (1–2 of 4) — HU 61 (86%) · EN 9 (75%) · combined 70 / 83 (84%)</p>
           <p>Responsibility scale mean (1=human, 4=AI) — HU 1.68 · EN 1.92 · combined 1.72</p>
@@ -2272,7 +2282,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <p>Stated reasons for avoiding — privacy and data retention dominate, followed by distrust of the company rather than the model, and (English sample) “I don’t want to outsource decision-making.”</p>
           <p>What helps when the thread is lost — rephrase the question (HU 38% / EN 55%), take a short break (31% / 27%), AI-provided summary (25% / 9%).</p>
           <p>4.2 topic-sensitivity grid means, labels lost in export — 3.46 · 3.77 · 3.23 · 4.52 · 3.08 · 3.92 · 2.20 (HU). The 2.20–4.52 range confirms respondents strongly differentiate between topic types, which is itself the justification for per-domain thresholds, even without the labels.</p>
-        </div>
+        </div></div>
       </div>
     </section>
 
