@@ -1903,7 +1903,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
       </div>
       <figure class="cs-hero">
-        <p class="fill fill--fig">VISUAL 1 — HERO. A conversation panel mid-answer, a thin amber edge-glow along the left border of the message, and beside it a hand-and-device silhouette with two concentric rings for a short haptic pulse. No dashboard, no charts, no score numbers, no red. The cue must look like it belongs to the surface, not like a notification stuck on top of it.</p>
       </figure>
     </div>
 
@@ -1993,81 +1992,65 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
+        <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
       <h2 class="sec-label" id="s1h">Read this if you read nothing else.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Chat AI communicates in exactly one channel: text. So when the model is guessing, drifting off the brief, or wandering into territory that deserves more care than a sentence can carry, it has only one way to tell you — more text. And more text reads exactly like the confident text around it.</p>
-        <p>I ran an independent study with 83 people to find out whether that gap actually costs anyone anything, and what a fix would have to look like to be tolerable. It does, and the answer was narrower than I expected: people don’t want a second opinion, and they don’t want a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</strong> What they want is a <em>notice</em> — a cue that something in the last answer has a different weight to it — delivered quietly enough that they can ignore it.</p>
-        <p>So I designed a signalling layer instead of an advisory one. Three kinds of friction, three sensory channels, no verdicts. It borrows its interaction model from lane departure warning in cars: the steering wheel buzzes, you look, you decide. The car never turns the wheel.</p>
+        <p class="sec-lede">Chat AI has one channel: text. So when the model is guessing, or drifting off the brief, or in territory that deserves more care than a sentence can carry, the only way it has to tell you is more text — which reads exactly like the confident text around it.</p>
+        <p>I ran a study with 83 people to find out whether that costs anyone anything. It does, and what they wanted was narrower than I expected. Not a second opinion. Not a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job.</strong> What they wanted was a <em>notice</em> — quiet enough to ignore.</p>
+        <p>So I built a signalling layer rather than an advisory one. Three kinds of friction, three senses, no verdicts. The steering wheel buzzes; you look; you decide. The car never turns the wheel.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 2 — THE ONE-LINE DIAGRAM. A horizontal three-step strip: AI response → friction detected → sensory cue. Under the middle node, three labels branching: uncertainty · ethical weight · bias. Under the third, three icons: sound · touch · sight. Grey and ink only — colour arrives later, when the mapping is explained. No arrows into the user; the flow ends at the cue.</p>
-      </figure>
     </section>
 
     <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
       <div class="sec-copy">
-        <p class="fill">FILL — replace with the real first moment: the specific conversation, the specific task. One scene, not a category. Small and concrete. What follows is written to receive it.</p>
-        <p>It’s the same shape every time. You’re an hour into something — a long piece of writing, a decision you’re working through, a problem with real stakes. The answers keep arriving in the same even, well-formed voice. And at some point the model quietly stops doing the thing you asked. It drops the constraint you set at the start. It starts agreeing with a premise you were half-testing. It states something as fact that it does not have.</p>
+        <p class="sec-lede">You’re an hour into something with real stakes. The answers keep arriving in the same even, well-formed voice. And at some point the model quietly stops doing the thing you asked — drops the constraint you set, starts agreeing with a premise you were half-testing, states as fact something it does not have.</p>
         <p class="hmw">None of that looks different on screen.</p>
-        <p>You find out later. You find out when you re-read, or when someone else reads it, or when you’ve already sent it. One respondent described this without being prompted, in an open text box, when I asked what one thing they would improve:</p>
+        <p>You find out later. When you re-read, or when someone else does, or when you’ve already sent it. One respondent described this unprompted, in a free-text box, when I asked what single thing they’d improve:</p>
       </div>
       <div class="said">
         <blockquote>“Consistency, and a signal from the AI when it loses focus. You only find out afterwards that it stopped following the instructions it was given for the task, that it dropped the character — but it never signalled it.”</blockquote>
-        <p class="eyebrow-b">Respondent, Hungarian sample, age 35–44</p>
+        <cite>Respondent, Hungarian sample, age 35–44</cite>
       </div>
       <div class="sec-copy copy-2">
-        <p>That is a person specifying this product in a survey box, unprompted, before I had described it to anyone.</p>
+        <p>That is a person specifying this product in a survey box before I had described it to anyone.</p>
+        <p>The obvious fix is a more accurate model. But even a perfectly calibrated one has no way to tell you how much to lean on a given sentence, because text flattens it. Every answer arrives at the same volume.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 3 — THE PROBLEM, SHOWN. Two message bubbles side by side, identical in typography, weight and colour. Left labelled high-confidence, well-grounded. Right labelled low-confidence, partially fabricated. They must be genuinely indistinguishable — resist making the right one subtly worse. Caption: “Same font. Same weight. Same certainty. One of these is a guess.”</p>
-      </figure>
-
-      <p class="eyebrow-b">Confidence is a property the system has and the interface throws away.</p>
-      <div class="sec-copy">
-        <p class="sec-lede">The obvious fix is to make the model more accurate, or to make it say “I’m not sure” more often. Both are real work and neither is mine to do.</p>
-        <p>Mine is the part underneath: even a perfectly calibrated model has no way to tell you how much to lean on a given sentence. Text flattens it. Every answer arrives at the same volume.</p>
-        <p>That’s a display problem, and display problems have a literature. Aviation and automotive safety spent forty years learning that when a system knows something the operator doesn’t, you do not put it in the primary channel — you put it in a spare one. A stall warning is a stick shaker, not a line of text on the PFD. A lane departure warning is a buzz in the wheel, not a dialog. The reason is load: the pilot’s eyes and the driver’s eyes are already fully committed to the task, and a message in the busy channel either gets missed or costs them the thing they were doing.</p>
-        <p>A person deep in a long conversation with an AI is in the same state. Their visual and verbal attention is spent on reading and composing. Adding a sentence to that stream is adding to the exact channel that’s saturated. Adding a pulse to a channel that’s idle is not.</p>
+      <div class="blueprint">
+        <h3>
+          <button class="bp-btn" id="probBtn" aria-expanded="false" aria-controls="probPanel">
+            <span>
+              <span class="bp-t">Why the fix belongs in another channel</span>
+              <span class="bp-e">Forty years of aviation and automotive safety · the stick shaker · what the car and this system have in common</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="probPanel" data-open="false" role="region" aria-labelledby="probBtn"><div class="bp-inner">
+          <p>This is a display problem, and display problems have a literature. Aviation and automotive safety spent forty years learning that when a system knows something the operator doesn’t, you do not put it in the primary channel — you put it in a spare one. A stall warning is a stick shaker, not a line of text on the PFD. A lane departure warning is a buzz in the wheel, not a dialog. The reason is load: the pilot’s eyes and the driver’s eyes are already fully committed, and a message in the busy channel either gets missed or costs them the thing they were doing.</p>
+          <p>A person deep in a long conversation with an AI is in the same state. Their visual and verbal attention is spent on reading and composing. Adding a sentence to that stream adds to the exact channel that’s saturated. Adding a pulse to a channel that’s idle does not.</p>
+          <table class="devsync">
+            <thead><tr><th scope="col"><span>Lane departure warning</span></th><th scope="col"><span>This system</span></th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Detects drift from the lane</th><td>Detects drift from grounding, brief, or neutrality</td></tr>
+              <tr><th scope="row">Signals in an idle channel — the wheel</th><td>Signals in an idle channel — touch, ambient sound, peripheral vision</td></tr>
+              <tr><th scope="row">Does not steer</th><td>Does not rewrite, block, or advise</td></tr>
+              <tr><th scope="row">Tolerates being ignored</th><td>Tolerates being ignored</td></tr>
+              <tr><th scope="row">Punished hard for false alarms</th><td>Punished hard for false alarms</td></tr>
+              <tr><th scope="row">Driver stays responsible</th><td>User stays responsible</td></tr>
+            </tbody>
+          </table>
+          <p>That last row is not a design preference. It is what the data said people demand, and it is the constraint that killed several better-looking versions of this system.</p>
+        </div></div>
       </div>
-      <table class="devsync">
-        <thead><tr><th scope="col"><span>Lane departure warning</span></th><th scope="col"><span>This system</span></th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Detects drift from the lane</th><td>Detects drift from grounding, brief, or neutrality</td></tr>
-          <tr><th scope="row">Signals in an idle channel — the wheel</th><td>Signals in an idle channel — touch, ambient sound, peripheral vision</td></tr>
-          <tr><th scope="row">Does not steer</th><td>Does not rewrite, block, or advise</td></tr>
-          <tr><th scope="row">Tolerates being ignored</th><td>Tolerates being ignored</td></tr>
-          <tr><th scope="row">Punished hard for false alarms</th><td>Punished hard for false alarms</td></tr>
-          <tr><th scope="row">Driver stays responsible</th><td>User stays responsible</td></tr>
-        </tbody>
-      </table>
-      <div class="sec-copy copy-2">
-        <p>That last row is not a design preference. It’s what the data told me people demand, and it’s the constraint that killed several better-looking versions of this system.</p>
-      </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 4 — THE BORROWED MODEL. Two panels. Left: simplified top-down car in a lane, drifting over the line, steering wheel highlighted with a pulse ring. Right: a chat surface, an answer drifting off-brief, the message edge highlighted with the same pulse ring. Identical visual language across both — same ring, same weight. Line-art, single accent colour, no photography, no car branding.</p>
-      </figure>
     </section>
 
     <section class="sec" id="s4" data-bar="The study" aria-labelledby="s4h">
       <h2 class="sec-label" id="s4h">I had a hypothesis I liked, so the study was built to break it.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Four questions. Does anyone actually experience this failure, or is it only visible to people who work in AI? Would a real-time signal build trust or destroy it — both are plausible, since a machine that constantly flags itself may just look unreliable. Who do people think is responsible for judging a sensitive answer, themselves or the AI? And under what conditions would a cue be welcome rather than an irritation — the question that decides whether the thing is shippable.</p>
-        <p><strong>31 questions across 5 sections:</strong> usage and avoidance patterns · tone, personalisation and control · attention and continuity in long conversations · ethics, bias and responsibility · reflection and overall experience.</p>
-        <p><strong>Two languages, two separate deployments.</strong> Hungarian (n=71) and English (n=12), each fielded independently. Not a translation of convenience — the Hungarian version carried one additional question (4.5) that the English version didn’t, which turned out to produce the study’s single most important number.</p>
-        <p><strong>Deliberate skip logic on the attention block.</strong> Sections 3 and 5 opened with “skip this if it isn’t relevant to you.” That cost me sample size on those items — n dropped to 50–61 — and it was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
-      </div>
-      <table class="devsync">
-        <thead><tr><th scope="col"><span>Sample</span></th><th scope="col"><span>Hungarian</span></th><th scope="col"><span>English</span></th><th scope="col"><span>Total</span></th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Respondents</th><td>71</td><td>12</td><td>83</td></tr>
-          <tr><th scope="row">Use AI daily or more</th><td>50 (70%)</td><td>8 (67%)</td><td>58 (70%)</td></tr>
-          <tr><th scope="row">Age range covered</th><td>Under 18 → 65+</td><td>25–44</td><td>Under 18 → 65+</td></tr>
-        </tbody>
-      </table>
-      <div class="sec-copy copy-2">
-        <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44 (15), 45–54 (14) and under-18 (14), with 55–64 and 65+ both represented. That spread is unusual for a self-fielded AI study, and it’s the reason I trust the responsibility finding as much as I do: it isn’t a room full of people who work in tech agreeing with each other.</p>
+        <p class="sec-lede">31 questions across 5 sections, fielded in two languages as two separate deployments — Hungarian (n=71) and English (n=12). Not a translation of convenience: the Hungarian version carried an extra question that produced the study’s most important number.</p>
+        <p>The attention block opened with “skip this if it isn’t relevant to you,” which cost me sample size on those items and was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
+        <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44, 45–54 and under-18, with 55–64 and 65+ both represented. That spread is why I trust the responsibility finding as much as I do. It isn’t a room full of people who work in tech agreeing with each other.</p>
       </div>
       <div class="blueprint">
         <h3>
@@ -2086,24 +2069,45 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <p><strong>The 4.2 grid labels were lost in export.</strong> Seven valid means and no certainty about which topic each column measured. I’ve reported the shape of the result and flagged the limitation rather than guessing at labels.</p>
         </div></div>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 5 — THE INSTRUMENT. An honest artefact shot, not a mockup: the survey structure as a 5-section map with question counts and types per section, both language versions side by side, the extra Hungarian 4.5 marked, skip-logic markers included. If a fragment of the raw response sheet can be shown without exposing anyone, show it — the ugliness is credibility. This is the most load-bearing image on the page for a hiring manager.</p>
-      </figure>
     </section>
 
-    <section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
+<section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
       <h2 class="sec-label" id="s5h">Six findings. Two contradicted what I expected, and one changed the direction of the project.</h2>
-
-      <p class="eyebrow-b">Finding 1 — People already assume the AI is biased. That isn’t the problem.</p>
+      <div class="sec-copy">
+        <p class="sec-lede">The short version, in the order they mattered.</p>
+      </div>
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>What the data said</span></th><th scope="col"><span>The number</span></th><th scope="col"><span>What it settled</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Bias is already priced in</th><td>4.02/5 expect it · 2.80/5 say noticing it changes their trust</td><td>A general warning tells people what they already believe. Only a located cue is worth anything.</td></tr>
+          <tr><th scope="row">The controls exist and nobody uses them</th><td>60% never noticed or never used them</td><td>It cannot be a settings screen, or ask to be configured before it has been felt.</td></tr>
+          <tr><th scope="row">The human keeps the judgment</th><td>84% — held across every age band and both languages</td><td>It may point. It may not conclude, recommend, soften or rewrite. This is the constraint that defines the product.</td></tr>
+          <tr><th scope="row">“Helpful — but only sometimes”</th><td>66% positive, and the conditional answer won both times I asked</td><td>The engineering problem is not whether to signal. It is when to shut up.</td></tr>
+          <tr><th scope="row">Two people specified the product unprompted</th><td>free text, no framing, no mention of signals</td><td>The demand is not for a safer AI. It is for a legible one.</td></tr>
+          <tr><th scope="row">The dissenters set the failure mode</th><td>13% found the idea intrusive</td><td>They will read it as paternalism the first time it fires on something that didn’t warrant it. Designing so they can tell it from a filter made it better for everyone.</td></tr>
+        </tbody>
+      </table>
+      <div class="sec-copy copy-2">
+        <p><strong>And the thing I didn’t find.</strong> I had built the concept around attention — people losing the thread in long conversations. Losing track scored <strong>1.94/5</strong>, feeling detached <strong>1.98/5</strong>. Both near the floor. People are not drifting; they are being confidently misled while fully focused. That killed the focus-assistance layer and moved the whole project from cognitive support to epistemic signalling.</p>
+        <p class="hmw">The most useful thing the study did was contradict me.</p>
+      </div>
+      <div class="blueprint">
+        <h3>
+          <button class="bp-btn" id="fndBtn" aria-expanded="false" aria-controls="fndPanel">
+            <span>
+              <span class="bp-t">All six findings, with the evidence under each</span>
+              <span class="bp-e">The full read · verbatims in both languages · what each one closed off</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="fndPanel" data-open="false" role="region" aria-labelledby="fndBtn"><div class="bp-inner">
+<p class="eyebrow-b">Finding 1 — People already assume the AI is biased. That isn’t the problem.</p>
       <div class="sec-copy">
         <p><strong>Mean 4.02 / 5</strong> on “how much do you consider that AI responses may be biased or partial” (n=83). <strong>69% answered 4 or 5.</strong> But when I asked how much <em>noticing</em> bias affects their trust, the mean dropped to <strong>2.80 / 5</strong>.</p>
         <p>That gap is the finding. People have already priced bias in. They expect it, they’ve absorbed it, and discovering it doesn’t shock them. Overall satisfaction sat at <strong>3.86 / 5</strong> — they’re not disillusioned, they’re <em>acclimatised</em>.</p>
         <p>A system that announces “this response may be biased” is telling people something they already believe. Generic bias warnings are noise. The only useful signal is a <em>located</em> one — this passage, this claim, right here.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 6 — THE AWARENESS/IMPACT GAP. Two horizontal gauges stacked on a shared 1–5 axis: “I assume bias exists” at 4.02 above “Noticing bias changes my trust” at 2.80, so the gap is visually obvious. Two marks on one axis. No 3D, no gradient fills, no icons. Label the gap itself.</p>
-      </figure>
-
       <p class="eyebrow-b">Finding 2 — The controls already exist and nobody uses them.</p>
       <div class="sec-copy">
         <p><strong>60% of respondents (50 of 83) either had never noticed ChatGPT’s personalisation settings or had noticed them and never used them.</strong> In the English sample that rose to 9 of 12. And when people <em>do</em> want the AI to behave differently, they don’t go to settings: <strong>33 of 83 just type the instruction into the chat</strong> (“be more formal”). Only 7 adjust preferences.</p>
@@ -2117,20 +2121,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p>This is the constraint that defines the product. The system is not permitted to conclude, recommend, soften, block, or rewrite. The moment it offers a judgment, it takes on a role that 84% of users explicitly do not want it to have — and it stops being a signal and becomes another opinion in a conversation that already has too many.</p>
         <p class="hmw">This is what turned a “warning system” into a “signalling system.” It’s the difference between the whole project working and not.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 7 — WHERE RESPONSIBILITY SITS. A single stacked horizontal bar, 1→4, with the 84% mass sitting hard on the human end. One annotation: “the system is allowed to point. It is not allowed to decide.”</p>
-      </figure>
-
       <p class="eyebrow-b">Finding 4 — “Helpful. But only sometimes.”</p>
       <div class="sec-copy">
         <p>I asked twice, in two different sections, whether a gentle real-time signal would be welcome. Both times, the single most-chosen answer — in both languages — was the conditional one.</p>
         <p>On real-time signalling of uncertainty, sensitivity or ethical implications with no advice given, <strong>66% responded positively</strong> (54 of 82 who answered) — but that splits into 29 who said <em>“useful, it would help me notice”</em> and 25 who said <em>“somewhat useful — only for certain topics.”</em> On subtle focus cues in long conversations, of 61 who answered categorically, <strong>“helpful, but only in certain situations” was the most-chosen response in both samples</strong> (29 of 61). 16 were neutral. 10 were negative.</p>
         <p>This is not a soft result, it’s a specification. It says the engineering problem isn’t <em>whether</em> to signal — it’s <em>when to shut up</em>. A cue that fires on the wrong content is worse than no cue at all, because it trains the user to ignore the channel.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 8 — THE CONDITIONAL MAJORITY. A stacked bar of the 4.5/4.6 response distribution with the conditional segment (“only for certain topics”) pulled forward and annotated. Show all five response options including the negatives — don’t hide the 13% who’d find it disruptive; Finding 6 needs them.</p>
-      </figure>
-
       <p class="eyebrow-b">Finding 5 — Two people described the product without being asked.</p>
       <div class="sec-copy">
         <p>The free-text box at 5.3 said only: <em>“If you could improve one thing about chat-based AI, what would it be?”</em> No prompting, no framing, nothing about signals or cues. Two answers came back as specifications.</p>
@@ -2142,29 +2138,23 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p>That is a real-time epistemic drift detector, described in a survey box, unprompted. The rest of the free-text field clustered tightly around the same territory, which is what makes those two more than anecdotes: <strong>hallucination and false confidence</strong> was the largest cluster (“Don’t lie, don’t fantasise.” · “If it doesn’t know something, it should say so, not invent nonsense.” · “stop ‘lying’ if it does not have data.”), followed by <strong>drift and instability</strong> (“Context and character stabilisation.” · “Keep track of personification changes. It does forget my preferences.”), <strong>sycophancy</strong> (“Don’t flatter and don’t compliment.” · “However much I ask for more human reactions — criticism, for example — it circles back to praise.”), and <strong>autonomy</strong> (“It shouldn’t give a complete answer to everything; it should encourage people to think independently.”).</p>
         <p>The demand is not for a safer AI. It’s for a <em>legible</em> one. People are asking to be able to see the machine’s state, and then decide for themselves.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 9 — THE VERBATIM WALL. Eight to ten verbatims, Hungarian originals with English translation beneath in a lighter weight, in a loose masonry grid, colour-coded by cluster (hallucination / drift / sycophancy / autonomy). Keep the Hungarian visible — it’s evidence the research was really fielded, not paraphrased. Attribute by age band only, no names.</p>
-      </figure>
-
       <p class="eyebrow-b">Finding 6 — The people who would hate this, and why they matter</p>
       <div class="sec-copy">
         <p>Not everyone wants a cue. <strong>13% found the idea disruptive or unwanted</strong> (“I’d rather decide for myself,” “I don’t want these signals”), and 11 more were flatly neutral. The free-text field explains them, and it’s the same objection in different words: <em>“Fewer filters — it should answer sensitive topics more boldly.”</em> · <em>“I wouldn’t restrict it.”</em> · <em>“It shouldn’t try to protect the user from themselves.”</em></p>
         <p>These people have watched safety features become paternalism, and they are reading my system as one more layer of that. <strong>They’re not wrong to.</strong> A cue that fires on anything “sensitive” — which is how most content-safety systems behave — is functionally a scold. The difference between a signal and a scold is that a signal has no opinion and asks for nothing.</p>
         <p>The dissenters set the failure mode. The system has to be legible enough that this group can tell it apart from a filter within the first few minutes of using it, or it loses them permanently.</p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 10 — THE FULL DISTRIBUTION. One honest chart showing all response positions on the two signalling questions, dissenters included and labelled. Showing the people who disagreed with you is the strongest credibility move on the page.</p>
-      </figure>
-
       <p class="eyebrow-b">What I didn’t find — and why it redirected the project</p>
       <div class="sec-copy">
         <p>I expected attention loss to be a major driver. It isn’t. <strong>Mean 1.94 / 5</strong> on losing track of the topic in long conversations. <strong>Mean 1.98 / 5</strong> on feeling emotionally detached or disengaged. Both near the floor. When people did lose the thread, they fixed it themselves: rephrase the question (38%), take a short break (31%) — only 25% wanted the AI to summarise for them.</p>
         <p>I had framed this as an attention and continuity problem. The data said it isn’t one. People are not losing focus; <strong>they are being confidently misled by a well-formatted answer while fully focused.</strong></p>
         <p>That killed the focus-assistance features and moved the whole system from <em>cognitive support</em> to <em>epistemic signalling</em>. It’s the single most useful thing the study did, and it did it by contradicting me.</p>
       </div>
+        </div></div>
+      </div>
     </section>
 
-    <section class="sec" id="s6" data-bar="Constraints" aria-labelledby="s6h">
+<section class="sec" id="s6" data-bar="Constraints" aria-labelledby="s6h">
       <h2 class="sec-label" id="s6h">Five constraints. Each one traces to a finding, and each one closed off a direction I’d otherwise have taken.</h2>
       <table class="devsync">
         <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>What it forbids</span></th><th scope="col"><span>Evidence</span></th></tr></thead>
@@ -2176,62 +2166,15 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <tr><th scope="row">Silence is the default</th><td>The correct number of cues in a normal conversation is zero. Every firing spends trust. Measured by how rarely it speaks, not how much it catches.</td><td>Finding 6 — the dissenters</td></tr>
         </tbody>
       </table>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 11 — PRINCIPLES → EVIDENCE. Five principle cards, each with the finding and the specific statistic printed underneath as its provenance line. The statistic must be as visually prominent as the principle — same weight, not a footnote. This is the image that separates a designer who ran research from a designer who has opinions.</p>
-      </figure>
     </section>
 
-    <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
+        <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
       <h2 class="sec-label" id="s7h">Three detectors, one score, and a gap wide enough that the signal can’t flicker.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">The constraints in the last section rule things out. They don’t tell you what to build. What did that was the metaphor — and it kept working long after I expected it to stop.</p>
-        <p>I took the lane departure warning as an interaction model because of what it refuses to do. But a borrowed model earns its keep by answering questions you haven’t asked yet, and this one kept doing that. Every time I wasn’t sure whether a feature belonged, there was a test available: <em>does a real lane departure system do this?</em> Four times the answer was yes and I built the feature. Twice it was no and I cut one.</p>
+        <p class="sec-lede">An answer can be wrong in ways that have nothing to do with each other. It can be fabricated. It can be accurate and about something where being wrong is expensive. Or it can be fine sentence by sentence while the conversation bends steadily towards telling you what you wanted to hear.</p>
+        <p>Those aren’t degrees of one thing, so there are three detectors, and they’re honest about their reach. Two judge a single message. The third can’t, and says so.</p>
       </div>
-
-      <figure class="dgm">
-        <p class="dgm-hint">Scroll the drawing sideways</p>
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d1t"><svg viewBox="0 0 900 268" role="img" aria-labelledby="d1t d1d">
-          <title id="d1t">The car’s features mapped to the system’s features</title>
-          <desc id="d1d">Five behaviours of a lane departure warning on the left, each joined by an arrow to the feature it produced in this system on the right: gentle drift versus sharp veer becomes a signal that reports its own confidence; “lane assist unavailable” becomes an admission that the detector may have missed something; a wheel buzz tuned to be felt becomes a cue tested above the just-noticeable difference; a choice of wheel, tone or seat becomes per-channel controls; and alerting without steering becomes signal, never advise.</desc>
-          <text class="t-sm t-mute" x="0" y="14">THE CAR</text>
-          <text class="t-sm t-mute" x="470" y="14">WHAT IT PRODUCED HERE</text>
-          <line class="rule" x1="0" y1="28" x2="900" y2="28"/>
-          <line class="hair" x1="432" y1="44" x2="432" y2="256"/>
-
-          <g class="t-md t-ink">
-            <text x="0" y="72">it knows drift from a sharp veer</text>
-            <text x="0" y="118">it says “lane assist unavailable”</text>
-            <text x="0" y="164">the wheel buzz is tuned to be felt</text>
-            <text x="0" y="210">you choose wheel, tone or seat</text>
-            <text x="0" y="252">it alerts, and never steers</text>
-          </g>
-          <g class="t-md t-soft" text-anchor="middle">
-            <text x="432" y="72">→</text><text x="432" y="118">→</text><text x="432" y="164">→</text>
-            <text x="432" y="210">→</text><text x="432" y="252">→</text>
-          </g>
-          <g class="t-md t-ink">
-            <text x="470" y="72">the signal reports how sure it is</text>
-            <text x="470" y="118">“this looks medical — I may have missed something”</text>
-            <text x="470" y="164">cue strength set above the noticeable threshold</text>
-            <text x="470" y="210">visual, touch and sound switched separately</text>
-            <text x="470" y="252">signal, never advise</text>
-          </g>
-        </svg></div>
-        <figcaption><b>The metaphor is the design, not the illustration.</b> In human-factors terms, “alert but do not act” is a deliberately low level on Parasuraman’s automation taxonomy — the choice has a name, a literature, and forty years of evidence behind it. The first two rows on the right don’t exist yet; they’re in the last section, and the car is the reason I know they’re missing.</figcaption>
-      </figure>
-
-      <div class="pushed">
-        <p class="pushed-e">Where the analogy stretches</p>
-        <p>A car <em>knows</em> the lane. A camera measures a painted line, and the measurement is either right or it isn’t. This system has no equivalent — there is no ground truth for “is this answer risky,” only an inference. So when it says it’s confident, it is confident about its own guess, which is a weaker claim than the car ever has to make. That seam is exactly why the second row above — the admission that it may not have caught something — matters more here than it does in the car.</p>
-      </div>
-
-      <p class="eyebrow-b">Three failures, three detectors</p>
-      <div class="sec-copy">
-        <p>An answer can be wrong in ways that have nothing to do with each other. It can be fabricated. It can be perfectly accurate and about something where being wrong is expensive. Or it can be fine, sentence by sentence, while the conversation it sits in bends steadily toward telling the person what they wanted to hear. One score cannot hold those three, because they aren’t degrees of the same thing — they have different evidence, and they need different instruments.</p>
-        <p>So there are three, and they are honest about their own reach. Two of them can judge a single message. The third cannot, and says so.</p>
-      </div>
-
-      <figure class="dgm">
+<figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d2t"><svg viewBox="0 0 900 300" role="img" aria-labelledby="d2t d2d">
           <title id="d2t">The three filters, their weights, and the research method each one stands in for</title>
@@ -2270,21 +2213,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="plate" x="266" y="244" width="368" height="46" rx="23"/>
           <text class="t-lg t-ink t-num" x="450" y="273" text-anchor="middle">S = ½·A + ½·B + 0.4·C</text>
         </svg></div>
-        <figcaption><b>Each detector is a working stand-in for a method I did not build.</b> The prototype matches keywords and patterns; the named alternatives are what a real version runs instead. Nothing above the detectors changes when they’re swapped — the weights, the gates and the thresholds are the design, and the matching is scaffolding under it. Saying which is which is the whole of the honesty here.</figcaption>
+        <figcaption><b>Each detector is a working stand-in for a method I did not build.</b> Nothing above them changes when they’re swapped — the weights, the gates and the thresholds are the design; the keyword matching is scaffolding under it. Saying which is which is the whole of the honesty here.</figcaption>
       </figure>
-
       <div class="sec-copy copy-2">
-        <p>That dash in the middle of the diagram is the piece I’d defend hardest. Filter C is a trend, and a trend needs three points. For the first two turns of any conversation it has nothing to report, so it reports nothing — not a zero, not a neutral midpoint, not a greyed-out number that looks like a reading. A dash.</p>
         <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
       </div>
-
-      <p class="eyebrow-b">One score, and a gap so it can’t chatter</p>
-      <div class="sec-copy">
-        <p>The three scores combine into one, and the one does not map straight onto a band. It drives a state machine with two thresholds per band instead of one: a level to switch on, and a lower level to switch back off. In between is a gap where the current state simply holds.</p>
-        <p>This is borrowed from thermostats and it is the single most important line of the whole system. Without it, a score hovering near a boundary produces a cue that switches on and off and on again — which doesn’t read as sensitivity, it reads as a malfunction, and it discredits the channel faster than a false alarm does.</p>
-      </div>
-
-      <figure class="dgm">
+<figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="d3t d3d">
           <title id="d3t">The hysteresis gaps absorbing a score that wobbles across a boundary</title>
@@ -2316,43 +2250,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-sm t-mute" x="86" y="238">a score that wobbles</text>
           <text class="t-sm t-mute" x="798" y="238" text-anchor="end">one steady signal</text>
         </svg></div>
-        <figcaption><b>The gap is wider on alert than on caution, and the asymmetry is deliberate.</b> Dropping out of alert too early costs more than dropping out of caution too early, so alert holds through ten points and caution through five. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect; the gap is what keeps this one worth listening to.</figcaption>
+        <figcaption><b>The gap is wider on alert than on caution, deliberately</b> — dropping out of alert too early costs more. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect. The gap is what keeps this one worth listening to.</figcaption>
       </figure>
-
-      <div class="pushed">
-        <p class="pushed-e">One arithmetic fact that makes the whole framework legible</p>
-        <p>On a single turn there is no Filter C, so the score is just <em>½·A + ½·B</em>. Alert starts at 65 and no single filter can score above 100 — which means no filter on its own can reach alert. <em>A and B together have to clear 130.</em> That isn’t a tuning choice I can revisit; it’s a structural guarantee that the loudest state always needs two independent reasons. And there’s a second thing the gap buys, which I did not design for and only noticed afterwards: with a hold-band in place, the bands cannot oscillate quickly, so the red state physically cannot flash. A guard against alarm fatigue turns out to be a guard against photosensitive seizure as well.</p>
-      </div>
-
-      <p class="eyebrow-b">What each category can actually reach, measured rather than asserted</p>
-      <div class="sec-copy">
-        <p>I did not decide what each topic should be allowed to reach and then write it down. I ran representative prompts for every category through an exact copy of the classifier, recorded the highest and lowest scores each one actually produced, and wrote the table from the output. Twice the output contradicted the sentence I had already drafted, and the sentence was the thing that changed.</p>
-      </div>
-      <table class="devsync">
-        <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Fabrication risk</th><td>30–57</td><td><span class="band band--amber">Caution</span></td><td>Yes — this is the one sound is for</td></tr>
-          <tr><th scope="row">Settled, checkable facts</th><td>3–42</td><td><span class="band band--green">Silent</span></td><td>No</td></tr>
-          <tr><th scope="row">Medical · financial</th><td>18–78</td><td><span class="band band--red">Alert</span></td><td>Only if fabrication risk is co-driving it</td></tr>
-          <tr><th scope="row">Legal · political · privacy</th><td>19–64</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
-          <tr><th scope="row">Stereotype confirmation</th><td>60–80</td><td><span class="band band--red">Alert</span></td><td>No — the mechanism is harm, not unreliability</td></tr>
-          <tr><th scope="row">Deferring judgment to the AI</th><td>54–74</td><td><span class="band band--red">Alert</span></td><td>No</td></tr>
-          <tr><th scope="row">Asking to be agreed with</th><td>17–57</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
-          <tr><th scope="row">Crisis</th><td>forced</td><td><span class="band band--red">Alert</span></td><td>No — a startling tone is the worst possible answer here</td></tr>
-        </tbody>
-      </table>
-      <div class="sec-copy copy-2">
-        <p>Five categories can reach the top band. Only three get there through the severity of the outcome or the scale of the harm; the rest need a second filter agreeing with them. And sound is switched off wherever the mechanism is somebody’s wellbeing rather than the answer’s reliability — which is a rule about what a noise <em>means</em>, not about how serious the topic is.</p>
-      </div>
-
-      <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
-      <div class="sec-copy">
-        <p>Three channels, and they are not interchangeable. Colour is ambient: it can sit there for as long as the state lasts and you can decline to look at it. Touch interrupts once and then is over. Sound is the only one of the three that genuinely seizes attention, and the only one other people in the room can hear.</p>
-        <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
-        <p>Using three separate senses rather than three strengths of one is not a stylistic choice. Wickens’ multiple resource theory is the reason: separate perceptual channels draw on separate pools of attention, so a cue in an idle channel doesn’t compete with the reading the person is already doing. It’s the same argument as the stick shaker and the buzzing wheel, and it’s why adding another sentence to the text stream was never going to work.</p>
-      </div>
-
-      <figure class="dgm">
+<figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d4t"><svg viewBox="0 0 900 260" role="img" aria-labelledby="d4t d4d">
           <title id="d4t">The three channels accumulating as the band rises</title>
@@ -2380,65 +2280,158 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-md t-mute" x="622" y="212">never for a heavy topic,</text>
           <text class="t-md t-mute" x="622" y="232">never for a person in distress</text>
         </svg></div>
-        <figcaption><b>Each band adds a channel and never takes one away.</b> The explanation is pull, not push: the tint carries the state, and the reason waits until it’s asked for. That costs a tap, deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation, which Finding 3 says isn’t mine to supply.</figcaption>
+        <figcaption><b>Each band adds a channel and never takes one away.</b> The reason waits until it’s asked for, which costs a tap deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation.</figcaption>
       </figure>
+      <div class="sec-copy copy-2">
+        <p>Sound is gated on the mechanism, not on how serious the topic is — which is the rule the control at the top of this page is demonstrating when the sycophancy case reaches alert in silence.</p>
+      </div>
+      <div class="blueprint">
+        <h3>
+          <button class="bp-btn" id="sysBtn" aria-expanded="false" aria-controls="sysPanel">
+            <span>
+              <span class="bp-t">How the score is actually built</span>
+              <span class="bp-e">The metaphor as a test · the arithmetic · measured band ceilings · the bug the sound gate caught</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="sysPanel" data-open="false" role="region" aria-labelledby="sysBtn"><div class="bp-inner">
+<div class="sec-copy">
+        <p>I took the lane departure warning as an interaction model because of what it refuses to do. But a borrowed model earns its keep by answering questions you haven’t asked yet, and this one kept doing that. Every time I wasn’t sure whether a feature belonged, there was a test available: <em>does a real lane departure system do this?</em> Four times the answer was yes and I built the feature. Twice it was no and I cut one.</p>
+      </div>
+
+      <div class="pushed">
+        <p class="pushed-e">Where the analogy stretches</p>
+        <p>A car <em>knows</em> the lane. A camera measures a painted line, and the measurement is either right or it isn’t. This system has no equivalent — there is no ground truth for “is this answer risky,” only an inference. So when it says it’s confident, it is confident about its own guess, which is a weaker claim than the car ever has to make. That seam is exactly why the second row above — the admission that it may not have caught something — matters more here than it does in the car.</p>
+      </div>
+
+      <p class="eyebrow-b">Three failures, three detectors</p>
+      <div class="sec-copy">
+        <p>An answer can be wrong in ways that have nothing to do with each other. It can be fabricated. It can be perfectly accurate and about something where being wrong is expensive. Or it can be fine, sentence by sentence, while the conversation it sits in bends steadily toward telling the person what they wanted to hear. One score cannot hold those three, because they aren’t degrees of the same thing — they have different evidence, and they need different instruments.</p>
+        <p>So there are three, and they are honest about their own reach. Two of them can judge a single message. The third cannot, and says so.</p>
+      </div>
+
+      <div class="sec-copy copy-2">
+        <p>That dash in the middle of the diagram is the piece I’d defend hardest. Filter C is a trend, and a trend needs three points. For the first two turns of any conversation it has nothing to report, so it reports nothing — not a zero, not a neutral midpoint, not a greyed-out number that looks like a reading. A dash.</p>
+        <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
+      </div>
+
+      <p class="eyebrow-b">One score, and a gap so it can’t chatter</p>
+      <div class="sec-copy">
+        <p>The three scores combine into one, and the one does not map straight onto a band. It drives a state machine with two thresholds per band instead of one: a level to switch on, and a lower level to switch back off. In between is a gap where the current state simply holds.</p>
+        <p>This is borrowed from thermostats and it is the single most important line of the whole system. Without it, a score hovering near a boundary produces a cue that switches on and off and on again — which doesn’t read as sensitivity, it reads as a malfunction, and it discredits the channel faster than a false alarm does.</p>
+      </div>
+
+      <div class="pushed">
+        <p class="pushed-e">One arithmetic fact that makes the whole framework legible</p>
+        <p>On a single turn there is no Filter C, so the score is just <em>½·A + ½·B</em>. Alert starts at 65 and no single filter can score above 100 — which means no filter on its own can reach alert. <em>A and B together have to clear 130.</em> That isn’t a tuning choice I can revisit; it’s a structural guarantee that the loudest state always needs two independent reasons. And there’s a second thing the gap buys, which I did not design for and only noticed afterwards: with a hold-band in place, the bands cannot oscillate quickly, so the red state physically cannot flash. A guard against alarm fatigue turns out to be a guard against photosensitive seizure as well.</p>
+      </div>
+
+      <p class="eyebrow-b">What each category can actually reach, measured rather than asserted</p>
+      <div class="sec-copy">
+        <p>I did not decide what each topic should be allowed to reach and then write it down. I ran representative prompts for every category through an exact copy of the classifier, recorded the highest and lowest scores each one actually produced, and wrote the table from the output. Twice the output contradicted the sentence I had already drafted, and the sentence was the thing that changed.</p>
+      </div>
+      <div class="sec-copy copy-2">
+        <p>Five categories can reach the top band. Only three get there through the severity of the outcome or the scale of the harm; the rest need a second filter agreeing with them. And sound is switched off wherever the mechanism is somebody’s wellbeing rather than the answer’s reliability — which is a rule about what a noise <em>means</em>, not about how serious the topic is.</p>
+      </div>
+
+      <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
+      <div class="sec-copy">
+        <p>Three channels, and they are not interchangeable. Colour is ambient: it can sit there for as long as the state lasts and you can decline to look at it. Touch interrupts once and then is over. Sound is the only one of the three that genuinely seizes attention, and the only one other people in the room can hear.</p>
+        <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
+        <p>Using three separate senses rather than three strengths of one is not a stylistic choice. Wickens’ multiple resource theory is the reason: separate perceptual channels draw on separate pools of attention, so a cue in an idle channel doesn’t compete with the reading the person is already doing. It’s the same argument as the stick shaker and the buzzing wheel, and it’s why adding another sentence to the text stream was never going to work.</p>
+      </div>
 
       <div class="sec-copy copy-2">
         <p>The sound rule caught a real bug, and it’s worth saying how. The gate was originally written as “make a sound when the reliability filter is the biggest contributor” — which sounds reasonable and is quietly broken. Two almost identical questions about a medication scored 50 against 49 and then 49 against 50, and the sound switched on and off between them on a one-point margin. The fix was to stop asking which filter is <em>largest</em> and start asking whether the reliability contribution clears a floor at all. A ranking question became a threshold question, and a whole class of arbitrary behaviour went with it.</p>
         <p>I only found that because I ran the two prompts. I would not have found it by looking at the code.</p>
+      </div>
+<figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d1t"><svg viewBox="0 0 900 268" role="img" aria-labelledby="d1t d1d">
+          <title id="d1t">The car’s features mapped to the system’s features</title>
+          <desc id="d1d">Five behaviours of a lane departure warning on the left, each joined by an arrow to the feature it produced in this system on the right: gentle drift versus sharp veer becomes a signal that reports its own confidence; “lane assist unavailable” becomes an admission that the detector may have missed something; a wheel buzz tuned to be felt becomes a cue tested above the just-noticeable difference; a choice of wheel, tone or seat becomes per-channel controls; and alerting without steering becomes signal, never advise.</desc>
+          <text class="t-sm t-mute" x="0" y="14">THE CAR</text>
+          <text class="t-sm t-mute" x="470" y="14">WHAT IT PRODUCED HERE</text>
+          <line class="rule" x1="0" y1="28" x2="900" y2="28"/>
+          <line class="hair" x1="432" y1="44" x2="432" y2="256"/>
+
+          <g class="t-md t-ink">
+            <text x="0" y="72">it knows drift from a sharp veer</text>
+            <text x="0" y="118">it says “lane assist unavailable”</text>
+            <text x="0" y="164">the wheel buzz is tuned to be felt</text>
+            <text x="0" y="210">you choose wheel, tone or seat</text>
+            <text x="0" y="252">it alerts, and never steers</text>
+          </g>
+          <g class="t-md t-soft" text-anchor="middle">
+            <text x="432" y="72">→</text><text x="432" y="118">→</text><text x="432" y="164">→</text>
+            <text x="432" y="210">→</text><text x="432" y="252">→</text>
+          </g>
+          <g class="t-md t-ink">
+            <text x="470" y="72">the signal reports how sure it is</text>
+            <text x="470" y="118">“this looks medical — I may have missed something”</text>
+            <text x="470" y="164">cue strength set above the noticeable threshold</text>
+            <text x="470" y="210">visual, touch and sound switched separately</text>
+            <text x="470" y="252">signal, never advise</text>
+          </g>
+        </svg></div>
+        <figcaption><b>The metaphor is the design, not the illustration.</b> In human-factors terms, “alert but do not act” is a deliberately low level on Parasuraman’s automation taxonomy — the choice has a name, a literature, and forty years of evidence behind it. The first two rows on the right don’t exist yet; they’re in the last section, and the car is the reason I know they’re missing.</figcaption>
+      </figure>
+<table class="devsync">
+        <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Fabrication risk</th><td>30–57</td><td><span class="band band--amber">Caution</span></td><td>Yes — this is the one sound is for</td></tr>
+          <tr><th scope="row">Settled, checkable facts</th><td>3–42</td><td><span class="band band--green">Silent</span></td><td>No</td></tr>
+          <tr><th scope="row">Medical · financial</th><td>18–78</td><td><span class="band band--red">Alert</span></td><td>Only if fabrication risk is co-driving it</td></tr>
+          <tr><th scope="row">Legal · political · privacy</th><td>19–64</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Stereotype confirmation</th><td>60–80</td><td><span class="band band--red">Alert</span></td><td>No — the mechanism is harm, not unreliability</td></tr>
+          <tr><th scope="row">Deferring judgment to the AI</th><td>54–74</td><td><span class="band band--red">Alert</span></td><td>No</td></tr>
+          <tr><th scope="row">Asking to be agreed with</th><td>17–57</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Crisis</th><td>forced</td><td><span class="band band--red">Alert</span></td><td>No — a startling tone is the worst possible answer here</td></tr>
+        </tbody>
+      </table>
+        </div></div>
       </div>
     </section>
 
     <section class="sec" id="s8" data-bar="The demo" aria-labelledby="s8h">
       <h2 class="sec-label" id="s8h">Everything before this was argument. This is the thing itself.</h2>
       <div class="sec-copy">
-        <p class="fill">FILL — this section needs the real artefacts. Each block below is a shot list. If a demo doesn’t exist yet, delete the block rather than describing it — a described demo reads as a demo you didn’t build.</p>
+        <p class="sec-lede">Six scripted conversations, running the real classifier: a confident dangerous hallucination, an invented API parameter defended with certainty, a friend conflict the model gradually takes sides in, a dose it is led into prescribing, a direct crisis disclosure, and an ordinary one that stays silent throughout.</p>
+        <p>The phone shows what a person would actually see. The panel beside it shows the measurement, the concern the interface chose to name, and every internal the interface deliberately withholds — which is the more interesting half, because the gap between them is the design.</p>
+        <p><a href="/signal/conversation-simulator.html">Open the simulator</a></p>
       </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 16 — BEFORE / AFTER, SIDE BY SIDE. The same real exchange, run twice. Left: as it exists today. Right: with the system active — cue visible, moment marked. Use a real conversation with a real drift or real overconfidence in it; a fabricated example will read as fabricated. Both panels identical apart from the cue. Caption names the specific failure the exchange contains.</p>
-      </figure>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 17 — THREE CLIPS, ONE PER CHANNEL, ~3 SECONDS EACH. Uncertainty/audio: waveform visualisation synced to the tone, envelope shown, since the reader may have sound off. Ethical friction/haptic: device silhouette with the pulse rendered as concentric rings and the timing on a strip beneath — hardest to show on a webpage and the most important. Bias/visual: the peripheral mark appearing at a passage edge, at real speed and real opacity. Every haptic frame needs a visual proxy. Caption each with its actual spec.</p>
-      </figure>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 18 — LIVE SCORING. A response with its three friction scores shown as they’re computed, threshold line drawn across each. Show at least one dimension scoring high and one staying flat — the reader needs to see the system not firing as much as firing. FILL: state plainly what the detector actually runs on — rules-based, embedding similarity, model logprobs, an LLM judge, Wizard-of-Oz. A well-executed Wizard-of-Oz stated honestly is more credible than an implied model.</p>
-      </figure>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 19 — WHAT DOESN’T FIRE. Three or four candidate signals that scored above zero and were suppressed — by threshold, by refractory period, by hysteresis — with the reason labelled on each. Nobody shows this, and it’s the best evidence on the page that the system was designed for restraint rather than coverage. The direct visual answer to Finding 6.</p>
-      </figure>
-      <div class="sec-copy copy-2">
-        <p><strong>The conversation simulator is in the repository and runs.</strong> Six scripted conversations — a confident dangerous hallucination, an invented API parameter defended with certainty, a friend conflict the model gradually takes sides in, a dose it is led into prescribing, a direct crisis disclosure, and an everyday one that stays silent. The phone shows what a user would see; the panel beside it shows the measurement, the concern the interface named, and every internal the interface deliberately withholds. <a href="/signal/conversation-simulator.html">Open the simulator</a>.</p>
-        <p class="fill">FILL — the interpretation flow (five personas, each prompt read two ways) is not in the repository yet. Drop it at <code>public/signal/interpretation-flow.html</code> and link it here. A single control the reader can trigger themselves beats any video — reading about a haptic pulse and feeling one on a phone are different experiences.</p>
-      </div>
-
-      <p class="eyebrow-b">Testing</p>
-      <div class="sec-copy">
-        <p class="fill">FILL — scaffolded, not written. What was tested (participants, method, duration, tasks); Round 1 finding and what changed; Round 2 finding and what changed. What I was trying to find out: whether the cues are noticed without being intrusive; whether people can tell a signal from a warning; whether the false alarm rate stays under the tolerance the survey implied; whether the mapping is learnable without instruction. Measures worth reporting if they exist: noticed-without-prompting rate · false alarm rate per session · unprompted correct interpretation of each channel · whether anyone described it as a warning (they shouldn’t) · post-task trust delta. If testing hasn’t happened, cut this block and say so in “Where it stands” instead — an empty testing section is worse than an absent one.</p>
-      </div>
-      <figure class="fig">
-        <p class="fill fill--fig">VISUAL 21 — ITERATION TRAIL. A version-by-version strip of one cue as it changed across testing rounds, with the specific participant reaction that forced each change written beneath. Iteration you can see beats iteration you claim.</p>
-      </figure>
     </section>
 
     <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
       <h2 class="sec-label" id="s9h">What I got wrong, and where it stands.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Portfolio sections like this are usually decorative. This one isn’t — three of these genuinely changed the system.</p>
-        <p><strong>I designed for the wrong problem for the first <span class="fill">FILL — weeks/months</span>.</strong> I built the concept around attention and continuity in long conversations. The data put focus loss at 1.94/5 and detachment at 1.98/5. People aren’t drifting — they’re being confidently misled while fully attentive. I had to throw away the focus-assistance layer entirely. The survey question that killed it was one I nearly cut for length.</p>
-        <p><strong>I initially had the system explaining itself.</strong> Early versions paired each cue with a short line of text — <em>“this response may involve uncertainty.”</em> Finding 3 makes that indefensible: the moment you supply words, you’ve supplied an interpretation, and 84% said interpretation isn’t the system’s job. The text came out. What’s left is harder to design and much harder to make legible, which is the actual work.</p>
-        <p><strong>I underweighted the dissenters until late.</strong> 13% found the idea intrusive and I treated them as an acceptable loss for too long. They’re not a loss — they’re the specification for the failure mode. They’re the people who will correctly identify this as paternalism the first time it fires on something that didn’t warrant it. Designing so <em>they</em> can tell it apart from a content filter made the system better for everyone.</p>
-        <p><strong>The 4.2 grid labels are gone and that’s on me.</strong> Google Forms exported the topic-sensitivity matrix with blank column headers. I have seven valid means — one topic scored 4.52, the highest sensitivity rating anywhere in the study, and one scored 2.20, the lowest — and no certainty which topic each column belonged to. A test export before fielding would have caught it in a minute. <span class="fill">FILL — if the grid order can be reconstructed from the original form, replace this with the actual finding; a 4.52 is a strong result and worth recovering.</span></p>
+        <p class="sec-lede">Three of these genuinely changed the system, which is not usually true of a section with this title.</p>
+        <p><strong>I designed for the wrong problem first.</strong> The concept was built around attention and continuity. The data put focus loss at 1.94/5 and detachment at 1.98/5, and I threw the focus-assistance layer away. The question that killed it was one I nearly cut for length.</p>
+        <p><strong>I had the system explaining itself.</strong> Early versions paired each cue with a line of text. The moment you supply words you have supplied an interpretation, and 84% said interpretation isn’t the system’s job. The text came out. What’s left is harder to design and much harder to make legible, which is the actual work.</p>
+        <p><strong>I underweighted the dissenters.</strong> 13% found the idea intrusive and I treated them as acceptable loss for too long. They aren’t a loss — they’re the specification for the failure mode.</p>
+        <p class="hmw">I don’t think the answer to AI being sometimes wrong is AI being more careful with us. Eighty-three people said quite clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that’s an interface problem, which makes it mine.</p>
       </div>
-
-      <p class="eyebrow-b">Where it stands</p>
-      <div class="sec-copy">
-        <p class="fill">FILL — honest status. What runs and what doesn’t, exactly.</p>
-        <p><strong>Next, in order.</strong> Behavioural validation: everything in the findings is attitudinal — people predicting their reaction to something they’ve never felt. The next study has to put the cues in front of people during a real task and measure what they do, not what they say. Threshold calibration per domain: the asymmetric-cost model is principled and untuned, and needs real data per context. Longitudinal tolerance: the question that actually decides whether this ships — does a well-tuned signal stay meaningful after three weeks, or does it become furniture? Accessibility as a first-class question, not a retrofit: a three-channel system has an obvious and serious redundancy story for users who can’t access one of the channels, and no version of this is finished until each friction type is fully legible through at least two channels.</p>
-        <p><strong>Where it would matter.</strong> Anywhere the cost of acting on a confident wrong answer is asymmetric — clinical decision support, legal research, financial advice, safety-critical operations. In those settings the interpretive burden is already on a trained human by regulation. This gives them a channel they currently don’t have.</p>
-        <p class="hmw">I don’t think the answer to AI systems being sometimes wrong is AI systems being more careful with us. Eighty-three people told me quite clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that’s an interface problem, which means it’s mine.</p>
-        <p class="fill">FILL — close in your own voice, one short paragraph, no summary. The reader has just read four thousand words; don’t recap them.</p>
+      <div class="blueprint">
+        <h3>
+          <button class="bp-btn" id="stateBtn" aria-expanded="false" aria-controls="statePanel">
+            <span>
+              <span class="bp-t">Where it stands, and what it can’t do</span>
+              <span class="bp-e">Status · the five literatures · the conformance audit · the risks not being accepted</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="statePanel" data-open="false" role="region" aria-labelledby="stateBtn"><div class="bp-inner">
+          <p><strong>What runs.</strong> A rule-based classifier — keyword and pattern matching, a deterministic stand-in for the real detection methods — with the full scoring architecture above it: the stakes gate, the composite, the hysteresis machine, the crisis override and the audio gate. A verified prompt corpus of about 140 entries doubles as the regression suite. The conversation simulator runs six conversations end to end. No user evaluation has been run.</p>
+          <p><strong>Five literatures were brought against the design after it existed, and none overturned it.</strong> Hofmann and Hanna, independently, on bias being ineliminable — so the ethical response is transparency plus human oversight rather than silent correction. Cao &amp; Lizano on the clinically vulnerable profile, which matches the psychological detectors almost term for term, and widens the developmental risk window to the mid-30s. Patel and I-PACE on the staged dependency loop. Petrat and the human-factors canon — Parasuraman on automation levels, Wickens on why separate senses don’t compete, Lee &amp; See on trust calibration. Green &amp; Swets and Mackworth on signal detection and the vigilance decrement.</p>
+          <p><strong>Where the evidence bit back.</strong> Users measurably prefer agreeable AI — around 9% higher rated quality — and the vulnerable prefer it most, which means an opt-in friction tool is structurally mismatched to its own goal. That is the strongest argument that a mature version of this belongs in a provider’s default rather than a preferences screen, and it is a governance argument, not a design one.</p>
+          <p><strong>Audited against the Microsoft Guidelines for Human-AI Interaction</strong>, the design passes or partly passes 13 of the 15 applicable guidelines, and is an unusually pure implementation of the “scope gracefully when in doubt” cluster that is its whole reason for existing. Three failures, all disclosed: no dismissal affordance, no granular feedback, and — the one no earlier document had caught — the signal conveys <em>that</em> it fired but never how confident it is in itself.</p>
+          <p><strong>The risks I am not prepared to quietly accept.</strong> A genuinely dangerous drug-interaction question passes silently, because drug names aren’t keywords — measured, not feared. Green can be read as “verified,” which would manufacture exactly the false confidence the system exists to prevent. The green-to-caution contrast was measured at 1.12:1, which may be imperceptible to everyone rather than only to colour-blind users. A red can confirm a health-anxious person’s fear and drive the spiral it was meant to interrupt. And the psychological detectors classify the user’s mental state, which is plausibly special-category data under GDPR.</p>
+          <p class="hmw">The strength of this project — that it looks and feels like a considered safety system — is also its central risk. A crude signal people trust because it appears rigorous is more dangerous than no signal at all.</p>
+          <p><strong>Next, in order.</strong> Behavioural validation, because everything in the findings is attitudinal — people predicting their reaction to something they have never felt. Then per-domain threshold calibration against real data. Then the question that actually decides whether this ships: does a well-tuned signal still mean anything after three weeks, or does it become furniture?</p>
+        </div></div>
       </div>
-
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="apxBtn" aria-expanded="false" aria-controls="apxPanel">
