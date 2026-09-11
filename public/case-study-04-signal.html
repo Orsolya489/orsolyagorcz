@@ -2066,11 +2066,23 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
 
         <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
-      <h2 class="sec-label" id="s1h">Read this if you read nothing else.</h2>
+      <h2 class="sec-label" id="s1h">Nobody asked for this one. That is the part I would point at.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Chat AI has one channel: text. So when the model is guessing, or drifting off the brief, or in territory that deserves more care than a sentence can carry, the only way it has to tell you is more text — which reads exactly like the confident text around it.</p>
-        <p>I ran a study with 83 people to find out whether that costs anyone anything. It does, and what they wanted was narrower than I expected. Not a second opinion. Not a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job.</strong> What they wanted was a <em>notice</em> — quiet enough to ignore.</p>
-        <p>So I built a signalling layer rather than an advisory one. Three kinds of friction, three senses, no verdicts. The steering wheel buzzes; you look; you decide. The car never turns the wheel.</p>
+        <p class="sec-lede">No client, no brief, no employer. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer it, analysed it myself — and then built the thing the answers described, which was not the thing I had in mind when I started.</p>
+        <p>The problem I set out to solve: chat AI has one channel. When the model is guessing, or drifting off the brief, or in territory that deserves more care than a sentence can carry, the only way it has to tell you is more text — and more text reads exactly like the confident text around it.</p>
+        <p>What the study said was narrower than I expected, and better. People don’t want a second opinion and they don’t want a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</strong> What they want is a <em>notice</em> — quiet enough to ignore.</p>
+        <p>So I built a signalling layer instead of an advisory one. Three kinds of friction, three senses, no verdicts. The wheel buzzes, you look, you decide; the car never turns the wheel.</p>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><b>83</b><i>people, across two independently fielded language versions — Hungarian and English</i></div>
+        <div class="metric"><b>84<span>%</span></b><i>said interpretation is the human’s job. The finding the whole design is built to obey</i></div>
+        <div class="metric"><b>1.94<span>/5</span></b><i>attention loss — the hypothesis I started with, and the number that killed it</i></div>
+      </div>
+
+      <div class="pushed">
+        <p class="pushed-e">Why the last number is the one that matters</p>
+        <p>I built the concept around attention: people losing the thread in long conversations. The study put losing track at 1.94 and feeling detached at 1.98, both near the floor of a five-point scale. <em>People are not drifting — they are being confidently misled while fully focused.</em> That killed the focus-assistance layer and moved the whole project from cognitive support to epistemic signalling. A study that only confirms you has told you nothing; this one cost me my first concept, which is how I know it was worth running.</p>
       </div>
     </section>
 
@@ -2124,6 +2136,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="sec-lede">31 questions across 5 sections, fielded in two languages as two separate deployments — Hungarian (n=71) and English (n=12). Not a translation of convenience: the Hungarian version carried an extra question that produced the study’s most important number.</p>
         <p>The attention block opened with “skip this if it isn’t relevant to you,” which cost me sample size on those items and was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
         <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44, 45–54 and under-18, with 55–64 and 65+ both represented. That spread is why I trust the responsibility finding as much as I do. It isn’t a room full of people who work in tech agreeing with each other.</p>
+        <p class="hmw">Every part of this was mine: the questions, both fieldings, the analysis, and the decision to report the parts that went against me.</p>
       </div>
       <div class="blueprint">
         <h3>
