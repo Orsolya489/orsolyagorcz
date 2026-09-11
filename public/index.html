@@ -444,30 +444,30 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    auto-fit rather than a fixed four: Ness states two fields, not four, and a
    fixed grid would hand it two empty columns and wrap its one long value into a
    quarter of the width it actually has. The track count follows the content. */
-.card-spec{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:var(--stack) 0}
-.card-spec div{display:flex;flex-direction:column;gap:.35em;min-width:0;
-  padding-left:var(--gutter);border-left:1px solid var(--edge)}
-/* Two up, two down. Four across fitted the labels and not the values: at a
-   quarter of the copy column, "Product Design · Human-AI Interaction" and
-   "Behavioral Researcher & Designer" had two or three words a line and broke
-   in the middle of a phrase. Half the column is enough for every value here to
-   hold its shape, and the block reads as two pairs rather than a row of four
-   fragments.
-   The divider drops from whichever cell starts a row, which at two columns is
-   every odd one. */
-.card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
+.card-spec{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:var(--stack) var(--gutter)}
+.card-spec div{min-width:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45em}
 .card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   line-height:1.4;letter-spacing:.02em;color:var(--ink)}
-/* Narrow enough that even two columns leave a value three words a line: the
-   rule turns and sits above each field instead. */
-@container (max-width:380px){
-  .card-spec{grid-template-columns:1fr;gap:0}
-  .card-spec div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
-  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
-  .card-spec div:first-child{padding-top:0;border-top:0}
+/* Each value sets its own lines rather than being left to wrap. Four columns
+   only clipped because the break fell wherever the column ran out - mid-phrase,
+   mid-name. Written as lines, "Lead designer / — solo" and "Product Design /
+   Human-AI Interaction" break where the sense breaks, and the column can be a
+   quarter wide without hurting anybody.
+   The rules between columns are gone. They were doing the separating when the
+   values were one ragged block each; now that every value is a tidy stack of
+   short lines, the gap does it, and the row reads as four fields instead of
+   four fenced cells. */
+.card-spec dd span{display:block}
+/* One under the other below the width where four columns would each hold a
+   single word. No rules to turn here - just the stack. */
+@container (max-width:520px){
+  .card-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@container (max-width:300px){
+  .card-spec{grid-template-columns:1fr;gap:var(--stack) 0}
 }
 /* ═══ the schematic, on a work surface ═══
    The drawing used to sit straight on the card, reading as a watermark beside
@@ -575,7 +575,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      the card than it does on a tall one. Reserving its space in px keeps the
      frame clear of it at every size instead of only the roomy ones. */
   .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(16% + 132px)}
-  .card-copy{grid-area:copy;align-self:end;max-width:90%}
+  /* Full column, not 90%. The quarter-columns came out at 133px while the
+     longest declared line - "Self-directed research" - measured 145, so three
+     values were wrapping inside a line that was supposed to be whole. The 10%
+     was holding the old ragged paragraph off the card edge; the spec does not
+     need it, because its lines end where they are told to. */
+  .card-copy{grid-area:copy;align-self:end;max-width:100%}
   /* the mockup sits indented from the left margin and runs to the card's
      bottom edge, as in the sketch */
   .card-shot{grid-area:shot;align-self:end;justify-self:start;
@@ -1233,10 +1238,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd>Lead designer — solo</dd></div>
-            <div><dt>Scope</dt><dd>MVP · design to handoff</dd></div>
+            <div><dt>Role</dt><dd><span>Lead designer</span><span>— solo</span></dd></div>
+            <div><dt>Scope</dt><dd><span>MVP</span><span>design to handoff</span></dd></div>
             <div><dt>Status</dt><dd>Pre-launch</dd></div>
-            <div><dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd></div>
+            <div><dt>Practice</dt><dd><span>Product Design</span><span>Human-AI Interaction</span></dd></div>
           </dl>
         </div>
       </article></div>
@@ -1259,10 +1264,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd></div>
+            <div><dt>Role</dt><dd><span>Behavioral Researcher</span><span>&amp; Designer</span></dd></div>
             <div><dt>Year</dt><dd>2025</dd></div>
             <div><dt>Status</dt><dd>Concept</dd></div>
-            <div><dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd></div>
+            <div><dt>Practice</dt><dd><span>R&amp;D Human Factors</span><span>HAI</span></dd></div>
           </dl>
         </div>
       </article></div>
@@ -1290,7 +1295,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-copy">
           <dl class="card-spec">
             <div><dt>Year</dt><dd>2024</dd></div>
-            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
+            <div><dt>Practice</dt><dd><span>Creative Therapy</span><span>AI Guide</span><span>Emotional Safety</span><span>Human Factors</span></dd></div>
           </dl>
         </div>
       </article></div>
@@ -1315,10 +1320,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
-            <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
+            <div><dt>Role</dt><dd><span>Sole researcher</span><span>and designer</span></dd></div>
+            <div><dt>Scope</dt><dd><span>Self-directed research</span><span>and system design</span></dd></div>
             <div><dt>Status</dt><dd>In progress</dd></div>
-            <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
+            <div><dt>Practice</dt><dd><span>Human-AI Interaction</span><span>Human Factors</span></dd></div>
           </dl>
         </div>
       </article></div>
