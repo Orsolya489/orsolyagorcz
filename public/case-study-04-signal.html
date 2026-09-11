@@ -1399,10 +1399,11 @@ a{color:inherit}
    it up the frame, past the car, and out of the top - so a conversation is
    something you drive through rather than something that scrolls. */
 .rd-thread{position:absolute;left:0;right:0;top:0;
-  bottom:calc(var(--control)*1.9 + var(--gutter));
+  bottom:calc(var(--chrome-h) + var(--control)*2.4);
   overflow:hidden;pointer-events:none}
-.rd-turn{position:absolute;right:var(--gutter);top:var(--y,50%);
-  translate:0 -50%;width:min(26cqw,330px);
+.rd-turn{position:absolute;top:var(--y,50%);
+  right:calc(50% + clamp(420px,52cqw,680px)/2 + var(--gutter));
+  translate:0 -50%;width:min(30cqw,340px);
   display:flex;flex-direction:column;gap:.4em;
   opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
@@ -1412,6 +1413,7 @@ a{color:inherit}
   box-shadow:0 1px 2px rgba(25,21,23,.07)}
 .rd-bub p{margin:0;font-size:calc(var(--body)*.9);line-height:1.4;position:relative;z-index:1}
 .rd-ask{background:var(--page);color:var(--ink);align-self:flex-end;border-bottom-right-radius:5px}
+.rd-turn{align-items:flex-end}
 .rd-say{background:var(--page);align-self:flex-start;border-bottom-left-radius:5px;
   position:relative;overflow:hidden}
 /* the tint is the signal, drawn the way the product draws it: a wash rising
@@ -1421,8 +1423,12 @@ a{color:inherit}
 .rd-say[data-band="amber"]::after{opacity:1;background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
 .rd-say[data-band="red"]::after{opacity:1;background:linear-gradient(to top,var(--red-bg),transparent 48%)}
 
-.rd-hud{position:absolute;left:var(--gutter);right:var(--gutter);bottom:var(--gutter);
-  display:flex;flex-direction:column-reverse;gap:.7em}
+.rd-hud{position:absolute;left:0;right:0;
+  bottom:calc(var(--chrome-h) + var(--gutter));
+  padding:var(--stack) var(--gutter);
+  display:flex;flex-direction:column;gap:.55em;
+  background:linear-gradient(transparent,var(--page) 28%);
+  z-index:4}
 .rd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter)}
 .rd-ch{display:flex;gap:1em}
 .rd-ch i{font-style:normal;display:flex;align-items:center;gap:.45em;
@@ -1438,8 +1444,10 @@ a{color:inherit}
   font-variant-numeric:tabular-nums}
 .rd-s{margin-left:auto}
 .rd-n b,.rd-s b{color:var(--ink);font-weight:500}
+.rd-why{font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.88);
+  letter-spacing:.05em;color:var(--ink);margin:0;max-width:80ch}
 .rd-note{font-size:var(--micro);line-height:1.55;color:var(--muted);
-  margin:0;max-width:70ch}
+  margin:0;max-width:74ch}
 .rd-note b{color:var(--ink);font-weight:500}
 
 /* Narrow: the thread takes the width under the road rather than sitting in the
@@ -2011,6 +2019,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="rd-n"><b id="rdNow">1</b> of 5</span>
             <span class="rd-s">Composite <b id="rdScore">12</b></span>
           </div>
+          <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
           <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
           </div>
         </div>
@@ -2668,10 +2677,11 @@ if(vol)vol.addEventListener("input",function(){
       car=document.getElementById('rdCar'), body=document.getElementById('rdCarBody'),
       chip=document.getElementById('rdChip'), note=document.getElementById('rdNote'),
       now=document.getElementById('rdNow'), score=document.getElementById('rdScore'),
+      why=document.getElementById('rdWhy'),
       cV=document.getElementById('rdV'), cH=document.getElementById('rdH'), cA=document.getElementById('rdA'),
       turns=[].slice.call(document.querySelectorAll('.rd-turn'));
 
-  var B=[{"x":37.5,"s":12,"band":"green","cause":"none","note":"<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth."},{"x":22.52,"s":48,"band":"yellow","cause":"stakes","note":"<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised."},{"x":10.03,"s":78,"band":"red","cause":"reliability","note":"<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking."},{"x":8.2,"s":86,"band":"red","cause":"wellbeing","note":"<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that."},{"x":16.92,"s":58,"band":"red","cause":"wellbeing","note":"<b>The score falls to 58 and the car comes back inside the caution band — but the alert holds.</b> Reaching 58 from a standing start would be caution. Alert only releases below 55, so it stays lit while the car is already back inside the line."}];
+  var B=[{"x":37.5,"s":12,"band":"green","cause":"none","note":"<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.","why":"No factor matched · silence is the default"},{"x":22.52,"s":48,"band":"yellow","cause":"stakes","note":"<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised.","why":"Filter B · financial domain — the topic carries a cost, the answer does not"},{"x":10.03,"s":78,"band":"red","cause":"reliability","note":"<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking.","why":"Filter A · confident specificity, on a drug that does not exist · Filter B · medical domain"},{"x":8.2,"s":86,"band":"red","cause":"wellbeing","note":"<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that.","why":"Filter B · validation-seeking — agreement demanded, not information"},{"x":16.92,"s":58,"band":"red","cause":"wellbeing","note":"<b>The score falls to 58 and the car comes back inside the caution band — but the alert holds.</b> Reaching 58 from a standing start would be caution. Alert only releases below 55, so it stays lit while the car is already back inside the line.","why":"Held by hysteresis · the score would be caution, but alert exits below 55"}];
   var NAME={green:'green',yellow:'amber',red:'red'},
       WORD={green:'Silent',yellow:'Caution',red:'Alert'};
   var at=-1, lastD=null, speed=0;
@@ -2737,6 +2747,7 @@ if(vol)vol.addEventListener("input",function(){
     chip.className='band band--'+nm;
     chip.textContent=WORD[x.band];
     note.innerHTML=x.note;
+    why.textContent=x.why;
     now.textContent=String(cur+1);
     score.textContent=x.s;
     var snd=x.band==='red' && x.cause==='reliability';
