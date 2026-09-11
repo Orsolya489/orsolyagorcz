@@ -1334,18 +1334,30 @@ a{color:inherit}
   box-shadow:inset 0 0 0 1px var(--edge);
   container-type:inline-size}
 
-.rd-lanes{position:absolute;inset:0;
+/* A carriageway, not a field. Two lanes at a believable width - about 300px on
+   a laptop - sitting at the left of the frame with the conversation alongside
+   it, rather than a road as wide as the article with everything floating on
+   top. The bands are percentages of the road, so the car's distance from its
+   lane still reads as the score no matter how wide the frame gets. */
+.rd-lanes{position:absolute;top:0;bottom:0;left:0;
+  width:clamp(230px,30cqw,340px);
+  box-shadow:0 0 0 1px var(--edge);
   background-image:
-    repeating-linear-gradient(to bottom, var(--line-soft) 0 30px, transparent 30px 66px),
+    repeating-linear-gradient(to bottom,
+      var(--line) 0 calc(26px + 30px*var(--speed,0)),
+      transparent calc(26px + 30px*var(--speed,0)) 64px),
     linear-gradient(to right,
       var(--red-bg)   0 13%,
       var(--amber-bg) 13% 27%,
       var(--card)     27% 73%,
       var(--amber-bg) 73% 87%,
       var(--red-bg)   87% 100%);
-  background-size:4px 100%, 100% 100%;
+  background-size:5px 64px, 100% 100%;
   background-position:50% var(--roll,0px), 0 0;
   background-repeat:repeat-y, no-repeat}
+/* The solid lines a road actually has: one down each edge of the carriageway. */
+.rd-lanes::before{content:"";position:absolute;top:0;bottom:0;
+  left:27%;width:2px;background:var(--line);opacity:.45}
 /* the band edges, so a boundary is a line and not a fade */
 .rd-lanes::after{content:"";position:absolute;inset:0;
   background:linear-gradient(to right,
@@ -1365,8 +1377,8 @@ a{color:inherit}
   height:14%;z-index:3;pointer-events:none}
 .rd-stage::before{top:0;background:linear-gradient(var(--page),transparent)}
 .rd-stage::after{bottom:0;background:linear-gradient(transparent,var(--page))}
-.rd-lab--a{left:5.5%}
-.rd-lab--c{left:18.5%}
+.rd-lab--a{left:4%}
+.rd-lab--c{left:17%}
 .rd-thr{top:.7em;font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .rd-thr--65{left:13.6%}
 .rd-thr--40{left:27.6%}
@@ -1375,9 +1387,15 @@ a{color:inherit}
    moves sideways - the forward travel is the surface sliding past underneath,
    which is the whole reason this reads as driving rather than as a list
    scrolling. */
+/* The car holds the middle of the frame and the road comes to it; it only ever
+   moves sideways. The move is eased rather than linear and runs a little long,
+   so the car reads as something with mass being steered rather than a marker
+   being repositioned - the lag is the difference between the two. */
 .rd-car{position:absolute;top:50%;left:var(--x,37.5%);translate:-50% -50%;
-  z-index:2;transition:left 260ms linear}
-.rd-car svg{display:block;width:clamp(40px,4cqw,60px);height:auto}
+  z-index:2;transition:left 420ms cubic-bezier(.32,.72,.3,1)}
+/* Sized against the road rather than the frame, so a lane stays about two and a
+   half car widths across the way a real one does. */
+.rd-car svg{display:block;width:clamp(30px,13cqw,44px);height:auto}
 .rd-car rect{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
 [data-motion="off"] .rd-car{transition:none}
 
@@ -1385,9 +1403,11 @@ a{color:inherit}
    pinned to a point further along, and the camera moving forward is what brings
    it up the frame, past the car, and out of the top - so a conversation is
    something you drive through rather than something that scrolls. */
-.rd-thread{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.rd-thread{position:absolute;left:0;right:0;top:0;
+  bottom:calc(var(--control)*1.9 + var(--gutter));
+  overflow:hidden;pointer-events:none}
 .rd-turn{position:absolute;right:var(--gutter);top:var(--y,50%);
-  translate:0 -50%;width:min(46cqw,460px);
+  translate:0 -50%;width:min(52cqw,460px);
   display:flex;flex-direction:column;gap:.4em;
   opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
@@ -1406,9 +1426,9 @@ a{color:inherit}
 .rd-say[data-band="amber"]::after{opacity:1;background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
 .rd-say[data-band="red"]::after{opacity:1;background:linear-gradient(to top,var(--red-bg),transparent 48%)}
 
-.rd-foot{position:absolute;left:var(--gutter);right:var(--gutter);
-  bottom:var(--gutter);display:flex;flex-wrap:wrap;align-items:center;
-  gap:var(--gutter)}
+.rd-hud{position:absolute;left:var(--gutter);right:var(--gutter);bottom:var(--gutter);
+  display:flex;flex-direction:column-reverse;gap:.7em}
+.rd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter)}
 .rd-ch{display:flex;gap:1em}
 .rd-ch i{font-style:normal;display:flex;align-items:center;gap:.45em;
   font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.9);
@@ -1423,8 +1443,8 @@ a{color:inherit}
   font-variant-numeric:tabular-nums}
 .rd-s{margin-left:auto}
 .rd-n b,.rd-s b{color:var(--ink);font-weight:500}
-.rd-note{font-size:var(--micro);line-height:1.6;color:var(--muted);
-  margin:var(--stack) 0 0;max-width:60ch}
+.rd-note{font-size:var(--micro);line-height:1.55;color:var(--muted);
+  margin:0;max-width:70ch}
 .rd-note b{color:var(--ink);font-weight:500}
 
 /* Narrow: the thread takes the width under the road rather than sitting in the
@@ -1437,6 +1457,16 @@ a{color:inherit}
   .rd-stage{height:auto;min-height:0;padding-bottom:var(--stack)}
   .rd-car{position:relative;top:auto;translate:-50% 0;margin:var(--section) 0 var(--stack)}
   .rd-foot{position:static;padding:var(--stack) var(--gutter) 0}
+}
+/* Reduced motion keeps the drive but drops the effects that exist only to
+   convey speed: the dashes stop stretching and the car stops easing. The
+   information is unchanged - position, band, channels - and only the sensation
+   of travel goes, which is the thing the setting is actually about. */
+[data-motion="off"] .rd-lanes{--speed:0 !important}
+[data-motion="off"] .rd-car{transition:none}
+@media (prefers-reduced-motion:reduce){
+  .rd-lanes{--speed:0 !important}
+  .rd-car{transition:none}
 }
 /* ═══ band diagrams ═══
    The drawn figures in "The system" are SVG rather than image files, for one
@@ -1939,20 +1969,19 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
       <div class="rd-scroll" id="rdScroll">
         <div class="rd-stage">
-          <div class="rd-lanes" aria-hidden="true">
+          <div class="rd-lanes" id="rdLanes" aria-hidden="true">
             <span class="rd-lab rd-lab--a">Alert</span>
             <span class="rd-lab rd-lab--c">Caution</span>
             <span class="rd-thr rd-thr--65">65</span>
             <span class="rd-thr rd-thr--40">40</span>
-          </div>
-
-          <div class="rd-car" id="rdCar" aria-hidden="true">
+            <div class="rd-car" id="rdCar">
             <svg viewBox="0 0 52 88" width="52" height="88">
               <rect id="rdCarBody" x="1" y="1" width="50" height="86" rx="15"
                     fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
               <rect x="11" y="14" width="30" height="20" rx="4" fill="var(--ink)" opacity=".22"/>
               <rect x="11" y="58" width="30" height="15" rx="4" fill="var(--ink)" opacity=".12"/>
             </svg>
+            </div>
           </div>
 
           <div class="rd-thread" id="rdThread" aria-live="polite">
@@ -1978,6 +2007,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
           </div>
 
+          <div class="rd-hud">
           <div class="rd-foot">
             <span class="band band--green" id="rdChip">Silent</span>
             <span class="rd-ch">
@@ -1987,6 +2017,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="rd-s">Composite <b id="rdScore">12</b></span>
           </div>
           <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2648,8 +2679,17 @@ if(vol)vol.addEventListener("input",function(){
   var B=[{"x":37.5,"s":12,"band":"green","cause":"none","note":"<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth."},{"x":22.52,"s":48,"band":"yellow","cause":"stakes","note":"<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised."},{"x":10.03,"s":78,"band":"red","cause":"reliability","note":"<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking."},{"x":8.2,"s":86,"band":"red","cause":"wellbeing","note":"<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that."},{"x":16.92,"s":58,"band":"red","cause":"wellbeing","note":"<b>The score falls to 58 and the car comes back inside the caution band — but the alert holds.</b> Reaching 58 from a standing start would be caution. Alert only releases below 55, so it stays lit while the car is already back inside the line."}];
   var NAME={green:'green',yellow:'amber',red:'red'},
       WORD={green:'Silent',yellow:'Caution',red:'Alert'};
-  var at=-1;
+  var at=-1, lastD=null, speed=0;
 
+  /* Why the dash pattern changes with speed, and why the pitch is fixed.
+     A repeating pattern that shifts by about its own pitch between two frames
+     is indistinguishable from one that has not moved - the wagon-wheel effect -
+     so at speed the markings would read as stationary exactly when the sense of
+     travel matters most. Lengthening each dash as speed rises collapses the
+     pattern toward a continuous line, which cannot alias: the faster it goes
+     the less there is to mistake for stillness. It is also what a long exposure
+     of a moving light does, so it reads as speed rather than as a glitch.
+     The pitch stays at 64px and the dash runs 26 to 56 of it. */
   function render(){
     var r=wrap.getBoundingClientRect();
     var travel=r.height-window.innerHeight;
@@ -2673,6 +2713,18 @@ if(vol)vol.addEventListener("input",function(){
 
     /* the surface rolls past at the same rate the exchanges do */
     lanes.style.setProperty('--roll',(-d*H).toFixed(1)+'px');
+
+    /* Speed, smoothed. Raw frame-to-frame delta is far too jumpy to drive a
+       visual - a trackpad flick and a scrollbar drag produce wildly different
+       numbers for the same apparent motion - so it is eased toward the new
+       reading and clamped. 0.11 frames of road between events is about as fast
+       as anyone scrolls deliberately. */
+    if(lastD!==null){
+      var raw=Math.min(1,Math.abs(d-lastD)/0.11);
+      speed += (raw-speed)*0.28;
+      lanes.style.setProperty('--speed',speed.toFixed(3));
+    }
+    lastD=d;
 
     /* the car is level with whichever exchange is nearest, and travels
        continuously between the two it sits between */
