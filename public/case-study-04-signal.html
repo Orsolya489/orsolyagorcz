@@ -2672,7 +2672,7 @@ if(vol)vol.addEventListener("input",function(){
     }
 
     /* the surface rolls past at the same rate the exchanges do */
-    lanes.style.setProperty('--roll',(d*H).toFixed(1)+'px');
+    lanes.style.setProperty('--roll',(-d*H).toFixed(1)+'px');
 
     /* the car is level with whichever exchange is nearest, and travels
        continuously between the two it sits between */
