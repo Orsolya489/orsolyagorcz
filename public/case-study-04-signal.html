@@ -1329,9 +1329,7 @@ a{color:inherit}
 /* the tall element buys the scroll; the stage inside it pins */
 .rd-scroll{position:relative}
 .rd-stage{position:sticky;top:var(--chrome-h);
-  height:min(76svh,660px);min-height:460px;
-  border-radius:var(--r-lg);overflow:hidden;
-  box-shadow:inset 0 0 0 1px var(--edge);
+  height:100svh;overflow:hidden;
   container-type:inline-size}
 
 /* A carriageway, not a field. Two lanes at a believable width - about 300px on
@@ -1339,9 +1337,8 @@ a{color:inherit}
    it, rather than a road as wide as the article with everything floating on
    top. The bands are percentages of the road, so the car's distance from its
    lane still reads as the score no matter how wide the frame gets. */
-.rd-lanes{position:absolute;top:0;bottom:0;left:0;
-  width:clamp(230px,30cqw,340px);
-  box-shadow:0 0 0 1px var(--edge);
+.rd-lanes{position:absolute;top:0;bottom:0;left:50%;translate:-50% 0;
+  width:clamp(420px,52cqw,680px);
   background-image:
     repeating-linear-gradient(to bottom,
       var(--line) 0 calc(26px + 30px*var(--speed,0)),
@@ -1349,7 +1346,7 @@ a{color:inherit}
     linear-gradient(to right,
       var(--red-bg)   0 13%,
       var(--amber-bg) 13% 27%,
-      var(--card)     27% 73%,
+      var(--green-bg) 27% 73%,
       var(--amber-bg) 73% 87%,
       var(--red-bg)   87% 100%);
   background-size:5px 64px, 100% 100%;
@@ -1373,10 +1370,8 @@ a{color:inherit}
 /* named along the road, the way markings are */
 .rd-lab{bottom:calc(var(--control) + var(--gutter)*2.2);transform-origin:left bottom;rotate:-90deg}
 /* a soft top and bottom edge, so turns arrive and leave rather than pop */
-.rd-stage::before,.rd-stage::after{content:"";position:absolute;left:0;right:0;
-  height:14%;z-index:3;pointer-events:none}
-.rd-stage::before{top:0;background:linear-gradient(var(--page),transparent)}
-.rd-stage::after{bottom:0;background:linear-gradient(transparent,var(--page))}
+.rd-stage::before{content:"";position:absolute;left:0;right:0;top:0;height:10%;
+  z-index:3;pointer-events:none;background:linear-gradient(var(--page),transparent)}
 .rd-lab--a{left:4%}
 .rd-lab--c{left:17%}
 .rd-thr{top:.7em;font-variant-numeric:tabular-nums;letter-spacing:.04em}
@@ -1407,7 +1402,7 @@ a{color:inherit}
   bottom:calc(var(--control)*1.9 + var(--gutter));
   overflow:hidden;pointer-events:none}
 .rd-turn{position:absolute;right:var(--gutter);top:var(--y,50%);
-  translate:0 -50%;width:min(52cqw,460px);
+  translate:0 -50%;width:min(26cqw,330px);
   display:flex;flex-direction:column;gap:.4em;
   opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
@@ -2751,7 +2746,7 @@ if(vol)vol.addEventListener("input",function(){
   }
 
   /* one frame of road a beat, plus one to arrive and one to leave */
-  wrap.style.height=((B.length+1)*100)+'svh';
+  wrap.style.height=((B.length+1)*130)+'svh';
   window.addEventListener('scroll',render,{passive:true});
   window.addEventListener('resize',render);
   render();
