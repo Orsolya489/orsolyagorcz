@@ -444,39 +444,30 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    auto-fit rather than a fixed four: Ness states two fields, not four, and a
    fixed grid would hand it two empty columns and wrap its one long value into a
    quarter of the width it actually has. The track count follows the content. */
-.card-spec{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:var(--stack) 0}
-/* The rule sits in its own air rather than being pushed out by a gutter. Each
-   cell pads both sides, so the space either side of a divider is the same 8-12
-   and the line reads as centred between two fields instead of belonging to the
-   one on its right. A gutter-sized gap put 26px on one side and 10 on the
-   other, which is what made the old rules look attached.
-   It also buys the columns back most of what the gutter was taking - two tens
-   a boundary instead of one twenty-six - which is where the wrapping went. */
-.card-spec div{min-width:0;padding-inline:clamp(8px,.9cqw,12px);
-  border-left:1px solid var(--edge)}
-/* first of each row sits on the text margin; last runs to the column edge */
-.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
-.card-spec div:nth-child(4n){padding-right:0}
+/* Label left, value beside it, one field to a row. Four rows, four lines.
+   The column layouts kept failing the same way: a quarter of the copy column is
+   about 140px, and half the values here are longer than that however the break
+   is placed. A row hands the value the whole width instead of a quarter, so
+   nothing needs breaking at all - the longest value on any card, Ness's four
+   practices, fits on one line with room left over.
+   display:contents on the pair lets the dt and dd sit directly in the grid, so
+   the label column sizes itself to the widest label once and every value on the
+   card starts on the same vertical line. */
+.card-spec{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:0 var(--gutter);align-items:baseline}
+.card-spec div{display:contents}
+.card-spec dt,.card-spec dd{padding:.5em 0;border-top:1px solid var(--edge)}
+.card-spec div:first-child dt,.card-spec div:first-child dd{padding-top:0;border-top:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45em}
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  line-height:1.4;letter-spacing:.02em;color:var(--ink)}
-/* Each value sets its own lines rather than being left to wrap, so the break
-   falls where the sense breaks and never mid-phrase. */
-.card-spec dd span{display:block}
-@container (max-width:520px){
-  .card-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .card-spec div:nth-child(4n+1){padding-left:clamp(8px,.9cqw,12px);border-left:1px solid var(--edge)}
-  .card-spec div:nth-child(4n){padding-right:clamp(8px,.9cqw,12px)}
-  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
-  .card-spec div:nth-child(2n){padding-right:0}
-}
-/* one up: the rule turns and sits above each field instead of beside it */
-@container (max-width:300px){
-  .card-spec{grid-template-columns:1fr;gap:0}
-  .card-spec div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
-  .card-spec div:first-child{padding-top:0;border-top:0}
+  line-height:1.4;letter-spacing:.02em;color:var(--ink);min-width:0}
+/* On a phone two columns leave the value too little, so the label steps above
+   it and the rule carries the grouping on its own. */
+@container (max-width:340px){
+  .card-spec{grid-template-columns:1fr}
+  .card-spec dt{padding-bottom:0;margin-bottom:.3em}
+  .card-spec dd{padding-top:0;border-top:0}
 }
 /* ═══ the schematic, on a work surface ═══
    The drawing used to sit straight on the card, reading as a watermark beside
@@ -1247,10 +1238,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd><span>Lead designer</span><span>— solo</span></dd></div>
-            <div><dt>Scope</dt><dd><span>MVP</span><span>design to handoff</span></dd></div>
+            <div><dt>Role</dt><dd>Lead designer — solo</dd></div>
+            <div><dt>Scope</dt><dd>MVP · design to handoff</dd></div>
             <div><dt>Status</dt><dd>Pre-launch</dd></div>
-            <div><dt>Practice</dt><dd><span>Product Design</span><span>Human-AI Interaction</span></dd></div>
+            <div><dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1273,10 +1264,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd><span>Behavioral Researcher</span><span>&amp; Designer</span></dd></div>
-            <div><dt>Year</dt><dd>2025</dd></div>
+            <div><dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd></div>
             <div><dt>Status</dt><dd>Concept</dd></div>
-            <div><dt>Practice</dt><dd><span>R&amp;D Human Factors</span><span>HAI</span></dd></div>
+            <div><dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1303,8 +1293,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Year</dt><dd>2024</dd></div>
-            <div><dt>Practice</dt><dd><span>Creative Therapy</span><span>AI Guide</span><span>Emotional Safety</span><span>Human Factors</span></dd></div>
+            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1329,10 +1318,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <div><dt>Role</dt><dd><span>Sole researcher</span><span>and designer</span></dd></div>
-            <div><dt>Scope</dt><dd><span>Self-directed research</span><span>and system design</span></dd></div>
+            <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
+            <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
             <div><dt>Status</dt><dd>In progress</dd></div>
-            <div><dt>Practice</dt><dd><span>Human-AI Interaction</span><span>Human Factors</span></dd></div>
+            <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
