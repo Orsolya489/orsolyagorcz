@@ -454,9 +454,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    the label column sizes itself to the widest label once and every value on the
    card starts on the same vertical line. */
 .card-spec{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);
-  gap:0 var(--gutter);align-items:baseline}
+  gap:0;align-items:baseline}
 .card-spec div{display:contents}
+/* The rule has to cross the whole row, so the two cells it is drawn on have to
+   touch. A column gap left a notch in every line where the label column ended -
+   four rows, four broken rules. The gap is zero now and the space between label
+   and value is the label's own padding, which sits inside its cell and above
+   its own piece of the line rather than between the two pieces. */
 .card-spec dt,.card-spec dd{padding:.5em 0;border-top:1px solid var(--edge)}
+/* The label takes the value's line-height so the two cells are the same height.
+   They are baseline-aligned, and a label on normal line-height sat 0.8px lower
+   than its value - which put a step in the middle of every rule. */
+.card-spec dt{padding-right:var(--gutter);line-height:1.4}
 .card-spec div:first-child dt,.card-spec div:first-child dd{padding-top:0;border-top:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
@@ -466,7 +475,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    it and the rule carries the grouping on its own. */
 @container (max-width:340px){
   .card-spec{grid-template-columns:1fr}
-  .card-spec dt{padding-bottom:0;margin-bottom:.3em}
+  .card-spec dt{padding-right:0;padding-bottom:0;margin-bottom:.3em}
   .card-spec dd{padding-top:0;border-top:0}
 }
 /* ═══ the schematic, on a work surface ═══
