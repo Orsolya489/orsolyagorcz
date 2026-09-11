@@ -1341,20 +1341,20 @@ a{color:inherit}
   width:clamp(420px,52cqw,680px);
   background-image:
     repeating-linear-gradient(to bottom,
-      var(--line) 0 calc(26px + 30px*var(--speed,0)),
-      transparent calc(26px + 30px*var(--speed,0)) 64px),
+      var(--line) 0 calc(30px + 66px*var(--speed,0)),
+      transparent calc(30px + 66px*var(--speed,0)) 120px),
     linear-gradient(to right,
       var(--red-bg)   0 13%,
       var(--amber-bg) 13% 27%,
       var(--green-bg) 27% 73%,
       var(--amber-bg) 73% 87%,
       var(--red-bg)   87% 100%);
-  background-size:5px 64px, 100% 100%;
+  background-size:5px 120px, 100% 100%;
   background-position:50% var(--roll,0px), 0 0;
   background-repeat:repeat-y, no-repeat}
 /* The solid lines a road actually has: one down each edge of the carriageway. */
-.rd-lanes::before{content:"";position:absolute;top:0;bottom:0;
-  left:27%;width:2px;background:var(--line);opacity:.45}
+.rd-lanes::before{content:"";position:absolute;top:0;bottom:0;left:27%;right:27%;
+  border-left:2px solid var(--line);border-right:2px solid var(--line);opacity:.45}
 /* the band edges, so a boundary is a line and not a fade */
 .rd-lanes::after{content:"";position:absolute;inset:0;
   background:linear-gradient(to right,
@@ -1390,8 +1390,8 @@ a{color:inherit}
   z-index:2;transition:left 420ms cubic-bezier(.32,.72,.3,1)}
 /* Sized against the road rather than the frame, so a lane stays about two and a
    half car widths across the way a real one does. */
-.rd-car svg{display:block;width:clamp(30px,13cqw,44px);height:auto}
-.rd-car rect{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
+.rd-car svg{display:block;width:clamp(46px,6cqw,78px);height:auto}
+.rd-car path{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
 [data-motion="off"] .rd-car{transition:none}
 
 /* The exchanges are places on the road, not a list beside it. Each one is
@@ -1403,7 +1403,8 @@ a{color:inherit}
   overflow:hidden;pointer-events:none}
 .rd-turn{position:absolute;top:var(--y,50%);
   right:calc(50% + clamp(420px,52cqw,680px)/2 + var(--gutter));
-  translate:0 -50%;width:min(30cqw,340px);
+  translate:0 -50%;
+  width:min(340px, calc(50% - clamp(420px,52cqw,680px)/2 - var(--gutter)*2));
   display:flex;flex-direction:column;gap:.4em;
   opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
@@ -1978,11 +1979,26 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="rd-thr rd-thr--65">65</span>
             <span class="rd-thr rd-thr--40">40</span>
             <div class="rd-car" id="rdCar">
-            <svg viewBox="0 0 52 88" width="52" height="88">
-              <rect id="rdCarBody" x="1" y="1" width="50" height="86" rx="15"
+            <svg viewBox="0 0 60 108" width="60" height="108">
+              <g fill="var(--ink)" opacity=".55">
+                <rect x="1"  y="20" width="7" height="19" rx="3"/>
+                <rect x="52" y="20" width="7" height="19" rx="3"/>
+                <rect x="1"  y="70" width="7" height="19" rx="3"/>
+                <rect x="52" y="70" width="7" height="19" rx="3"/>
+              </g>
+              <path id="rdCarBody" d="M30 2c12 0 21 6 22 16l2 34c1 14 1 30-2 42-2 8-9 12-22 12s-20-4-22-12c-3-12-3-28-2-42l2-34C9 8 18 2 30 2z"
                     fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
-              <rect x="11" y="14" width="30" height="20" rx="4" fill="var(--ink)" opacity=".22"/>
-              <rect x="11" y="58" width="30" height="15" rx="4" fill="var(--ink)" opacity=".12"/>
+              <path d="M16 84c4 3 24 3 28 0 1-6-2-12-14-12s-15 6-14 12z" fill="var(--ink)" opacity=".3"/>
+              <path d="M17 26c3-3 23-3 26 0 1 5 1 9 0 13-4 2-22 2-26 0-1-4-1-8 0-13z" fill="var(--ink)" opacity=".22"/>
+              <rect x="18" y="46" width="24" height="22" rx="4" fill="var(--ink)" opacity=".08"/>
+              <g fill="var(--page)" opacity=".85">
+                <rect x="15" y="95" width="10" height="5" rx="2.5"/>
+                <rect x="35" y="95" width="10" height="5" rx="2.5"/>
+              </g>
+              <g fill="var(--red-ink)" opacity=".5">
+                <rect x="15" y="9" width="9" height="4" rx="2"/>
+                <rect x="36" y="9" width="9" height="4" rx="2"/>
+              </g>
             </svg>
             </div>
           </div>
