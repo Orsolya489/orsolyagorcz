@@ -1427,7 +1427,7 @@ html{overflow-x:clip}
    and runs 0 to 1; 15% is the middle of the near lane and 46% puts the car's
    flank on the centre line, which is the whole point of the far lane holding
    the words - at full drift the car is nearly on top of them. */
-.film-car{position:absolute;top:50%;left:calc(15% + var(--drift,0) * 36%);
+.film-car{position:absolute;top:50%;left:calc(28% + var(--drift,0) * 20%);
   translate:-50% -50%;pointer-events:none;
   transition:left var(--out) var(--ease)}
 .film-car svg{display:block;width:clamp(34px,3.4cqw,58px);height:auto}
@@ -1435,114 +1435,9 @@ html{overflow-x:clip}
 [data-motion="off"] .film-car{transition:none}
 @container (max-width:760px){
   /* one carriageway: the car keeps the left third and the words take the width */
-  .film-car{top:32%;left:calc(12% + var(--drift,0) * 22%)}
+  .film-car{top:30%;left:calc(24% + var(--drift,0) * 18%)}
 }
 .film[data-mode="static"] .film-car{display:none}
-
-/* ═══ the lane ═══
-   The case study's whole argument is a comparison, and a comparison is the one
-   thing prose is worst at: the reader has to hold the car in their head while
-   they read about the chat. So the page opens by putting them side by side and
-   handing over the control. Drag the car out of its lane and the answer drifts
-   with it, on the same thresholds, through the same three states.
-   It sits above the writing rather than inside it because it is the argument,
-   not an illustration of the argument - by the time anyone reaches the prose
-   they should already know what the system does.
-
-   Everything here is drawn from the same tokens as the rest of the page, and
-   the three states never rest on colour alone: the lane edge changes weight,
-   the car changes its outline, and both panels carry the state as a word. */
-.lane{grid-column:1 / -1;min-width:0;margin:0 0 var(--section);
-  scroll-margin-top:var(--chrome-h);
-  background:var(--card);border-radius:var(--r-lg);
-  box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden}
-.lane-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--stack);
-  align-items:end;padding:var(--stack) var(--stack) 0}
-.lane-k{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
-.lane-h{font-family:var(--serif);font-weight:500;font-size:calc(var(--body)*1.15);
-  line-height:1.35;color:var(--ink);margin:.35em 0 0;max-width:46ch}
-/* the readout is the only monospaced thing on the page, and it earns it: these
-   digits change while you drag, and proportional figures jitter as they do */
-.lane-read{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
-  font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
-.lane-read b{display:block;font-size:calc(var(--title)*.62);font-weight:300;
-  letter-spacing:-.02em;color:var(--ink);line-height:1.05;text-transform:none}
-
-/* two stages, equal width, the same three zones down each */
-.lane-stage{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);
-  padding:var(--stack)}
-.lane-panel{min-width:0}
-.lane-cap{font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.92);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 .8em}
-/* The drawings are portrait and small by nature - a lane seen from above, and a
-   three-zone scale. Left to fill the column they stretched to 585px tall each
-   and pushed the whole control past a thousand pixels, so the one thing meant
-   to be grasped at a glance no longer fit in a glance. Capped near their
-   natural size and centred in the track instead. */
-.lane-art{position:relative;max-width:260px;margin-inline:auto;
-  border-radius:12px;overflow:hidden;background:var(--page);
-  box-shadow:inset 0 0 0 1px var(--edge)}
-.lane-art svg{display:block;width:100%;height:auto}
-
-/* the state, said in words under each stage, because a colour is not a label */
-.lane-state{display:flex;align-items:center;gap:.6em;margin:.9em 0 0;min-height:2em}
-.lane-why{font-size:var(--micro);line-height:1.5;color:var(--muted);margin:.5em 0 0;
-  min-height:3em}
-
-/* controls */
-.lane-ctl{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);
-  padding:0 var(--stack) var(--stack)}
-.lane-slider label{display:block;font-family:var(--sans);font-weight:500;
-  font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:.7em}
-.lane-slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;
-  height:var(--gap-btn);background:var(--recess);border-radius:var(--r-pill);
-  outline:none;cursor:grab;margin:0}
-.lane-slider input[type=range]:active{cursor:grabbing}
-.lane-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:26px;height:26px;border-radius:50%;background:var(--page);
-  box-shadow:0 0 0 1px var(--edge-ctrl), 0 1px 3px rgba(25,21,23,.14);cursor:grab}
-.lane-slider input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;
-  border-radius:50%;background:var(--page);
-  box-shadow:0 0 0 1px var(--edge-ctrl), 0 1px 3px rgba(25,21,23,.14);cursor:grab}
-.lane-slider input[type=range]:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-
-/* the scenarios - four presets that drive both stages at once */
-.lane-scen{display:flex;flex-wrap:wrap;gap:var(--gap-btn);padding:0 var(--stack) var(--stack)}
-.lane-scen button{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  min-height:var(--control);padding:0 1.15em;border-radius:var(--r-pill);
-  background:var(--page);color:var(--body-c);border:1px solid var(--edge-ctrl);
-  cursor:pointer;transition:color var(--out) var(--ease),border-color var(--out) var(--ease)}
-.lane-scen button:hover{color:var(--ink);border-color:var(--ink);transition-duration:var(--in)}
-.lane-scen button[aria-pressed="true"]{background:var(--ink);color:var(--page);border-color:var(--ink)}
-
-/* the channels, and what each band actually switches on */
-.lane-ch{display:flex;flex-wrap:wrap;gap:var(--gutter);
-  padding:var(--stack);border-top:1px solid var(--edge)}
-.lane-ch div{display:flex;align-items:center;gap:.55em;
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.06em;text-transform:uppercase;color:var(--line-soft);
-  transition:color var(--out) var(--ease)}
-.lane-ch div::before{content:"";width:9px;height:9px;border-radius:50%;
-  border:1.5px solid currentColor;transition:background var(--out) var(--ease)}
-.lane-ch div[data-on="true"]{color:var(--ink)}
-.lane-ch div[data-on="true"]::before{background:currentColor}
-
-/* One column below the point where two stages stop being comparable. The
-   drawings are narrow and portrait, so unlike the diagrams further down they
-   reflow rather than scroll - there is nothing here that needs 760px. */
-@media (max-width:820px){
-  .lane-top{grid-template-columns:1fr;align-items:start}
-  .lane-read{text-align:left}
-  .lane-stage,.lane-ctl{grid-template-columns:1fr}
-  .lane-why{min-height:0}
-}
-/* Motion off means the car stops sliding and the presets arrive where they are
-   going instead of travelling there. The control still works; it just stops
-   animating, which is the distinction the panel is actually about. */
-[data-motion="off"] .lane-car,[data-motion="off"] .lane-mark{transition:none !important}
 
 /* ═══ band diagrams ═══
    The drawn figures in "The system" are SVG rather than image files, for one
@@ -2098,87 +1993,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="lane" id="lane" aria-labelledby="laneH">
-      <div class="lane-top">
-        <div>
-          <p class="lane-k">Try it first</p>
-          <h2 class="lane-h" id="laneH">Drag the car towards the line. The answer beside it drifts on exactly the same thresholds.</h2>
-        </div>
-        <p class="lane-read">Composite score<b><span id="laneScore">12</span></b></p>
-      </div>
-
-      <div class="lane-stage">
-        <div class="lane-panel">
-          <p class="lane-cap">What a car already does</p>
-          <div class="lane-art">
-            <svg viewBox="0 0 220 280" role="img" aria-labelledby="laneCarT">
-              <title id="laneCarT">A car in its lane, drifting towards the right-hand line as the drift control is raised</title>
-              <rect x="0" y="0" width="220" height="280" fill="var(--page)"/>
-              <line x1="110" y1="14" x2="110" y2="266" stroke="var(--line-soft)" stroke-width="2" stroke-dasharray="12 14" opacity=".5"/>
-              <rect x="18" y="14" width="4" height="252" rx="2" fill="var(--line-soft)" opacity=".45"/>
-              <rect id="laneEdge" x="198" y="14" width="4" height="252" rx="2" fill="var(--line-soft)" opacity=".45"/>
-              <g id="laneCar" class="lane-car" transform="translate(110,168)" style="transition:transform var(--out) var(--ease)">
-                <rect id="laneCarBody" x="-19" y="-34" width="38" height="64" rx="12"
-                      fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="1.5"/>
-                <rect x="-11" y="-22" width="22" height="15" rx="3" fill="var(--ink)" opacity=".22"/>
-                <rect x="-11" y="10" width="22" height="11" rx="3" fill="var(--ink)" opacity=".12"/>
-              </g>
-            </svg>
-          </div>
-          <p class="lane-state"><span class="band band--green" id="laneBandChip">Centred</span></p>
-          <p class="lane-why" id="laneWhy">The wheel is quiet. Nothing has happened, and nothing needs to be said about it.</p>
-        </div>
-
-        <div class="lane-panel">
-          <p class="lane-cap">What this system does</p>
-          <div class="lane-art">
-            <svg viewBox="0 0 220 280" role="img" aria-labelledby="laneMindT">
-              <title id="laneMindT">The same three zones as a vertical scale, with a marker for the current answer sinking from the silent zone into caution and alert</title>
-              <rect x="0" y="0" width="220" height="280" fill="var(--page)"/>
-              <rect x="18" y="14" width="184" height="98" rx="8" class="f-green" opacity=".55"/>
-              <rect x="18" y="116" width="184" height="66" rx="8" class="f-amber" opacity=".55"/>
-              <rect x="18" y="186" width="184" height="80" rx="8" class="f-red" opacity=".55"/>
-              <text class="t-sm i-green" x="30" y="34" font-family="var(--sans)" font-weight="500" font-size="11">SILENT</text>
-              <text class="t-sm i-amber" x="30" y="136" font-family="var(--sans)" font-weight="500" font-size="11">CAUTION</text>
-              <text class="t-sm i-red" x="30" y="206" font-family="var(--sans)" font-weight="500" font-size="11">ALERT</text>
-              <g id="laneMark" class="lane-mark" transform="translate(0,40)" style="transition:transform var(--out) var(--ease)">
-                <line x1="18" y1="0" x2="202" y2="0" stroke="var(--ink)" stroke-width="2"/>
-                <circle cx="202" cy="0" r="5" fill="var(--ink)"/>
-              </g>
-            </svg>
-          </div>
-          <p class="lane-state"><span class="band band--green" id="mindBandChip">Silent</span></p>
-          <p class="lane-why" id="mindWhy">Nothing fires. This is about four turns in five, and it is the state the whole design is tuned to protect.</p>
-        </div>
-      </div>
-
-      <div class="lane-ctl">
-        <div class="lane-slider">
-          <label for="laneDrift">Lane drift</label>
-          <input type="range" id="laneDrift" min="0" max="100" value="8"
-                 aria-describedby="laneWhy" aria-valuetext="8 per cent, centred">
-        </div>
-        <div class="lane-slider">
-          <label for="laneConf">How well grounded the answer is</label>
-          <input type="range" id="laneConf" min="0" max="100" value="88"
-                 aria-describedby="mindWhy" aria-valuetext="88 per cent, well grounded">
-        </div>
-      </div>
-
-      <div class="lane-scen" role="group" aria-label="Worked examples">
-        <button type="button" data-drift="8"  data-conf="88" data-cause="none"       aria-pressed="true">Looking something up</button>
-        <button type="button" data-drift="48" data-conf="52" data-cause="stakes"     aria-pressed="false">A question with a cost</button>
-        <button type="button" data-drift="82" data-conf="22" data-cause="reliability" aria-pressed="false">A confident fabrication</button>
-        <button type="button" data-drift="90" data-conf="14" data-cause="wellbeing"    aria-pressed="false">Agreeing for the fifth turn</button>
-      </div>
-
-      <div class="lane-ch" aria-label="Which channels are switched on" role="group">
-        <div id="chV">Sight</div>
-        <div id="chH">Touch</div>
-        <div id="chA">Sound</div>
-        <div id="chQ" data-on="true">Silence</div>
-      </div>
-    </section>
 
         <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
       <h2 class="sec-label" id="s1h">Read this if you read nothing else.</h2>
@@ -2959,7 +2773,7 @@ if(vol)vol.addEventListener("input",function(){
   if(decide()){
     /* the height is set here rather than in the stylesheet so the number of
        beats stays the only thing that decides how long the drive is */
-    scroller.style.height=(BEATS.length*90)+'svh';
+    scroller.style.height=(BEATS.length*130)+'svh';
     window.addEventListener('scroll',onScroll,{passive:true});
     window.addEventListener('resize',onScroll);
     onScroll();
@@ -2978,154 +2792,11 @@ if(vol)vol.addEventListener("input",function(){
     } else if(!off && isStatic && pinnedMarkup!==null && !still.matches && stickyOK){
       film.querySelector('.film-talk').innerHTML=pinnedMarkup;
       film.setAttribute('data-mode','pinned');
-      scroller.style.height=(BEATS.length*90)+'svh';
+      scroller.style.height=(BEATS.length*130)+'svh';
       at=-1; onScroll();
     }
   });
   mo.observe(document.documentElement,{attributes:true,attributeFilter:['data-motion']});
-})();
-
-/* ═══ the lane ═══
-   Both stages run the real state machine, not a lookup: the same enter/exit
-   thresholds as the classifier, so the control cannot show a transition the
-   system would not make. The two panels are deliberately not wired to each
-   other - the point is that one set of thresholds serves two different inputs.
-
-   Drift and grounding are separate sliders because they are separate claims.
-   Confidence is inverted into a risk score the way the classifier does it, so
-   a well-grounded answer sits high in the silent zone and a fabricated one
-   sinks. */
-(function(){
-  var drift=document.getElementById('laneDrift'), conf=document.getElementById('laneConf');
-  if(!drift||!conf) return;
-  var car=document.getElementById('laneCar'), body=document.getElementById('laneCarBody'),
-      edge=document.getElementById('laneEdge'), mark=document.getElementById('laneMark'),
-      score=document.getElementById('laneScore'),
-      laneChip=document.getElementById('laneBandChip'), mindChip=document.getElementById('mindBandChip'),
-      laneWhy=document.getElementById('laneWhy'), mindWhy=document.getElementById('mindWhy'),
-      chV=document.getElementById('chV'), chH=document.getElementById('chH'),
-      chA=document.getElementById('chA'), chQ=document.getElementById('chQ'),
-      scen=[].slice.call(document.querySelectorAll('.lane-scen button'));
-
-  /* the hysteresis machine, exactly as specified: enter yellow at 40 and leave
-     below 35, enter red at 65 and leave below 55. The gaps are why a score
-     wobbling on a boundary produces one steady state instead of a flicker. */
-  function nextBand(prev, s){
-    if(prev==='red')    return s<35 ? 'green' : (s<55 ? 'yellow' : 'red');
-    if(prev==='yellow') return s>=65 ? 'red'  : (s<35 ? 'green'  : 'yellow');
-    return s>=65 ? 'red' : (s>=40 ? 'yellow' : 'green');
-  }
-
-  var laneBand='green', mindBand='green', cause='confidence';
-
-  var LANE={
-    green:{word:'Centred', cls:'band--green',
-      why:'The wheel is quiet. Nothing has happened, and nothing needs to be said about it.'},
-    yellow:{word:'Drifting', cls:'band--amber',
-      why:'Close enough to the line that the car mentions it. It does not correct the steering, and it does not ask you to.'},
-    red:{word:'Crossing', cls:'band--red',
-      why:'Over the line. The wheel buzzes once. You can keep going — there may be a parked lorry you are steering around, and the car has no way of knowing that.'}
-  };
-  var MIND={
-    green:{word:'Silent', cls:'band--green',
-      why:'Nothing fires. This is about four turns in five, and it is the state the whole design is tuned to protect.'},
-    yellow:{word:'Caution', cls:'band--amber',
-      why:'An ambient tint, and a pill you can tap if you want the reason. Ignoring it is a valid outcome, not a failure.'},
-    red:{word:'Alert', cls:'band--red',
-      why:'A stronger tint and a single pulse on entry. Never a verdict — the answer is untouched, and the judgment stays yours.'}
-  };
-
-  function apply(chip, why, band, table){
-    var s=table[band];
-    chip.className='band '+s.cls;
-    chip.textContent=s.word;
-    why.textContent=s.why;
-  }
-
-  function render(){
-    var d=Number(drift.value), c=Number(conf.value);
-    /* grounding read as risk, the way the classifier does */
-    var risk=100-c;
-
-    var prevLane=laneBand; laneBand=nextBand(laneBand, d);
-    /* 110 is the centre of the lane, 176 the inner face of the right-hand line */
-    car.setAttribute('transform','translate('+(110+(d/100)*62).toFixed(1)+',168)');
-    body.setAttribute('fill','var(--'+({green:'green',yellow:'amber',red:'red'}[laneBand])+'-bg)');
-    body.setAttribute('stroke','var(--'+({green:'green',yellow:'amber',red:'red'}[laneBand])+'-ink)');
-    /* the edge thickens as well as changing hue, so the state survives greyscale */
-    edge.setAttribute('width', laneBand==='green'?'4':(laneBand==='yellow'?'7':'10'));
-    edge.setAttribute('x', laneBand==='green'?'198':(laneBand==='yellow'?'195':'192'));
-    edge.setAttribute('opacity', laneBand==='green'?'.45':'1');
-    edge.setAttribute('fill', laneBand==='green'?'var(--line-soft)':'var(--'+({yellow:'amber',red:'red'}[laneBand])+'-ink)');
-    if(laneBand!==prevLane) apply(laneChip, laneWhy, laneBand, LANE);
-
-    var prevMind=mindBand; mindBand=nextBand(mindBand, risk);
-    mark.setAttribute('transform','translate(0,'+(20+(risk/100)*236).toFixed(1)+')');
-    if(mindBand!==prevMind) apply(mindChip, mindWhy, mindBand, MIND);
-
-    score.textContent=risk;
-    drift.setAttribute('aria-valuetext', d+' per cent, '+LANE[laneBand].word.toLowerCase());
-    conf.setAttribute('aria-valuetext', c+' per cent grounded, '+MIND[mindBand].word.toLowerCase());
-
-    /* channels accumulate; sound is gated to the reliability side and stays off
-       wherever the mechanism is somebody's wellbeing rather than the answer */
-    /* Sound is gated on the mechanism, never on how serious the topic is. It
-       fires only where the failure is that the answer may not be true; a
-       question with a real cost, or a conversation bending towards agreement,
-       both reach alert in silence. A startling noise is the wrong answer to a
-       heavy topic and a worse one to a person in distress. */
-    var v=mindBand!=='green', h=mindBand==='red',
-        a=mindBand==='red' && cause==='reliability';
-    chV.setAttribute('data-on', v?'true':'false');
-    chH.setAttribute('data-on', h?'true':'false');
-    chA.setAttribute('data-on', a?'true':'false');
-    chQ.setAttribute('data-on', (!v&&!h&&!a)?'true':'false');
-  }
-
-  /* presets travel rather than jump, so the reader sees the thresholds being
-     crossed rather than just the destination - unless they have asked for less
-     movement, in which case they arrive */
-  function travel(el, to){
-    /* Three reasons to skip the animation and simply arrive. Two are the
-       reader's choice; the third is that requestAnimationFrame does not run in
-       a hidden tab, so a tween started just before someone switches away would
-       otherwise freeze halfway and leave the control showing a state nobody
-       asked for. The destination is the truth here - the travel is only there
-       so the thresholds can be seen being crossed. */
-    var animate=document.documentElement.getAttribute('data-motion')!=='off' &&
-                !window.matchMedia('(prefers-reduced-motion:reduce)').matches &&
-                !document.hidden;
-    if(!animate){ el.value=to; render(); return; }
-    var from=Number(el.value), t0=performance.now(), ms=520;
-    el.dataset.to=to;
-    (function step(now){
-      /* another preset was pressed mid-flight: abandon this one rather than
-         fighting it to a destination the reader has already replaced */
-      if(Number(el.dataset.to)!==to) return;
-      if(document.hidden){ el.value=to; render(); return; }
-      var k=Math.min(1,(now-t0)/ms), e=1-Math.pow(1-k,3);
-      el.value=Math.round(from+(to-from)*e);
-      render();
-      if(k<1) requestAnimationFrame(step);
-    })(t0);
-  }
-
-  scen.forEach(function(btn){
-    btn.addEventListener('click',function(){
-      scen.forEach(function(b){b.setAttribute('aria-pressed', b===btn?'true':'false');});
-      cause = btn.dataset.cause==='none' ? 'reliability' : btn.dataset.cause;
-      travel(drift, Number(btn.dataset.drift));
-      travel(conf,  Number(btn.dataset.conf));
-    });
-  });
-  [drift,conf].forEach(function(el){
-    el.addEventListener('input',function(){
-      cause='reliability';
-      scen.forEach(function(b){b.setAttribute('aria-pressed','false');});
-      render();
-    });
-  });
-  render();
 })();
 
 /* the blueprints fold away until asked for - two of them on this page, so the
