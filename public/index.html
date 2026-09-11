@@ -52,7 +52,12 @@
      Tying them to the button instead keeps the mark the same weight on the
      screen whatever the label does. */
   --ico: calc(var(--control) * .42);
-  --gap-btn: 8px;            /* control to control, everywhere */
+  --gap-btn: 8px;
+  /* The bottom-right pills are fixed to the window, so they sit over whatever
+     card is scrolled under them. This is the strip they occupy - their own
+     height plus the gutter beneath and a gutter of air above - and anything
+     that must not be covered clears it by name. */
+  --dock: calc(var(--control) + var(--gutter)*2);            /* control to control, everywhere */
   --r-lg: 20px;
   --r-pill: 999px;
   --ease: cubic-bezier(.16,1,.3,1);
@@ -439,34 +444,43 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    auto-fit rather than a fixed four: Ness states two fields, not four, and a
    fixed grid would hand it two empty columns and wrap its one long value into a
    quarter of the width it actually has. The track count follows the content. */
-.card-spec{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+.card-spec{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:var(--stack) 0}
 .card-spec div{display:flex;flex-direction:column;gap:.35em;min-width:0;
   padding-left:var(--gutter);border-left:1px solid var(--edge)}
-/* Fixed four rather than auto-fit, and the reason is the rule rather than the
-   columns: the divider has to be dropped from whichever cell starts a row, and
-   that is only knowable if the column count is known. auto-fit read better at
-   awkward widths and left a rule hanging on the left margin every time a row
-   wrapped. Same trade the case study's own facts row makes, same way. */
-.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
+/* Two up, two down. Four across fitted the labels and not the values: at a
+   quarter of the copy column, "Product Design · Human-AI Interaction" and
+   "Behavioral Researcher & Designer" had two or three words a line and broke
+   in the middle of a phrase. Half the column is enough for every value here to
+   hold its shape, and the block reads as two pairs rather than a row of four
+   fragments.
+   The divider drops from whichever cell starts a row, which at two columns is
+   every odd one. */
+.card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   line-height:1.4;letter-spacing:.02em;color:var(--ink)}
-/* two up, then one - the same two steps, measured against the card rather than
-   the window, because the card is the container here */
-@container (max-width:620px){
-  .card-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .card-spec div:nth-child(4n+1){padding-left:var(--gutter);border-left:1px solid var(--edge)}
-  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
-}
+/* Narrow enough that even two columns leave a value three words a line: the
+   rule turns and sits above each field instead. */
 @container (max-width:380px){
   .card-spec{grid-template-columns:1fr;gap:0}
   .card-spec div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
-  .card-spec div:nth-child(2n+1),.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
+  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
   .card-spec div:first-child{padding-top:0;border-top:0}
 }
-.card-plane{position:relative}
+/* ═══ the schematic, in a frame of its own ═══
+   The drawing used to sit straight on the card, which left it looking like a
+   watermark next to the product shot opposite - the shot reads as an object
+   because it has edges, and the diagram had none. A recessed ground gives it
+   the same standing: same radius and hairline as the shot, one step deeper
+   than the card so it reads as set into the surface rather than laid on it.
+   --recess is the warm taupe already in the palette for exactly this, so the
+   frame is a step in the existing scale rather than a new colour. */
+.card-plane{position:relative;
+  background:var(--recess);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  padding:clamp(12px,2.2cqw,26px)}
 .card-shot{position:relative;overflow:hidden}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
 /* Desktop card, built to the sketch's guides.
@@ -483,7 +497,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card{
     display:grid;
     grid-template-columns:45fr 48fr;
-    grid-template-rows:16% auto minmax(0,1fr) 16%;
+    grid-template-rows:16% auto minmax(0,1fr) max(16%, var(--dock));
     grid-template-areas:
       "tick  ."
       "head  ."
@@ -932,7 +946,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-shot{grid-column:1;grid-row:4;align-self:end;height:calc(var(--section)*1.8);
     margin-bottom:calc(var(--section)*-.55);overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
-  .card-copy{grid-column:2;grid-row:4;padding-bottom:var(--stack)}
+  .card-copy{grid-column:2;grid-row:4;padding-bottom:max(var(--stack), var(--dock))}
 }
 
 /* Phone < 768 */
@@ -944,7 +958,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-tick{position:static;order:1}
   .card-hblock{order:2}
   .card-plane{order:3;height:clamp(160px,44vw,240px)}
-  .card-copy{order:4;padding-bottom:24px}
+  .card-copy{order:4;padding-bottom:max(24px, var(--dock))}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
   .card-shot img{height:100%;object-fit:cover;object-position:top center}
   .c-bc{top:auto;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;translate:0 0}
