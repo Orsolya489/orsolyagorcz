@@ -3,3 +3,12 @@ node_modules/
 Thumbs.db
 desktop.ini
 .vercel
+
+# The signal research corpus stays local.
+# Twenty working documents for case study 04 - methods and maths, the trigger
+# and overlay specs, the prompt corpus, the risk register, the grounding notes.
+# Vercel never served them (outputDirectory is public), but this repo is public
+# on GitHub, which would have made them world-readable all the same. They are
+# kept out of git entirely until that disclosure is a decision rather than a
+# side effect.
+source/
