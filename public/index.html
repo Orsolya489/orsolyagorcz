@@ -412,10 +412,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-h{margin:0}
 .card-eyebrow{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.8em}
-.card-methods{margin-bottom:calc(var(--stack)*.55);display:flex;flex-wrap:wrap;gap:.25em .9em}
-.card-methods li{font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
-  letter-spacing:.07em;text-transform:uppercase;color:var(--body-c);overflow-wrap:break-word}
-.card-methods li+li::before{content:"·";margin-right:.9em;color:var(--line-soft)}
 /* a case study that has no page yet says so in the same row, rather than
    being quietly shorter than the other three - which is how the live page
    handles it too. Ink on card, so it reads as a state and not a method. */
@@ -431,9 +427,31 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   letter-spacing:.07em;text-transform:uppercase}
 .card-status::before{content:"";width:.5em;height:.5em;border-radius:var(--r-pill);
   background:var(--page);flex:0 0 auto}
-.card-soon{display:inline-flex;align-items:center;margin-top:1em;
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+/* ═══ the card spec ═══
+   The cards used to carry a methods list, a line of copy and an "open case
+   study" prompt. All three are gone: the copy was a second abstract next to a
+   headline that already is one, and the prompt was labelling a card whose whole
+   surface is the link. What replaces them is the same facts row the case study
+   itself opens with, so the card and the page it leads to state the same things
+   in the same words - the card stops describing the work and starts specifying
+   it.
+   Two columns rather than stacked pairs: the labels are short and fixed, so a
+   reader scanning three cards can run straight down the label column and
+   compare like with like, which a stacked list makes impossible. */
+.card-spec{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:.55em var(--gutter);align-items:baseline}
+.card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap}
+.card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  line-height:1.4;letter-spacing:.02em;color:var(--ink);min-width:0}
+/* Below the width where two columns leave the value four words a line, the
+   label moves above its value. The gap closes at the same time, so the pairs
+   stay visibly paired rather than becoming eight loose lines. */
+@container (max-width:420px){
+  .card-spec{grid-template-columns:1fr;gap:.15em}
+  .card-spec dd{margin-bottom:.6em}
+}
 .card-plane{position:relative}
 .card-shot{position:relative;overflow:hidden}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
@@ -514,11 +532,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 }
 
 .card-copy{position:relative}
-.card-open{display:inline-flex;align-items:center;gap:.4em;margin-top:1em;
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
-  text-transform:uppercase;color:var(--ink)}
-.card-open::after{content:"↗";transition:translate var(--out) var(--ease)}
-.card:hover .card-open::after{translate:2px -2px;transition-duration:var(--in)}
 
 /* ═══ 5 · diagrams — one stroke rule, set once ═══ */
 .plane{width:100%;height:100%}
@@ -916,8 +929,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .stack-cards{gap:40px}
   .card-tick{position:static;order:1}
   .card-hblock{order:2}
-  .card-methods{flex-direction:column;gap:.4em;margin-bottom:calc(var(--stack)*.6)}
-  .card-methods li+li::before{content:none}
   .card-plane{order:3;height:clamp(160px,44vw,240px)}
   .card-copy{order:4;padding-bottom:24px}
   .card-shot{order:5;width:66%;height:150px;overflow:hidden}
@@ -1143,13 +1154,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
-          <ul class="card-methods">
-          <li>MVP</li>
-          <li>Product Design</li>
-          <li>Human-AI Interaction</li>
-          </ul>
-          <p class="t-body">This case study documents the complete MVP architecture and human-AI interaction systems designed for handoff.</p>
-          <span class="card-open">Open case study</span>
+          <dl class="card-spec">
+            <dt>Role</dt><dd>Lead designer — solo</dd>
+            <dt>Scope</dt><dd>MVP · design to handoff</dd>
+            <dt>Status</dt><dd>Pre-launch</dd>
+            <dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd>
+          </dl>
         </div>
       </article></div>
 
@@ -1170,13 +1180,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
         <div class="card-copy">
-          <ul class="card-methods">
-          <li>Research prototype</li>
-          <li>Human Factors</li>
-          <li>Human-AI Interaction</li>
-          </ul>
-          <p class="t-body">When people are worried about losing their jobs, showing them a screen packed with numbers and alerts doesn't inform them. It confirms the fear.</p>
-          <span class="card-open">Open case study</span>
+          <dl class="card-spec">
+            <dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd>
+            <dt>Year</dt><dd>2025</dd>
+            <dt>Status</dt><dd>Concept</dd>
+            <dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd>
+          </dl>
         </div>
       </article></div>
 
@@ -1201,13 +1210,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
         <div class="card-copy">
-          <ul class="card-methods">
-          <li>Product Design</li>
-          <li>UX/UI</li>
-          <li>Branding</li>
-          </ul>
-          <p class="t-body">The making is the session. Words come after.</p>
-          <span class="card-open">Open case study</span>
+          <dl class="card-spec">
+            <dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd>
+          </dl>
         </div>
       </article></div>
 
@@ -1230,12 +1235,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <text class="in-node" x="790" y="445" text-anchor="middle">No intervention</text>
 </svg></div></div>
         <div class="card-copy">
-          <ul class="card-methods">
-          <li>Human Factors</li>
-          <li>Human-AI Interaction</li>
-          </ul>
-          <p class="t-body">An uncertainty score arrives as text, at the moment reading is what the person has least of. The signal moves to touch and periphery instead.</p>
-          <span class="card-soon">Case study in progress</span>
+          <dl class="card-spec">
+            <dt>Role</dt><dd>Sole researcher and designer</dd>
+            <dt>Scope</dt><dd>Self-directed research and system design</dd>
+            <dt>Status</dt><dd>In progress</dd>
+            <dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd>
+          </dl>
         </div>
       </article></div>
 
