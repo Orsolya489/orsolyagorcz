@@ -431,26 +431,40 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    The cards used to carry a methods list, a line of copy and an "open case
    study" prompt. All three are gone: the copy was a second abstract next to a
    headline that already is one, and the prompt was labelling a card whose whole
-   surface is the link. What replaces them is the same facts row the case study
-   itself opens with, so the card and the page it leads to state the same things
-   in the same words - the card stops describing the work and starts specifying
-   it.
-   Two columns rather than stacked pairs: the labels are short and fixed, so a
-   reader scanning three cards can run straight down the label column and
-   compare like with like, which a stacked list makes impossible. */
-.card-spec{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);
-  gap:.55em var(--gutter);align-items:baseline}
+   surface is the link.
+   What replaces them is the facts row each case study opens with - laid out the
+   same way it is laid out there, four across with a hairline between, because
+   it is the same component doing the same job. A reader who opens the case
+   study meets the block they just read on the card, in the same shape.
+   auto-fit rather than a fixed four: Ness states two fields, not four, and a
+   fixed grid would hand it two empty columns and wrap its one long value into a
+   quarter of the width it actually has. The track count follows the content. */
+.card-spec{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:var(--stack) 0}
+.card-spec div{display:flex;flex-direction:column;gap:.35em;min-width:0;
+  padding-left:var(--gutter);border-left:1px solid var(--edge)}
+/* Fixed four rather than auto-fit, and the reason is the rule rather than the
+   columns: the divider has to be dropped from whichever cell starts a row, and
+   that is only knowable if the column count is known. auto-fit read better at
+   awkward widths and left a rule hanging on the left margin every time a row
+   wrapped. Same trade the case study's own facts row makes, same way. */
+.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
-  white-space:nowrap}
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  line-height:1.4;letter-spacing:.02em;color:var(--ink);min-width:0}
-/* Below the width where two columns leave the value four words a line, the
-   label moves above its value. The gap closes at the same time, so the pairs
-   stay visibly paired rather than becoming eight loose lines. */
-@container (max-width:420px){
-  .card-spec{grid-template-columns:1fr;gap:.15em}
-  .card-spec dd{margin-bottom:.6em}
+  line-height:1.4;letter-spacing:.02em;color:var(--ink)}
+/* two up, then one - the same two steps, measured against the card rather than
+   the window, because the card is the container here */
+@container (max-width:620px){
+  .card-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card-spec div:nth-child(4n+1){padding-left:var(--gutter);border-left:1px solid var(--edge)}
+  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
+}
+@container (max-width:380px){
+  .card-spec{grid-template-columns:1fr;gap:0}
+  .card-spec div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
+  .card-spec div:nth-child(2n+1),.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
+  .card-spec div:first-child{padding-top:0;border-top:0}
 }
 .card-plane{position:relative}
 .card-shot{position:relative;overflow:hidden}
@@ -1155,10 +1169,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="tribe/mockup.png" alt="Tribe product interface" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <dt>Role</dt><dd>Lead designer — solo</dd>
-            <dt>Scope</dt><dd>MVP · design to handoff</dd>
-            <dt>Status</dt><dd>Pre-launch</dd>
-            <dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd>
+            <div><dt>Role</dt><dd>Lead designer — solo</dd></div>
+            <div><dt>Scope</dt><dd>MVP · design to handoff</dd></div>
+            <div><dt>Status</dt><dd>Pre-launch</dd></div>
+            <div><dt>Practice</dt><dd>Product Design · Human-AI Interaction</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1181,10 +1195,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="Mindure/workcard_casestudy1_thumbnail_nobackground.png" alt="Mindure dashboard" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd>
-            <dt>Year</dt><dd>2025</dd>
-            <dt>Status</dt><dd>Concept</dd>
-            <dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd>
+            <div><dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd></div>
+            <div><dt>Year</dt><dd>2025</dd></div>
+            <div><dt>Status</dt><dd>Concept</dd></div>
+            <div><dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1211,8 +1225,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <dt>Year</dt><dd>2024</dd>
-            <dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd>
+            <div><dt>Year</dt><dd>2024</dd></div>
+            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1237,10 +1251,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </svg></div></div>
         <div class="card-copy">
           <dl class="card-spec">
-            <dt>Role</dt><dd>Sole researcher and designer</dd>
-            <dt>Scope</dt><dd>Self-directed research and system design</dd>
-            <dt>Status</dt><dd>In progress</dd>
-            <dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd>
+            <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
+            <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
+            <div><dt>Status</dt><dd>In progress</dd></div>
+            <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
