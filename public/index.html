@@ -445,29 +445,38 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    fixed grid would hand it two empty columns and wrap its one long value into a
    quarter of the width it actually has. The track count follows the content. */
 .card-spec{margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:var(--stack) var(--gutter)}
-.card-spec div{min-width:0}
+  gap:var(--stack) 0}
+/* The rule sits in its own air rather than being pushed out by a gutter. Each
+   cell pads both sides, so the space either side of a divider is the same 8-12
+   and the line reads as centred between two fields instead of belonging to the
+   one on its right. A gutter-sized gap put 26px on one side and 10 on the
+   other, which is what made the old rules look attached.
+   It also buys the columns back most of what the gutter was taking - two tens
+   a boundary instead of one twenty-six - which is where the wrapping went. */
+.card-spec div{min-width:0;padding-inline:clamp(8px,.9cqw,12px);
+  border-left:1px solid var(--edge)}
+/* first of each row sits on the text margin; last runs to the column edge */
+.card-spec div:nth-child(4n+1){padding-left:0;border-left:0}
+.card-spec div:nth-child(4n){padding-right:0}
 .card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45em}
 .card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   line-height:1.4;letter-spacing:.02em;color:var(--ink)}
-/* Each value sets its own lines rather than being left to wrap. Four columns
-   only clipped because the break fell wherever the column ran out - mid-phrase,
-   mid-name. Written as lines, "Lead designer / — solo" and "Product Design /
-   Human-AI Interaction" break where the sense breaks, and the column can be a
-   quarter wide without hurting anybody.
-   The rules between columns are gone. They were doing the separating when the
-   values were one ragged block each; now that every value is a tidy stack of
-   short lines, the gap does it, and the row reads as four fields instead of
-   four fenced cells. */
+/* Each value sets its own lines rather than being left to wrap, so the break
+   falls where the sense breaks and never mid-phrase. */
 .card-spec dd span{display:block}
-/* One under the other below the width where four columns would each hold a
-   single word. No rules to turn here - just the stack. */
 @container (max-width:520px){
   .card-spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card-spec div:nth-child(4n+1){padding-left:clamp(8px,.9cqw,12px);border-left:1px solid var(--edge)}
+  .card-spec div:nth-child(4n){padding-right:clamp(8px,.9cqw,12px)}
+  .card-spec div:nth-child(2n+1){padding-left:0;border-left:0}
+  .card-spec div:nth-child(2n){padding-right:0}
 }
+/* one up: the rule turns and sits above each field instead of beside it */
 @container (max-width:300px){
-  .card-spec{grid-template-columns:1fr;gap:var(--stack) 0}
+  .card-spec{grid-template-columns:1fr;gap:0}
+  .card-spec div{padding:.75em 0 0;border-left:0;border-top:1px solid var(--edge)}
+  .card-spec div:first-child{padding-top:0;border-top:0}
 }
 /* ═══ the schematic, on a work surface ═══
    The drawing used to sit straight on the card, reading as a watermark beside
