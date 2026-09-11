@@ -505,9 +505,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     100% 100%;
   background-position:center center, center center, 0 0;
   box-shadow:
-    inset 0 10px 12px -10px rgba(25,21,23,.28),
-    inset 0 1px 0 rgba(25,21,23,.10),
-    inset 0 -1px 0 rgba(250,245,243,.55),
+    inset 0 0 14px rgba(25,21,23,.10),
     inset 0 0 0 1px var(--edge);
 }
 /* The ground moved, so the strokes drawn on it move with it. --line-soft was
@@ -559,7 +557,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   /* Pinned to the top of its area rather than stretched: a spanning grid item
      contributes its intrinsic height to the auto row it crosses, so letting
      the schematic stretch made it inflate its own row and ride down the card. */
-  .card-plane{position:absolute;left:50%;right:2%;top:3%;height:56cqh}
+  /* Equal air above the frame and to its right. Both offsets are read against
+     the card's padding box, whose edges are the card's own edges, so the only
+     thing that matters is that they share a unit measured on one axis.
+     Percentages do not: a top percentage is read against the height and a right
+     percentage against the width, so the old 3% and 2% were only ever equal at
+     one aspect ratio. cqw is the card width for both - 22.3px each on a 1200px
+     card, measured. */
+  .card-plane{position:absolute;left:50%;right:2cqw;top:2cqw;height:56cqh}
   /* Card 1 starts on the midline like every other card, not left of it. The
      columns are 45fr 48fr inside 5%/2% padding, which puts the copy column's
      left edge exactly on 50% - so the schematic and the summary underneath it
@@ -569,7 +574,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      fixed number of pixels tall, so on a short card it climbs much higher up
      the card than it does on a tall one. Reserving its space in px keeps the
      frame clear of it at every size instead of only the roomy ones. */
-  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2%;height:auto;bottom:calc(16% + 132px)}
+  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(16% + 132px)}
   .card-copy{grid-area:copy;align-self:end;max-width:90%}
   /* the mockup sits indented from the left margin and runs to the card's
      bottom edge, as in the sketch */
@@ -1190,7 +1195,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
         </div>
-        <div class="card-plane"><div class="plane"><svg class="s0" viewBox="0 0 990 375" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="s0t s0d">
+        <div class="card-plane"><div class="plane"><svg class="s0" viewBox="0 0 990 375" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s0t s0d">
 <title id="s0t">Intent overlapping into a system, through to a meetup</title>
 <desc id="s0d">Four equally sized circles. Intent and match overlap - a dot sits at the centre of the hatched intersection, with a line rising from it to a caption above the circles reading validation gap, written out in full rather than fitted inside the small overlap itself. Below both circles, a dashed bracket spans the full width of the venn - intent's left edge to match's right edge - labelled NLP engine, showing that mechanism is what produces the whole overlap, not just the gap. From match, a line continues right, labelled progressive disclosure on two lines above it, to the anonymous reveal circle - the one node drawn filled and in ink, because it is the mechanic the study turns on - then on to meetup with no further label, matching the source's own last, unnamed connector. No circle is drawn larger than another - the overlap comes from how close intent and match sit, not from their size.</desc>
 
