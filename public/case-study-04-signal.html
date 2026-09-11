@@ -1344,7 +1344,7 @@ a{color:inherit}
       var(--amber-bg) 73% 87%,
       var(--red-bg)   87% 100%);
   background-size:4px 100%, 100% 100%;
-  background-position:50% 0, 0 0;
+  background-position:50% var(--roll,0px), 0 0;
   background-repeat:repeat-y, no-repeat}
 /* the band edges, so a boundary is a line and not a fade */
 .rd-lanes::after{content:"";position:absolute;inset:0;
@@ -1360,29 +1360,36 @@ a{color:inherit}
   color:var(--muted);opacity:.75}
 /* named along the road, the way markings are */
 .rd-lab{bottom:calc(var(--control) + var(--gutter)*2.2);transform-origin:left bottom;rotate:-90deg}
+/* a soft top and bottom edge, so turns arrive and leave rather than pop */
+.rd-stage::before,.rd-stage::after{content:"";position:absolute;left:0;right:0;
+  height:14%;z-index:3;pointer-events:none}
+.rd-stage::before{top:0;background:linear-gradient(var(--page),transparent)}
+.rd-stage::after{bottom:0;background:linear-gradient(transparent,var(--page))}
 .rd-lab--a{left:5.5%}
 .rd-lab--c{left:18.5%}
 .rd-thr{top:.7em;font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .rd-thr--65{left:13.6%}
 .rd-thr--40{left:27.6%}
 
-/* the car: one of them, moving */
+/* The car holds the middle of the frame and the road comes to it. It only ever
+   moves sideways - the forward travel is the surface sliding past underneath,
+   which is the whole reason this reads as driving rather than as a list
+   scrolling. */
 .rd-car{position:absolute;top:50%;left:var(--x,37.5%);translate:-50% -50%;
-  transition:left 220ms linear}
+  z-index:2;transition:left 260ms linear}
 .rd-car svg{display:block;width:clamp(40px,4cqw,60px);height:auto}
 .rd-car rect{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
 [data-motion="off"] .rd-car{transition:none}
 
-/* The thread builds in the far lane. It is anchored to the foot so new turns
-   push the older ones up and out, the way a conversation actually behaves. */
-.rd-thread{position:absolute;right:var(--gutter);
-  top:var(--gutter);bottom:calc(var(--control) + var(--gutter)*1.6);
-  width:min(46cqw,460px);
-  display:flex;flex-direction:column;justify-content:flex-end;gap:.7em;
-  overflow:hidden;pointer-events:none}
-.rd-turn{display:none;flex-direction:column;gap:.4em}
-.rd-turn[data-on="true"]{display:flex;animation:rdIn 320ms var(--ease) both}
-@keyframes rdIn{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+/* The exchanges are places on the road, not a list beside it. Each one is
+   pinned to a point further along, and the camera moving forward is what brings
+   it up the frame, past the car, and out of the top - so a conversation is
+   something you drive through rather than something that scrolls. */
+.rd-thread{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.rd-turn{position:absolute;right:var(--gutter);top:var(--y,50%);
+  translate:0 -50%;width:min(46cqw,460px);
+  display:flex;flex-direction:column;gap:.4em;
+  opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
    corners with the fourth square, which is what makes a rounded rectangle read
    as a bubble rather than a card. */
@@ -2615,14 +2622,24 @@ if(vol)vol.addEventListener("input",function(){
 });
 
 /* ═══ the drive ═══
-   One car, moved by the scroll, with the thread building behind it. The bands
-   were resolved when this page was written - the same hysteresis machine that
-   runs everywhere else - so the only thing happening at runtime is reading a
-   scroll position and interpolating between five known states. */
+   A camera that follows the car. The car holds the centre of the frame and
+   never moves down it; what moves is the road - the surface rolls past
+   underneath and each exchange, pinned to a point further along, rises up the
+   frame, passes the car, and leaves through the top.
+
+   That is the whole difference between this reading as driving and reading as
+   a list that scrolls. Scroll distance is distance travelled; the bands were
+   resolved when the page was written, by the same hysteresis machine that runs
+   everywhere else.
+
+   One beat is one frame-height of road, so a reader moves through the
+   conversation at the pace they scroll and can stop anywhere in it. */
 (function(){
   var wrap=document.getElementById('rdScroll');
   if(!wrap) return;
-  var car=document.getElementById('rdCar'), body=document.getElementById('rdCarBody'),
+  var stage=wrap.querySelector('.rd-stage'),
+      lanes=wrap.querySelector('.rd-lanes'),
+      car=document.getElementById('rdCar'), body=document.getElementById('rdCarBody'),
       chip=document.getElementById('rdChip'), note=document.getElementById('rdNote'),
       now=document.getElementById('rdNow'), score=document.getElementById('rdScore'),
       cV=document.getElementById('rdV'), cH=document.getElementById('rdH'), cA=document.getElementById('rdA'),
@@ -2637,34 +2654,52 @@ if(vol)vol.addEventListener("input",function(){
     var r=wrap.getBoundingClientRect();
     var travel=r.height-window.innerHeight;
     var p=travel>0 ? Math.min(1,Math.max(0,-r.top/travel)) : 0;
-    var f=p*B.length, i=Math.min(B.length-1,Math.floor(f)), k=Math.min(1,f-i);
+    var H=stage.clientHeight||1;
 
-    /* the car moves continuously between the two beats it sits between, so the
-       travel is smooth while the state changes in steps */
-    var nx=B[Math.min(i+1,B.length-1)].x;
-    car.style.setProperty('--x',(B[i].x+(nx-B[i].x)*k).toFixed(2)+'%');
+    /* distance travelled, measured in frames of road. Each beat sits one frame
+       further on, with half a frame of approach before the first. */
+    var span=B.length;
+    var d=p*span;
 
-    if(i===at) return;
-    at=i;
-    var x=B[i], nm=NAME[x.band];
+    for(var i=0;i<turns.length;i++){
+      /* where this exchange sits relative to the car: zero is level with it */
+      var rel=(i+0.5)-d;
+      var y=50+rel*100;                       // per cent of the frame
+      turns[i].style.setProperty('--y',y.toFixed(2)+'%');
+      /* fade in as it arrives and out as it leaves, so nothing pops at an edge */
+      var vis=Math.max(0,Math.min(1,1.35-Math.abs(rel)*1.9));
+      turns[i].style.setProperty('--fade',vis.toFixed(3));
+    }
+
+    /* the surface rolls past at the same rate the exchanges do */
+    lanes.style.setProperty('--roll',(d*H).toFixed(1)+'px');
+
+    /* the car is level with whichever exchange is nearest, and travels
+       continuously between the two it sits between */
+    var i0=Math.max(0,Math.min(B.length-1,Math.floor(d-0.5)));
+    var i1=Math.min(B.length-1,i0+1);
+    var k=Math.max(0,Math.min(1,(d-0.5)-i0));
+    car.style.setProperty('--x',(B[i0].x+(B[i1].x-B[i0].x)*k).toFixed(2)+'%');
+
+    var cur=Math.max(0,Math.min(B.length-1,Math.round(d-0.5)));
+    if(cur===at) return;
+    at=cur;
+    var x=B[cur], nm=NAME[x.band];
     body.setAttribute('fill','var(--'+nm+'-bg)');
     body.setAttribute('stroke','var(--'+nm+'-ink)');
     chip.className='band band--'+nm;
     chip.textContent=WORD[x.band];
     note.innerHTML=x.note;
-    now.textContent=String(i+1);
+    now.textContent=String(cur+1);
     score.textContent=x.s;
     var snd=x.band==='red' && x.cause==='reliability';
     cV.setAttribute('data-on', x.band!=='green'?'true':'false');
     cH.setAttribute('data-on', x.band==='red'?'true':'false');
     cA.setAttribute('data-on', snd?'true':'false');
-    /* the thread keeps what has already been said */
-    for(var t=0;t<turns.length;t++)
-      turns[t].setAttribute('data-on', t<=i ? 'true':'false');
   }
 
-  /* the drive is as long as it has beats */
-  wrap.style.height=(B.length*100)+'svh';
+  /* one frame of road a beat, plus one to arrive and one to leave */
+  wrap.style.height=((B.length+1)*100)+'svh';
   window.addEventListener('scroll',render,{passive:true});
   window.addEventListener('resize',render);
   render();
