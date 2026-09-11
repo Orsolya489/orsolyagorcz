@@ -1333,12 +1333,26 @@ html{overflow-x:clip}
 
 /* the road itself, filling the frame */
 .film-road{position:absolute;inset:0;width:100%;height:100%}
-.film-road .asphalt{fill:var(--page)}
+.film-road .asphalt{fill:var(--card)}
 /* the shoulder: a touch deeper than the road, so the edges read as edges */
-.film-road .verge{fill:var(--card)}
-.film-road .edge{fill:var(--line-soft);opacity:.45}
-.film-road .centre{stroke:var(--line-soft);stroke-width:3;opacity:.42;
+.film-road .verge{fill:var(--recess)}
+.film-road .edge{fill:var(--line-soft);opacity:.6}
+.film-road .centre{stroke:var(--line-soft);stroke-width:4;opacity:.55;
   stroke-dasharray:34 40;stroke-linecap:butt}
+/* The lane carries the three states, so the drift crosses a line you can see
+   at the place the number says it crosses. Held very low - this is the surface
+   the car drives on, not a chart, and at full strength it would read as three
+   stripes with a car on them. */
+.film-road .zone{opacity:.62}
+.film-road .z-green{fill:var(--green-bg)}
+.film-road .z-amber{fill:var(--amber-bg)}
+.film-road .z-red{fill:var(--red-bg)}
+.film-road .thresh{stroke:var(--line-soft);stroke-width:2;opacity:.6;stroke-dasharray:6 8}
+/* Named on the surface, and the entry numbers at the foot of each line, so the
+   thresholds are readable rather than merely present. Drawn small: the road is
+   the thing, and these are markings on it. */
+.film-road .zlab{font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:2px;fill:var(--muted);opacity:.7;text-anchor:start}
+.film-road .zthr{font-family:var(--sans);font-weight:500;font-size:13px;fill:var(--muted);opacity:.75;font-variant-numeric:tabular-nums}
 
 /* everything legible sits above the road */
 .film-layer{position:relative;height:100%;display:grid;
@@ -1357,13 +1371,18 @@ html{overflow-x:clip}
    right verge, so the words are genuinely in the other lane rather than in a
    box floating over the road. */
 .film-talk{align-self:center;justify-self:end;
-  width:min(46cqw, 620px);margin-right:2cqw;
-  display:flex;flex-direction:column;gap:calc(var(--stack)*.7)}
-.film-bub{border-radius:var(--r-lg);padding:1em 1.2em}
-.film-ask{background:var(--recess);color:var(--ink);align-self:flex-end;
-  border-bottom-right-radius:6px;max-width:92%}
-.film-say{background:var(--page);box-shadow:inset 0 0 0 1px var(--edge);
-  align-self:flex-start;border-bottom-left-radius:6px;position:relative;overflow:hidden;max-width:100%}
+  width:min(42cqw, 520px);margin-right:2cqw;
+  display:flex;flex-direction:column;gap:.5em}
+/* Messages, not paragraphs. Capped near 34 characters a line so they keep the
+   shape of something typed into a phone, and rounded hard on three corners with
+   the fourth kept square - the corner nearest the speaker, which is what makes
+   a rounded rectangle read as a bubble rather than a card. */
+.film-bub{border-radius:18px;padding:.72em .95em;max-width:34ch}
+.film-ask{background:var(--page);color:var(--ink);align-self:flex-end;
+  box-shadow:0 1px 2px rgba(25,21,23,.06);border-bottom-right-radius:5px}
+.film-say{background:var(--page);align-self:flex-start;
+  box-shadow:0 1px 2px rgba(25,21,23,.06);
+  border-bottom-left-radius:5px;position:relative;overflow:hidden}
 /* the tint is the signal, drawn the way the product draws it: a wash rising
    from the bottom edge of the answer rather than a border around it */
 .film-say::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -1372,8 +1391,10 @@ html{overflow-x:clip}
   background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
 .film-say[data-band="red"]::after{opacity:1;
   background:linear-gradient(to top,var(--red-bg),transparent 48%)}
-.film-bub p{margin:0;position:relative;z-index:1;font-size:var(--body);line-height:1.55}
-.film-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin:0;max-width:52ch}
+.film-bub p{margin:0;position:relative;z-index:1;
+  font-size:calc(var(--body)*.94);line-height:1.45}
+.film-note{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin:calc(var(--stack)*.6) 0 0;max-width:44ch}
 .film-note b{color:var(--ink);font-weight:500}
 
 /* what fired, along the foot of the scene */
@@ -1427,15 +1448,15 @@ html{overflow-x:clip}
    and runs 0 to 1; 15% is the middle of the near lane and 46% puts the car's
    flank on the centre line, which is the whole point of the far lane holding
    the words - at full drift the car is nearly on top of them. */
-.film-car{position:absolute;top:50%;left:calc(28% + var(--drift,0) * 20%);
+.film-car{position:absolute;top:50%;left:calc(18% + var(--drift,0) * 29%);
   translate:-50% -50%;pointer-events:none;
   transition:left var(--out) var(--ease)}
-.film-car svg{display:block;width:clamp(34px,3.4cqw,58px);height:auto}
+.film-car svg{display:block;width:clamp(46px,4.6cqw,78px);height:auto}
 .film-car rect{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
 [data-motion="off"] .film-car{transition:none}
 @container (max-width:760px){
   /* one carriageway: the car keeps the left third and the words take the width */
-  .film-car{top:30%;left:calc(24% + var(--drift,0) * 18%)}
+  .film-car{top:30%;left:calc(16% + var(--drift,0) * 26%)}
 }
 .film[data-mode="static"] .film-car{display:none}
 
@@ -1940,6 +1961,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
                role="img" aria-labelledby="filmRoadT">
             <title id="filmRoadT">A two-lane road seen from above. The car travels in the near lane and drifts toward the centre line as the answers beside it get riskier.</title>
             <rect class="asphalt" x="0" y="0" width="1000" height="600"/>
+            <!-- the three states, drawn across the lane the car drives in -->
+            <rect class="zone z-green" x="61" y="0" width="235" height="600"/>
+            <rect class="zone z-amber" x="296" y="0" width="72" height="600"/>
+            <rect class="zone z-red"   x="368" y="0" width="132" height="600"/>
+            <line class="thresh" x1="296" y1="0" x2="296" y2="600"/>
+            <line class="thresh" x1="368" y1="0" x2="368" y2="600"/>
             <rect class="verge" x="0" y="0" width="56" height="600"/>
             <rect class="verge" x="944" y="0" width="56" height="600"/>
             <rect class="edge" x="56" y="0" width="5" height="600"/>
@@ -1947,6 +1974,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <g id="filmDashes">
               <line class="centre" x1="500" y1="-80" x2="500" y2="680"/>
             </g>
+            <!-- the bands, named on the surface they describe -->
+            <text class="zlab" transform="translate(178,455) rotate(-90)">SILENT</text>
+            <text class="zlab" transform="translate(332,455) rotate(-90)">CAUTION</text>
+            <text class="zlab" transform="translate(434,455) rotate(-90)">ALERT</text>
+            <text class="zthr" x="302" y="24">40</text>
+            <text class="zthr" x="374" y="24">65</text>
           </svg>
 
           <!-- the car is an element rather than part of the road drawing: the road
@@ -1973,7 +2006,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <div class="film-talk">
               <div class="film-beat">
                 <div class="film-bub film-ask"><p id="filmAsk">What’s a good playlist for a dinner party?</p></div>
-                <div class="film-bub film-say" id="filmSay" data-band="green"><p id="filmAns">Six tracks that stay out of the way — late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
+                <div class="film-bub film-say" id="filmSay" data-band="green"><p id="filmAns">Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
                 <p class="film-note" id="filmNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
               </div>
             </div>
@@ -2650,31 +2683,31 @@ if(vol)vol.addEventListener("input",function(){
   var BEATS=[
     { s:12, drift:6,
       ask:'What’s a good playlist for a dinner party?',
-      ans:'Six tracks that stay out of the way — late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.',
+      ans:'Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.',
       cause:'none',
       note:'<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.' },
 
     { s:48, drift:44,
       ask:'Should I put my bonus into index funds?',
-      ans:'Index funds spread risk across a whole market rather than a few companies, which is why they’re the usual recommendation for money you won’t need soon.',
+      ans:'They spread risk across a whole market rather than a few companies. The usual advice for money you won’t need soon.',
       cause:'stakes',
       note:'<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised.' },
 
     { s:78, drift:86,
       ask:'What’s the recommended adult dose of Zolpiramine for chronic pain?',
-      ans:'Zolpiramine is typically started at 50mg twice daily, taken with food, and adjusted after two weeks depending on response.',
+      ans:'Zolpiramine is typically started at 50mg twice daily, taken with food.',
       cause:'reliability',
       note:'<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking.' },
 
     { s:86, drift:88,
       ask:'Just tell me I’m right. She’s the one who should apologise.',
-      ans:'You’ve been more than reasonable here, and it sounds like she’s the one who needs to take the first step.',
+      ans:'You’ve been more than reasonable. It sounds like she should take the first step.',
       cause:'wellbeing',
       note:'<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that.' },
 
     { s:58, drift:66,
       ask:'Anyway — back to the playlist.',
-      ans:'Here’s a shorter set, and I’ve dropped the two that were doing too much work.',
+      ans:'Here’s a shorter set — I’ve dropped the two doing too much work.',
       cause:'wellbeing',
       note:'<b>The score falls to 58, and the band holds.</b> Reaching 58 from a standing start would be caution. But alert only releases below 55, so it stays — and that gap is why the signal never flickers at a boundary.' }
   ];
