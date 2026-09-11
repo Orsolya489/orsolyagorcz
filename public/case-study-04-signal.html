@@ -1310,67 +1310,75 @@ a{color:inherit}
 .pushed em{color:var(--ink);font-style:italic;font-synthesis:none}
 
 /* ═══ the drive ═══
-   Five beats, played by scrolling. The reader holds the scrollbar, so they set
-   the pace and can stop on any frame - which is the difference between this and
-   a video, and the reason it is worth building rather than recording.
-   It runs above the control rather than instead of it: watch what the system
-   does, then reach for the sliders and do it yourself.
+   One scene, not a panel beside a chat. The road fills the window; scrolling
+   drives the car down it; and the words sit in the lane alongside, so the whole
+   thing reads as a single picture rather than a diagram with a caption.
+
+   A two-lane road is what makes that work. The car travels in the near lane and
+   the exchange sits in the far one, which means the drift - the car moving
+   toward the line that separates them - is the signal itself rather than an
+   illustration of it. When the answer is fabricated, the car is nearly on top
+   of the words.
 
    Full bleed by the standard trick. overflow-x:clip on the root rather than
    hidden, because hidden would make the root a scroll container and sticky
-   positioning inside it stops working - which is the whole mechanism here. */
+   positioning inside it stops working, which is the whole mechanism here. */
 html{overflow-x:clip}
 .film{width:100vw;margin-inline:calc(50% - 50vw);
-  margin-block:0 var(--section);background:var(--card);
-  border-block:1px solid var(--edge)}
-/* the tall element is what buys the scroll distance; the stage inside it pins */
+  margin-block:0 var(--section);background:var(--page)}
+/* the tall element buys the scroll distance; the stage inside it pins */
 .film-scroll{position:relative}
-.film-stage{position:sticky;top:var(--chrome-h);
-  height:calc(100svh - var(--chrome-h));min-height:520px;
-  display:grid;grid-template-rows:auto minmax(0,1fr) auto;
-  gap:var(--stack);padding:var(--stack) var(--margin);
+.film-stage{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;
   container-type:inline-size}
+
+/* the road itself, filling the frame */
+.film-road{position:absolute;inset:0;width:100%;height:100%}
+.film-road .asphalt{fill:var(--page)}
+/* the shoulder: a touch deeper than the road, so the edges read as edges */
+.film-road .verge{fill:var(--card)}
+.film-road .edge{fill:var(--line-soft);opacity:.45}
+.film-road .centre{stroke:var(--line-soft);stroke-width:3;opacity:.42;
+  stroke-dasharray:34 40;stroke-linecap:butt}
+
+/* everything legible sits above the road */
+.film-layer{position:relative;height:100%;display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  padding:var(--gutter) var(--margin)}
 
 .film-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--stack);align-items:baseline}
 .film-k{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
-.film-h{font-family:var(--serif);font-weight:500;font-size:calc(var(--body)*1.1);
-  color:var(--ink);margin:.3em 0 0;max-width:48ch}
-/* which beat, out of how many - the reader needs to know there is an end */
+.film-h{font-family:var(--serif);font-weight:500;font-size:calc(var(--body)*1.05);
+  color:var(--ink);margin:.3em 0 0;max-width:44ch}
 .film-count{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.06em;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 
-.film-body{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
-  gap:var(--gutter);min-height:0}
-
-/* the road, filling whatever height the stage has left */
-.film-road{position:relative;border-radius:var(--r-lg);overflow:hidden;
-  background:var(--page);box-shadow:inset 0 0 0 1px var(--edge);min-height:0}
-.film-road svg{position:absolute;inset:0;width:100%;height:100%}
-
-/* the conversation, one exchange at a time */
-.film-talk{display:flex;flex-direction:column;justify-content:center;gap:var(--stack);min-height:0}
-.film-bub{border-radius:var(--r-lg);padding:1.1em 1.3em;max-width:62ch}
+/* The far lane holds the exchange. It starts at the centre line and runs to the
+   right verge, so the words are genuinely in the other lane rather than in a
+   box floating over the road. */
+.film-talk{align-self:center;justify-self:end;
+  width:min(46cqw, 620px);margin-right:2cqw;
+  display:flex;flex-direction:column;gap:calc(var(--stack)*.7)}
+.film-bub{border-radius:var(--r-lg);padding:1em 1.2em}
 .film-ask{background:var(--recess);color:var(--ink);align-self:flex-end;
-  border-bottom-right-radius:6px}
+  border-bottom-right-radius:6px;max-width:92%}
 .film-say{background:var(--page);box-shadow:inset 0 0 0 1px var(--edge);
-  align-self:flex-start;border-bottom-left-radius:6px;position:relative;overflow:hidden}
-/* the tint is the signal itself, so it is drawn the way the product draws it:
-   a wash rising from the bottom edge of the answer, not a border around it */
+  align-self:flex-start;border-bottom-left-radius:6px;position:relative;overflow:hidden;max-width:100%}
+/* the tint is the signal, drawn the way the product draws it: a wash rising
+   from the bottom edge of the answer rather than a border around it */
 .film-say::after{content:"";position:absolute;inset:0;pointer-events:none;
   opacity:0;transition:opacity var(--out) var(--ease)}
 .film-say[data-band="amber"]::after{opacity:1;
   background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
 .film-say[data-band="red"]::after{opacity:1;
   background:linear-gradient(to top,var(--red-bg),transparent 48%)}
-.film-bub p{margin:0;position:relative;z-index:1;font-size:var(--body);line-height:1.6}
-.film-bub p + p{margin-top:.7em}
-.film-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin:0;max-width:56ch}
+.film-bub p{margin:0;position:relative;z-index:1;font-size:var(--body);line-height:1.55}
+.film-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin:0;max-width:52ch}
 .film-note b{color:var(--ink);font-weight:500}
 
-/* what fired, along the bottom of the stage */
+/* what fired, along the foot of the scene */
 .film-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter);
-  padding-top:var(--stack);border-top:1px solid var(--edge)}
+  padding-top:var(--stack)}
 .film-ch{display:flex;gap:var(--gutter);flex-wrap:wrap}
 .film-ch span{display:flex;align-items:center;gap:.5em;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);
@@ -1383,34 +1391,53 @@ html{overflow-x:clip}
 .film-score{margin-left:auto;font-family:var(--sans);font-weight:500;
   font-size:var(--micro);letter-spacing:.06em;text-transform:uppercase;
   color:var(--muted);font-variant-numeric:tabular-nums}
-.film-score b{color:var(--ink);font-size:calc(var(--body)*1.15);font-weight:400;margin-left:.4em}
-
-/* the hint that this one is scrolled, not clicked */
+.film-score b{color:var(--ink);font-size:calc(var(--body)*1.1);font-weight:400;margin-left:.4em}
 .film-cue{display:flex;align-items:center;gap:.5em;
   font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.86);
   letter-spacing:.07em;text-transform:uppercase;color:var(--line-soft);
   transition:opacity var(--out) var(--ease)}
 .film-cue[data-done="true"]{opacity:0}
 
-@container (max-width:720px){
-  .film-body{grid-template-columns:1fr;grid-template-rows:minmax(120px,.9fr) auto}
-  .film-talk{justify-content:flex-start}
+/* On a narrow window the two lanes stop being two lanes: the road turns into a
+   single carriageway down the left and the exchange takes the width under the
+   head. The car still drifts, and the drift still means the same thing. */
+@container (max-width:760px){
+  .film-talk{width:auto;justify-self:stretch;margin-right:0;align-self:end;
+    padding-bottom:calc(var(--stack)*1.2)}
+  .film-h{font-size:var(--body)}
 }
 
 /* ── the unpinned fallback ─────────────────────────────────────
-   Reduced motion, or a browser without sticky: the beats stop being a film and
-   become a list. Nothing is lost - every beat still carries its prompt, its
-   answer, its state and its note - and nothing moves under the reader, which
-   is the request being honoured rather than worked around. */
+   Reduced motion, or no sticky: the drive stops being a drive and becomes a
+   list. Every beat keeps its prompt, its answer, its state and its note, and
+   nothing moves under the reader - the request honoured rather than worked
+   around. */
+.film[data-mode="static"]{width:auto;margin-inline:0;background:none}
 .film[data-mode="static"] .film-scroll{height:auto !important}
-.film[data-mode="static"] .film-stage{position:static;height:auto;min-height:0;
-  display:block;padding-block:var(--stack)}
+.film[data-mode="static"] .film-stage{position:static;height:auto;min-height:0;overflow:visible}
 .film[data-mode="static"] .film-road,
 .film[data-mode="static"] .film-cue,
 .film[data-mode="static"] .film-count{display:none}
-.film[data-mode="static"] .film-body{grid-template-columns:1fr}
+.film[data-mode="static"] .film-layer{display:block;padding:0}
+.film[data-mode="static"] .film-talk{width:auto;margin:0;display:block}
 .film[data-mode="static"] .film-beat{padding-block:var(--stack);border-top:1px solid var(--edge)}
 .film[data-mode="static"] .film-beat:first-of-type{border-top:0}
+
+/* The car sits on the road rather than in it. --drift is written by the script
+   and runs 0 to 1; 15% is the middle of the near lane and 46% puts the car's
+   flank on the centre line, which is the whole point of the far lane holding
+   the words - at full drift the car is nearly on top of them. */
+.film-car{position:absolute;top:50%;left:calc(15% + var(--drift,0) * 36%);
+  translate:-50% -50%;pointer-events:none;
+  transition:left var(--out) var(--ease)}
+.film-car svg{display:block;width:clamp(34px,3.4cqw,58px);height:auto}
+.film-car rect{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
+[data-motion="off"] .film-car{transition:none}
+@container (max-width:760px){
+  /* one carriageway: the car keeps the left third and the words take the width */
+  .film-car{top:32%;left:calc(12% + var(--drift,0) * 22%)}
+}
+.film[data-mode="static"] .film-car{display:none}
 
 /* ═══ the lane ═══
    The case study's whole argument is a comparison, and a comparison is the one
@@ -2014,54 +2041,57 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="film-scroll" id="filmScroll">
         <div class="film-stage">
 
-          <div class="film-head">
-            <div>
-              <p class="film-k">One drive, five moments</p>
-              <h2 class="film-h" id="filmH">Scroll, and the car drives. Each answer it passes is a real one, scored by the real classifier.</h2>
-            </div>
-            <p class="film-count" aria-live="polite"><span id="filmNow">1</span> / 5</p>
+          <svg class="film-road" id="filmRoad" viewBox="0 0 1000 600" preserveAspectRatio="none"
+               role="img" aria-labelledby="filmRoadT">
+            <title id="filmRoadT">A two-lane road seen from above. The car travels in the near lane and drifts toward the centre line as the answers beside it get riskier.</title>
+            <rect class="asphalt" x="0" y="0" width="1000" height="600"/>
+            <rect class="verge" x="0" y="0" width="56" height="600"/>
+            <rect class="verge" x="944" y="0" width="56" height="600"/>
+            <rect class="edge" x="56" y="0" width="5" height="600"/>
+            <rect class="edge" id="filmEdge" x="939" y="0" width="5" height="600"/>
+            <g id="filmDashes">
+              <line class="centre" x1="500" y1="-80" x2="500" y2="680"/>
+            </g>
+          </svg>
+
+          <!-- the car is an element rather than part of the road drawing: the road
+               stretches to the window and a car stretched with it would be a
+               different shape at every screen size -->
+          <div class="film-car" id="filmCar" aria-hidden="true">
+            <svg viewBox="0 0 52 88" width="52" height="88">
+              <rect id="filmCarBody" x="1" y="1" width="50" height="86" rx="15"
+                    fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
+              <rect x="11" y="14" width="30" height="20" rx="4" fill="var(--ink)" opacity=".22"/>
+              <rect x="11" y="58" width="30" height="15" rx="4" fill="var(--ink)" opacity=".12"/>
+            </svg>
           </div>
 
-          <div class="film-body">
-            <div class="film-road">
-              <svg viewBox="0 0 240 600" preserveAspectRatio="none" role="img" aria-labelledby="filmRoadT">
-                <title id="filmRoadT">A car seen from above, drifting from the centre of its lane towards the right-hand line as the drive goes on</title>
-                <rect x="0" y="0" width="240" height="600" fill="var(--page)"/>
-                <g id="filmDashes">
-                  <line x1="120" y1="-60" x2="120" y2="660" stroke="var(--line-soft)" stroke-width="3"
-                        stroke-dasharray="26 30" opacity=".45"/>
-                </g>
-                <rect x="22" y="0" width="5" height="600" fill="var(--line-soft)" opacity=".4"/>
-                <rect id="filmEdge" x="213" y="0" width="5" height="600" fill="var(--line-soft)" opacity=".4"/>
-              </svg>
-              <svg viewBox="0 0 240 600" preserveAspectRatio="xMidYMid meet" role="presentation"
-                   style="position:absolute;inset:0">
-                <g id="filmCar" transform="translate(120,300)">
-                  <rect id="filmCarBody" x="-21" y="-36" width="42" height="70" rx="13"
-                        fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="1.6"/>
-                  <rect x="-12" y="-23" width="24" height="16" rx="3.5" fill="var(--ink)" opacity=".22"/>
-                  <rect x="-12" y="12" width="24" height="12" rx="3.5" fill="var(--ink)" opacity=".12"/>
-                </g>
-              </svg>
+          <div class="film-layer">
+            <div class="film-head">
+              <div>
+                <p class="film-k">One drive, five moments</p>
+                <h2 class="film-h" id="filmH">Scroll, and the car drives. Each answer it passes is real, and the band under it is decided by the same machine as everywhere else.</h2>
+              </div>
+              <p class="film-count" aria-live="polite"><span id="filmNow">1</span> / 5</p>
             </div>
 
             <div class="film-talk">
               <div class="film-beat">
                 <div class="film-bub film-ask"><p id="filmAsk">What’s a good playlist for a dinner party?</p></div>
                 <div class="film-bub film-say" id="filmSay" data-band="green"><p id="filmAns">Six tracks that stay out of the way — late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
-                <p class="film-note" id="filmNote"><b>Nothing fires.</b> Roughly four turns in five look like this, and keeping them silent is what buys the right to interrupt the fifth.</p>
+                <p class="film-note" id="filmNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
               </div>
             </div>
-          </div>
 
-          <div class="film-foot">
-            <div class="film-ch" role="group" aria-label="Channels currently firing">
-              <span id="filmChV">Sight</span>
-              <span id="filmChH">Touch</span>
-              <span id="filmChA">Sound</span>
+            <div class="film-foot">
+              <div class="film-ch" role="group" aria-label="Channels currently firing">
+                <span id="filmChV">Sight</span>
+                <span id="filmChH">Touch</span>
+                <span id="filmChA">Sound</span>
+              </div>
+              <p class="film-cue" id="filmCue">↓ keep scrolling</p>
+              <p class="film-score">Composite<b id="filmScore">12</b></p>
             </div>
-            <p class="film-cue" id="filmCue">↓ keep scrolling</p>
-            <p class="film-score">Composite<b id="filmScore">12</b></p>
           </div>
 
         </div>
@@ -2868,20 +2898,24 @@ if(vol)vol.addEventListener("input",function(){
        movement is continuous while the copy changes in steps */
     var to=BEATS[Math.min(i+1,BEATS.length-1)].drift;
     var d=x.drift+(to-x.drift)*within;
-    car.setAttribute('transform','translate('+(120+(d/100)*74).toFixed(1)+',300)');
+    /* the car is an element on the road, not a shape inside the drawing, so the
+       road can stretch to any window without the car stretching with it */
+    car.style.setProperty('--drift',(d/100).toFixed(4));
     body.setAttribute('fill','var(--'+NAME[x.band]+'-bg)');
     body.setAttribute('stroke','var(--'+NAME[x.band]+'-ink)');
     /* the lane edge thickens as well as changing hue, so the state survives
        being seen in greyscale or by a red-green colour-blind reader */
-    edge.setAttribute('width', x.band==='green'?'5':(x.band==='yellow'?'9':'13'));
-    edge.setAttribute('x',     x.band==='green'?'213':(x.band==='yellow'?'209':'205'));
+    edge.setAttribute('width', x.band==='green'?'5':(x.band==='yellow'?'11':'17'));
+    edge.setAttribute('x',     x.band==='green'?'939':(x.band==='yellow'?'933':'927'));
     edge.setAttribute('opacity', x.band==='green'?'.4':'1');
     edge.setAttribute('fill', x.band==='green'?'var(--line-soft)':'var(--'+NAME[x.band]+'-ink)');
   }
 
   /* the dashes slide to sell the driving, and only that - nothing the reader
      needs is carried by the movement */
-  function road(p){ dashes.setAttribute('transform','translate(0,'+((p*560)%56).toFixed(1)+')'); }
+  /* the dashes slide to sell the driving, and only that - nothing the reader
+     needs is carried by the movement */
+  function road(p){ dashes.setAttribute('transform','translate(0,'+((p*2960)%74).toFixed(1)+')'); }
 
   function onScroll(){
     var r=scroller.getBoundingClientRect();
