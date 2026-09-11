@@ -476,10 +476,20 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-spec dt,.card-spec dd{border-top:0}
 }
 .card-spec div:first-child dt,.card-spec div:first-child dd{padding-top:0;border-top:0}
-.card-spec dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+/* The label is scaffolding and the value is the content, so they stop sharing a
+   treatment. The label drops to 400: the eyebrow above the headline, the card
+   counter and these labels were all 11px, weight 500, muted, uppercase - three
+   different kinds of thing wearing one costume, told apart only by where they
+   sat. Weight is the one axis that separates them without touching contrast,
+   which --muted has little of to spare at 4.97:1.
+   The value steps up instead. It was 11px, the same size as the page counter,
+   while being the only thing on the card that distinguishes one project from
+   another - the most useful content set as the quietest element. */
+.card-spec dt{font-family:var(--sans);font-weight:400;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.card-spec dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
-  line-height:1.4;letter-spacing:.02em;color:var(--ink);min-width:0}
+.card-spec dd{margin:0;font-family:var(--sans);font-weight:500;
+  font-size:calc(var(--micro)*1.25);
+  line-height:1.4;letter-spacing:.01em;color:var(--ink);min-width:0}
 /* On a phone two columns leave the value too little, so the label steps above
    it and the rule carries the grouping on its own. */
 @container (max-width:340px){
@@ -582,7 +592,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      percentage against the width, so the old 3% and 2% were only ever equal at
      one aspect ratio. cqw is the card width for both - 22.3px each on a 1200px
      card, measured. */
-  .card-plane{position:absolute;left:50%;right:2cqw;top:2cqw;height:56cqh}
+  /* Shorter than it was. At 56cqh the drawing took 30.8% of the card against the
+     mockup's 13.8% - the largest thing on the card, and supporting evidence
+     rather than the subject. The left edge stays on the midline so it and the
+     spec beneath it still share one line. */
+  .card-plane{position:absolute;left:50%;right:2cqw;top:2cqw;height:42cqh}
   /* Card 1 starts on the midline like every other card, not left of it. The
      columns are 45fr 48fr inside 5%/2% padding, which puts the copy column's
      left edge exactly on 50% - so the schematic and the summary underneath it
@@ -592,7 +606,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      fixed number of pixels tall, so on a short card it climbs much higher up
      the card than it does on a tall one. Reserving its space in px keeps the
      frame clear of it at every size instead of only the roomy ones. */
-  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(16% + 132px)}
+  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(30% + 132px)}
   /* Full column, not 90%. The quarter-columns came out at 133px while the
      longest declared line - "Self-directed research" - measured 145, so three
      values were wrapping inside a line that was supposed to be whole. The 10%
