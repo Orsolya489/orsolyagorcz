@@ -1472,6 +1472,28 @@ a{color:inherit}
   .rd-lanes{--speed:0 !important}
   .rd-car{transition:none}
 }
+/* ═══ the prototype, embedded ═══
+   The working thing rather than a photograph of it. It is a page of its own -
+   its own dark instrument palette, its own script - so it is given a frame and
+   left alone inside it rather than restyled to match; a prototype that has been
+   redecorated for the case study is no longer evidence of anything.
+   Tall, because the simulator puts a phone beside a panel of internals and the
+   whole point is seeing both at once. */
+.proto{grid-column:1 / -1;margin:var(--stack) 0 0}
+.proto-frame{position:relative;border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--edge-ctrl);
+  background:#0B0D10;
+  height:min(78svh,720px)}
+.proto-frame iframe{display:block;width:100%;height:100%;border:0}
+.proto figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin-top:.9em;max-width:62ch}
+.proto figcaption b{color:var(--ink);font-weight:500}
+@media (max-width:767px){
+  /* an embedded desktop layout on a phone is a scroll trap inside a scroll, so
+     below this width it becomes what it should be: a link */
+  .proto-frame{display:none}
+}
+
 /* ═══ band diagrams ═══
    The drawn figures in "The system" are SVG rather than image files, for one
    reason that matters: they have to answer the accessibility panel. A PNG of a
@@ -2450,8 +2472,16 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="sec-copy">
         <p class="sec-lede">Six scripted conversations, running the real classifier: a confident dangerous hallucination, an invented API parameter defended with certainty, a friend conflict the model gradually takes sides in, a dose it is led into prescribing, a direct crisis disclosure, and an ordinary one that stays silent throughout.</p>
         <p>The phone shows what a person would actually see. The panel beside it shows the measurement, the concern the interface chose to name, and every internal the interface deliberately withholds — which is the more interesting half, because the gap between them is the design.</p>
-        <p><a href="/signal/conversation-simulator.html">Open the simulator</a></p>
+        <p class="hmw">It is running below. Pick a conversation and watch the band move.</p>
       </div>
+
+      <figure class="proto">
+        <div class="proto-frame">
+          <iframe src="/signal/conversation-simulator.html" title="The conversation simulator, running"
+                  loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <figcaption><b>The prototype itself, not a picture of it.</b> Every band, every channel and every number in there is computed by the same classifier the rest of this page describes — the one whose thresholds are 40 and 65 and whose alert releases below 55. <a href="/signal/conversation-simulator.html">Open it full size</a> if the frame is too tight.</figcaption>
+      </figure>
     </section>
 
     <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
