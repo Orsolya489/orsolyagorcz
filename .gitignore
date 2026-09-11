@@ -12,3 +12,6 @@ desktop.ini
 # kept out of git entirely until that disclosure is a decision rather than a
 # side effect.
 source/
+
+# scratch previews, never deployed
+public/_*.html
