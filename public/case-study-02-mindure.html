@@ -688,7 +688,7 @@ a{color:inherit}
 /* the rule belongs to the pair, not to the first line of it */
 .stat-cite{padding-top:.8em;border-top:1px solid var(--edge)}
 .stat-src{margin:0;
-  font-size:calc(var(--micro)*.92);line-height:1.45;color:var(--muted)}
+  font-size:var(--micro);line-height:1.45;color:var(--muted)}
 .stat-src a{color:var(--muted);text-decoration:none;
   border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
 .stat-src a:hover{color:var(--ink);transition-duration:var(--in)}
@@ -696,7 +696,7 @@ a{color:inherit}
    the work was actually done against - same size, lighter, and behind a label
    that says which is which. A statistic published after a decision can support
    that decision but cannot have informed it, and the two should not look alike. */
-.stat-upd{margin:.45em 0 0;font-size:calc(var(--micro)*.92);line-height:1.45;
+.stat-upd{margin:.45em 0 0;font-size:var(--micro);line-height:1.45;
   color:var(--muted)}
 /* Inline, and drawn as a capsule: as bare text on its own line the label read
    as a third item rather than as the tag on the citation beside it. Stroke only
@@ -706,7 +706,7 @@ a{color:inherit}
 .stat-upd-k{display:inline-block;margin-right:.55em;
   padding:.16em .68em;border-radius:var(--r-pill);
   box-shadow:inset 0 0 0 1px var(--edge-ctrl);
-  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.82);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--body-c)}
 .stat-upd a{color:var(--muted);text-decoration:none;
   border-bottom:1px solid var(--edge-ctrl);transition:color var(--out) var(--ease)}
@@ -806,7 +806,7 @@ a{color:inherit}
    inside a sentence - set as running text they read as if the prose shouted. */
 .cmp-kw{display:flex;flex-wrap:wrap;gap:.45em;margin:calc(var(--stack)*.75) 0 0}
 .cmp-kw .kw{font-family:var(--sans);font-style:normal;font-weight:500;
-  font-size:calc(var(--micro)*.88);letter-spacing:.04em;
+  font-size:var(--micro);letter-spacing:.04em;
   color:var(--tint-ink);background:var(--page);border-radius:var(--r-pill);
   padding:.34em .85em;box-shadow:inset 0 0 0 1px var(--tint-line)}
 /* The picture takes the width of the window; its height follows from its shape.
@@ -878,7 +878,7 @@ a{color:inherit}
   /* stacked: the join is now horizontal, so the rounding follows it */
   .cmp-side--ai{border-radius:var(--r-lg) var(--r-lg) 0 0}
   .cmp-side--human{border-radius:0 0 var(--r-lg) var(--r-lg)}
-  .cmp-tag{font-size:calc(var(--micro)*.85)}
+  .cmp-tag{font-size:var(--micro)}
 }
 
 /* ═══ the two-column problem spread ═══
@@ -1043,7 +1043,7 @@ a{color:inherit}
      caps at this size need tracking to stay legible, and the tracking was what
      made a quiet row look like navigation. A touch larger than the capitalised
      version was, because lowercase loses the height caps were carrying. */
-  font-size:calc(var(--micro) * .86);
+  font-size:var(--micro);
   letter-spacing:.01em;
   color:var(--line-soft);text-decoration:none;white-space:nowrap;
   transition:color var(--out) var(--ease)}
@@ -1345,7 +1345,7 @@ a{color:inherit}
 .mac-dots{display:flex;gap:6px;flex:0 0 auto}
 .mac-dots i{width:10px;height:10px;border-radius:var(--r-pill);background:var(--lattice)}
 .mac-url{flex:1 1 auto;max-width:26em;margin-inline:auto;text-align:center;
-  font-family:var(--sans);font-size:calc(var(--micro)*.92);color:var(--muted);
+  font-family:var(--sans);font-size:var(--micro);color:var(--muted);
   background:var(--card);border-radius:var(--r-pill);padding:.28em 1.1em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* the recording’s own shape, so the frame never letterboxes it */

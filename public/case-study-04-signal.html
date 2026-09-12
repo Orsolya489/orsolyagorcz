@@ -725,7 +725,7 @@ a{color:inherit}
      caps at this size need tracking to stay legible, and the tracking was what
      made a quiet row look like navigation. A touch larger than the capitalised
      version was, because lowercase loses the height caps were carrying. */
-  font-size:calc(var(--micro) * .86);
+  font-size:var(--micro);
   letter-spacing:.01em;
   color:var(--line-soft);text-decoration:none;white-space:nowrap;
   transition:color var(--out) var(--ease)}
@@ -1413,7 +1413,7 @@ a{color:inherit}
     transparent 87.1% 100%);
   opacity:.55}
 .rd-lab,.rd-thr{position:absolute;font-family:var(--sans);font-weight:500;
-  font-size:calc(var(--micro)*.86);letter-spacing:.12em;text-transform:uppercase;
+  font-size:var(--micro);letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);opacity:.75}
 /* named along the road, the way markings are */
 .rd-lab{bottom:calc(var(--control) + var(--gutter)*2.2);transform-origin:left bottom;rotate:-90deg}
@@ -1481,19 +1481,19 @@ a{color:inherit}
 .rd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter)}
 .rd-ch{display:flex;gap:1em}
 .rd-ch i{font-style:normal;display:flex;align-items:center;gap:.45em;
-  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.9);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.06em;text-transform:uppercase;color:var(--line-soft);
   transition:color var(--out) var(--ease)}
 .rd-ch i::before{content:"";width:8px;height:8px;border-radius:50%;
   border:1.5px solid currentColor;transition:background var(--out) var(--ease)}
 .rd-ch i[data-on="true"]{color:var(--ink)}
 .rd-ch i[data-on="true"]::before{background:currentColor}
-.rd-n,.rd-s{font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.9);
+.rd-n,.rd-s{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
   font-variant-numeric:tabular-nums}
 .rd-s{margin-left:auto}
 .rd-n b,.rd-s b{color:var(--ink);font-weight:500}
-.rd-why{font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.88);
+.rd-why{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.05em;color:var(--ink);margin:0;max-width:80ch}
 .rd-note{font-size:var(--micro);line-height:1.55;color:var(--muted);
   margin:0;max-width:74ch}
@@ -1592,7 +1592,7 @@ a{color:inherit}
    every label at the size it was drawn, whatever the frame. */
 .dgm-scroll svg{min-width:900px}
 .dgm-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
-.dgm-hint{display:none;font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.86);
+.dgm-hint{display:none;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--line-soft);margin:0 0 .9em}
 /* inside a disclosure the frame is the reading column, so the drawing
    scrolls there too and has to say so */
@@ -1639,7 +1639,7 @@ a{color:inherit}
    word stays selectable and a screen reader gets "green" rather than "circle
    green". */
 .band{display:inline-flex;align-items:center;gap:.45em;
-  font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.92);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;
   padding:.25em .7em .25em .55em;border-radius:var(--r-pill);white-space:nowrap;
   vertical-align:.05em}

@@ -132,7 +132,7 @@ a{color:inherit}
      below --micro because all-caps reads larger than its point size. The
      tracking is the same .07em every other all-caps label on the page uses,
      so buttons rejoin that family instead of being their own exception. */
-  font-size:calc(var(--micro)*.92);
+  font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap;
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   transition:background var(--out) var(--ease),border-color var(--out) var(--ease),color var(--out) var(--ease);
