@@ -114,6 +114,7 @@ a{color:inherit}
   position:fixed;left:50%;top:10px;translate:-50% -200%;z-index:900;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);
   background:var(--ink);color:var(--page);padding:.7em 1.2em;border-radius:var(--r-pill);
+  display:inline-flex;align-items:center;min-height:var(--control);
   text-decoration:none;transition:translate var(--out) var(--ease)}
 .skip:focus{translate:-50% 0}
 
@@ -241,7 +242,10 @@ a{color:inherit}
   font-family:var(--sans);font-size:var(--micro);color:var(--ink);margin-bottom:var(--gap-btn)}
 .prow:last-child{margin-bottom:0}
 .pset{display:flex;gap:var(--gap-btn)}
-.panel .btn{min-height:36px;padding:0 .9em}
+/* The panel's own buttons used to be 36px - the accessibility control
+   surface was the one place in the system that undercut the system's own
+   target floor. They take --control like every other control now. */
+.panel .btn{min-height:var(--control);padding:0 .9em}
 .panel .btn--icon{width:36px}
 /* 36px is comfortable with a mouse and too small for a thumb. Rather than
    push every screen to the larger size, the target grows only where the
@@ -1046,6 +1050,15 @@ a{color:inherit}
 .cs-route a::before{content:"0" counter(route);
   font-variant-numeric:tabular-nums;opacity:.7}
 .cs-route a:hover,.cs-route a:focus-visible{color:var(--ink);transition-duration:var(--in)}
+/* The row stays the size it was drawn - small on purpose, a glance at what is
+   coming rather than a menu to work through. What grows is only the part the
+   pointer has to hit: an invisible box centred on each link, --control tall,
+   so the target meets the floor while the type keeps its quiet. Nothing else
+   in the chrome sits within reach of it vertically, so the larger area cannot
+   take a click meant for something else. */
+.cs-route a{position:relative}
+.cs-route a::after{content:"";position:absolute;left:0;right:0;top:50%;
+  translate:0 -50%;height:var(--control)}
 /* the one you are in, marked by the same spy that writes the bar */
 .cs-route a[data-here="true"]{color:var(--ink)}
 /* A route needs room to be a route. Once the six names cannot sit on one
@@ -1100,7 +1113,7 @@ a{color:inherit}
 :root{--chrome-drop:calc(var(--control) * .085)}
 .c-tl .brand{grid-column:1;grid-row:1 / -1;align-self:center;
   margin-top:var(--chrome-drop);
-  margin-right:calc(var(--control)*.34);height:auto;min-height:24px}
+  margin-right:calc(var(--control)*.34);height:auto;min-height:var(--control)}
 /* The wordmark and the way out are one group, the track and the count are
    another. A wider gap here than the one holding the columns apart is what
    says so - without it the back link reads as the start of the progress
@@ -1108,7 +1121,7 @@ a{color:inherit}
 /* No extra margin here any more: the flexible spacer either side of the track
    already holds it well clear, and an extra margin on this side only made the
    left gap wider than the right and threw the balance off. */
-.c-tl .cs-back{grid-column:2;grid-row:1 / -1;align-self:center;min-height:24px;
+.c-tl .cs-back{grid-column:2;grid-row:1 / -1;align-self:center;min-height:var(--control);
   margin-top:var(--chrome-drop)}
 @media (pointer:coarse){
   .c-tl .brand,.c-tl .cs-back{min-height:var(--control)}
@@ -1177,7 +1190,12 @@ a{color:inherit}
   text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
 .cs-toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
 .cs-toc li{counter-increment:toc;margin-bottom:.15em}
+/* The contents list is what a reader scanning for relevance uses first, so
+   its links are the last place to be stingy with a target. They were 24px -
+   under the floor the rest of the system holds to. align-items keeps the
+   number and the label on their shared baseline inside the taller box. */
 .cs-toc ol a{display:grid;grid-template-columns:2.4em 1fr;gap:.4em;
+  min-height:var(--control);align-items:center;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.45;
   letter-spacing:.07em;text-transform:uppercase;
   color:var(--line-soft);text-decoration:none;
@@ -1260,6 +1278,7 @@ a{color:inherit}
    inert for anyone dragging a comparison handle underneath. */
 .fig{position:relative}
 .zoom{position:absolute;top:var(--stack);right:var(--stack);z-index:2;
+  min-height:var(--control);min-width:var(--control);
   display:grid;place-items:center;width:38px;height:38px;padding:0;
   border:0;border-radius:var(--r-pill);cursor:pointer;
   color:var(--ink);background:var(--page);
@@ -1381,7 +1400,11 @@ a{color:inherit}
    are where the argument got its evidence - so it drops the full section break
    it takes when it follows an argument instead of a bibliography. */
 .duo + .blueprint{margin-top:var(--stack)}
+/* Both spellings exist in this file's markup; both are the same control and
+   both take the floor. */
+.bp-btn{min-height:var(--control)}
 .bp-toggle{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+  min-height:var(--control);
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
   padding:1.1em 0;background:none;border:0;
   border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl)}
@@ -1703,21 +1726,36 @@ a{color:inherit}
 .gen-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:.35em}
 
 /* ═══ dev-sync table — why the middle generation was cut ═══ */
-.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;text-align:left}
+/* The row heading is a label rather than the row's content, so it takes the
+   narrowest track and every column carrying description takes the width: 26%
+   to the heading, the rest split evenly among however many description
+   columns there are. table-layout:fixed is what makes that hold - auto layout
+   hands width to whichever cell shouts loudest. The table is then sized so the
+   description columns together come to 66ch, the measure of the body copy. */
+.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;
+  text-align:left;table-layout:fixed;max-width:calc(66ch / 0.74)}
+.devsync thead th:first-child{width:26%}
+/* a fourth description column would leave each narrower than the heading */
+.devsync:has(thead th:nth-child(4)) thead th:first-child{width:21%}
 .devsync thead th{padding:0 var(--gutter) .9em 0;vertical-align:bottom;font-weight:400}
 .devsync thead tr{border-bottom:1px solid var(--edge-ctrl)}
 .devsync th span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-.devsync tbody th{font-weight:500;font-size:var(--body);color:var(--ink);
-  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;white-space:nowrap;text-align:left}
+.devsync tbody th{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink);
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;text-align:left;
+  text-wrap:balance}
+/* fixed columns sit flush, so the gutter is carried by the cells themselves */
 .devsync tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
-  padding:1.2em 0 1.2em 0;vertical-align:top}
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top}
+.devsync thead th:last-child,.devsync tbody td:last-child{padding-right:0}
 .devsync tbody tr{border-bottom:1px solid var(--edge)}
 .devsync tbody tr:last-child{border-bottom:0}
 .devsync code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
   background:var(--recess);padding:.1em .4em;border-radius:4px;color:var(--ink)}
 @media (max-width:900px){
-  .devsync,.devsync thead,.devsync tbody,.devsync tr,.devsync th,.devsync td{display:block;width:auto}
+  .devsync,.devsync thead,.devsync tbody,.devsync tr,.devsync th,.devsync td{
+    display:block;width:auto;table-layout:auto;max-width:none}
+  .devsync tbody td{padding-right:0}
   .devsync thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .devsync tbody th{padding:var(--stack) 0 .4em;border-top:1px solid var(--edge)}
   .devsync tbody td{padding:0 0 .9em}
@@ -1778,7 +1816,10 @@ a{color:inherit}
    be a row of buttons instead of a position indicator - so the button carries
    the target and paints the dot inside itself. */
 .car-dots{display:flex;gap:2px;margin-top:.5em;margin-left:-6px}
-.car-dot{width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer;
+/* The dot is the mark; the button around it is the target. Kept visually
+   28px by drawing the dot inside a control-sized hit area rather than by
+   growing the dot itself. */
+.car-dot{width:var(--control);height:var(--control);padding:0;border:0;background:none;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center}
 .car-dot::before{content:"";width:7px;height:7px;border-radius:var(--r-pill);
   background:var(--line-soft);

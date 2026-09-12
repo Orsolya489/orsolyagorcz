@@ -136,6 +136,7 @@ a{color:inherit}
   position:fixed;left:50%;top:10px;translate:-50% -200%;z-index:900;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);
   background:var(--ink);color:var(--page);padding:.7em 1.2em;border-radius:var(--r-pill);
+  display:inline-flex;align-items:center;min-height:var(--control);
   text-decoration:none;transition:translate var(--out) var(--ease)}
 .skip:focus{translate:-50% 0}
 
@@ -263,7 +264,10 @@ a{color:inherit}
   font-family:var(--sans);font-size:var(--micro);color:var(--ink);margin-bottom:var(--gap-btn)}
 .prow:last-child{margin-bottom:0}
 .pset{display:flex;gap:var(--gap-btn)}
-.panel .btn{min-height:36px;padding:0 .9em}
+/* The panel's own buttons used to be 36px - the accessibility control
+   surface was the one place in the system that undercut the system's own
+   target floor. They take --control like every other control now. */
+.panel .btn{min-height:var(--control);padding:0 .9em}
 .panel .btn--icon{width:36px}
 /* 36px is comfortable with a mouse and too small for a thumb. Rather than
    push every screen to the larger size, the target grows only where the
@@ -728,6 +732,15 @@ a{color:inherit}
 .cs-route a::before{content:"0" counter(route);
   font-variant-numeric:tabular-nums;opacity:.7}
 .cs-route a:hover,.cs-route a:focus-visible{color:var(--ink);transition-duration:var(--in)}
+/* The row stays the size it was drawn - small on purpose, a glance at what is
+   coming rather than a menu to work through. What grows is only the part the
+   pointer has to hit: an invisible box centred on each link, --control tall,
+   so the target meets the floor while the type keeps its quiet. Nothing else
+   in the chrome sits within reach of it vertically, so the larger area cannot
+   take a click meant for something else. */
+.cs-route a{position:relative}
+.cs-route a::after{content:"";position:absolute;left:0;right:0;top:50%;
+  translate:0 -50%;height:var(--control)}
 /* the one you are in, marked by the same spy that writes the bar */
 .cs-route a[data-here="true"]{color:var(--ink)}
 /* A route needs room to be a route. Once the six names cannot sit on one
@@ -782,7 +795,7 @@ a{color:inherit}
 :root{--chrome-drop:calc(var(--control) * .085)}
 .c-tl .brand{grid-column:1;grid-row:1 / -1;align-self:center;
   margin-top:var(--chrome-drop);
-  margin-right:calc(var(--control)*.34);height:auto;min-height:24px}
+  margin-right:calc(var(--control)*.34);height:auto;min-height:var(--control)}
 /* The wordmark and the way out are one group, the track and the count are
    another. A wider gap here than the one holding the columns apart is what
    says so - without it the back link reads as the start of the progress
@@ -790,7 +803,7 @@ a{color:inherit}
 /* No extra margin here any more: the flexible spacer either side of the track
    already holds it well clear, and an extra margin on this side only made the
    left gap wider than the right and threw the balance off. */
-.c-tl .cs-back{grid-column:2;grid-row:1 / -1;align-self:center;min-height:24px;
+.c-tl .cs-back{grid-column:2;grid-row:1 / -1;align-self:center;min-height:var(--control);
   margin-top:var(--chrome-drop)}
 @media (pointer:coarse){
   .c-tl .brand,.c-tl .cs-back{min-height:var(--control)}
@@ -859,7 +872,12 @@ a{color:inherit}
   text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
 .cs-toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
 .cs-toc li{counter-increment:toc;margin-bottom:.15em}
+/* The contents list is what a reader scanning for relevance uses first, so
+   its links are the last place to be stingy with a target. They were 24px -
+   under the floor the rest of the system holds to. align-items keeps the
+   number and the label on their shared baseline inside the taller box. */
 .cs-toc ol a{display:grid;grid-template-columns:2.4em 1fr;gap:.4em;
+  min-height:var(--control);align-items:center;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.45;
   letter-spacing:.07em;text-transform:uppercase;
   color:var(--line-soft);text-decoration:none;
@@ -955,6 +973,7 @@ a{color:inherit}
    rather than a chevron beside it. */
 .blueprint{grid-column:1 / -1;margin-top:var(--section)}
 .bp-btn{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+  min-height:var(--control);
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
   padding:1.1em 0;background:none;border:0;
   border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl)}
@@ -1308,7 +1327,7 @@ a{color:inherit}
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 /* It wraps now. A heading that refuses to wrap claims whatever width its
    longest line needs, which is how this column had taken 63% of the table. */
-.devsync tbody th{font-weight:500;font-size:var(--body);color:var(--ink);
+.devsync tbody th{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink);
   padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;text-align:left;
   text-wrap:balance}
 /* Fixed columns sit flush against one another, so the gutter has to be carried
@@ -1684,7 +1703,10 @@ a{color:inherit}
    be a row of buttons instead of a position indicator - so the button carries
    the target and paints the dot inside itself. */
 .car-dots{display:flex;gap:2px;margin-top:.5em;margin-left:-6px}
-.car-dot{width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer;
+/* The dot is the mark; the button around it is the target. Kept visually
+   28px by drawing the dot inside a control-sized hit area rather than by
+   growing the dot itself. */
+.car-dot{width:var(--control);height:var(--control);padding:0;border:0;background:none;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center}
 .car-dot::before{content:"";width:7px;height:7px;border-radius:var(--r-pill);
   background:var(--line-soft);
