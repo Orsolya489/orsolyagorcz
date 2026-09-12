@@ -923,7 +923,11 @@ a{color:inherit}
 .copy-2{grid-column:2 / -1}
 .sec-copy{max-width:66ch}
 .sec-copy > * + *{margin-top:1.15em}
-.sec-copy p{margin:0}
+/* The reset kills the browser's default paragraph margin. It must not also
+   answer for the space between siblings - that belongs to the stack rule
+   above, and when both rules set margin the later, heavier one wins and the
+   rhythm disappears. This one owns only the sides. */
+.sec-copy p{margin-inline:0}
 /* the first line of a section carries the whole section - set a step up */
 .sec-lede{font-weight:500;font-size:var(--body);line-height:1.7;letter-spacing:0;color:var(--ink)}
 .sec-copy h3{font-weight:500;font-size:max(calc(var(--body)*1.15), calc(var(--title)*.6));
