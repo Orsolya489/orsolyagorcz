@@ -211,7 +211,12 @@ a{color:inherit}
 /* flex:none on the button as well: when the level opens the pill gets wider,
    and the only thing allowed to change size is the level. Without this the
    button is the flexible item and the label is what gets squeezed away. */
-.noise .noise-btn{height:100%;flex:none;background:none;border-color:transparent;
+/* The pill is 44px as a border box, so its 1px border leaves 42 inside and a
+   button set to 100% of that is 2px under the floor. It spans the border
+   instead: nothing of it is painted - no ground, no edge - so only the area
+   the pointer can hit changes. */
+.noise .noise-btn{height:calc(100% + 2px);margin-block:-1px;
+  flex:none;background:none;border-color:transparent;
   -webkit-backdrop-filter:none;backdrop-filter:none}
 .noise .noise-btn:hover{background:none;border-color:transparent;color:var(--ink)}
 /* Playing: the whole pill goes to ink and everything on it turns page-coloured.
