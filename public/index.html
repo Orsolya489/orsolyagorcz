@@ -96,6 +96,14 @@ body{
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
 }
 img{max-width:100%;display:block}
+/* ── no stranded last words ──
+   A heading that ends on one word reads as a mistake before it reads as a
+   sentence; a paragraph that does costs a saccade carrying nothing. Headings
+   balance their lines; prose only refuses to orphan the last one. */
+h1,h2,h3,h4,.sec-label,.cs-title,.card-h,.t-hero,.t-title,.t-lead{
+  text-wrap:balance}
+p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
+  text-wrap:pretty}
 p{margin:0}
 ul,ol{margin:0;padding:0;list-style:none}
 a{color:inherit}
