@@ -1561,7 +1561,13 @@ a{color:inherit}
   background:var(--card);border-radius:var(--r-lg);
   box-shadow:inset 0 0 0 1px var(--edge);
   padding:clamp(20px,3.2cqw,44px)}
-.dgm svg{display:block;width:100%;height:auto;overflow:visible}
+/* The slab is sized so the densest drawing still renders at full scale - the
+   instrument in "The study" needs 440px. Setting it shorter made every figure
+   the same height by shrinking that one until its labels hit 10px, which is
+   the trade this page is least entitled to make. The drawings that need less
+   sit centred in the same slab. */
+.dgm{--dgm-h:clamp(230px, 34vw, 450px)}
+.dgm svg{display:block;width:100%;height:var(--dgm-h);overflow:visible}
 /* Measured, not assumed: at 375 the container gives these 293px, which scales a
    900-wide drawing to 0.326 and renders a 13px label at 4.2px. That is not a
    small diagram, it is an unreadable one - and the page would be claiming to
@@ -1578,12 +1584,22 @@ a{color:inherit}
    trackpad can reach is a second perceptibility failure stacked on the first.
    Keyboard users get it as a focusable region, and the label says what it is. */
 .dgm-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+/* 900px is the drawing's own width, so below it the drawing holds its size at
+   full scale and the frame scrolls instead. The old floor was 760, chosen when
+   every label was 13px: it scaled those to 11px, the readable minimum. The
+   later drawings label at 11px, and 760 rendered them at 9.3 - under the floor
+   the number was picked to defend. Holding the drawing at its own scale keeps
+   every label at the size it was drawn, whatever the frame. */
+.dgm-scroll svg{min-width:900px}
 .dgm-scroll:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
 .dgm-hint{display:none;font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.86);
   letter-spacing:.07em;text-transform:uppercase;color:var(--line-soft);margin:0 0 .9em}
+/* inside a disclosure the frame is the reading column, so the drawing
+   scrolls there too and has to say so */
+.bp-panel .dgm-hint{display:block}
 @media (max-width:820px){
   .dgm{padding:clamp(16px,4vw,24px)}
-  .dgm-scroll svg{min-width:760px}
+  .dgm-scroll svg{height:auto}
   .dgm-hint{display:block}
 }
 /* the drawings are static, but the scroll region is not - a reader who has asked
@@ -1651,7 +1667,7 @@ a{color:inherit}
   padding-top:var(--stack);border-top:1px solid var(--edge-ctrl)}
 .metric{min-width:0}
 .metric b{display:block;font-family:var(--sans);font-weight:300;
-  font-size:calc(var(--title)*.86);line-height:1.05;letter-spacing:-.02em;
+  font-size:var(--hero);line-height:1.02;letter-spacing:-.025em;
   color:var(--ink);font-variant-numeric:tabular-nums}
 .metric b span{font-size:.42em;letter-spacing:0;color:var(--muted);margin-left:.15em}
 .metric i{display:block;font-style:normal;font-size:var(--micro);line-height:1.55;
@@ -2179,7 +2195,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
           <text class="t-md t-mute" x="450" y="228" text-anchor="middle">Same face. Same weight. Same certainty. Nothing in the surface separates them.</text>
         </svg></div>
-        <figcaption><b>This is the whole problem in one picture.</b> The fluency is identical and only the stakes differ — and the confident register is doing active harm, because it suppresses the instinct to check. The invented one is the prompt the drive uses at its third beat, and the reason that beat is the only one in the whole simulation that makes a sound.</figcaption>
+        <figcaption><b>This is the whole problem in one picture.</b></figcaption>
       </figure>
       <div class="blueprint">
         <h3>
@@ -2192,6 +2208,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </button>
         </h3>
         <div class="bp-panel" id="probPanel" data-open="false" role="region" aria-labelledby="probBtn"><div class="bp-inner">
+          <p>The fluency is identical and only the stakes differ — and the confident register is doing active harm, because it suppresses the instinct to check. The invented one is the prompt the drive uses at its third beat, and the reason that beat is the only one in the whole simulation that makes a sound.</p>
           <p>This is a display problem, and display problems have a literature. Aviation and automotive safety spent forty years learning that when a system knows something the operator doesn’t, you do not put it in the primary channel — you put it in a spare one. A stall warning is a stick shaker, not a line of text on the PFD. A lane departure warning is a buzz in the wheel, not a dialog. The reason is load: the pilot’s eyes and the driver’s eyes are already fully committed, and a message in the busy channel either gets missed or costs them the thing they were doing.</p>
           <p>A person deep in a long conversation with an AI is in the same state. Their visual and verbal attention is spent on reading and composing. Adding a sentence to that stream adds to the exact channel that’s saturated. Adding a pulse to a channel that’s idle does not.</p>
           <table class="devsync">
@@ -2260,7 +2277,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-lg t-ink t-num" x="616" y="340">71</text>
           <text class="t-lg t-ink t-num" x="722" y="340">12</text>
         </svg></div>
-        <figcaption><b>Written, fielded and analysed by one person, with no client and no brief.</b> The two versions were fielded independently rather than translated for convenience, and the Hungarian one carried an extra question in section four that produced the study’s most important number. Sections three and five opened with “skip this if it isn’t relevant to you,” which cost sample size on those items on purpose — forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</figcaption>
+        <figcaption><b>Written, fielded and analysed by one person, with no client and no brief.</b></figcaption>
       </figure>
       <div class="blueprint">
         <h3>
@@ -2273,6 +2290,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </button>
         </h3>
         <div class="bp-panel" id="bpPanel" data-open="false" role="region" aria-labelledby="bpBtn"><div class="bp-inner">
+          <p>The two versions were fielded independently rather than translated for convenience, and the Hungarian one carried an extra question in section four that produced the study’s most important number. Sections three and five opened with “skip this if it isn’t relevant to you,” which cost sample size on those items on purpose — forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
           <p><strong>Self-selected sample.</strong> People who answer a survey about AI ethics are more interested in AI ethics than the average user. Every number here skews toward awareness.</p>
           <p><strong>English n=12 is not a sample, it’s a signal.</strong> I report it separately throughout and never blend it into a headline figure without saying so. Where the two groups diverge, I say that too.</p>
           <p><strong>Attitudinal, not behavioural.</strong> People reported how they think they’d feel about a cue they had never experienced. That gap is exactly why the study is the beginning of the project and not the end of it.</p>
@@ -2332,7 +2350,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <text x="500" y="236">3</text><text x="675" y="236">4</text><text x="850" y="236">5</text>
           </g>
         </svg></div>
-        <figcaption><b>People have already priced bias in.</b> They expect it at 4.02 and it moves their trust by 2.80 — 69% of them answered four or five on the first. Overall satisfaction sat at 3.86, so this is not disillusionment; it is acclimatisation. Which is why a system that announces “this response may be biased” is telling people something they already believe, and why the only useful signal is a located one: this passage, this claim, here.</figcaption>
+        <figcaption><b>People have already priced bias in.</b></figcaption>
       </figure>
       <div class="blueprint">
         <h3>
@@ -2345,6 +2363,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </button>
         </h3>
         <div class="bp-panel" id="fndPanel" data-open="false" role="region" aria-labelledby="fndBtn"><div class="bp-inner">
+          <p>They expect it at 4.02 and it moves their trust by 2.80 — 69% of them answered four or five on the first. Overall satisfaction sat at 3.86, so this is not disillusionment; it is acclimatisation. Which is why a system that announces “this response may be biased” is telling people something they already believe, and why the only useful signal is a located one: this passage, this claim, here.</p>
 <p class="eyebrow-b">Finding 1 — People already assume the AI is biased. That isn’t the problem.</p>
       <div class="sec-copy">
         <p><strong>Mean 4.02 / 5</strong> on “how much do you consider that AI responses may be biased or partial” (n=83). <strong>69% answered 4 or 5.</strong> But when I asked how much <em>noticing</em> bias affects their trust, the mean dropped to <strong>2.80 / 5</strong>.</p>
@@ -2456,7 +2475,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="plate" x="266" y="244" width="368" height="46" rx="23"/>
           <text class="t-lg t-ink t-num" x="450" y="273" text-anchor="middle">S = ½·A + ½·B + 0.4·C</text>
         </svg></div>
-        <figcaption><b>Each detector is a working stand-in for a method I did not build.</b> Nothing above them changes when they’re swapped — the weights, the gates and the thresholds are the design; the keyword matching is scaffolding under it. Saying which is which is the whole of the honesty here.</figcaption>
+        <figcaption><b>Each detector is a working stand-in for a method I did not build.</b></figcaption>
       </figure>
       <div class="sec-copy copy-2">
         <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
@@ -2493,7 +2512,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-sm t-mute" x="86" y="238">a score that wobbles</text>
           <text class="t-sm t-mute" x="798" y="238" text-anchor="end">one steady signal</text>
         </svg></div>
-        <figcaption><b>The gap is wider on alert than on caution, deliberately</b> — dropping out of alert too early costs more. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect. The gap is what keeps this one worth listening to.</figcaption>
+        <figcaption><b>The gap is wider on alert than on caution, deliberately.</b></figcaption>
       </figure>
 <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
@@ -2523,7 +2542,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-md t-mute" x="622" y="212">never for a heavy topic,</text>
           <text class="t-md t-mute" x="622" y="232">never for a person in distress</text>
         </svg></div>
-        <figcaption><b>Each band adds a channel and never takes one away.</b> The reason waits until it’s asked for, which costs a tap deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation.</figcaption>
+        <figcaption><b>Each band adds a channel and never takes one away.</b></figcaption>
       </figure>
       <div class="sec-copy copy-2">
         <p>Sound is gated on the mechanism, not on how serious the topic is — which is the rule the control at the top of this page is demonstrating when the sycophancy case reaches alert in silence.</p>
@@ -2539,6 +2558,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </button>
         </h3>
         <div class="bp-panel" id="sysPanel" data-open="false" role="region" aria-labelledby="sysBtn"><div class="bp-inner">
+          <p>Nothing above them changes when they’re swapped — the weights, the gates and the thresholds are the design; the keyword matching is scaffolding under it. Saying which is which is the whole of the honesty here.</p>
+          <p>Dropping out of alert too early costs more. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect. The gap is what keeps this one worth listening to.</p>
+          <p>The reason waits until it’s asked for, which costs a tap deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation.</p>
+          <p>In human-factors terms, “alert but do not act” is a deliberately low level on Parasuraman’s automation taxonomy — the choice has a name, a literature, and forty years of evidence behind it. The first two rows on the right don’t exist yet; they’re in the last section, and the car is the reason I know they’re missing.</p>
 <div class="sec-copy">
         <p>I took the lane departure warning as an interaction model because of what it refuses to do. But a borrowed model earns its keep by answering questions you haven’t asked yet, and this one kept doing that. Every time I wasn’t sure whether a feature belonged, there was a test available: <em>does a real lane departure system do this?</em> Four times the answer was yes and I built the feature. Twice it was no and I cut one.</p>
       </div>
@@ -2618,7 +2641,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <text x="470" y="252">signal, never advise</text>
           </g>
         </svg></div>
-        <figcaption><b>The metaphor is the design, not the illustration.</b> In human-factors terms, “alert but do not act” is a deliberately low level on Parasuraman’s automation taxonomy — the choice has a name, a literature, and forty years of evidence behind it. The first two rows on the right don’t exist yet; they’re in the last section, and the car is the reason I know they’re missing.</figcaption>
+        <figcaption><b>The metaphor is the design, not the illustration.</b></figcaption>
       </figure>
 <table class="devsync">
         <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
