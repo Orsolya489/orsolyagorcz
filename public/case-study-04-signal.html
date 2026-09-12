@@ -41,10 +41,10 @@
      the market/Tribe comparison, and the trust-framework card grids. */
   --red-bg:    #F5DFDA;
   --red-ink:   #7A3226;
-  --red-line:  rgba(122,50,38,.3);
+  --red-line:  rgba(122,50,38,.70);
   --green-bg:  #E3E8D6;
   --green-ink: #3F5230;
-  --green-line:rgba(63,82,48,.3);
+  --green-line:rgba(63,82,48,.75);
   /* The band system is the one argument on this site that genuinely needs a
      third state, and the pair above is only two. This amber is built to the
      same rule the pair was - same lightness as --card, chroma held down so it
@@ -66,7 +66,7 @@
      ground - but they are not asked to carry the state on their own. */
   --amber-bg:  #F3E6CE;
   --amber-ink: #6E5220;
-  --amber-line:rgba(110,82,32,.3);
+  --amber-line:rgba(110,82,32,.80);
 
   /* space, radius, motion */
   --shell: 1680px;
@@ -1618,9 +1618,14 @@ a{color:inherit}
 .dgm .t-md{font-size:13px}
 .dgm .t-sm{font-size:11px;letter-spacing:.06em}
 .dgm .t-num{font-variant-numeric:tabular-nums}
-.dgm .plate{fill:var(--page);stroke:var(--edge);stroke-width:1}
-.dgm .rule{stroke:var(--edge-ctrl);stroke-width:1;fill:none}
-.dgm .hair{stroke:var(--edge);stroke-width:1;fill:none}
+/* The drawn-stroke equivalent of --line-soft: the same taupe at 72%, which
+   is the lightest value that still clears 3.5:1 on --card, the ground every
+   figure sits on. --edge and --edge-ctrl are for separating blocks on a page,
+   not for drawing inside one. */
+.dgm{--fig-soft:#817775}
+.dgm .plate{fill:var(--page);stroke:var(--fig-soft);stroke-width:1}
+.dgm .rule{stroke:var(--line);stroke-width:1.5;fill:none}
+.dgm .hair{stroke:var(--fig-soft);stroke-width:1;fill:none}
 .dgm .trace{stroke:var(--line);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .dgm figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin-top:1.2em;max-width:62ch}
