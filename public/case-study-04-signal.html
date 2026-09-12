@@ -1280,21 +1280,50 @@ a{color:inherit}
 .gen-note{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:.35em}
 
 /* ═══ dev-sync table — why the middle generation was cut ═══ */
-.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;text-align:left}
+/* Column proportions, which are a rule rather than a setting per table.
+   The row heading is a label - it names the row, it is not the row's content -
+   so it gets the narrowest track, and every column that carries description
+   gets the width. 26% to the heading and the rest split evenly among however
+   many description columns there are, which holds whether a table has two,
+   three or four of them; even on the four-column one each still comes out
+   wider than the heading. table-layout:fixed is what makes that true, because
+   auto layout hands width to whichever cell shouts loudest rather than to
+   whichever cell has the most to say.
+   The table is then sized so the description columns together come to the
+   measure of the body copy - 66ch over 74% of the table - so the reading part
+   of a table has the same line length as the reading part of a paragraph. */
+.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;
+  text-align:left;table-layout:fixed;max-width:calc(66ch / 0.74)}
+.devsync thead th:first-child{width:26%}
+/* 26% is only the narrowest share while there are two or three description
+   columns to split the other 74%. Add a fourth and each of them drops to 18.5%
+   and the heading becomes the widest column again, which is the thing this
+   rule exists to prevent - so a table with a fourth column hands some width
+   back. Counting the columns in the selector keeps the arithmetic where the
+   constraint is, rather than in a class somebody has to remember to add. */
+.devsync:has(thead th:nth-child(4)) thead th:first-child{width:21%}
 .devsync thead th{padding:0 var(--gutter) .9em 0;vertical-align:bottom;font-weight:400}
 .devsync thead tr{border-bottom:1px solid var(--edge-ctrl)}
 .devsync th span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+/* It wraps now. A heading that refuses to wrap claims whatever width its
+   longest line needs, which is how this column had taken 63% of the table. */
 .devsync tbody th{font-weight:500;font-size:var(--body);color:var(--ink);
-  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;white-space:nowrap;text-align:left}
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;text-align:left;
+  text-wrap:balance}
+/* Fixed columns sit flush against one another, so the gutter has to be carried
+   by the cells - on every column but the last, which needs no gap after it. */
 .devsync tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
-  padding:1.2em 0 1.2em 0;vertical-align:top}
+  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top}
+.devsync thead th:last-child,.devsync tbody td:last-child{padding-right:0}
 .devsync tbody tr{border-bottom:1px solid var(--edge)}
 .devsync tbody tr:last-child{border-bottom:0}
 .devsync code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
   background:var(--recess);padding:.1em .4em;border-radius:4px;color:var(--ink)}
 @media (max-width:900px){
-  .devsync,.devsync thead,.devsync tbody,.devsync tr,.devsync th,.devsync td{display:block;width:auto}
+  .devsync,.devsync thead,.devsync tbody,.devsync tr,.devsync th,.devsync td{
+    display:block;width:auto;table-layout:auto;max-width:none}
+  .devsync tbody td{padding-right:0}
   .devsync thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .devsync tbody th{padding:var(--stack) 0 .4em;border-top:1px solid var(--edge)}
   .devsync tbody td{padding:0 0 .9em}
@@ -1843,8 +1872,11 @@ a{color:inherit}
    left edge of the section, where the section title starts, rather than being
    pushed into the reading column. Same line length, left margin of the page.
    Declared after the components themselves so it wins at equal specificity. */
-.dec,.devsync,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
+.dec,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
   grid-column:1 / -1;max-width:66ch}
+/* The table follows the same rule, but 66ch is its description columns rather
+   than the whole table, so it runs wider by the width of the heading column. */
+.devsync{grid-column:1 / -1}
 
 @media (max-width:1023px){
   .cs-body{grid-template-columns:1fr}
