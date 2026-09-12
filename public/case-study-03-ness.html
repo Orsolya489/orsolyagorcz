@@ -1001,7 +1001,7 @@ a{color:inherit}
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
   padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;white-space:nowrap}
 .phases tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
-  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top}
+  padding:1.2em 1.1em 1.2em 0;vertical-align:top}
 .phases tbody tr{border-bottom:1px solid var(--edge)}
 .phases tbody tr:last-child{border-bottom:0}
 .phases th:last-child,.phases td:last-child{padding-right:0}
@@ -1297,19 +1297,19 @@ a{color:inherit}
    description columns together come to 66ch, the measure of the body copy. */
 .devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;
   text-align:left;table-layout:fixed;max-width:66ch}
-.devsync thead th:first-child{width:26%}
+.devsync thead th:first-child{width:32%}
 /* a fourth description column would leave each narrower than the heading */
-.devsync:has(thead th:nth-child(4)) thead th:first-child{width:21%}
-.devsync thead th{padding:0 var(--gutter) .9em 0;vertical-align:bottom;font-weight:400}
+.devsync:has(thead th:nth-child(4)) thead th:first-child{width:24%}
+.devsync thead th{padding:0 1.1em .9em 0;vertical-align:bottom;font-weight:400}
 .devsync thead tr{border-bottom:1px solid var(--edge-ctrl)}
 .devsync th span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .devsync tbody th{font-family:var(--sans);font-weight:500;font-size:var(--body);color:var(--ink);
-  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top;text-align:left;
+  padding:1.2em 1.1em 1.2em 0;vertical-align:top;text-align:left;
   text-wrap:balance}
 /* fixed columns sit flush, so the gutter is carried by the cells themselves */
 .devsync tbody td{font-size:var(--body);line-height:1.6;color:var(--body-c);
-  padding:1.2em var(--gutter) 1.2em 0;vertical-align:top}
+  padding:1.2em 1.1em 1.2em 0;vertical-align:top}
 .devsync thead th:last-child,.devsync tbody td:last-child{padding-right:0}
 .devsync tbody tr{border-bottom:1px solid var(--edge)}
 .devsync tbody tr:last-child{border-bottom:0}
