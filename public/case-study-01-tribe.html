@@ -1299,7 +1299,7 @@ a{color:inherit}
    hands width to whichever cell shouts loudest. The table is then sized so the
    description columns together come to 66ch, the measure of the body copy. */
 .devsync{grid-column:1 / -1;width:100%;margin-top:var(--section);border-collapse:collapse;
-  text-align:left;table-layout:fixed;max-width:calc(66ch / 0.74)}
+  text-align:left;table-layout:fixed;max-width:66ch}
 .devsync thead th:first-child{width:26%}
 /* a fourth description column would leave each narrower than the heading */
 .devsync:has(thead th:nth-child(4)) thead th:first-child{width:21%}
@@ -1590,6 +1590,34 @@ a{color:inherit}
   .dec-p,.devsync,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
     grid-column:1;max-width:none}
   .gens{grid-template-columns:1fr}
+}
+
+/* ═══ the title column is for titles ═══
+   A section is a title and its content. The title takes the left column and
+   nothing else does - no paragraph, no table, no caption, no pull quote - so
+   position alone tells a reader what is a heading and what is not. Every
+   block of content aligns with the prose it belongs to.
+
+   Images are the single exception. A drawing has no measure to respect and
+   needs the room, so a figure may cross into the title column and take the
+   full width. Which components those are was settled by looking: anything
+   that actually carries an img or an svg.
+
+   Declared last on purpose. Thirty components were each answering this
+   question in their own rule, which is why almost everything on the page
+   began on the title's line. One rule answers it now. */
+.sec > *{grid-column:2;min-width:0}
+.sec > .sec-label{grid-column:1}
+.sec > figure,
+.sec > .carousel,
+.sec > .flow,
+.sec > .gens,
+.sec > .duo{grid-column:1 / -1}
+/* one column below the breakpoint, so nothing is asked to sit in a track
+   that no longer exists */
+@media (max-width:1023px){
+  .sec > *,.sec > .sec-label,
+  .sec > figure,.sec > .carousel,.sec > .flow,.sec > .gens,.sec > .duo{grid-column:1}
 }
 </style>
 </head>

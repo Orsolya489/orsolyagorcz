@@ -1324,7 +1324,7 @@ a{color:inherit}
    measure of the body copy - 66ch over 74% of the table - so the reading part
    of a table has the same line length as the reading part of a paragraph. */
 .devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;
-  text-align:left;table-layout:fixed;max-width:calc(66ch / 0.74)}
+  text-align:left;table-layout:fixed;max-width:66ch}
 .devsync thead th:first-child{width:26%}
 /* 26% is only the narrowest share while there are two or three description
    columns to split the other 74%. Add a fourth and each of them drops to 18.5%
@@ -1678,7 +1678,7 @@ a{color:inherit}
    read from the scroll rather than found in a sentence. Not a stat card: no
    box, no rule between them, because the numbers are evidence for the
    paragraph beside them and not a separate claim about the project. */
-.metrics{grid-column:1 / -1;display:grid;
+.metrics{grid-column:2;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:var(--gutter);margin-top:var(--stack);
   padding-top:var(--stack);border-top:1px solid var(--edge-ctrl)}
@@ -1927,11 +1927,14 @@ a{color:inherit}
    left edge of the section, where the section title starts, rather than being
    pushed into the reading column. Same line length, left margin of the page.
    Declared after the components themselves so it wins at equal specificity. */
+/* These sit with the prose they belong to, not on the title's line. They
+   take the copy column and its measure; only a figure may cross into the
+   title column. */
 .dec,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
-  grid-column:1 / -1;max-width:66ch}
+  grid-column:2;max-width:66ch}
 /* The table follows the same rule, but 66ch is its description columns rather
    than the whole table, so it runs wider by the width of the heading column. */
-.devsync{grid-column:1 / -1}
+.devsync{grid-column:2}
 
 @media (max-width:1023px){
   .cs-body{grid-template-columns:1fr}
@@ -1962,6 +1965,34 @@ a{color:inherit}
 span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .fill--fig{text-align:left}
 .cs-facts .fill{margin-top:.2em}
+
+/* ═══ the title column is for titles ═══
+   A section is a title and its content. The title takes the left column and
+   nothing else does - no paragraph, no table, no caption, no pull quote - so
+   position alone tells a reader what is a heading and what is not. Every
+   block of content aligns with the prose it belongs to.
+
+   Images are the single exception. A drawing has no measure to respect and
+   needs the room, so a figure may cross into the title column and take the
+   full width. Which components those are was settled by looking: anything
+   that actually carries an img or an svg.
+
+   Declared last on purpose. Thirty components were each answering this
+   question in their own rule, which is why almost everything on the page
+   began on the title's line. One rule answers it now. */
+.sec > *{grid-column:2;min-width:0}
+.sec > .sec-label{grid-column:1}
+.sec > figure,
+.sec > .carousel,
+.sec > .flow,
+.sec > .gens,
+.sec > .duo{grid-column:1 / -1}
+/* one column below the breakpoint, so nothing is asked to sit in a track
+   that no longer exists */
+@media (max-width:1023px){
+  .sec > *,.sec > .sec-label,
+  .sec > figure,.sec > .carousel,.sec > .flow,.sec > .gens,.sec > .duo{grid-column:1}
+}
 </style>
 </head>
 <body>
