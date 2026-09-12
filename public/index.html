@@ -497,61 +497,21 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card-spec dt{padding-right:0;padding-bottom:0;margin-bottom:.3em}
   .card-spec dd{padding-top:0;border-top:0}
 }
-/* ═══ the schematic, on a work surface ═══
-   The drawing used to sit straight on the card, reading as a watermark beside
-   the product shot opposite - the shot looks like an object because it has
-   edges, and the drawing had none. It now sits on a surface that is cut into
-   the card rather than laid on top of it, and the surface is ruled, because
-   the thing it holds is working drawing rather than artwork.
-
-   Depth without a new colour. The ground is --recess, the palette's existing
-   step down from --card, with a thin ink wash over it - two layers of the same
-   scale rather than a fifth taupe invented for one component. The recession is
-   carried by light instead: a dark lip along the top edge where the card above
-   would cast into it, fading over about ten pixels, and a pale return along the
-   bottom where the far wall catches the light. That pairing is what the eye
-   reads as sunk; a border alone only ever reads as drawn.
-
-   The ruling is the workspace. Square, fine, and in --lattice - the same ink
-   the card's own dot field uses, so the surface belongs to the same material,
-   ruled instead of stippled. It is set well under the weight of the diagram's
-   own strokes, so it reads as the paper the drawing sits on and never as part
-   of the drawing. The grid scales with the card so the squares stay the same
-   size relative to everything else, and it is positioned from the centre so
-   the ruling stays symmetrical in the frame at any width. */
-.card-plane{position:relative;
-  border-radius:var(--r-lg);
-  padding:clamp(14px,2.4cqw,28px);
-  background-color:var(--recess);
-  background-image:
-    linear-gradient(var(--lattice) 1px, transparent 1px),
-    linear-gradient(90deg, var(--lattice) 1px, transparent 1px),
-    linear-gradient(rgba(25,21,23,.045), rgba(25,21,23,.045));
-  background-size:
-    clamp(16px,1.5cqw,24px) clamp(16px,1.5cqw,24px),
-    clamp(16px,1.5cqw,24px) clamp(16px,1.5cqw,24px),
-    100% 100%;
-  background-position:center center, center center, 0 0;
-  box-shadow:
-    inset 0 0 14px rgba(25,21,23,.10),
-    inset 0 0 0 1px var(--edge);
-}
-/* The ground moved, so the strokes drawn on it move with it. --line-soft was
-   set against --card; on a surface six L* deeper it fell from 1.93:1 to 1.64:1,
-   and the dashed runs it draws carry labelled meaning rather than decoration.
-   Stepped to #817775, which is the same taupe at 72% and clears the 3:1 floor
-   for non-text contrast on the new ground.
-   Worth saying plainly: 1.93:1 was already under that floor before any of this
-   changed. The deeper surface did not create the problem, it exposed it - and
-   it is fixed here only inside the frame, because the token itself is the
-   design system's to move. */
+/* ═══ the schematic ═══
+   The drawing sits straight on the card. It used to sit on a recessed, ruled
+   work surface of its own, which put a second rounded container inside the
+   card - two frames around one drawing, when the card is already a frame.
+   The surface has gone and .card-plane is now only a position: it places the
+   drawing in the card's right-hand column and gives it no skin of its own. */
+.card-plane{position:relative}
+/* --line-soft is the one thing the surface was carrying that has to stay.
+   Against --card it measures 1.94:1, under the 3:1 floor for non-text - and
+   these dashed runs carry labelled meaning rather than decoration. #817775 is
+   the same taupe stepped to 72%, which clears the floor at 3.54:1.
+   That shortfall predates the work surface and outlives it; it is corrected
+   here rather than in the token, because the token is the design system's to
+   move and not this component's. */
 .card-plane .plane svg .soft{stroke:#817775}
-/* High contrast asks for edges, not atmosphere: the ruling and the wash come
-   off, and the frame states itself with a single firm line instead. */
-[data-contrast="high"] .card-plane{
-  background-image:none;
-  box-shadow:inset 0 0 0 1px var(--edge-ctrl);
-}
 .card-shot{position:relative;overflow:hidden}
 .card-shot img{width:100%;height:auto;min-height:100%;object-fit:cover;object-position:top center;border-radius:var(--r-lg)}
 /* Desktop card, built to the sketch's guides.
