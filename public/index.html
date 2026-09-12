@@ -683,6 +683,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .plane svg.s0 .key-lab{fill:var(--ink)}
 .plane svg.s0 .cap3{font-size:15px}
 .plane svg.s0 .gap-node{fill:var(--page)}
+/* Card 04's scale. The numbers are the content here rather than annotation -
+   the point of the drawing is that there are two of them at every boundary,
+   and the gap between each pair is the whole subject - so they take ink while
+   the row labels that introduce them stay muted and small. */
+.plane svg.s4 .num{font-size:23px;fill:var(--ink);letter-spacing:1px}
+.plane svg.s4 .row{font-size:19px}
 
 /* client work — three cards in a row, images open underneath */
 .more{padding-bottom:var(--section)}
@@ -1331,23 +1337,42 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
-      <div class="card-slot"><article class="card">
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-04-signal">
         <span class="card-tick">04 / 04</span>
-          <div class="card-hblock"><span class="card-status">In progress</span>
+          <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>When AI is most uncertain, humans are least equipped to notice</h2>
         </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="56 112 928 408" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s1t s1d">
-<title id="s1t">Where the guardrail fires</title>
-<desc id="s1d">One system node branching into two outcomes, with the branch point marked.</desc>
-<path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
-<path class="soft" d="M380 316 H484 Q500 316 500 332 V420 Q500 436 516 436 H620"/>
-<rect class="node" x="80" y="256" width="300" height="120" rx="14"/>
-<rect class="node" x="620" y="136" width="340" height="120" rx="14"/>
-<rect class="node" x="620" y="376" width="340" height="120" rx="14"/>
-<circle class="dot" cx="500" cy="316" r="20"/>
-<text class="in-node" x="230" y="325" text-anchor="middle">AI system</text>
-<text class="in-node" x="790" y="205" text-anchor="middle">Guardrail fires</text>
-<text class="in-node" x="790" y="445" text-anchor="middle">No intervention</text>
+        <div class="card-plane"><div class="plane"><svg class="s4" viewBox="87 35 882 300" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s4t s4d">
+<title id="s4t">The same three bands, entered at one number and released at a lower one</title>
+<desc id="s4d">Two measurements of the same scale drawn one above the other. On the upper one, the score is rising: caution begins at 40 and alert at 65. On the lower one the score is falling, and the same two boundaries have moved left - caution releases at 35 and alert at 55. Slanted lines join each boundary to its lower counterpart, so the offset between going up and coming down is the shape of the drawing. The three band names sit underneath, each centred on the stretch of the scale where both directions agree.</desc>
+
+<!-- rising -->
+<text class="row" x="195" y="118" text-anchor="end">Rising</text>
+<line class="hard" x1="250" y1="110" x2="920" y2="110"/>
+<polygon class="arrow-head" points="947,110 920,101 920,119"/>
+<line class="hard" x1="526" y1="95" x2="526" y2="125"/>
+<line class="hard" x1="699" y1="95" x2="699" y2="125"/>
+<text class="num" x="526" y="84" text-anchor="middle">40</text>
+<text class="num" x="699" y="84" text-anchor="middle">65</text>
+
+<!-- the drop: each boundary moves left on the way back down, and the slant is
+     the whole mechanic - it is why a band that has appeared does not flicker -->
+<line class="soft" x1="526" y1="125" x2="492" y2="200"/>
+<line class="soft" x1="699" y1="125" x2="630" y2="200"/>
+
+<!-- falling -->
+<text class="row" x="195" y="223" text-anchor="end">Falling</text>
+<line class="hard" x1="250" y1="215" x2="920" y2="215"/>
+<polygon class="arrow-head" points="223,215 250,206 250,224"/>
+<line class="hard" x1="492" y1="200" x2="492" y2="230"/>
+<line class="hard" x1="630" y1="200" x2="630" y2="230"/>
+<text class="num" x="492" y="257" text-anchor="middle">35</text>
+<text class="num" x="630" y="257" text-anchor="middle">55</text>
+
+<!-- each name centred on the stretch where both directions agree -->
+<text x="371" y="305" text-anchor="middle">Silent</text>
+<text x="578" y="305" text-anchor="middle">Caution</text>
+<text x="820" y="305" text-anchor="middle">Alert</text>
 </svg></div></div>
         <div class="card-copy">
           <dl class="card-spec">
