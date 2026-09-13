@@ -318,8 +318,11 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
 .signal-pill .sp-label{text-transform:uppercase;font-weight:700;letter-spacing:.06em;flex-shrink:0;}
 .signal-pill .sp-reason{text-transform:none;opacity:.85;}
-.signal-pill.yellow{border-color:rgba(224,183,106,.5);color:#E0B76A;}
-.signal-pill.red{border-color:rgba(232,147,133,.55);color:#E89385;}
+/* Only the border and the dot answer to the band. The mark itself never does -
+   it says "Signal is here", which is equally true in every band, and an object
+   that tries to say two things says neither. */
+.signal-pill.yellow{border-color:rgba(224,183,106,.5);}
+.signal-pill.red{border-color:rgba(232,147,133,.55);}
   .signal-pill.show{display:flex;}
   .signal-pill .p-dot{width:7px;height:7px;border-radius:50%;}
   .signal-pill.yellow{border-color:rgba(224,183,106,0.45);}
@@ -329,13 +332,21 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
   /* bottom sheet — why this signal */
   .sheet-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:11;opacity:0;pointer-events:none;transition:opacity .3s ease;border-radius:40px;}
   .sheet-backdrop.open{opacity:1;pointer-events:auto;}
-  .phone-sheet{position:absolute;left:0;right:0;bottom:0;z-index:12;background:#1A1917;border-radius:22px 22px 40px 40px;padding:12px 18px 20px;transform:translateY(105%);transition:transform .35s cubic-bezier(.4,0,.2,1);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;max-height:72%;overflow-y:auto;}
+  /* This panel is the plugin, not the host, so it wears the plugin's face and
+     the plugin's surface. The conversation above it keeps the host's. */
+  .phone-sheet{position:absolute;left:0;right:0;bottom:0;z-index:12;background:#1A1917;border-radius:22px 22px 40px 40px;padding:12px 18px 20px;transform:translateY(105%);transition:transform .35s cubic-bezier(.4,0,.2,1);font-family:'Lexend',system-ui,-apple-system,sans-serif;max-height:72%;overflow-y:auto;box-shadow:0 -1px 0 #302E2B;}
   .phone-sheet.open{transform:translateY(0);}
   .sheet-handle{width:36px;height:4px;border-radius:2px;background:#4A4640;margin:0 auto 12px;}
-  .sheet-title{display:flex;align-items:flex-start;gap:8px;font-weight:700;font-size:15px;line-height:1.35;color:var(--text);margin-bottom:8px;}
+  /* 600, not 700. The kit carries weight one step down from bold because a
+     panel that opens next to a medical claim should not also shout. */
+  .sheet-title{display:flex;align-items:flex-start;gap:8px;font-weight:600;font-size:14.5px;line-height:1.35;letter-spacing:-.004em;color:var(--text);margin-bottom:8px;}
 .sheet-title .p-dot{margin-top:5px;flex-shrink:0;}
   .sheet-title .p-dot{width:9px;height:9px;border-radius:50%;}
-  .sheet-why{font-size:13px;line-height:1.5;color:var(--text);margin-bottom:12px;}
+  .sheet-why{font-size:13px;line-height:1.55;font-weight:400;color:var(--text);margin-bottom:12px;}
+/* what the panel is not telling you, set apart by a rule rather than by an
+   apology - the line that keeps the rest of it trustworthy */
+.sheet-why .withheld{display:block;margin-top:10px;padding-top:10px;
+  border-top:1px solid #302E2B;font-size:11.5px;line-height:1.5;color:var(--text-muted);}
 .why-lead{color:var(--text);}
 .crisis-lead{font-size:13.5px;line-height:1.6;color:var(--text);margin-bottom:10px;}
 .crisis-list{display:flex;flex-direction:column;gap:7px;margin:12px 0 14px;}
@@ -363,7 +374,8 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
   .sheet-ch .ch-name{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;width:46px;}
   .sheet-ch.on .ch-name{color:var(--text);}
   .sheet-ch.off{opacity:.55;}
-  .sheet-dismiss{width:100%;background:#302E2B;color:var(--text);border:none;padding:11px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+  /* 44px, like every other target in the system */
+  .sheet-dismiss{width:100%;min-height:44px;background:#302E2B;color:var(--text);border:none;padding:11px;border-radius:12px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;}
   .sheet-dismiss:active{transform:scale(0.99);}
   /* LLM-app message register: assistant = plain text w/ avatar, user = bubble */
   .phone-msg.ai{gap:8px;align-items:flex-start;}
@@ -663,9 +675,10 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
               <div class="phone-convtitle" id="phoneConvTitle">New chat</div>
               <button class="signal-pill" id="signalPill" type="button" aria-label="Why this signal? Tap for explanation">
                 <svg viewBox="0 0 22 22" width="19" height="19" aria-hidden="true">
-                  <circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-                  <path d="M11 10.2v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-                  <circle cx="11" cy="7.1" r="1.05" fill="currentColor"/>
+                  <defs><linearGradient id="sigmark" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#5B9BFF"/><stop offset="1" stop-color="#2F63D8"/>
+                  </linearGradient></defs>
+                  <circle cx="11" cy="11" r="9" fill="url(#sigmark)"/>
                 </svg>
                 <span class="p-dot" aria-hidden="true"></span>
                 <span class="sp-label sr-only" id="signalPillLabel"></span><span class="sp-reason sr-only" id="signalPillText"></span>
