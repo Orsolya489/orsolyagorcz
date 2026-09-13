@@ -1390,7 +1390,14 @@ a{color:inherit}
 .rd-scroll{position:relative}
 .rd-stage{position:sticky;top:var(--chrome-h);
   height:100svh;overflow:hidden;
-  container-type:inline-size}
+  container-type:inline-size;
+  /* Everything beside the road is measured from the road, so it is named once.
+     It was written out three times and two of those were arithmetic against
+     it - the kind of repetition that stays correct until it quietly doesn't. */
+  --road-w:clamp(420px,52cqw,680px);
+  /* the column either side of it, which the conversation and the readout share */
+  --rail:min(340px, calc(50% - var(--road-w)/2 - var(--gutter)*2));
+  --rail-edge:calc(50% + var(--road-w)/2 + var(--gutter))}
 
 /* A carriageway, not a field. Two lanes at a believable width - about 300px on
    a laptop - sitting at the left of the frame with the conversation alongside
@@ -1398,7 +1405,7 @@ a{color:inherit}
    top. The bands are percentages of the road, so the car's distance from its
    lane still reads as the score no matter how wide the frame gets. */
 .rd-lanes{position:absolute;top:0;bottom:0;left:50%;translate:-50% 0;
-  width:clamp(420px,52cqw,680px);
+  width:var(--road-w);
   background-image:
     repeating-linear-gradient(to bottom,
       var(--line) 0 calc(30px + 66px*var(--speed,0)),
@@ -1458,13 +1465,19 @@ a{color:inherit}
    pinned to a point further along, and the camera moving forward is what brings
    it up the frame, past the car, and out of the top - so a conversation is
    something you drive through rather than something that scrolls. */
-.rd-thread{position:absolute;left:0;right:0;top:0;
-  bottom:calc(var(--chrome-h) + var(--control)*2.4);
+/* One column, beside the road, holding the conversation above the readout.
+   The rail places both; neither positions itself, which is what makes an
+   overlap impossible rather than merely unlikely. */
+.rd-rail{position:absolute;right:var(--rail-edge);width:var(--rail);
+  top:0;bottom:calc(var(--chrome-h) + var(--gutter));
+  display:flex;flex-direction:column;gap:var(--stack);
+  z-index:4;pointer-events:none}
+/* the conversation takes whatever the readout has not claimed */
+.rd-thread{position:relative;flex:1 1 auto;min-height:0;
   overflow:hidden;pointer-events:none}
 .rd-turn{position:absolute;top:var(--y,50%);
-  right:calc(50% + clamp(420px,52cqw,680px)/2 + var(--gutter));
+  left:0;right:0;
   translate:0 -50%;
-  width:min(340px, calc(50% - clamp(420px,52cqw,680px)/2 - var(--gutter)*2));
   display:flex;flex-direction:column;gap:.4em;
   opacity:var(--fade,1)}
 /* Messages, not paragraphs: capped near 34 characters and rounded hard on three
@@ -1484,12 +1497,14 @@ a{color:inherit}
 .rd-say[data-band="amber"]::after{opacity:1;background:linear-gradient(to top,var(--amber-bg),transparent 62%)}
 .rd-say[data-band="red"]::after{opacity:1;background:linear-gradient(to top,var(--red-bg),transparent 48%)}
 
-.rd-hud{position:absolute;left:0;right:0;
-  bottom:calc(var(--chrome-h) + var(--gutter));
-  padding:var(--stack) var(--gutter);
-  display:flex;flex-direction:column;gap:.55em;
-  background:linear-gradient(transparent,var(--page) 28%);
-  z-index:4}
+/* Under the conversation, in the same column, rather than across the road.
+     It used to span the full width at the foot of the stage, which put the
+     band and the channels on top of the thing they were describing - and
+     needed a gradient wash to stay readable over it, which is how you can
+     tell a thing is in the wrong place. No wash now, because nothing is
+     behind it. */
+.rd-hud{flex:0 0 auto;
+  display:flex;flex-direction:column;gap:.55em}
 .rd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter)}
 .rd-ch{display:flex;gap:1em}
 .rd-ch i{font-style:normal;display:flex;align-items:center;gap:.45em;
@@ -1514,7 +1529,10 @@ a{color:inherit}
 /* Narrow: the thread takes the width under the road rather than sitting in the
    far lane, and the stage shortens to leave room for it. */
 @container (max-width:640px){
-  .rd-thread{position:static;width:auto;height:auto;margin-top:var(--stack)}
+  /* The rail stops being a column beside the road and becomes the width under
+     it, conversation then readout, in the order they are read. */
+  .rd-rail{position:static;width:auto;height:auto;margin-top:var(--stack)}
+  .rd-thread{position:static;width:auto;height:auto}
   .rd-bub{max-width:100%}
 }
 @media (max-width:640px){
@@ -2143,6 +2161,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             </div>
           </div>
 
+          <div class="rd-rail">
           <div class="rd-thread" id="rdThread" aria-live="polite">
           <div class="rd-turn" data-i="0">
             <div class="rd-bub rd-ask"><p>What’s a good playlist for a dinner party?</p></div>
@@ -2177,6 +2196,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
           <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
           <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
+          </div>
           </div>
         </div>
       </div>
