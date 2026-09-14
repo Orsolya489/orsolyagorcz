@@ -1612,38 +1612,94 @@ a{color:inherit}
 /* three drops from the layer to the three apps */
 .pl-drops{display:grid;grid-template-columns:repeat(3,1fr);height:var(--stack)}
 .pl-drops span{width:1px;justify-self:center;background:var(--line-soft)}
-.pl-apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter)}
-@media (max-width:760px){
-  .pl-apps{grid-template-columns:1fr;gap:var(--stack)}
-  .pl-drops{grid-template-columns:1fr}
-  .pl-drops span:not(:first-child){display:none}
-}
-.pa{border-radius:10px;overflow:hidden;min-width:0}
-.pa--ct{background:#212121}
-.pa--cl{background:#FAF9F5;box-shadow:inset 0 0 0 1px var(--edge)}
-.pa--gm{background:#FFFFFF;box-shadow:inset 0 0 0 1px var(--edge)}
-.pa-bar{display:flex;align-items:center;gap:.55em;padding:.65em .8em}
-.pa--ct .pa-bar{border-bottom:1px solid #303030}
-.pa--cl .pa-bar{border-bottom:1px solid #E7E3DA}
-.pa--gm .pa-bar{border-bottom:1px solid #E4E4E7}
-.pa-n{font-family:var(--sans);font-weight:500;font-size:calc(var(--micro)*.95);
-  letter-spacing:-.005em;white-space:nowrap}
-.pa--ct .pa-n{color:#ECECEC}
-.pa--cl .pa-n{color:#1F1E1D}
-.pa--gm .pa-n{color:#1F1F1F}
-.pa-sp{flex:1}
-/* the same dot, the same colour, in all three */
-.pa-dot{width:9px;height:9px;border-radius:50%;background:#4E7A4A;flex:0 0 auto}
-.pa-av{width:14px;height:14px;border-radius:50%;flex:0 0 auto;
-  background:linear-gradient(140deg,#C9A227,#8C6A12)}
-.pa-body{padding:.9em .8em;display:flex;flex-direction:column;gap:.45em}
-.pa-l{display:block;height:5px;border-radius:3px}
-.pa--ct .pa-l{background:#3A3A3A}
-.pa--cl .pa-l{background:#E5E0D6}
-.pa--gm .pa-l{background:#E8E8EB}
 .pl-n{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:var(--stack) 0 0;max-width:62ch}
 .pl-n em{color:var(--ink);font-style:italic}
+
+/* ═══ three phones, the middle one running ═══
+   A desktop window was the wrong frame. This is a plugin for apps people meet
+   on a handset, and the note has to be shown in the width it actually gets -
+   about 240px, not 600. The middle phone is live: marked passage, open note.
+   The two beside it are the same apps without the layer, so the difference
+   the plugin makes is the difference between the middle and the sides.
+   Stepping moves a different app into the middle rather than moving the
+   layer, which is the whole claim: one layer, whichever app you are in. */
+.ph-stage{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:var(--stack)}
+.ph-nav{width:var(--control);height:var(--control);
+  display:grid;place-items:center;cursor:pointer;
+  background:var(--card);color:var(--ink);
+  border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
+  font-family:var(--sans);font-size:calc(var(--body)*1.2);line-height:1;
+  transition:border-color var(--out) var(--ease)}
+.ph-nav:hover{border-color:var(--line);transition-duration:var(--in)}
+.ph-nav:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.ph-row{display:flex;align-items:center;justify-content:center;
+  gap:var(--gutter);min-width:0}
+.ph{flex:0 0 auto;width:178px;border-radius:20px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--edge);
+  /* opacity only. Transitioning width animates layout on every frame, and it
+     also left the live phone stuck at its resting size — a fresh element with
+     the same class computed 238px while the real one held 178. */
+  transition:opacity var(--out) var(--ease)}
+.ph[data-pos="c"]{width:238px;opacity:1}
+.ph[data-pos="l"],.ph[data-pos="r"]{opacity:.5}
+.ph--ct{background:#212121}
+.ph--cl{background:#FAF9F5}
+.ph--gm{background:#FFFFFF}
+.ph-top{display:flex;align-items:center;padding:.55em .9em 0;
+  font-family:var(--sans);font-size:9px;letter-spacing:.02em}
+.ph-sp{flex:1}
+.ph-sig{width:14px;height:5px;border-radius:1px;opacity:.5}
+.ph-bar{display:flex;align-items:center;gap:.5em;padding:.5em .8em .55em}
+.ph-n{font-family:var(--sans);font-weight:500;font-size:10.5px;white-space:nowrap}
+/* the same dot, the same green, in all three - 3.23:1 on ChatGPT, 4.74 on
+   Claude, 4.99 on Gemini, the only value measured that clears 3 on all */
+.ph-dot{width:8px;height:8px;border-radius:50%;background:#4E7A4A;flex:0 0 auto}
+.ph--ct .ph-top,.ph--ct .ph-n{color:#ECECEC}
+.ph--ct .ph-sig{background:#ECECEC}
+.ph--ct .ph-bar{border-bottom:1px solid #303030}
+.ph--cl .ph-top,.ph--cl .ph-n{color:#1F1E1D}
+.ph--cl .ph-sig{background:#1F1E1D}
+.ph--cl .ph-bar{border-bottom:1px solid #E7E3DA}
+.ph--gm .ph-top,.ph--gm .ph-n{color:#1F1F1F}
+.ph--gm .ph-sig{background:#1F1F1F}
+.ph--gm .ph-bar{border-bottom:1px solid #E4E4E7}
+.ph-body{padding:.8em .75em 1.1em;display:flex;flex-direction:column;gap:.55em}
+.ph-ask{display:block;height:20px;width:62%;align-self:flex-end;
+  border-radius:10px;border-bottom-right-radius:3px;background:#0A84FF}
+.ph-say{margin:0;font-family:var(--sans);font-size:10.5px;line-height:1.5}
+.ph--ct .ph-say{color:#DFE2E7}
+.ph--cl .ph-say,.ph--gm .ph-say{color:#22201E}
+/* the mark and the note exist only on the live one */
+.ph-mark{text-decoration-line:underline;text-decoration-thickness:1.5px;
+  text-underline-offset:3px;text-decoration-skip-ink:none;
+  text-decoration-color:transparent}
+.ph[data-pos="c"] .ph-mark{text-decoration-color:#A8473A}
+.ph-mod{display:none;border-radius:9px;padding:.65em .7em}
+.ph[data-pos="c"] .ph-mod{display:block}
+.ph--ct .ph-mod{background:#1A1917;box-shadow:inset 0 0 0 1px #302E2B}
+.ph--cl .ph-mod,.ph--gm .ph-mod{background:#F8F7F5;box-shadow:inset 0 0 0 1px #E4E0DA}
+.ph-mod-t{margin:0 0 .25em;font-family:var(--sans);font-size:10px;letter-spacing:-.002em}
+.ph-mod-b{margin:0;font-family:var(--sans);font-size:9.5px;line-height:1.45}
+.ph-mod-d{margin:.45em 0 0;font-family:var(--sans);font-size:9px}
+.ph--ct .ph-mod-t{color:#EDEBE8;font-weight:500}
+.ph--ct .ph-mod-b{color:#EDEBE8;font-weight:300}
+.ph--ct .ph-mod-d{color:#9C968E}
+.ph--cl .ph-mod-t,.ph--gm .ph-mod-t{color:#1C1A18;font-weight:600}
+.ph--cl .ph-mod-b,.ph--gm .ph-mod-b{color:#1C1A18;font-weight:400}
+.ph--cl .ph-mod-d,.ph--gm .ph-mod-d{color:#6A645E}
+[data-motion="off"] .ph{transition:none}
+@media (prefers-reduced-motion:reduce){ .ph{transition:none} }
+@media (max-width:760px){
+  .ph{width:144px}
+  .ph[data-pos="c"]{width:196px}
+}
+@media (max-width:520px){
+  /* no room for three: the live one, and the arrows to change which */
+  .ph[data-pos="l"],.ph[data-pos="r"]{display:none}
+  .ph[data-pos="c"]{width:min(240px,66vw)}
+}
 
 /* ═══ two charts, drawn from the CSVs ═══
    Marks that stand for people take a mark's contrast, not a hairline's:
@@ -2715,22 +2771,50 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </div>
         <div class="pl-drops" aria-hidden="true"><span></span><span></span><span></span></div>
 
-        <div class="pl-apps">
-
-          <div class="pa pa--ct">
-            <div class="pa-bar"><span class="pa-n">ChatGPT</span><span class="pa-sp"></span><span class="pa-dot"></span><span class="pa-av"></span></div>
-            <div class="pa-body"><span class="pa-l" style="width:92%"></span><span class="pa-l" style="width:74%"></span><span class="pa-l" style="width:84%"></span><span class="pa-l" style="width:61%"></span></div>
+        <div class="ph-stage">
+          <button class="ph-nav" id="phPrev" type="button" aria-label="Show the previous app">‹</button>
+          <div class="ph-row" id="phRow" aria-live="polite">
+            <div class="ph ph--ct" data-app="ChatGPT">
+              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
+              <div class="ph-bar"><span class="ph-n">ChatGPT</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-body">
+                <span class="ph-ask"></span>
+                <p class="ph-say">Zolpiramine is <span class="ph-mark">typically started at 50mg twice daily</span>, taken with food.</p>
+                <div class="ph-mod">
+                  <p class="ph-mod-t">A dose, without a source</p>
+                  <p class="ph-mod-b">It gives you a number but not where it came from. You could ask what it’s based on.</p>
+                  <p class="ph-mod-d">› Why this happens</p>
+                </div>
+              </div>
+            </div>
+            <div class="ph ph--cl" data-app="Claude">
+              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
+              <div class="ph-bar"><span class="ph-n">Claude</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-body">
+                <span class="ph-ask"></span>
+                <p class="ph-say">The deadline moved to <span class="ph-mark">the 14th, per the thread</span> you shared.</p>
+                <div class="ph-mod">
+                  <p class="ph-mod-t">A dose, without a source</p>
+                  <p class="ph-mod-b">It gives you a number but not where it came from. You could ask what it’s based on.</p>
+                  <p class="ph-mod-d">› Why this happens</p>
+                </div>
+              </div>
+            </div>
+            <div class="ph ph--gm" data-app="Gemini">
+              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
+              <div class="ph-bar"><span class="ph-n">Gemini</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-body">
+                <span class="ph-ask"></span>
+                <p class="ph-say">That combination is <span class="ph-mark">generally considered safe at this dose</span>.</p>
+                <div class="ph-mod">
+                  <p class="ph-mod-t">A dose, without a source</p>
+                  <p class="ph-mod-b">It gives you a number but not where it came from. You could ask what it’s based on.</p>
+                  <p class="ph-mod-d">› Why this happens</p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="pa pa--cl">
-            <div class="pa-bar"><span class="pa-n">Claude</span><span class="pa-sp"></span><span class="pa-dot"></span><span class="pa-av"></span></div>
-            <div class="pa-body"><span class="pa-l" style="width:92%"></span><span class="pa-l" style="width:74%"></span><span class="pa-l" style="width:84%"></span></div>
-          </div>
-
-          <div class="pa pa--gm">
-            <div class="pa-bar"><span class="pa-n">Gemini</span><span class="pa-sp"></span><span class="pa-dot"></span><span class="pa-av"></span></div>
-            <div class="pa-body"><span class="pa-l" style="width:92%"></span><span class="pa-l" style="width:74%"></span><span class="pa-l" style="width:84%"></span><span class="pa-l" style="width:61%"></span></div>
-          </div>
+          <button class="ph-nav" id="phNext" type="button" aria-label="Show the next app">›</button>
         </div>
 
         <p class="pl-n">The dot is the whole of the resting state. It says the layer is running — nothing more — so that an empty screen can be read as <em>nothing was raised</em> rather than <em>maybe it is broken</em>. It does not change colour when something is found; the mark on the passage does that, where the reader is already looking.</p>
@@ -3471,6 +3555,30 @@ if(vol)vol.addEventListener("input",function(){
   window.addEventListener('scroll',render,{passive:true});
   window.addEventListener('resize',render);
   render();
+})();
+
+/* ═══ which app is in the middle ═══
+   The middle slot is always the live one. Stepping moves a different app into
+   it rather than moving the layer between them - the demonstration is that
+   any of the three can be the app you happen to be in. Order is set rather
+   than the list reordered, so focus and reading order stay put. */
+(function(){
+  var row = document.getElementById('phRow');
+  if(!row) return;
+  var phones = [].slice.call(row.querySelectorAll('.ph'));
+  var n = phones.length, at = 1;
+  function paint(){
+    for(var i=0;i<n;i++){
+      var d = (i - at + n) % n;
+      phones[i].setAttribute('data-pos', d===0 ? 'c' : (d===n-1 ? 'l' : 'r'));
+      phones[i].style.order = (d===n-1) ? 0 : (d===0 ? 1 : 2);
+    }
+    row.setAttribute('aria-label', phones[at].getAttribute('data-app') + ' — showing the layer');
+  }
+  function step(k){ at = (at + k + n) % n; paint(); }
+  document.getElementById('phPrev').addEventListener('click', function(){ step(-1); });
+  document.getElementById('phNext').addEventListener('click', function(){ step(1); });
+  paint();
 })();
 
 /* the blueprints fold away until asked for - two of them on this page, so the
