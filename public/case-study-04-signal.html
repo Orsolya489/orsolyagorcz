@@ -1590,6 +1590,48 @@ a{color:inherit}
   color:var(--muted);margin-top:.6em}
 @media (max-width:1023px){ .ev{grid-column:1} }
 
+/* ═══ two charts, drawn from the CSVs ═══
+   Marks that stand for people take a mark's contrast, not a hairline's:
+   --line reads 6.96:1 on the page and #817775 reads 4.02, both clear of the
+   3:1 floor. --line-soft would have been 2.2 and is not used here. */
+.bc{grid-column:1 / -1;margin:var(--section) 0 0}
+.bc-h{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin:0 0 var(--stack);max-width:62ch}
+.bc-h b,.sp-h b{color:var(--ink);font-weight:500}
+.bc-set{display:flex;flex-direction:column;gap:.5em;max-width:52ch}
+.bc-row{display:grid;grid-template-columns:7ch minmax(0,1fr) 3ch;
+  gap:var(--gutter);align-items:center}
+.bc-k{font-family:var(--sans);font-size:var(--micro);color:var(--muted);
+  letter-spacing:.04em;white-space:nowrap}
+.bc-t{display:block;height:14px;background:var(--card);border-radius:3px;overflow:hidden}
+.bc-f{display:block;height:100%;background:var(--line);border-radius:3px}
+.bc-v{font-family:var(--sans);font-size:var(--micro);font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums;text-align:right}
+
+/* the three-way split, to scale */
+.sp{grid-column:1 / -1;margin:var(--section) 0 0}
+.sp-h{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin:0 0 var(--stack);max-width:62ch}
+.sp-bar{display:flex;height:16px;border-radius:4px;overflow:hidden;max-width:66ch;
+  box-shadow:inset 0 0 0 1px var(--edge)}
+.sp-u{flex:54;background:var(--line)}
+.sp-n{flex:17;background:#817775}
+/* the smallest share is the darkest on purpose: these are the people the
+   design is shaped around, and a chart that faded them would be arguing
+   against the case study it sits in */
+.sp-r{flex:11;background:var(--ink)}
+.sp-key{display:flex;flex-wrap:wrap;gap:var(--gutter);margin-top:.9em}
+.sk{display:flex;align-items:baseline;gap:.45em;font-family:var(--sans);
+  font-size:var(--micro);color:var(--muted);letter-spacing:.03em}
+.sk b{font-weight:500;font-size:calc(var(--body)*1.05);letter-spacing:-.01em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.sk::before{content:"";width:9px;height:9px;border-radius:2px;align-self:center}
+.sk-u::before{background:var(--line)}
+.sk-n::before{background:#817775}
+.sk-r::before{background:var(--ink)}
+.sp-n2{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin:var(--stack) 0 0;max-width:62ch}
+
 /* ═══ what people wrote ═══
    Five verbatims, set as things somebody said rather than as rows in a table.
    Each one is tipped by a degree or so and none of them by the same amount:
@@ -1599,7 +1641,7 @@ a{color:inherit}
    becomes a legibility cost.
    Widths vary too, because the sentences do. A grid would have padded the
    short one out to match the long one and made them look interchangeable. */
-.voices{grid-column:2;max-width:66ch;margin-top:var(--section)}
+.voices{grid-column:1 / -1;max-width:none;margin-top:var(--section)}
 .voices-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
 .voices-set{display:flex;flex-direction:column;gap:var(--stack)}
@@ -1616,6 +1658,15 @@ a{color:inherit}
 .vc--3{rotate:1.2deg;max-width:35ch}
 .vc--4{rotate:-0.6deg;max-width:42ch}
 .vc--5{rotate:-1.4deg;max-width:24ch}
+/* The offsets have to come after .vc{margin:0}, which would otherwise reset
+   them — the same collision that was flattening the paragraph rhythm. With
+   the whole width to work in these stop being a column and start being a
+   scatter: five notes pinned to a board, none of them lined up. */
+.vc--1{margin-left:4%}
+.vc--2{margin-right:9%}
+.vc--3{margin-left:22%}
+.vc--4{margin-right:2%}
+.vc--5{margin-left:13%}
 .voices-n{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:var(--stack) 0 0;max-width:62ch}
 .voices-n em{color:var(--ink);font-style:italic}
@@ -1623,7 +1674,10 @@ a{color:inherit}
    and nothing here moves - but high contrast asks for edges rather than
    atmosphere, so the tilt goes and the bubbles line up. */
 [data-contrast="high"] .vc{rotate:0deg;box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
-@media (max-width:1023px){ .voices{grid-column:1} }
+@media (max-width:1023px){
+  .voices{grid-column:1}
+  .vc--1,.vc--2,.vc--3,.vc--4,.vc--5{margin-left:0;margin-right:0}
+}
 
 /* The sample, drawn to scale. The bar carries the proportion and nothing
    else: the labels sat inside it until the fixed padding on each share made
@@ -2119,16 +2173,21 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
    began on the title's line. One rule answers it now. */
 .sec > *{grid-column:2;min-width:0}
 .sec > .sec-label{grid-column:1}
+/* Images, and the verbatims. The rule was images only; the quotes were added
+   to it deliberately — five things people said are the evidence this case
+   study rests on, and they earn the room the drawings get. */
 .sec > figure,
 .sec > .carousel,
 .sec > .flow,
 .sec > .gens,
-.sec > .duo{grid-column:1 / -1}
+.sec > .duo,
+.sec > .voices{grid-column:1 / -1}
 /* one column below the breakpoint, so nothing is asked to sit in a track
    that no longer exists */
 @media (max-width:1023px){
   .sec > *,.sec > .sec-label,
-  .sec > figure,.sec > .carousel,.sec > .flow,.sec > .gens,.sec > .duo{grid-column:1}
+  .sec > figure,.sec > .carousel,.sec > .flow,.sec > .gens,.sec > .duo,
+  .sec > .voices{grid-column:1}
 }
 </style>
 </head>
@@ -2465,6 +2524,48 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="ev-n">Two versions, each written and fielded on its own. Not a translation.</p>
       </div>
 
+
+      <figure class="bc">
+        <figcaption class="bc-h"><b>Who answered.</b> The three largest bands are 35–44, 25–34 and 45–54 — and under-18s tie for third. It is not a room full of people who work in tech.</figcaption>
+        <div class="bc-set" role="img" aria-label="Age of the 83 respondents: 35 to 44, nineteen. 25 to 34, seventeen. 45 to 54, fourteen. Under eighteen, fourteen. 55 to 64, nine. 18 to 24, seven. 65 and over, three.">
+          <div class="bc-row">
+            <span class="bc-k">35–44</span>
+            <span class="bc-t"><span class="bc-f" style="width:100.0%"></span></span>
+            <span class="bc-v">19</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">25–34</span>
+            <span class="bc-t"><span class="bc-f" style="width:89.5%"></span></span>
+            <span class="bc-v">17</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">45–54</span>
+            <span class="bc-t"><span class="bc-f" style="width:73.7%"></span></span>
+            <span class="bc-v">14</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">Under 18</span>
+            <span class="bc-t"><span class="bc-f" style="width:73.7%"></span></span>
+            <span class="bc-v">14</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">55–64</span>
+            <span class="bc-t"><span class="bc-f" style="width:47.4%"></span></span>
+            <span class="bc-v">9</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">18–24</span>
+            <span class="bc-t"><span class="bc-f" style="width:36.8%"></span></span>
+            <span class="bc-v">7</span>
+          </div>
+          <div class="bc-row">
+            <span class="bc-k">65+</span>
+            <span class="bc-t"><span class="bc-f" style="width:15.8%"></span></span>
+            <span class="bc-v">3</span>
+          </div>
+        </div>
+      </figure>
+
       <table class="devsync">
         <thead><tr><th scope="col"><span>Read against the design</span></th><th scope="col"><span>What it settled</span></th></tr></thead>
         <tbody>
@@ -2548,6 +2649,20 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="sec-copy">
         <p class="sec-lede">The short version, in the order they mattered.</p>
       </div>
+
+
+      <figure class="sp">
+        <figcaption class="sp-h"><b>What they made of the idea.</b> Asked how they would feel about a quiet real-time cue, 82 people split three ways — and the third way is the one that shaped the design.</figcaption>
+        <div class="sp-bar" role="img" aria-label="Of 82 people: 54 would find it useful, 17 were neutral and would rather judge for themselves, 11 rejected it as intrusive or unwanted.">
+          <span class="sp-u"></span><span class="sp-n"></span><span class="sp-r"></span>
+        </div>
+        <div class="sp-key">
+          <span class="sk sk-u"><b>66%</b>would find it useful</span>
+          <span class="sk sk-n"><b>21%</b>would rather judge alone</span>
+          <span class="sk sk-r"><b>13%</b>did not want it at all</span>
+        </div>
+        <p class="sp-n2">The 13% are why the cue is a line under a sentence rather than a panel: they will read anything louder as being told what to think. Designing so they can tell a signal from a filter made it quieter for everyone.</p>
+      </figure>
 
       <div class="voices">
         <p class="voices-e">What people wrote, unprompted</p>
