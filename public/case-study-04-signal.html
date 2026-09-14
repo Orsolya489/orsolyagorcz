@@ -1572,6 +1572,52 @@ a{color:inherit}
   .proto-frame{display:none}
 }
 
+/* ═══ the built thing, shown early ═══
+   The review that prompted this said the case study was mostly concept maps
+   and that an engineering reader needs to see the component work. It was
+   right: seven of eight figures were drawings and the only live one sat at
+   90% of the page. This is the component itself, at the size it renders, on
+   the two grounds it lands on - a light app and a dark one.
+   Not a screenshot. The same markup the overlay ships. */
+.ui{grid-column:1 / -1;min-width:0;margin:var(--stack) 0 0}
+.ui-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:var(--gutter)}
+.ui-host{border-radius:var(--r-lg);padding:var(--stack);min-width:0;
+  font-family:var(--sans)}
+.ui-host--l{background:#FFFFFF;box-shadow:inset 0 0 0 1px var(--edge)}
+.ui-host--d{background:#0E0E0D}
+.ui-tag{font-size:calc(var(--micro)*.92);letter-spacing:.07em;text-transform:uppercase;
+  margin:0 0 var(--stack);font-weight:500}
+.ui-host--l .ui-tag{color:#8E877F}
+.ui-host--d .ui-tag{color:#7E7871}
+.ui-say{font-size:calc(var(--body)*.92);line-height:1.6;margin:0}
+.ui-say + .ui-say{margin-top:.7em}
+.ui-host--l .ui-say{color:#22201E}
+.ui-host--d .ui-say{color:#E2DFDB}
+/* the mark: a rule under the words that raised it, and nothing else. Caution
+   is dotted and alert is solid, because in greyscale the two colours separate
+   by only 1.25:1 - the line style is what carries the band. */
+.ui-mark{text-decoration-line:underline;text-decoration-thickness:1.5px;
+  text-underline-offset:4px;text-decoration-skip-ink:none}
+.ui-mark--c{text-decoration-style:dotted;text-decoration-color:#9A6B1E}
+.ui-mark--a{text-decoration-style:solid;text-decoration-color:#A8473A}
+/* the note, which only exists once you ask for it */
+.ui-mod{margin-top:var(--stack);padding:.9em 1em;border-radius:10px;max-width:34ch}
+.ui-host--l .ui-mod{background:#F8F7F5;box-shadow:inset 0 0 0 1px #E4E0DA}
+.ui-host--d .ui-mod{background:#1A1917;box-shadow:inset 0 0 0 1px #302E2B}
+.ui-mod-t{font-size:calc(var(--body)*.86);margin:0 0 .35em;letter-spacing:-.004em}
+.ui-host--l .ui-mod-t{color:#1C1A18;font-weight:600}
+.ui-host--d .ui-mod-t{color:#EDEBE8;font-weight:500}
+.ui-mod-b{font-size:calc(var(--body)*.82);line-height:1.55;margin:0}
+.ui-host--l .ui-mod-b{color:#1C1A18;font-weight:400}
+.ui-host--d .ui-mod-b{color:#EDEBE8;font-weight:300}
+.ui-mod-d{font-size:calc(var(--body)*.76);margin:.7em 0 0}
+.ui-host--l .ui-mod-d{color:#6A645E}
+.ui-host--d .ui-mod-d{color:#9C968E}
+.ui figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);
+  margin-top:.9em;max-width:62ch}
+.ui figcaption b{color:var(--ink);font-weight:500}
+
 /* ═══ band diagrams ═══
    The drawn figures in "The system" are SVG rather than image files, for one
    reason that matters: they have to answer the accessibility panel. A PNG of a
@@ -2211,6 +2257,33 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p>What the study said was narrower than I expected, and better. People don’t want a second opinion and they don’t want a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</strong> What they want is a <em>notice</em> — quiet enough to ignore.</p>
         <p>So I built a signalling layer instead of an advisory one. Three kinds of friction, three senses, no verdicts. The wheel buzzes, you look, you decide; the car never turns the wheel.</p>
       </div>
+
+
+      <figure class="ui">
+        <div class="ui-pair">
+          <div class="ui-host ui-host--l">
+            <p class="ui-tag">On a light app</p>
+            <p class="ui-say">Ibuprofen is an anti-inflammatory. <span class="ui-mark ui-mark--c">Taking it with food reduces stomach irritation.</span></p>
+            <p class="ui-say">Zolpiramine is <span class="ui-mark ui-mark--a">typically started at 50mg twice daily</span>, taken with food.</p>
+            <div class="ui-mod">
+              <p class="ui-mod-t">A dose, without a source</p>
+              <p class="ui-mod-b">It gives you a number but not where the number came from. You could ask what it’s based on, and what would change it.</p>
+              <p class="ui-mod-d">› Why this happens</p>
+            </div>
+          </div>
+          <div class="ui-host ui-host--d">
+            <p class="ui-tag">On a dark app</p>
+            <p class="ui-say">Ibuprofen is an anti-inflammatory. <span class="ui-mark ui-mark--c">Taking it with food reduces stomach irritation.</span></p>
+            <p class="ui-say">Zolpiramine is <span class="ui-mark ui-mark--a">typically started at 50mg twice daily</span>, taken with food.</p>
+            <div class="ui-mod">
+              <p class="ui-mod-t">A dose, without a source</p>
+              <p class="ui-mod-b">It gives you a number but not where the number came from. You could ask what it’s based on, and what would change it.</p>
+              <p class="ui-mod-d">› Why this happens</p>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>This is the whole of it.</b> A line under the sentence that raised something, and a note if you tap it. Nothing else is ever on screen — and most of the time, nothing is.</figcaption>
+      </figure>
 
       <div class="metrics">
         <div class="metric"><b>83</b><i>people, across two independently fielded language versions — Hungarian and English</i></div>
