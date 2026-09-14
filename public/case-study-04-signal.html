@@ -1597,7 +1597,7 @@ a{color:inherit}
    three headers are the real ones - ChatGPT's near-black, Claude's cream,
    Gemini's white - because the whole claim is that one layer survives all
    three, and drawing them in house colours would prove nothing.
-   The dot is a single green: #4E7A4A is the only value measured that clears
+   The dot is a single green: #558552 is the only value measured that clears
    3:1 on all three grounds (3.23, 4.74, 4.99). A mark that themed itself per
    host would be a mark you cannot find. */
 .pl{grid-column:1 / -1;margin:var(--section) 0 0}
@@ -1607,23 +1607,38 @@ a{color:inherit}
 .pl-layer{display:flex;align-items:center;gap:.7em;
   padding:.7em 1em;border-radius:10px;background:var(--card);
   box-shadow:inset 0 0 0 1px var(--edge);max-width:38ch}
-.pl-dot{width:10px;height:10px;border-radius:50%;background:#4E7A4A;flex:0 0 auto}
+.pl-dot{width:10px;height:10px;border-radius:50%;background:#558552;flex:0 0 auto}
 .pl-t{font-family:var(--sans);font-size:var(--micro);letter-spacing:.04em;color:var(--ink)}
 /* three drops from the layer to the three apps */
-.pl-drops{display:grid;grid-template-columns:repeat(3,1fr);height:var(--stack)}
-.pl-drops span{width:1px;justify-self:center;background:var(--line-soft)}
+/* the three lines mirror the phone row exactly: same gap, same widths,
+   same inset for the two nav buttons, so each lands on its own phone rather
+   than on an equal third of the figure */
+.pl-drops{display:flex;justify-content:center;gap:var(--gutter);
+  height:var(--stack);padding-inline:calc(var(--control) + var(--stack))}
+.pl-drops span{position:relative;flex:0 0 var(--ph-w,178px)}
+.pl-drops span::before{content:"";position:absolute;left:50%;top:0;bottom:0;
+  width:1px;background:var(--line-soft)}
+.pl-drops span:nth-child(2){--ph-w:238px}
 .pl-n{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:var(--stack) 0 0;max-width:62ch}
 .pl-n em{color:var(--ink);font-style:italic}
 
-/* ═══ three phones, the middle one running ═══
-   A desktop window was the wrong frame. This is a plugin for apps people meet
-   on a handset, and the note has to be shown in the width it actually gets -
-   about 240px, not 600. The middle phone is live: marked passage, open note.
-   The two beside it are the same apps without the layer, so the difference
-   the plugin makes is the difference between the middle and the sides.
-   Stepping moves a different app into the middle rather than moving the
-   layer, which is the whole claim: one layer, whichever app you are in. */
+/* ═══ three phones, the layer docked in its own corner ═══
+   Built from the real apps, all three on their dark themes, because that is
+   how they were photographed and how most people run them. The host chrome is
+   left exactly as the host draws it: a plugin cannot put anything in
+   ChatGPT's header, and a mark sitting inside it would read as though ChatGPT
+   shipped this. It did not.
+
+   So the layer docks bottom-left, in the one corner all three leave empty -
+   send sits bottom-right in every one of them. That corner is also the only
+   position that is identical across the three, which is the claim: one layer,
+   same place, whichever app you are in. Hosts redesign headers constantly;
+   they do not move the composer.
+
+   The middle phone is the live one - marked passage, open note. The two
+   beside it are the same apps with the layer resting, so the difference the
+   plugin makes is the difference between the middle and the sides. */
 .ph-stage{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
   align-items:center;gap:var(--stack)}
 .ph-nav{width:var(--control);height:var(--control);
@@ -1634,72 +1649,129 @@ a{color:inherit}
   transition:border-color var(--out) var(--ease)}
 .ph-nav:hover{border-color:var(--line);transition-duration:var(--in)}
 .ph-nav:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.ph-row{display:flex;align-items:center;justify-content:center;
+.ph-row{display:flex;align-items:flex-start;justify-content:center;
   gap:var(--gutter);min-width:0}
-.ph{flex:0 0 auto;width:178px;border-radius:20px;overflow:hidden;
+.ph{position:relative;flex:0 0 auto;width:178px;border-radius:22px;
+  overflow:hidden;display:flex;flex-direction:column;
   box-shadow:inset 0 0 0 1px var(--edge);
-  /* opacity only. Transitioning width animates layout on every frame, and it
+  /* opacity only. Transitioning width animates layout every frame, and it
      also left the live phone stuck at its resting size — a fresh element with
      the same class computed 238px while the real one held 178. */
   transition:opacity var(--out) var(--ease)}
 .ph[data-pos="c"]{width:238px;opacity:1}
 .ph[data-pos="l"],.ph[data-pos="r"]{opacity:.5}
 .ph--ct{background:#212121}
-.ph--cl{background:#FAF9F5}
-.ph--gm{background:#FFFFFF}
-.ph-top{display:flex;align-items:center;padding:.55em .9em 0;
-  font-family:var(--sans);font-size:9px;letter-spacing:.02em}
+.ph--cl{background:#262624}
+.ph--gm{background:#1B1C1D}
+
+/* the neutral status bar — hers is gone, and nothing here is a real reading */
+.ph-os{display:flex;align-items:center;gap:.5em;padding:.6em .85em .15em;
+  font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.01em}
 .ph-sp{flex:1}
-.ph-sig{width:14px;height:5px;border-radius:1px;opacity:.5}
-.ph-bar{display:flex;align-items:center;gap:.5em;padding:.5em .8em .55em}
-.ph-n{font-family:var(--sans);font-weight:500;font-size:10.5px;white-space:nowrap}
-/* the same dot, the same green, in all three - 3.23:1 on ChatGPT, 4.74 on
-   Claude, 4.99 on Gemini, the only value measured that clears 3 on all */
-.ph-dot{width:8px;height:8px;border-radius:50%;background:#4E7A4A;flex:0 0 auto}
-.ph--ct .ph-top,.ph--ct .ph-n{color:#ECECEC}
-.ph--ct .ph-sig{background:#ECECEC}
-.ph--ct .ph-bar{border-bottom:1px solid #303030}
-.ph--cl .ph-top,.ph--cl .ph-n{color:#1F1E1D}
-.ph--cl .ph-sig{background:#1F1E1D}
-.ph--cl .ph-bar{border-bottom:1px solid #E7E3DA}
-.ph--gm .ph-top,.ph--gm .ph-n{color:#1F1F1F}
-.ph--gm .ph-sig{background:#1F1F1F}
-.ph--gm .ph-bar{border-bottom:1px solid #E4E4E7}
-.ph-body{padding:.8em .75em 1.1em;display:flex;flex-direction:column;gap:.55em}
-.ph-ask{display:block;height:20px;width:62%;align-self:flex-end;
-  border-radius:10px;border-bottom-right-radius:3px;background:#0A84FF}
-.ph-say{margin:0;font-family:var(--sans);font-size:10.5px;line-height:1.5}
-.ph--ct .ph-say{color:#DFE2E7}
-.ph--cl .ph-say,.ph--gm .ph-say{color:#22201E}
+.ph-os svg{display:block;height:9px;width:auto;fill:currentColor;
+  stroke:currentColor;opacity:.85}
+
+/* host chrome, per app, as each one actually draws it */
+.ph-bar{display:flex;align-items:center;gap:.45em;padding:.45em .7em .6em;
+  font-family:var(--sans);font-size:10px}
+.ph-app{font-weight:500;font-size:10.5px;white-space:nowrap;letter-spacing:-.005em}
+.ph-c{opacity:.6;font-size:8px}
+.ph-pill{font-size:8.5px;font-weight:500;padding:.25em .6em;border-radius:20px;
+  white-space:nowrap}
+.ph-av{width:15px;height:15px;border-radius:50%;flex:0 0 auto;display:grid;
+  place-items:center;font-size:6.5px;font-weight:600;letter-spacing:.02em}
+.ph-ic{width:13px;height:13px;flex:0 0 auto;opacity:.75;fill:none;
+  stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+.ph--ct{color:#ECECEC}
+.ph--ct .ph-bar{border-bottom:1px solid #2F2F2F}
+.ph--ct .ph-pill{background:#ECECEC;color:#212121}
+.ph--ct .ph-av{background:#4A4A4A;color:#ECECEC}
+.ph--cl{color:#F0EEE6}
+.ph--cl .ph-bar{border-bottom:1px solid #35342F}
+.ph--cl .ph-av{background:#C15F3C;color:#FFF}
+.ph--gm{color:#E3E3E3}
+.ph--gm .ph-bar{border-bottom:1px solid #303134}
+.ph--gm .ph-av{background:#8AB4F8;color:#202124}
+
+/* the conversation */
+.ph-body{flex:1 1 auto;padding:.75em .7em 1.6em;
+  display:flex;flex-direction:column;gap:.5em}
+.ph-ask{display:block;height:19px;width:58%;align-self:flex-end;
+  border-radius:11px;border-bottom-right-radius:4px}
+.ph--ct .ph-ask{background:#303030}
+.ph--cl .ph-ask{background:#35342F}
+.ph--gm .ph-ask{background:#333537}
+.ph-say{margin:0;font-family:var(--sans);font-size:10.5px;line-height:1.55}
+.ph--ct .ph-say{color:#ECECEC;font-weight:300}
+.ph--cl .ph-say{color:#F0EEE6;font-weight:300}
+.ph--gm .ph-say{color:#E3E3E3;font-weight:300}
+
 /* the mark and the note exist only on the live one */
 .ph-mark{text-decoration-line:underline;text-decoration-thickness:1.5px;
   text-underline-offset:3px;text-decoration-skip-ink:none;
   text-decoration-color:transparent}
-.ph[data-pos="c"] .ph-mark{text-decoration-color:#A8473A}
-.ph-mod{display:none;border-radius:9px;padding:.65em .7em}
+.ph[data-pos="c"] .ph-mark{text-decoration-color:#C2705E}
+.ph-mod{display:none;border-radius:11px;padding:.6em .7em}
 .ph[data-pos="c"] .ph-mod{display:block}
-.ph--ct .ph-mod{background:#1A1917;box-shadow:inset 0 0 0 1px #302E2B}
-.ph--cl .ph-mod,.ph--gm .ph-mod{background:#F8F7F5;box-shadow:inset 0 0 0 1px #E4E0DA}
-.ph-mod-t{margin:0 0 .25em;font-family:var(--sans);font-size:10px;letter-spacing:-.002em}
-.ph-mod-b{margin:0;font-family:var(--sans);font-size:9.5px;line-height:1.45}
-.ph-mod-d{margin:.45em 0 0;font-family:var(--sans);font-size:9px}
-.ph--ct .ph-mod-t{color:#EDEBE8;font-weight:500}
-.ph--ct .ph-mod-b{color:#EDEBE8;font-weight:300}
-.ph--ct .ph-mod-d{color:#9C968E}
-.ph--cl .ph-mod-t,.ph--gm .ph-mod-t{color:#1C1A18;font-weight:600}
-.ph--cl .ph-mod-b,.ph--gm .ph-mod-b{color:#1C1A18;font-weight:400}
-.ph--cl .ph-mod-d,.ph--gm .ph-mod-d{color:#6A645E}
-[data-motion="off"] .ph{transition:none}
-@media (prefers-reduced-motion:reduce){ .ph{transition:none} }
+/* the note is the plugin's own surface, so it is the plugin's own colour in
+   all three — it does not dress itself as the host */
+.ph-mod{background:#1A1917;box-shadow:inset 0 0 0 1px #35322E}
+.ph-mod-t{margin:0 0 .25em;font-family:var(--sans);font-size:10px;
+  font-weight:500;color:#EDEBE8;letter-spacing:-.002em}
+.ph-mod-b{margin:0;font-family:var(--sans);font-size:9.5px;line-height:1.45;
+  font-weight:300;color:#EDEBE8}
+.ph-mod-d{margin:.45em 0 0;font-family:var(--sans);font-size:9px;color:#A9A29A}
+
+/* the composer — where send lives, and why the layer is not there */
+.ph-comp{flex:0 0 auto;display:flex;align-items:center;gap:.5em;
+  margin:0 .55em .6em;padding:.45em .5em .45em .75em;border-radius:18px;
+  font-family:var(--sans);font-size:9.5px}
+.ph-comp-t{flex:1;opacity:.55;white-space:nowrap;overflow:hidden}
+.ph-send{width:17px;height:17px;border-radius:50%;flex:0 0 auto;display:grid;
+  place-items:center}
+.ph-send svg{width:9px;height:9px;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.ph--ct .ph-comp{background:#303030}
+.ph--ct .ph-send{background:#ECECEC}
+.ph--ct .ph-send svg{stroke:#212121}
+.ph--cl .ph-comp{background:#30302E}
+.ph--cl .ph-send{background:#C15F3C}
+.ph--cl .ph-send svg{stroke:#FFF}
+.ph--gm .ph-comp{background:#282A2C}
+.ph--gm .ph-send{background:#8AB4F8}
+.ph--gm .ph-send svg{stroke:#202124}
+
+/* ── the layer, docked ──
+   Bottom-left, floating over the host rather than inside it. One green for
+   all three grounds and for the chip above: #558552 measures 3.73:1 on
+   ChatGPT's #212121, 3.51 on Claude's #262624, 3.95 on Gemini's #1B1C1D and
+   3.51 on the page's own card — the 3:1 floor for non-text, cleared with room
+   on every ground it has to sit on. A mark that themed itself per host would
+   be a mark you cannot find. */
+.ph-plug{position:absolute;left:9px;bottom:38px;width:14px;height:14px;
+  border-radius:50%;background:#558552;
+  box-shadow:0 1px 4px rgba(0,0,0,.45), 0 0 0 1.5px rgba(255,255,255,.14)}
 @media (max-width:760px){
   .ph{width:144px}
   .ph[data-pos="c"]{width:196px}
+  /* flex-basis beats the shorthand var, so the middle needs one too */
+  .pl-drops span{flex-basis:144px}
+  .pl-drops span:nth-child(2){flex-basis:196px}
 }
 @media (max-width:520px){
   /* no room for three: the live one, and the arrows to change which */
   .ph[data-pos="l"],.ph[data-pos="r"]{display:none}
   .ph[data-pos="c"]{width:min(240px,66vw)}
+  /* one phone, so one line */
+  .pl-drops span:not(:nth-child(2)){display:none}
+  .pl-drops span:nth-child(2){flex-basis:min(240px,66vw)}
 }
+[data-motion="off"] .ph{transition:none}
+@media (prefers-reduced-motion:reduce){ .ph{transition:none} }
+[data-contrast="high"] .ph{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+[data-contrast="high"] .ph[data-pos="l"],
+[data-contrast="high"] .ph[data-pos="r"]{opacity:.75}
 
 /* ═══ two charts, drawn from the CSVs ═══
    Marks that stand for people take a mark's contrast, not a hairline's:
@@ -2775,8 +2847,8 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="ph-nav" id="phPrev" type="button" aria-label="Show the previous app">‹</button>
           <div class="ph-row" id="phRow" aria-live="polite">
             <div class="ph ph--ct" data-app="ChatGPT">
-              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
-              <div class="ph-bar"><span class="ph-n">ChatGPT</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-os"><span>9:41</span><span class="ph-sp"></span><svg viewBox="0 0 39 10" aria-hidden="true"><rect x="0" y="6.5" width="2" height="3.5" rx=".6" stroke="none"/><rect x="3" y="4.5" width="2" height="5.5" rx=".6" stroke="none"/><rect x="6" y="2.5" width="2" height="7.5" rx=".6" stroke="none"/><rect x="9" y=".5" width="2" height="9.5" rx=".6" stroke="none"/><path d="M14.2 4.1a5.6 5.6 0 0 1 6.9 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><path d="M15.9 6.5a3 3 0 0 1 3.5 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><circle cx="17.65" cy="9" r="1" stroke="none"/><rect x="25.5" y="2" width="11.5" height="6" rx="1.8" fill="none" stroke-width="1"/><rect x="26.8" y="3.3" width="7" height="3.4" rx=".8" stroke="none"/><rect x="37.8" y="4" width="1.2" height="2" rx=".5" stroke="none"/></svg></div>
+              <div class="ph-bar"><span class="ph-app">ChatGPT</span><span class="ph-c">▾</span><span class="ph-sp"></span><span class="ph-pill">Get Plus</span><span class="ph-av"></span></div>
               <div class="ph-body">
                 <span class="ph-ask"></span>
                 <p class="ph-say">Zolpiramine is <span class="ph-mark">typically started at 50mg twice daily</span>, taken with food.</p>
@@ -2786,10 +2858,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
                   <p class="ph-mod-d">› Why this happens</p>
                 </div>
               </div>
+              <div class="ph-comp"><span class="ph-comp-t">Ask anything</span><span class="ph-send"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2M2.6 5.4 6 2l3.4 3.4"/></svg></span></div>
+              <span class="ph-plug" aria-hidden="true"></span>
             </div>
             <div class="ph ph--cl" data-app="Claude">
-              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
-              <div class="ph-bar"><span class="ph-n">Claude</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-os"><span>9:41</span><span class="ph-sp"></span><svg viewBox="0 0 39 10" aria-hidden="true"><rect x="0" y="6.5" width="2" height="3.5" rx=".6" stroke="none"/><rect x="3" y="4.5" width="2" height="5.5" rx=".6" stroke="none"/><rect x="6" y="2.5" width="2" height="7.5" rx=".6" stroke="none"/><rect x="9" y=".5" width="2" height="9.5" rx=".6" stroke="none"/><path d="M14.2 4.1a5.6 5.6 0 0 1 6.9 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><path d="M15.9 6.5a3 3 0 0 1 3.5 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><circle cx="17.65" cy="9" r="1" stroke="none"/><rect x="25.5" y="2" width="11.5" height="6" rx="1.8" fill="none" stroke-width="1"/><rect x="26.8" y="3.3" width="7" height="3.4" rx=".8" stroke="none"/><rect x="37.8" y="4" width="1.2" height="2" rx=".5" stroke="none"/></svg></div>
+              <div class="ph-bar"><span class="ph-app">Evening thoughts</span><span class="ph-sp"></span><svg class="ph-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 14V6a4 4 0 0 1 8 0v8l-1.6-1.3L8.8 14 7.2 12.7 5.6 14Z"/><circle cx="6.4" cy="6.8" r=".6" fill="currentColor"/><circle cx="9.6" cy="6.8" r=".6" fill="currentColor"/></svg><span class="ph-av">O</span></div>
               <div class="ph-body">
                 <span class="ph-ask"></span>
                 <p class="ph-say">The deadline moved to <span class="ph-mark">the 14th, per the thread</span> you shared.</p>
@@ -2799,10 +2873,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
                   <p class="ph-mod-d">› Why this happens</p>
                 </div>
               </div>
+              <div class="ph-comp"><span class="ph-comp-t">Reply to Claude…</span><span class="ph-send"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2M2.6 5.4 6 2l3.4 3.4"/></svg></span></div>
+              <span class="ph-plug" aria-hidden="true"></span>
             </div>
             <div class="ph ph--gm" data-app="Gemini">
-              <div class="ph-top"><span class="ph-time">9:41</span><span class="ph-sp"></span><span class="ph-sig"></span></div>
-              <div class="ph-bar"><span class="ph-n">Gemini</span><span class="ph-sp"></span><span class="ph-dot"></span></div>
+              <div class="ph-os"><span>9:41</span><span class="ph-sp"></span><svg viewBox="0 0 39 10" aria-hidden="true"><rect x="0" y="6.5" width="2" height="3.5" rx=".6" stroke="none"/><rect x="3" y="4.5" width="2" height="5.5" rx=".6" stroke="none"/><rect x="6" y="2.5" width="2" height="7.5" rx=".6" stroke="none"/><rect x="9" y=".5" width="2" height="9.5" rx=".6" stroke="none"/><path d="M14.2 4.1a5.6 5.6 0 0 1 6.9 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><path d="M15.9 6.5a3 3 0 0 1 3.5 0" fill="none" stroke-width="1.3" stroke-linecap="round"/><circle cx="17.65" cy="9" r="1" stroke="none"/><rect x="25.5" y="2" width="11.5" height="6" rx="1.8" fill="none" stroke-width="1"/><rect x="26.8" y="3.3" width="7" height="3.4" rx=".8" stroke="none"/><rect x="37.8" y="4" width="1.2" height="2" rx=".5" stroke="none"/></svg></div>
+              <div class="ph-bar"><span class="ph-app">Gemini</span><span class="ph-c">▾</span><span class="ph-sp"></span><svg class="ph-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.2 2.4 13.6 4.8 5.6 12.8 2.4 13.6l.8-3.2Z"/></svg><span class="ph-av">OG</span></div>
               <div class="ph-body">
                 <span class="ph-ask"></span>
                 <p class="ph-say">That combination is <span class="ph-mark">generally considered safe at this dose</span>.</p>
@@ -2812,12 +2888,14 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
                   <p class="ph-mod-d">› Why this happens</p>
                 </div>
               </div>
+              <div class="ph-comp"><span class="ph-comp-t">Ask Gemini</span><span class="ph-send"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2M2.6 5.4 6 2l3.4 3.4"/></svg></span></div>
+              <span class="ph-plug" aria-hidden="true"></span>
             </div>
           </div>
           <button class="ph-nav" id="phNext" type="button" aria-label="Show the next app">›</button>
         </div>
 
-        <p class="pl-n">The dot is the whole of the resting state. It says the layer is running — nothing more — so that an empty screen can be read as <em>nothing was raised</em> rather than <em>maybe it is broken</em>. It does not change colour when something is found; the mark on the passage does that, where the reader is already looking.</p>
+        <p class="pl-n">The green dot is the whole of the resting state. It sits in the plugin’s own corner, not in the app’s header — a plugin cannot put anything there, and a mark inside ChatGPT’s chrome would read as though ChatGPT shipped it. Bottom-left is the one corner all three leave empty, and the only spot that is the same in every app. It says the layer is running and nothing more, so an empty screen reads as <em>nothing was raised</em> rather than <em>maybe it is broken</em>. It does not change colour when something is found — the mark on the sentence does that, where you are already looking.</p>
       </figure>
 
       <figure class="sp">
