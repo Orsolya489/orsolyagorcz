@@ -1572,6 +1572,24 @@ a{color:inherit}
   .proto-frame{display:none}
 }
 
+/* ═══ what the work stands on ═══
+   A reviewer said the case study explained beautiful hypotheses without
+   showing what they rest on. The numbers were in the page but spread thin,
+   and the reading list was three folds deep. Both are the strongest evidence
+   here and they now sit in the open, in the section about the research. */
+.ev{grid-column:2;max-width:66ch;margin-top:var(--stack)}
+.ev-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
+.ev-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:var(--gutter)}
+.ev-i{min-width:0}
+.ev-i b{display:block;font-family:var(--sans);font-weight:300;
+  font-size:calc(var(--title)*1.1);line-height:1;letter-spacing:-.025em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.ev-i i{display:block;font-style:normal;font-size:var(--micro);line-height:1.55;
+  color:var(--muted);margin-top:.6em}
+@media (max-width:1023px){ .ev{grid-column:1} }
+
 /* ═══ the built thing, shown early ═══
    The review that prompted this said the case study was mostly concept maps
    and that an engineering reader needs to see the component work. It was
@@ -2376,6 +2394,29 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="sec-lede">31 questions across 5 sections, fielded in two languages as two separate deployments — Hungarian (n=71) and English (n=12). Not a translation of convenience: the Hungarian version carried an extra question that produced the study’s most important number.</p>
         <p>The attention block opened with “skip this if it isn’t relevant to you,” which cost me sample size on those items and was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
         <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44, 45–54 and under-18, with 55–64 and 65+ both represented. That spread is why I trust the responsibility finding as much as I do. It isn’t a room full of people who work in tech agreeing with each other.</p>
+      </div>
+
+      <div class="ev">
+        <p class="ev-e">What this is built on</p>
+        <div class="ev-row">
+          <div class="ev-i"><b>83</b><i>people answered it. Not a panel, not a prompt to a model — a questionnaire I wrote, fielded and analysed myself.</i></div>
+          <div class="ev-i"><b>31</b><i>questions, across five sections, from usage and tone through to ethics and responsibility.</i></div>
+          <div class="ev-i"><b>2</b><i>language versions, written and fielded independently rather than translated. 71 Hungarian, 12 English.</i></div>
+        </div>
+      </div>
+
+      <table class="devsync">
+        <thead><tr><th scope="col"><span>Read against the design</span></th><th scope="col"><span>What it settled</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Hofmann · Hanna</th><td>Bias cannot be removed from these systems, so the honest response is transparency and human oversight — not a model quietly correcting itself.</td></tr>
+          <tr><th scope="row">Cao &amp; Lizano</th><td>The profile of who is most at risk matches the psychological detectors almost term for term, and pushes the vulnerable window out to the mid-thirties.</td></tr>
+          <tr><th scope="row">Patel · I-PACE</th><td>Dependency on a system like this forms in stages rather than all at once, which is what a signal has to interrupt.</td></tr>
+          <tr><th scope="row">Parasuraman · Wickens · Lee &amp; See</th><td>Forty years of human factors: how much a machine should be allowed to do, why separate senses do not compete for attention, and how trust is calibrated rather than given.</td></tr>
+          <tr><th scope="row">Green &amp; Swets · Mackworth</th><td>Signal detection theory, and the vigilance decrement — why anyone watching for a rare event stops seeing it.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sec-copy">
         <p class="hmw">Every part of this was mine: the questions, both fieldings, the analysis, and the decision to report the parts that went against me.</p>
       </div>
       <figure class="dgm">
