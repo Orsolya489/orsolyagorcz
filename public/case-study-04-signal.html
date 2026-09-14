@@ -1773,6 +1773,52 @@ a{color:inherit}
 [data-contrast="high"] .ph[data-pos="l"],
 [data-contrast="high"] .ph[data-pos="r"]{opacity:.75}
 
+/* ═══ the five drawings added for the visual pass ═══
+   Marks that carry data take a mark's contrast, not a hairline's. #817775
+   reads 4.02:1 on --card and --line reads 6.96 — both clear of the 3:1 floor
+   for non-text. --line-soft would be 2.2 and is used for nothing that means
+   anything here. */
+
+/* the overview funnel sits in .cs-hero, outside .dgm, so it carries its own
+   type rules rather than inheriting the diagram ones */
+.ov{display:block;width:100%;max-width:520px;height:auto;margin-inline:auto}
+.ov-p{fill:var(--card);stroke:#817775;stroke-width:1}
+.ov-t{font-family:var(--sans);font-weight:500;font-size:15px;fill:var(--ink)}
+.ov-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;fill:var(--muted)}
+.ov-h{stroke:#817775;stroke-width:1;fill:none}
+.ov-p--out{fill:var(--page);stroke:var(--line);stroke-width:2}
+
+/* channel load: a full bar is a committed channel, an outlined one is idle */
+.dgm .ch-full{fill:var(--line)}
+.dgm .ch-idle{fill:var(--page);stroke:#817775;stroke-width:1}
+
+/* five means on one axis — the dot is the datum, the stem only leads to it */
+.dgm .mn-stem{stroke:#817775;stroke-width:1}
+.dgm .mn-hi{fill:var(--line)}
+.dgm .mn-lo{fill:#817775}
+
+/* the venn: overlap is the point, so the fill compounds where they cross
+   rather than each circle carrying its own hue */
+.dgm .vn{fill:var(--ink);fill-opacity:.055;stroke:#817775;stroke-width:1}
+
+/* measured ranges against the two thresholds */
+.dgm .rng{stroke-width:1}
+.dgm .thr{stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 4;fill:none}
+.dgm .snd{fill:var(--line)}
+
+/* high contrast: the venn's compounding fill is the one thing here that
+   depends on a light wash, so it gives way to stronger edges instead */
+[data-contrast="high"] .dgm .vn{fill-opacity:.09;stroke:var(--ink)}
+[data-contrast="high"] .ov-p{stroke:var(--ink)}
+
+/* Two of these drawings are taller than the slab: the venn is 452 units and
+   the range chart 420, against a --dgm-h that tops out at 450. Letting the
+   slab decide scaled them to 0.75 and 0.81, which renders an 11px label at
+   8.3px — under the floor the note above picks 900px to defend. So they keep
+   their own scale and the frame scrolls, which is the same trade already made
+   for width. */
+.dgm.dgm--tall svg{height:auto}
+
 /* ═══ two charts, drawn from the CSVs ═══
    Marks that stand for people take a mark's contrast, not a hairline's:
    --line reads 6.96:1 on the page and #817775 reads 4.02, both clear of the
@@ -2476,6 +2522,21 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
       </div>
       <figure class="cs-hero">
+        <svg class="ov" viewBox="0 0 520 424" role="img"
+             aria-label="A funnel narrowing downward: 83 people, 2 languages and 31 questions; then 6 findings; then 5 constraints; then 3 detectors and one score; and at the narrowest, a line under one sentence.">
+          <rect class="ov-p" x="20"  y="20"  width="480" height="58" rx="14"/>
+          <text class="ov-t" x="260" y="55"  text-anchor="middle">83 people · 2 languages · 31 questions</text>
+          <rect class="ov-p" x="60"  y="106" width="400" height="58" rx="14"/>
+          <text class="ov-t" x="260" y="141" text-anchor="middle">6 findings</text>
+          <rect class="ov-p" x="100" y="192" width="320" height="58" rx="14"/>
+          <text class="ov-t" x="260" y="227" text-anchor="middle">5 constraints</text>
+          <rect class="ov-p" x="140" y="278" width="240" height="58" rx="14"/>
+          <text class="ov-t" x="260" y="313" text-anchor="middle">3 detectors · 1 score</text>
+          <path class="ov-h" d="M260 78v28M260 164v28M260 250v28M260 336v28"/>
+          <rect class="ov-p ov-p--out" x="160" y="364" width="200" height="52" rx="14"/>
+          <text class="ov-t" x="260" y="396" text-anchor="middle">a line under one sentence</text>
+        </svg>
+        <figcaption>Each step closed off a direction the one above it allowed.</figcaption>
       </figure>
     </div>
 
@@ -2555,7 +2616,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="rd-s">Composite <b id="rdScore">12</b></span>
           </div>
           <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
-          <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.</p>
+          <p class="rd-note"><b>Nothing fires.</b> Four turns in five look like this — and the silence is what buys the right to interrupt the fifth.</p>
           </div>
           </div>
         </div>
@@ -2566,10 +2627,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
       <h2 class="sec-label" id="s1h">Nobody asked for this one. That is the part I would point at.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">No client, no brief, no employer. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer it, analysed it myself — and then built the thing the answers described, which was not the thing I had in mind when I started.</p>
-        <p>The problem I set out to solve: chat AI has one channel. When the model is guessing, or drifting off the brief, or in territory that deserves more care than a sentence can carry, the only way it has to tell you is more text — and more text reads exactly like the confident text around it.</p>
-        <p>What the study said was narrower than I expected, and better. People don’t want a second opinion and they don’t want a warning label. <strong>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</strong> What they want is a <em>notice</em> — quiet enough to ignore.</p>
-        <p>So I built a signalling layer instead of an advisory one. Three kinds of friction, three senses, no verdicts. The wheel buzzes, you look, you decide; the car never turns the wheel.</p>
+        <p class="sec-lede">No client, no brief, no employer. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer it, analysed it myself — then built what the answers described, which was not what I had in mind.</p>
+        <p>It was narrower than I expected, and better. <b>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</b> They don’t want a second opinion or a warning label. They want a notice, quiet enough to ignore.</p>
+        <p>So I built a signalling layer, not an advisory one. Three kinds of friction, three senses, no verdicts.</p>
       </div>
 
 
@@ -2596,7 +2656,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             </div>
           </div>
         </div>
-        <figcaption><b>This is the whole of it.</b> A line under the sentence that raised something, and a note if you tap it. Nothing else is ever on screen — and most of the time, nothing is.</figcaption>
+        <figcaption><b>This is the whole of it.</b> A line under the sentence that raised something, and a note if you tap it. Most of the time, nothing.</figcaption>
       </figure>
 
       <div class="metrics">
@@ -2606,27 +2666,48 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
 
       <div class="pushed">
-        <p class="pushed-e">Why the last number is the one that matters</p>
-        <p>I built the concept around attention: people losing the thread in long conversations. The study put losing track at 1.94 and feeling detached at 1.98, both near the floor of a five-point scale. <em>People are not drifting — they are being confidently misled while fully focused.</em></p>
-        <p>That killed the focus-assistance layer and moved the whole project from cognitive support to epistemic signalling. A study that only confirms you has told you nothing; this one cost me my first concept, which is how I know it was worth running.</p>
       </div>
     </section>
 
     <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">You’re an hour into something with real stakes. The answers keep arriving in the same even, well-formed voice. And at some point the model quietly stops doing the thing you asked — drops the constraint you set, starts agreeing with a premise you were half-testing, states as fact something it does not have.</p>
+        <p class="sec-lede">You’re an hour into something with real stakes, and at some point the model quietly stops doing what you asked — drops the constraint you set, agrees with a premise you were half-testing, states as fact something it does not have.</p>
         <p class="hmw">None of that looks different on screen.</p>
-        <p>You find out later. When you re-read, or when someone else does, or when you’ve already sent it. One respondent described this unprompted, in a free-text box, when I asked what single thing they’d improve:</p>
+        <p>You find out later. One respondent described it unprompted, asked what single thing they’d improve:</p>
       </div>
       <div class="said">
         <blockquote>“Consistency, and a signal from the AI when it loses focus. You only find out afterwards that it stopped following the instructions it was given for the task, that it dropped the character — but it never signalled it.”</blockquote>
         <cite>Respondent, Hungarian sample, age 35–44</cite>
       </div>
       <div class="sec-copy copy-2">
-        <p>That is a person specifying this product in a survey box before I had described it to anyone.</p>
-        <p>The obvious fix is a more accurate model. But even a perfectly calibrated one has no way to tell you how much to lean on a given sentence, because text flattens it. Every answer arrives at the same volume.</p>
+        <p>That is a person specifying this product before I had described it to anyone.</p>
+        <p>The obvious fix is a better model. But even a perfectly calibrated one cannot tell you how much to lean on a given sentence. Every answer arrives at the same volume.</p>
       </div>
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-label="Attention channels, drawn">
+        <svg viewBox="0 0 900 300" role="img"
+             aria-label="Two groups. Reading and composing are drawn as full bars, the channel a sentence would be added to. Peripheral colour, touch and sound are drawn as empty bars: idle channels.">
+          <text class="t-sm t-mute" x="0" y="16">ALREADY CARRYING THE CONVERSATION</text>
+          <text class="t-sm t-mute" x="470" y="16">IDLE</text>
+          <text class="t-md t-ink" x="0" y="70">Reading</text>
+          <rect class="ch-full" x="0" y="84" width="400" height="14" rx="7"/>
+          <text class="t-md t-ink" x="0" y="140">Composing</text>
+          <rect class="ch-full" x="0" y="154" width="400" height="14" rx="7"/>
+          <text class="t-md t-mute" x="0" y="218">A sentence added here competes</text>
+          <text class="t-md t-mute" x="0" y="242">with the reading already happening.</text>
+          <path class="hair" d="M436 6v250"/>
+          <text class="t-md t-ink" x="470" y="70">Peripheral colour</text>
+          <rect class="ch-idle" x="470" y="84" width="400" height="14" rx="7"/>
+          <text class="t-md t-ink" x="470" y="140">Touch</text>
+          <rect class="ch-idle" x="470" y="154" width="400" height="14" rx="7"/>
+          <text class="t-md t-ink" x="470" y="196">Sound</text>
+          <rect class="ch-idle" x="470" y="210" width="400" height="14" rx="7"/>
+          <text class="t-md t-mute" x="470" y="266">A pulse here does not.</text>
+        </svg></div>
+        <figcaption><b>Separate senses draw on separate pools of attention.</b> The same argument as the stick shaker and the buzzing wheel.</figcaption>
+      </figure>
       <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="v3t v3d">
@@ -2665,9 +2746,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </h3>
         <div class="bp-panel" id="probPanel" data-open="false" role="region" aria-labelledby="probBtn"><div class="bp-inner">
           <p>The fluency is identical and only the stakes differ — and the confident register is doing active harm, because it suppresses the instinct to check. The invented one is the prompt the drive uses at its third beat, and the reason that beat is the only one in the whole simulation that makes a sound.</p>
-          <p>This is a display problem, and display problems have a literature. Aviation and automotive safety spent forty years learning that when a system knows something the operator doesn’t, you do not put it in the primary channel — you put it in a spare one. A stall warning is a stick shaker, not a line of text on the PFD. A lane departure warning is a buzz in the wheel, not a dialog.</p>
-          <p>The reason is load: the pilot’s eyes and the driver’s eyes are already fully committed, and a message in the busy channel either gets missed or costs them the thing they were doing.</p>
-          <p>A person deep in a long conversation with an AI is in the same state. Their visual and verbal attention is spent on reading and composing. Adding a sentence to that stream adds to the exact channel that’s saturated. Adding a pulse to a channel that’s idle does not.</p>
           <table class="devsync">
             <thead><tr><th scope="col"><span>Lane departure warning</span></th><th scope="col"><span>This system</span></th></tr></thead>
             <tbody>
@@ -2687,9 +2765,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s4" data-bar="The study" aria-labelledby="s4h">
       <h2 class="sec-label" id="s4h">I had a hypothesis I liked, so the study was built to break it.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">31 questions across 5 sections, fielded in two languages as two separate deployments — Hungarian (n=71) and English (n=12). Not a translation of convenience: the Hungarian version carried an extra question that produced the study’s most important number.</p>
-        <p>The attention block opened with “skip this if it isn’t relevant to you,” which cost me sample size on those items and was worth it. Forcing an answer out of someone who has never had a long conversation with an AI would have manufactured a finding I wanted to be true.</p>
-        <p>The Hungarian sample is genuinely broad — the three largest age bands were 35–44, 45–54 and under-18, with 55–64 and 65+ both represented. That spread is why I trust the responsibility finding as much as I do. It isn’t a room full of people who work in tech agreeing with each other.</p>
+        <p class="sec-lede">31 questions, 5 sections, two languages fielded as separate deployments — Hungarian (n=71) and English (n=12). Not a translation: the Hungarian version carried an extra question that produced the study’s most important number.</p>
       </div>
 
       <div class="ev">
@@ -2708,7 +2784,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
 
       <figure class="bc">
-        <figcaption class="bc-h"><b>Who answered.</b> The three largest bands are 35–44, 25–34 and 45–54 — and under-18s tie for third. It is not a room full of people who work in tech.</figcaption>
+        <figcaption><b>Who answered.</b> Not a room full of people who work in tech.</figcaption>
         <div class="bc-set" role="img" aria-label="Age of the 83 respondents: 35 to 44, nineteen. 25 to 34, seventeen. 45 to 54, fourteen. Under eighteen, fourteen. 55 to 64, nine. 18 to 24, seven. 65 and over, three.">
           <div class="bc-row">
             <span class="bc-k">35–44</span>
@@ -2760,7 +2836,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </table>
 
       <div class="sec-copy">
-        <p class="hmw">Every part of this was mine: the questions, both fieldings, the analysis, and the decision to report the parts that went against me.</p>
+        <p>Every part of this was mine — including the decision to report the parts that went against me.</p>
       </div>
       <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
@@ -2831,11 +2907,47 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="sec-copy">
         <p class="sec-lede">The short version, in the order they mattered.</p>
       </div>
+      <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-label="Five means on a one to five scale">
+        <svg viewBox="0 0 900 330" role="img"
+             aria-label="Five means on a 1 to 5 scale. They expect the AI is biased, 4.02. Overall experience, 3.87. Noticing bias changes their trust, 2.80. Feel detached or disengaged, 1.98. Lose track in long conversations, 1.94.">
+          <path class="hair" d="M250 44v218M400 44v218M550 44v218M700 44v218M850 44v218"/>
+          <g class="t-sm t-soft">
+            <text x="250" y="288" text-anchor="middle">1</text>
+            <text x="400" y="288" text-anchor="middle">2</text>
+            <text x="550" y="288" text-anchor="middle">3</text>
+            <text x="700" y="288" text-anchor="middle">4</text>
+            <text x="850" y="288" text-anchor="middle">5</text>
+          </g>
+          <text class="t-md t-ink" x="235" y="79" text-anchor="end">They expect the AI is biased</text>
+          <line class="mn-stem" x1="250" y1="74" x2="703" y2="74"/>
+          <circle class="mn-hi" cx="703" cy="74" r="7"/>
+          <text class="t-md t-ink t-num" x="720" y="79">4.02</text>
+          <text class="t-md t-ink" x="235" y="121" text-anchor="end">Overall experience of using it</text>
+          <line class="mn-stem" x1="250" y1="116" x2="680" y2="116"/>
+          <circle class="mn-hi" cx="680" cy="116" r="7"/>
+          <text class="t-md t-ink t-num" x="697" y="121">3.87</text>
+          <text class="t-md t-ink" x="235" y="163" text-anchor="end">Noticing bias changes their trust</text>
+          <line class="mn-stem" x1="250" y1="158" x2="520" y2="158"/>
+          <circle class="mn-hi" cx="520" cy="158" r="7"/>
+          <text class="t-md t-ink t-num" x="537" y="163">2.80</text>
+          <text class="t-md t-mute" x="235" y="205" text-anchor="end">Feel detached or disengaged</text>
+          <line class="mn-stem" x1="250" y1="200" x2="397" y2="200"/>
+          <circle class="mn-lo" cx="397" cy="200" r="7"/>
+          <text class="t-md t-mute t-num" x="414" y="205">1.98</text>
+          <text class="t-md t-mute" x="235" y="247" text-anchor="end">Lose track in long conversations</text>
+          <line class="mn-stem" x1="250" y1="242" x2="391" y2="242"/>
+          <circle class="mn-lo" cx="391" cy="242" r="7"/>
+          <text class="t-md t-mute t-num" x="408" y="247">1.94</text>
+        </svg></div>
+        <figcaption><b>The distance between the first and the third is the finding.</b> People expect bias and have absorbed it, so a general warning tells them what they already believe. The bottom two are what I went looking for and did not find.</figcaption>
+      </figure>
 
 
 
       <figure class="pl">
-        <figcaption class="pl-h"><b>One layer, three apps.</b> Signal is not a chat app. It is a thin layer that runs over the one you already use — the same classifier, the same rules, wherever you are.</figcaption>
+        <figcaption><b>One layer, three apps.</b> The same rules, over whichever app you already use.</figcaption>
 
         <div class="pl-layer">
           <span class="pl-dot"></span>
@@ -2895,11 +3007,11 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="ph-nav" id="phNext" type="button" aria-label="Show the next app">›</button>
         </div>
 
-        <p class="pl-n">The green dot is the whole of the resting state. It sits in the plugin’s own corner, not in the app’s header — a plugin cannot put anything there, and a mark inside ChatGPT’s chrome would read as though ChatGPT shipped it. Bottom-left is the one corner all three leave empty, and the only spot that is the same in every app. It says the layer is running and nothing more, so an empty screen reads as <em>nothing was raised</em> rather than <em>maybe it is broken</em>. It does not change colour when something is found — the mark on the sentence does that, where you are already looking.</p>
+        <p class="pl-n"><b>The green dot is the whole of the resting state.</b> It sits in the plugin’s own corner, not the app’s header — a mark inside ChatGPT’s chrome would read as though ChatGPT shipped it. It says the layer is running, nothing more.</p>
       </figure>
 
       <figure class="sp">
-        <figcaption class="sp-h"><b>What they made of the idea.</b> Asked how they would feel about a quiet real-time cue, 82 people split three ways — and the third way is the one that shaped the design.</figcaption>
+        <figcaption><b>What they made of the idea.</b> 82 people split three ways — and the third way shaped the design.</figcaption>
         <div class="sp-bar" role="img" aria-label="Of 82 people: 54 would find it useful, 17 were neutral and would rather judge for themselves, 11 rejected it as intrusive or unwanted.">
           <span class="sp-u"></span><span class="sp-n"></span><span class="sp-r"></span>
         </div>
@@ -2908,7 +3020,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <span class="sk sk-n"><b>21%</b>would rather judge alone</span>
           <span class="sk sk-r"><b>13%</b>did not want it at all</span>
         </div>
-        <p class="sp-n2">The 13% are why the cue is a line under a sentence rather than a panel: they will read anything louder as being told what to think. Designing so they can tell a signal from a filter made it quieter for everyone.</p>
+        <p>The 13% are why the cue is a line under a sentence rather than a panel. Designing so they can tell a signal from a filter made it quieter for everyone.</p>
       </figure>
 
       <div class="voices">
@@ -2920,7 +3032,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <blockquote class="vc vc--4"><p>It shouldn’t give a complete answer to everything; it should encourage people to think independently.</p></blockquote>
           <blockquote class="vc vc--5"><p>Don’t lie, don’t fantasise.</p></blockquote>
         </div>
-        <p class="voices-n">Free-text answers to one question: <em>if you could improve one thing about chat-based AI, what would it be?</em> Nothing in the question mentioned signals, uncertainty, or anything this system does.</p>
+        <p class="voices-n">Free-text answers to one question: what would you improve about chat-based AI? Nothing in it mentioned signals or uncertainty.</p>
       </div>
 
       <table class="devsync">
@@ -2935,8 +3047,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </tbody>
       </table>
       <div class="sec-copy copy-2">
-        <p><strong>And the thing I didn’t find.</strong> I had built the concept around attention — people losing the thread in long conversations. Losing track scored <strong>1.94/5</strong>, feeling detached <strong>1.98/5</strong>. Both near the floor. People are not drifting; they are being confidently misled while fully focused. That killed the focus-assistance layer and moved the whole project from cognitive support to epistemic signalling.</p>
-        <p class="hmw">The most useful thing the study did was contradict me.</p>
       </div>
       <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
@@ -3062,9 +3172,31 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
       <h2 class="sec-label" id="s7h">Three detectors, one score, and a gap wide enough that the signal can’t flicker.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">An answer can be wrong in ways that have nothing to do with each other. It can be fabricated. It can be accurate and about something where being wrong is expensive. Or it can be fine sentence by sentence while the conversation bends steadily towards telling you what you wanted to hear.</p>
-        <p>Those aren’t degrees of one thing, so there are three detectors, and they’re honest about their reach. Two judge a single message. The third can’t, and says so.</p>
+        <p class="sec-lede">An answer can be fabricated. It can be accurate and about something where being wrong is expensive. Or it can be fine sentence by sentence while the conversation bends towards telling you what you wanted to hear.</p>
       </div>
+      <figure class="dgm dgm--tall">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-label="Three detectors drawn as three overlapping circles">
+        <svg viewBox="0 0 900 452" role="img"
+             aria-label="Three overlapping circles. A, is it made up, judges one message. B, what does being wrong cost, judges one message. C, which way is this bending, needs three turns and reports a dash until it has them. Where all three overlap: one score.">
+          <circle class="vn" cx="345" cy="172" r="140"/>
+          <circle class="vn" cx="555" cy="172" r="140"/>
+          <circle class="vn" cx="450" cy="286" r="140"/>
+          <text class="t-md t-ink" x="268" y="104" text-anchor="middle">A</text>
+          <text class="t-sm t-mute" x="268" y="126" text-anchor="middle">IS IT MADE UP?</text>
+          <text class="t-md t-ink" x="632" y="104" text-anchor="middle">B</text>
+          <text class="t-sm t-mute" x="632" y="126" text-anchor="middle">COST OF BEING WRONG</text>
+          <text class="t-md t-ink" x="450" y="330" text-anchor="middle">C</text>
+          <text class="t-sm t-mute" x="450" y="352" text-anchor="middle">WHICH WAY IS THIS BENDING?</text>
+          <text class="t-lg t-ink" x="450" y="218" text-anchor="middle">one score</text>
+          <text class="t-sm t-mute" x="110" y="180" text-anchor="middle">JUDGES ONE</text>
+          <text class="t-sm t-mute" x="110" y="200" text-anchor="middle">MESSAGE</text>
+          <text class="t-sm t-mute" x="790" y="180" text-anchor="middle">JUDGES ONE</text>
+          <text class="t-sm t-mute" x="790" y="200" text-anchor="middle">MESSAGE</text>
+          <text class="t-sm t-mute" x="450" y="444" text-anchor="middle">NEEDS THREE TURNS — REPORTS A DASH UNTIL IT HAS THEM</text>
+        </svg></div>
+        <figcaption><b>An answer can be wrong in three unrelated ways, so there are three instruments.</b> Alert starts at 65 and no filter can score above 100 — so no single filter reaches it alone. The loudest state always needs two independent reasons.</figcaption>
+      </figure>
 <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d2t"><svg viewBox="0 0 900 300" role="img" aria-labelledby="d2t d2d">
@@ -3174,7 +3306,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption><b>Each band adds a channel and never takes one away.</b></figcaption>
       </figure>
       <div class="sec-copy copy-2">
-        <p>Sound is gated on the mechanism, not on how serious the topic is — which is the rule the control at the top of this page is demonstrating when the sycophancy case reaches alert in silence.</p>
+        <p>Sound is gated on the mechanism, not on how serious the topic is.</p>
       </div>
       <div class="blueprint">
         <h3>
@@ -3219,29 +3351,55 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
       <div class="pushed">
         <p class="pushed-e">One arithmetic fact that makes the whole framework legible</p>
-        <p>On a single turn there is no Filter C, so the score is just <em>½·A + ½·B</em>. Alert starts at 65 and no single filter can score above 100 — which means no filter on its own can reach alert. <em>A and B together have to clear 130.</em> That isn’t a tuning choice I can revisit; it’s a structural guarantee that the loudest state always needs two independent reasons.</p>
           <p>And there’s a second thing the gap buys, which I did not design for and only noticed afterwards: with a hold-band in place, the bands cannot oscillate quickly, so the red state physically cannot flash. A guard against alarm fatigue turns out to be a guard against photosensitive seizure as well.</p>
       </div>
 
       <p class="eyebrow-b">What each category can actually reach, measured rather than asserted</p>
-      <div class="sec-copy">
-        <p>I did not decide what each topic should be allowed to reach and then write it down. I ran representative prompts for every category through an exact copy of the classifier, recorded the highest and lowest scores each one actually produced, and wrote the table from the output. Twice the output contradicted the sentence I had already drafted, and the sentence was the thing that changed.</p>
-      </div>
-      <div class="sec-copy copy-2">
-        <p>Five categories can reach the top band. Only three get there through the severity of the outcome or the scale of the harm; the rest need a second filter agreeing with them. And sound is switched off wherever the mechanism is somebody’s wellbeing rather than the answer’s reliability — which is a rule about what a noise <em>means</em>, not about how serious the topic is.</p>
-      </div>
-
+      <figure class="dgm dgm--tall">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-label="Measured score range per category against the caution and alert thresholds">
+        <svg viewBox="0 0 900 420" role="img" aria-label="Measured ranges per category against thresholds at 40 for caution and 65 for alert. Fabrication risk 30 to 57. Settled checkable facts 3 to 42. Medical and financial 18 to 78. Legal, political and privacy 19 to 64. Stereotype confirmation 60 to 80. Deferring judgment to the AI 54 to 74. Asking to be agreed with 17 to 57. Crisis disclosure is forced to alert. A dot marks the only two that can make a sound.">
+          <path class="hair" d="M300 58v338"/>
+          <path class="thr" d="M512 58v338M645 58v338"/>
+          <text class="t-sm t-soft" x="300" y="46" text-anchor="middle">0</text>
+          <text class="t-sm t-mute" x="512" y="46" text-anchor="middle">40 · CAUTION</text>
+          <text class="t-sm t-mute" x="645" y="46" text-anchor="middle">65 · ALERT</text>
+          <text class="t-sm t-soft" x="830" y="46" text-anchor="middle">100</text>
+          <text class="t-md t-ink" x="285" y="97" text-anchor="end">Fabrication risk</text>
+          <rect class="rng f-amber s-amber" x="459" y="85" width="143" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="619" y="97">30–57</text>
+          <circle class="snd" cx="874" cy="92" r="5"/>
+          <text class="t-md t-ink" x="285" y="137" text-anchor="end">Settled, checkable facts</text>
+          <rect class="rng f-green s-green" x="316" y="125" width="207" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="540" y="137">3–42</text>
+          <text class="t-md t-ink" x="285" y="177" text-anchor="end">Medical · financial</text>
+          <rect class="rng f-red s-red" x="395" y="165" width="318" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="730" y="177">18–78</text>
+          <circle class="snd" cx="874" cy="172" r="5"/>
+          <text class="t-md t-ink" x="285" y="217" text-anchor="end">Legal · political · privacy</text>
+          <rect class="rng f-amber s-amber" x="401" y="205" width="238" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="656" y="217">19–64</text>
+          <text class="t-md t-ink" x="285" y="257" text-anchor="end">Stereotype confirmation</text>
+          <rect class="rng f-red s-red" x="618" y="245" width="106" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="741" y="257">60–80</text>
+          <text class="t-md t-ink" x="285" y="297" text-anchor="end">Deferring judgment to the AI</text>
+          <rect class="rng f-red s-red" x="586" y="285" width="106" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="709" y="297">54–74</text>
+          <text class="t-md t-ink" x="285" y="337" text-anchor="end">Asking to be agreed with</text>
+          <rect class="rng f-amber s-amber" x="390" y="325" width="212" height="14" rx="7"/>
+          <text class="t-sm t-mute t-num" x="619" y="337">17–57</text>
+          <text class="t-md t-ink" x="285" y="377" text-anchor="end">Crisis disclosure</text>
+          <rect class="rng f-red s-red" x="645" y="365" width="185" height="14" rx="7"/>
+          <text class="t-sm t-mute" x="840" y="377">forced</text>
+        </svg></div>
+        <figcaption><b>Five categories can reach the top band</b>, and only three get there on the severity of the outcome alone. A dot marks the only two that can make a sound — the gate is the mechanism, not how serious the topic is.</figcaption>
+      </figure>
       <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
       <div class="sec-copy">
-        <p>Three channels, and they are not interchangeable. Colour is ambient: it can sit there for as long as the state lasts and you can decline to look at it. Touch interrupts once and then is over. Sound is the only one of the three that genuinely seizes attention, and the only one other people in the room can hear.</p>
         <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
-        <p>Using three separate senses rather than three strengths of one is not a stylistic choice. Wickens’ multiple resource theory is the reason: separate perceptual channels draw on separate pools of attention, so a cue in an idle channel doesn’t compete with the reading the person is already doing. It’s the same argument as the stick shaker and the buzzing wheel, and it’s why adding another sentence to the text stream was never going to work.</p>
       </div>
 
       <div class="sec-copy copy-2">
-        <p>The sound rule caught a real bug, and it’s worth saying how. The gate was originally written as “make a sound when the reliability filter is the biggest contributor” — which sounds reasonable and is quietly broken. Two almost identical questions about a medication scored 50 against 49 and then 49 against 50, and the sound switched on and off between them on a one-point margin.</p>
-          <p>The fix was to stop asking which filter is <em>largest</em> and start asking whether the reliability contribution clears a floor at all. A ranking question became a threshold question, and a whole class of arbitrary behaviour went with it.</p>
-        <p>I only found that because I ran the two prompts. I would not have found it by looking at the code.</p>
       </div>
 <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
@@ -3294,8 +3452,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s8" data-bar="The demo" aria-labelledby="s8h">
       <h2 class="sec-label" id="s8h">Everything before this was argument. This is the thing itself.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Six scripted conversations, running the real classifier: a confident dangerous hallucination, an invented API parameter defended with certainty, a friend conflict the model gradually takes sides in, a dose it is led into prescribing, a direct crisis disclosure, and an ordinary one that stays silent throughout.</p>
-        <p>The phone shows what a person would actually see. The panel beside it shows the measurement, the concern the interface chose to name, and every internal the interface deliberately withholds — which is the more interesting half, because the gap between them is the design.</p>
+        <p class="sec-lede">Six scripted conversations running the real classifier — including a dangerous hallucination, a crisis disclosure, and an ordinary one that stays silent throughout.</p>
         <p class="hmw">It is running below. Pick a conversation and watch the band move.</p>
       </div>
 
@@ -3304,18 +3461,17 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <iframe src="/signal/conversation-simulator" title="The conversation simulator, running"
                   loading="lazy" referrerpolicy="no-referrer"></iframe>
         </div>
-        <figcaption><b>The prototype itself, not a picture of it.</b> Every band, every channel and every number in there is computed by the same classifier the rest of this page describes — the one whose thresholds are 40 and 65 and whose alert releases below 55. <a href="/signal/conversation-simulator">Open it full size</a> if the frame is too tight.</figcaption>
+        <figcaption><b>The prototype itself, not a picture of it.</b> Every number in there is computed by the same classifier the rest of this page describes.</figcaption>
       </figure>
     </section>
 
     <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
       <h2 class="sec-label" id="s9h">What I got wrong, and where it stands.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Three of these genuinely changed the system, which is not usually true of a section with this title.</p>
-        <p><strong>I designed for the wrong problem first.</strong> The concept was built around attention and continuity. The data put focus loss at 1.94/5 and detachment at 1.98/5, and I threw the focus-assistance layer away. The question that killed it was one I nearly cut for length.</p>
-        <p><strong>I had the system explaining itself.</strong> Early versions paired each cue with a line of text. The moment you supply words you have supplied an interpretation, and 84% said interpretation isn’t the system’s job. The text came out. What’s left is harder to design and much harder to make legible, which is the actual work.</p>
-        <p><strong>I underweighted the dissenters.</strong> 13% found the idea intrusive and I treated them as acceptable loss for too long. They aren’t a loss — they’re the specification for the failure mode.</p>
-        <p class="hmw">I don’t think the answer to AI being sometimes wrong is AI being more careful with us. Eighty-three people said quite clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that’s an interface problem, which makes it mine.</p>
+        <p><b>I designed for the wrong problem first.</b> The concept was built around attention. The data put focus loss at 1.94/5 and detachment at 1.98/5, and I threw that layer away.</p>
+        <p><b>I had the system explaining itself.</b> Early versions paired each cue with a line of text. Supply words and you have supplied an interpretation — which 84% said isn’t the system’s job. The text came out.</p>
+        <p><b>I underweighted the dissenters.</b> They aren’t acceptable loss; they’re the specification for the failure mode.</p>
+        <p>Eighty-three people said clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that’s an interface problem, which makes it mine.</p>
       </div>
       <div class="blueprint">
         <h3>
