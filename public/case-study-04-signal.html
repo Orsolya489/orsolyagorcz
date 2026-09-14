@@ -1590,6 +1590,26 @@ a{color:inherit}
   color:var(--muted);margin-top:.6em}
 @media (max-width:1023px){ .ev{grid-column:1} }
 
+/* The sample, drawn to scale. The bar carries the proportion and nothing
+   else: the labels sat inside it until the fixed padding on each share made
+   12 render as a fifth rather than a seventh - a bar that misreports its own
+   number is worse than no bar. Nothing in it now but the ratio. */
+.ev-bar{display:flex;margin-top:var(--stack);height:12px;border-radius:6px;
+  overflow:hidden;box-shadow:inset 0 0 0 1px var(--edge)}
+.ev-hu{flex:71;background:var(--line)}
+/* not --line-soft: this segment stands for twelve people, so it is a mark and
+   takes 3:1. The token measures 2.2:1 on the page. */
+.ev-en{flex:12;background:#817775}
+.ev-key{display:flex;gap:var(--gutter);margin:.7em 0 0;flex-wrap:wrap}
+.ev-key span{display:flex;align-items:baseline;gap:.4em;font-family:var(--sans);
+  font-size:var(--micro);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.ev-key b{font-weight:500;font-size:calc(var(--body)*1.05);letter-spacing:-.01em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.ev-key span::before{content:"";width:9px;height:9px;border-radius:2px;align-self:center}
+.k-hu::before{background:var(--line)}
+.k-en::before{background:#817775}
+.ev-n{font-size:var(--micro);line-height:1.55;color:var(--muted);margin:.7em 0 0}
+
 /* ═══ the built thing, shown early ═══
    The review that prompted this said the case study was mostly concept maps
    and that an engineering reader needs to see the component work. It was
@@ -2170,7 +2190,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <dl class="cs-facts">
       <div><dt>Discipline</dt><dd>Human-AI Interaction · Human Factors · Trust-Centred Design</dd></div>
       <div><dt>Type</dt><dd>Self-directed research and system design. Unaffiliated with any employer or client.</dd></div>
-      <div><dt>Role</dt><dd>Sole researcher and designer — study design, instrument authoring, bilingual fielding, analysis, system architecture, interaction design, prototyping, testing</dd></div>
+      <div><dt>Role</dt><dd>Sole researcher and designer — questionnaire through to prototype</dd></div>
       <div><dt>Research base</dt><dd>83 respondents · 2 languages · 31 questions · 5 instrument sections</dd></div>
     </dl>
 
@@ -2362,7 +2382,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="probBtn" aria-expanded="false" aria-controls="probPanel">
             <span>
               <span class="bp-t">Why the fix belongs in another channel</span>
-              <span class="bp-e">Forty years of aviation and automotive safety · the stick shaker · what the car and this system have in common</span>
+              <span class="bp-e">Aviation, automotive, and the stick shaker</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
@@ -2397,12 +2417,17 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
 
       <div class="ev">
-        <p class="ev-e">What this is built on</p>
+        <p class="ev-e">The sample</p>
         <div class="ev-row">
-          <div class="ev-i"><b>83</b><i>people answered it. Not a panel, not a prompt to a model — a questionnaire I wrote, fielded and analysed myself.</i></div>
-          <div class="ev-i"><b>31</b><i>questions, across five sections, from usage and tone through to ethics and responsibility.</i></div>
-          <div class="ev-i"><b>2</b><i>language versions, written and fielded independently rather than translated. 71 Hungarian, 12 English.</i></div>
+          <div class="ev-i"><b>83</b><i>people</i></div>
+          <div class="ev-i"><b>31</b><i>questions</i></div>
+          <div class="ev-i"><b>5</b><i>sections</i></div>
         </div>
+        <div class="ev-bar" role="img" aria-label="Seventy-one Hungarian respondents and twelve English, fielded separately">
+            <span class="ev-hu"></span><span class="ev-en"></span>
+          </div>
+          <p class="ev-key"><span class="k-hu"><b>71</b> Hungarian</span><span class="k-en"><b>12</b> English</span></p>
+        <p class="ev-n">Two versions, each written and fielded on its own. Not a translation.</p>
       </div>
 
       <table class="devsync">
@@ -2468,7 +2493,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
             <span>
               <span class="bp-t">What’s weak about it, stated plainly</span>
-              <span class="bp-e">Four limitations · self-selection, English n, attitudinal design, a lost grid</span>
+              <span class="bp-e">Four limitations, named</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
@@ -2541,7 +2566,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="fndBtn" aria-expanded="false" aria-controls="fndPanel">
             <span>
               <span class="bp-t">All six findings, with the evidence under each</span>
-              <span class="bp-e">The full read · verbatims in both languages · what each one closed off</span>
+              <span class="bp-e">Verbatims, in both languages</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
@@ -2746,7 +2771,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="sysBtn" aria-expanded="false" aria-controls="sysPanel">
             <span>
               <span class="bp-t">How the score is actually built</span>
-              <span class="bp-e">The metaphor as a test · the arithmetic · measured band ceilings · the bug the sound gate caught</span>
+              <span class="bp-e">The arithmetic, and the bug it caught</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
@@ -2887,7 +2912,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="stateBtn" aria-expanded="false" aria-controls="statePanel">
             <span>
               <span class="bp-t">Where it stands, and what it can’t do</span>
-              <span class="bp-e">Status · the five literatures · the conformance audit · the risks not being accepted</span>
+              <span class="bp-e">Status, literatures, and the risks</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
@@ -2909,7 +2934,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="bp-btn" id="apxBtn" aria-expanded="false" aria-controls="apxPanel">
             <span>
               <span class="bp-t">Appendix — every figure used above</span>
-              <span class="bp-e">All computed directly from the two project CSVs · HU n=71 · EN n=12</span>
+              <span class="bp-e">Every figure, computed from the CSVs</span>
             </span>
             <span class="bp-ico" aria-hidden="true"></span>
           </button>
