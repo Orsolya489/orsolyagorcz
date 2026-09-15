@@ -122,7 +122,16 @@ img{max-width:100%;display:block}
    balance their lines; prose only refuses to orphan the last one. */
 h1,h2,h3,h4,.sec-label,.cs-title,.card-h,.t-hero,.t-title,.t-lead{
   text-wrap:balance}
-p,li,dd,figcaption,blockquote,.sec-lede,/* ═══ the stakes, before the description ═══
+p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
+  text-wrap:pretty}
+
+/* A caption is small copy, always. .dgm/.fig figcaption rules below are
+   more specific and still win; this only catches the figures that never had
+   a rule of their own and were reading at paragraph size. */
+figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted)}
+figcaption b{color:var(--ink);font-weight:500}
+
+/* ═══ the stakes, before the description ═══
    The first thing read after the title. It is set one step above the lede
    because it is doing different work: the lede says what this is, the hook
    says who pays if nobody builds it. One step, not three — the page has no
@@ -131,8 +140,6 @@ p,li,dd,figcaption,blockquote,.sec-lede,/* ═══ the stakes, before the desc
   letter-spacing:-.006em;color:var(--ink);margin:0 0 1.3em;
   max-width:58ch;text-wrap:pretty}
 @media (max-width:1023px){.cs-hook{max-width:none}}
-.cs-lede{
-  text-wrap:pretty}
 a{color:inherit}
 
 /* ═══ shared shell ═══ */
@@ -1738,6 +1745,17 @@ a{color:inherit}
 [data-contrast="high"] .ph[data-pos="l"],
 [data-contrast="high"] .ph[data-pos="r"]{opacity:.78}
 
+/* ═══ the note under a figure ═══
+   A caption is small copy and says what you are looking at. An argument, a
+   number the drawing does not show, or a claim you could disagree with is not
+   a caption - it is copy, and it reads at copy size in the reading column
+   like every other paragraph on the page. */
+.fig-note{grid-column:2;font-size:var(--body);line-height:1.62;
+  color:var(--body-c);margin:var(--stack) 0 0;max-width:66ch;text-wrap:pretty}
+.fig-note b{color:var(--ink);font-weight:500}
+@media (max-width:1023px){.fig-note{grid-column:1}}
+.bp-inner .fig-note{grid-column:auto;max-width:none}
+
 /* ═══ the three things the study tested ═══
    The concept started as three questions, not one, and the page had only ever
    shown what happened to the one that failed. Two held. Drawing all three is
@@ -2499,6 +2517,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="cs-hook">We already know AI can mislead us, flatter us, and quietly bend what we think. What we don’t get is any way to tell when. Certainty and guesswork arrive in the same even voice, and on screen they look identical. The reader pays for that — in judgement, in attention, and in how much thinking they still do themselves.</p>
         <p class="cs-lede">A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.</p>
         <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
+        <p class="fig-note">Each step closed off a direction the one above it allowed — which is why what reaches the screen is a single line under a single sentence.</p>
       </div>
       <figure class="cs-hero">
         <svg class="ov" viewBox="0 0 520 424" role="img"
@@ -2515,7 +2534,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="ov-p ov-p--out" x="160" y="364" width="200" height="52" rx="14"/>
           <text class="ov-t" x="260" y="396" text-anchor="middle">a line under one sentence</text>
         </svg>
-        <figcaption>Each step closed off a direction the one above it allowed.</figcaption>
+        <figcaption>Five steps, each narrower than the one above it.</figcaption>
       </figure>
     </div>
 
@@ -2635,8 +2654,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             </div>
           </div>
         </div>
-        <figcaption><b>This is the whole of it.</b> A line under the sentence that raised something, and a note if you tap it. Most of the time, nothing.</figcaption>
+        <figcaption>The same answer on a light app and a dark one: a line under one sentence, and the note it opens.</figcaption>
       </figure>
+      <p class="fig-note">That is the whole of it. Nothing else is ever on screen — and most of the time, nothing is.</p>
 
       <div class="metrics">
         <div class="metric"><b>83</b><i>people, across two independently fielded language versions — Hungarian and English</i></div>
@@ -2685,8 +2705,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="ch-idle" x="470" y="210" width="400" height="14" rx="7"/>
           <text class="t-md t-mute" x="470" y="266">A pulse here does not.</text>
         </svg></div>
-        <figcaption><b>Separate senses draw on separate pools of attention.</b> The same argument as the stick shaker and the buzzing wheel.</figcaption>
+        <figcaption>Reading and composing drawn as full bars; colour, touch and sound drawn as empty ones.</figcaption>
       </figure>
+      <p class="fig-note"><b>Separate senses draw on separate pools of attention.</b> A sentence added to the stream competes with the reading already happening; a pulse in an idle channel does not. It is the same argument as the stick shaker and the buzzing wheel.</p>
       <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="v3t v3d">
@@ -2711,8 +2732,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
           <text class="t-md t-mute" x="450" y="228" text-anchor="middle">Same face. Same weight. Same certainty. Nothing in the surface separates them.</text>
         </svg></div>
-        <figcaption><b>This is the whole problem in one picture.</b></figcaption>
+        <figcaption>Two answers, set in the same face, weight and ground. One is true; the other names a drug that does not exist.</figcaption>
       </figure>
+      <p class="fig-note">Nothing in the surface separates them. That is the whole problem in one picture.</p>
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="probBtn" aria-expanded="false" aria-controls="probPanel">
@@ -2794,8 +2816,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <text class="t-sm t-mute" x="646" y="330">The layer built on it was cut.</text>
           </g>
         </svg></div>
-        <figcaption><b>The study went looking for three things, and I only kept two.</b> Ethics and trust held and changed shape. Attention did not, and cutting the layer I had built on it is what turned this from cognitive support into a signalling system.</figcaption>
+        <figcaption>Three columns: the question asked, the two figures that answered it, and the verdict. The third is dimmed, its rule broken.</figcaption>
       </figure>
+      <p class="fig-note"><b>The study went looking for three things, and I only kept two.</b> Ethics and trust held and changed shape. Attention did not — and cutting the layer I had built on it is what turned this from cognitive support into a signalling system.</p>
 
       <div class="ev">
         <p class="ev-e">The sample</p>
@@ -2813,7 +2836,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
 
       <figure class="bc">
-        <figcaption><b>Who answered.</b> Not a room full of people who work in tech.</figcaption>
+        <figcaption>Seven age bands, longest first: 35–44, 25–34, 45–54 and under-18s, then 55–64, 18–24 and 65+.</figcaption>
         <div class="bc-set" role="img" aria-label="Age of the 83 respondents: 35 to 44, nineteen. 25 to 34, seventeen. 45 to 54, fourteen. Under eighteen, fourteen. 55 to 64, nine. 18 to 24, seven. 65 and over, three.">
           <div class="bc-row">
             <span class="bc-k">35–44</span>
@@ -2852,6 +2875,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
         </div>
       </figure>
+      <p class="fig-note">It is not a room full of people who work in tech, which is why I trust the responsibility finding as much as I do.</p>
 
       <table class="devsync">
         <thead><tr><th scope="col"><span>Read against the design</span></th><th scope="col"><span>What it settled</span></th></tr></thead>
@@ -2909,8 +2933,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-lg t-ink t-num" x="616" y="340">71</text>
           <text class="t-lg t-ink t-num" x="722" y="340">12</text>
         </svg></div>
-        <figcaption><b>Written, fielded and analysed by one person, with no client and no brief.</b></figcaption>
+        <figcaption>The instrument: 31 questions across five sections, fielded twice.</figcaption>
       </figure>
+      <p class="fig-note">Written, fielded and analysed by one person, with no client and no brief.</p>
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
@@ -2970,13 +2995,14 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <circle class="mn-lo" cx="391" cy="242" r="7"/>
           <text class="t-md t-mute t-num" x="408" y="247">1.94</text>
         </svg></div>
-        <figcaption><b>The distance between the first and the third is the finding.</b> People expect bias and have absorbed it, so a general warning tells them what they already believe. The bottom two are what I went looking for and did not find.</figcaption>
+        <figcaption>Five means on one 1–5 scale. The top three sit high, the bottom two near the floor.</figcaption>
       </figure>
+      <p class="fig-note"><b>The distance between the first and the third is the finding.</b> People expect bias and have absorbed it, so a general warning tells them what they already believe. The bottom two are what I went looking for and did not find.</p>
 
 
 
       <figure class="pl">
-        <figcaption><b>One layer, three apps.</b> The same rules, over whichever app you already use. These are real screenshots, with the status bar replaced.</figcaption>
+        <figcaption>Three real screenshots, the status bar replaced. The middle phone carries a green dot in its lower-left corner; the other two do not.</figcaption>
 
         <div class="pl-layer">
           <span class="pl-dot"></span>
@@ -3011,9 +3037,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
         <p class="pl-n"><b>The green dot is the whole of the resting state.</b> It sits in the plugin’s own corner, not the app’s header — a mark inside ChatGPT’s chrome would read as though ChatGPT shipped it. It says the layer is running, nothing more.</p>
       </figure>
+      <p class="fig-note"><b>One layer, three apps.</b> The same rules, over whichever app you already use.</p>
 
       <figure class="sp">
-        <figcaption><b>What they made of the idea.</b> 82 people split three ways — and the third way shaped the design.</figcaption>
+        <figcaption>One bar, three segments: 66%, 21% and 13%.</figcaption>
         <div class="sp-bar" role="img" aria-label="Of 82 people: 54 would find it useful, 17 were neutral and would rather judge for themselves, 11 rejected it as intrusive or unwanted.">
           <span class="sp-u"></span><span class="sp-n"></span><span class="sp-r"></span>
         </div>
@@ -3024,6 +3051,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </div>
         <p>The 13% are why the cue is a line under a sentence rather than a panel. Designing so they can tell a signal from a filter made it quieter for everyone.</p>
       </figure>
+      <p class="fig-note"><b>What they made of the idea.</b> 82 people split three ways — and the third way is the one that shaped the design.</p>
 
       <div class="voices">
         <p class="voices-e">What people wrote, unprompted</p>
@@ -3081,8 +3109,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <text x="500" y="236">3</text><text x="675" y="236">4</text><text x="850" y="236">5</text>
           </g>
         </svg></div>
-        <figcaption><b>People have already priced bias in.</b></figcaption>
+        <figcaption>Two means side by side: 4.02 expected, 2.80 moved.</figcaption>
       </figure>
+      <p class="fig-note">People have already priced bias in.</p>
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="fndBtn" aria-expanded="false" aria-controls="fndPanel">
@@ -3197,8 +3226,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <text class="t-sm t-mute" x="790" y="200" text-anchor="middle">MESSAGE</text>
           <text class="t-sm t-mute" x="450" y="444" text-anchor="middle">NEEDS THREE TURNS — REPORTS A DASH UNTIL IT HAS THEM</text>
         </svg></div>
-        <figcaption><b>An answer can be wrong in three unrelated ways, so there are three instruments.</b> Alert starts at 65 and no filter can score above 100 — so no single filter reaches it alone. The loudest state always needs two independent reasons.</figcaption>
+        <figcaption>Three overlapping circles. Two judge a single message; the third needs three turns. One score where all three meet.</figcaption>
       </figure>
+      <p class="fig-note"><b>An answer can be wrong in three unrelated ways, so there are three instruments.</b> Alert starts at 65 and no filter can score above 100 — so no single filter reaches it alone. The loudest state always needs two independent reasons.</p>
 <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d2t"><svg viewBox="0 0 900 300" role="img" aria-labelledby="d2t d2d">
@@ -3394,8 +3424,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="rng f-red s-red" x="645" y="365" width="185" height="14" rx="7"/>
           <text class="t-sm t-mute" x="840" y="377">forced</text>
         </svg></div>
-        <figcaption><b>Five categories can reach the top band</b>, and only three get there on the severity of the outcome alone. A dot marks the only two that can make a sound — the gate is the mechanism, not how serious the topic is.</figcaption>
+        <figcaption>Eight measured ranges against the caution and alert thresholds. A dot marks two of them.</figcaption>
       </figure>
+      <p class="fig-note"><b>Five categories can reach the top band</b>, and only three get there on the severity of the outcome alone. The dot marks the only two that can make a sound — the gate is the mechanism, not how serious the topic is.</p>
       <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
       <div class="sec-copy">
         <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
@@ -3432,8 +3463,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <text x="470" y="252">signal, never advise</text>
           </g>
         </svg></div>
-        <figcaption><b>The metaphor is the design, not the illustration.</b></figcaption>
+        <figcaption>Five behaviours of a lane departure warning on the left, each joined to the feature it produced on the right.</figcaption>
       </figure>
+      <p class="fig-note">The metaphor is the design, not the illustration.</p>
 <table class="devsync">
         <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
         <tbody>
@@ -3463,8 +3495,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <iframe src="/signal/conversation-simulator" title="The conversation simulator, running"
                   loading="lazy" referrerpolicy="no-referrer"></iframe>
         </div>
-        <figcaption><b>The prototype itself, not a picture of it.</b> Every number in there is computed by the same classifier the rest of this page describes.</figcaption>
+        <figcaption>The running prototype, embedded.</figcaption>
       </figure>
+      <p class="fig-note"><b>The prototype itself, not a picture of it.</b> Every band, every channel and every number in there is computed by the same classifier the rest of this page describes.</p>
     </section>
 
     <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
