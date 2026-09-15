@@ -995,7 +995,22 @@ a{color:inherit}
 .bp-toggle[aria-expanded="true"] .bp-ico::after{border-top-color:var(--page)}
 .bp-toggle[aria-expanded="true"] .bp-ico::after{transform:rotate(0)}
 /* rows rather than max-height, so the panel is exactly as tall as it needs */
-.bp-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
+/* The 0fr → 1fr transition was the bug, not the pattern. Animating an fr
+   track inside an auto-height grid resolves that track against zero free
+   space, so the panel animated to nothing and stayed there — aria-expanded
+   said true, the content sat in the DOM, and the reader got 25px of padding.
+   Every disclosure on every case study was doing this.
+   The base opens with no animation, which is always correct. Browsers that
+   can interpolate to a keyword get the smooth version instead. */
+.bp-panel{display:grid;grid-template-rows:0fr}
+@supports (interpolate-size: allow-keywords){
+  :root{interpolate-size:allow-keywords}
+  .bp-panel{display:block;height:0;overflow:hidden;
+    transition:height var(--out) var(--ease)}
+  .bp-panel[data-open="true"]{height:auto}
+}
+[data-motion="off"] .bp-panel{transition:none}
+@media (prefers-reduced-motion:reduce){ .bp-panel{transition:none} }
 .bp-panel[data-open="true"]{grid-template-rows:1fr}
 .bp-inner{overflow:hidden;min-height:0}
 .bp-panel[data-open="true"] .bp-inner{padding-top:var(--stack)}

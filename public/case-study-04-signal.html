@@ -1019,7 +1019,22 @@ a{color:inherit}
 .bp-btn[aria-expanded="true"] .bp-ico::after{border-top-color:var(--page)}
 .bp-btn[aria-expanded="true"] .bp-ico::after{transform:rotate(0)}
 /* rows rather than max-height, so the panel is exactly as tall as it needs */
-.bp-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--out) var(--ease)}
+/* The 0fr → 1fr transition was the bug, not the pattern. Animating an fr
+   track inside an auto-height grid resolves that track against zero free
+   space, so the panel animated to nothing and stayed there — aria-expanded
+   said true, the content sat in the DOM, and the reader got 25px of padding.
+   Every disclosure on every case study was doing this.
+   The base opens with no animation, which is always correct. Browsers that
+   can interpolate to a keyword get the smooth version instead. */
+.bp-panel{display:grid;grid-template-rows:0fr}
+@supports (interpolate-size: allow-keywords){
+  :root{interpolate-size:allow-keywords}
+  .bp-panel{display:block;height:0;overflow:hidden;
+    transition:height var(--out) var(--ease)}
+  .bp-panel[data-open="true"]{height:auto}
+}
+[data-motion="off"] .bp-panel{transition:none}
+@media (prefers-reduced-motion:reduce){ .bp-panel{transition:none} }
 .bp-panel[data-open="true"]{grid-template-rows:1fr}
 .bp-inner{overflow:hidden;min-height:0}
 .bp-panel[data-open="true"] .bp-inner{padding-top:var(--stack)}
@@ -1722,6 +1737,19 @@ a{color:inherit}
 [data-contrast="high"] .ph{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
 [data-contrast="high"] .ph[data-pos="l"],
 [data-contrast="high"] .ph[data-pos="r"]{opacity:.78}
+
+/* ═══ the three things the study tested ═══
+   The concept started as three questions, not one, and the page had only ever
+   shown what happened to the one that failed. Two held. Drawing all three is
+   what makes the failed one legible as a finding rather than as a gap.
+   The third column is dimmed and its rule is broken, so the outcome reads
+   before any of the words do. */
+.pil-p{fill:var(--page);stroke:#817775;stroke-width:1}
+.pil-p--out{fill:none;stroke-dasharray:4 4}
+.dgm .pil-n{font-family:var(--sans);font-weight:300;font-size:29px;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.dgm .pil-cut{stroke:#817775;stroke-width:1.5;stroke-dasharray:6 5;fill:none}
+[data-contrast="high"] .pil-p{stroke:var(--ink)}
 
 /* ═══ the five drawings added for the visual pass ═══
    Marks that carry data take a mark's contrast, not a hairline's. #817775
@@ -2718,6 +2746,56 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="sec-copy">
         <p class="sec-lede">31 questions, 5 sections, two languages fielded as separate deployments — Hungarian (n=71) and English (n=12). Not a translation: the Hungarian version carried an extra question that produced the study’s most important number.</p>
       </div>
+      <figure class="dgm dgm--tall">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-label="The three things the study set out to test, and what happened to each">
+        <svg viewBox="0 0 900 356" role="img"
+             aria-label="Three columns. Ethics: whose job is it to judge a loaded answer? 4.02 of 5 expect the AI is biased, 84% say the judgment is theirs. Held — it became the constraint the product is built around. Trust: does noticing bias cost the AI trust? 2.80 of 5 is what noticing moves it, 62% would trust it more if it said so. Held but inverted — bias is already priced in, and saying so is what earns trust. Attention: do people lose the thread in long conversations? 1.94 of 5 lose track, 1.98 feel detached. Did not hold — both near the floor, and the layer built on it was cut.">
+          <g>
+            <rect class="pil-p" x="0" y="24" width="280" height="316" rx="14"/>
+            <text class="t-sm t-mute" x="26" y="58">ETHICS</text>
+            <text class="t-md t-ink" x="26" y="88">Whose job is it to judge</text>
+            <text class="t-md t-ink" x="26" y="110">a loaded answer?</text>
+            <line class="hair" x1="26" y1="134" x2="254" y2="134"/>
+            <text class="pil-n t-ink" x="26" y="176">4.02/5</text>
+            <text class="t-sm t-mute" x="26" y="198">expect the AI is biased</text>
+            <text class="pil-n t-ink" x="26" y="244">84%</text>
+            <text class="t-sm t-mute" x="26" y="266">say the judgment is theirs</text>
+            <line class="rule" x1="26" y1="288" x2="254" y2="288"/>
+            <text class="t-sm t-ink" x="26" y="310">HELD</text>
+            <text class="t-sm t-mute" x="26" y="330">It became the defining constraint.</text>
+          </g>
+          <g>
+            <rect class="pil-p" x="310" y="24" width="280" height="316" rx="14"/>
+            <text class="t-sm t-mute" x="336" y="58">TRUST</text>
+            <text class="t-md t-ink" x="336" y="88">Does noticing bias</text>
+            <text class="t-md t-ink" x="336" y="110">cost the AI trust?</text>
+            <line class="hair" x1="336" y1="134" x2="564" y2="134"/>
+            <text class="pil-n t-ink" x="336" y="176">2.80/5</text>
+            <text class="t-sm t-mute" x="336" y="198">is what noticing moves it</text>
+            <text class="pil-n t-ink" x="336" y="244">62%</text>
+            <text class="t-sm t-mute" x="336" y="266">would trust it more if it said so</text>
+            <line class="rule" x1="336" y1="288" x2="564" y2="288"/>
+            <text class="t-sm t-ink" x="336" y="310">HELD, INVERTED</text>
+            <text class="t-sm t-mute" x="336" y="330">Bias is already priced in.</text>
+          </g>
+          <g>
+            <rect class="pil-p pil-p--out" x="620" y="24" width="280" height="316" rx="14"/>
+            <text class="t-sm t-mute" x="646" y="58">ATTENTION</text>
+            <text class="t-md t-mute" x="646" y="88">Do people lose the thread</text>
+            <text class="t-md t-mute" x="646" y="110">in long conversations?</text>
+            <line class="hair" x1="646" y1="134" x2="874" y2="134"/>
+            <text class="pil-n t-mute" x="646" y="176">1.94/5</text>
+            <text class="t-sm t-mute" x="646" y="198">lose track of the topic</text>
+            <text class="pil-n t-mute" x="646" y="244">1.98/5</text>
+            <text class="t-sm t-mute" x="646" y="266">feel detached or disengaged</text>
+            <line class="pil-cut" x1="646" y1="288" x2="874" y2="288"/>
+            <text class="t-sm t-mute" x="646" y="310">DID NOT HOLD</text>
+            <text class="t-sm t-mute" x="646" y="330">The layer built on it was cut.</text>
+          </g>
+        </svg></div>
+        <figcaption><b>The study went looking for three things, and I only kept two.</b> Ethics and trust held and changed shape. Attention did not, and cutting the layer I had built on it is what turned this from cognitive support into a signalling system.</figcaption>
+      </figure>
 
       <div class="ev">
         <p class="ev-e">The sample</p>
