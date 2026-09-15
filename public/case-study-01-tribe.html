@@ -100,7 +100,16 @@ img{max-width:100%;display:block}
    balance their lines; prose only refuses to orphan the last one. */
 h1,h2,h3,h4,.sec-label,.cs-title,.card-h,.t-hero,.t-title,.t-lead{
   text-wrap:balance}
-p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
+p,li,dd,figcaption,blockquote,.sec-lede,/* ═══ the stakes, before the description ═══
+   The first thing read after the title. It is set one step above the lede
+   because it is doing different work: the lede says what this is, the hook
+   says who pays if nobody builds it. One step, not three — the page has no
+   room for a second headline. */
+.cs-hook{font-size:calc(var(--body)*1.14);line-height:1.5;
+  letter-spacing:-.006em;color:var(--ink);margin:0 0 1.3em;
+  max-width:58ch;text-wrap:pretty}
+@media (max-width:1023px){.cs-hook{max-width:none}}
+.cs-lede{
   text-wrap:pretty}
 a{color:inherit}
 
@@ -1723,6 +1732,7 @@ a{color:inherit}
 
     <div class="cs-intro">
       <div>
+        <p class="cs-hook">Everyone has a version of what they want that they would never put in a profile. Tribe asks for exactly that — one honest sentence, typed into a field wired to a stranger-matching algorithm, before you know who is on the other end. Ask badly and people write something safe and useless.</p>
         <p class="cs-lede">“The design problem wasn’t matching. It was building enough safety for someone to type the thing they actually want.”</p>
         <p class="cs-lede">The full MVP, from architecture to developer handoff: the system design, the human-AI interaction patterns, what I did about AI latency, and the validation planned for alpha.</p>
       </div>

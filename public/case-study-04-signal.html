@@ -122,7 +122,16 @@ img{max-width:100%;display:block}
    balance their lines; prose only refuses to orphan the last one. */
 h1,h2,h3,h4,.sec-label,.cs-title,.card-h,.t-hero,.t-title,.t-lead{
   text-wrap:balance}
-p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
+p,li,dd,figcaption,blockquote,.sec-lede,/* ═══ the stakes, before the description ═══
+   The first thing read after the title. It is set one step above the lede
+   because it is doing different work: the lede says what this is, the hook
+   says who pays if nobody builds it. One step, not three — the page has no
+   room for a second headline. */
+.cs-hook{font-size:calc(var(--body)*1.14);line-height:1.5;
+  letter-spacing:-.006em;color:var(--ink);margin:0 0 1.3em;
+  max-width:58ch;text-wrap:pretty}
+@media (max-width:1023px){.cs-hook{max-width:none}}
+.cs-lede{
   text-wrap:pretty}
 a{color:inherit}
 
@@ -2459,6 +2468,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
     <div class="cs-intro">
       <div>
+        <p class="cs-hook">We already know AI can mislead us, flatter us, and quietly bend what we think. What we don’t get is any way to tell when. Certainty and guesswork arrive in the same even voice, and on screen they look identical. The reader pays for that — in judgement, in attention, and in how much thinking they still do themselves.</p>
         <p class="cs-lede">A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.</p>
         <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
       </div>

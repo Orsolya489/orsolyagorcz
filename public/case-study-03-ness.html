@@ -100,7 +100,16 @@ img{max-width:100%;display:block}
    balance their lines; prose only refuses to orphan the last one. */
 h1,h2,h3,h4,.sec-label,.cs-title,.card-h,.t-hero,.t-title,.t-lead{
   text-wrap:balance}
-p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
+p,li,dd,figcaption,blockquote,.sec-lede,/* ═══ the stakes, before the description ═══
+   The first thing read after the title. It is set one step above the lede
+   because it is doing different work: the lede says what this is, the hook
+   says who pays if nobody builds it. One step, not three — the page has no
+   room for a second headline. */
+.cs-hook{font-size:calc(var(--body)*1.14);line-height:1.5;
+  letter-spacing:-.006em;color:var(--ink);margin:0 0 1.3em;
+  max-width:58ch;text-wrap:pretty}
+@media (max-width:1023px){.cs-hook{max-width:none}}
+.cs-lede{
   text-wrap:pretty}
 a{color:inherit}
 
@@ -1718,6 +1727,7 @@ a{color:inherit}
 
     <div class="cs-intro">
       <div>
+        <p class="cs-hook">There is a particular kind of stuck where you know something is wrong and every sentence you try is the wrong one. Naming a feeling is a skill, and it deserts people at exactly the moment they need it most.</p>
         <p class="cs-lede">Most therapy apps ask you to describe how you feel. But some people can’t. Not because they won’t — because the words aren’t there yet.</p>
         <p class="cs-lede">Yet every tool assumes verbal clarity at the exact moment people have the least access to words.</p>
       </div>
