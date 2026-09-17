@@ -521,6 +521,25 @@ a{color:inherit}
 .cs-intro{display:grid;grid-template-columns:2fr 1fr;gap:var(--gutter);
   align-items:start;margin-top:var(--section)}
 @media (max-width:1023px){.cs-intro{grid-template-columns:1fr;gap:var(--section)}}
+/* ═══ the turn ═══
+   Problem above, answer below, and a drawn arrow carrying you between them.
+   The arrow is the one hand-drawn mark on a page of measured ones, which is
+   why it is allowed to be crooked — it is the author's own aside, not an
+   instrument. It hangs on the text's left edge and loops down into the
+   sentence it points at. Decorative, so it is hidden from screen readers:
+   the two paragraphs already read in the right order without it. */
+.cs-turn{display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:var(--gutter);align-items:start;margin-top:calc(var(--section)*.3)}
+.cs-arrow{display:block;width:clamp(58px,7vw,96px);color:var(--line-soft);
+  margin-top:-.4em}
+.cs-arrow svg{display:block;width:100%;height:auto;
+  fill:none;stroke:currentColor;stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:1023px){
+  .cs-turn{grid-template-columns:1fr;gap:var(--stack)}
+  .cs-arrow{width:clamp(44px,12vw,64px);margin-top:0}
+}
+
 .cs-lede{font-size:var(--body);color:var(--ink);margin:0;max-width:62ch}
 .cs-lede + .cs-lede{margin-top:1.1em}
 /* ═══ the funnel, said rather than drawn ═══
@@ -2620,7 +2639,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <div class="cs-intro">
       <div>
         <p class="cs-hook">Most of us already know AI can hallucinate and drift from what’s true. What we don’t ask is whether we’re vigilant enough to catch it — alert for the one sentence, in a hundred, that needed a second thought. Bias runs both ways: the system has its own, and so do we. On screen, they look identical. The reader pays for that.</p>
-        <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It stays quiet about whether the answer is right — that part is still yours. It just marks where to look.</p>
       </div>
             <figure class="cs-hero">
         <img src="signal/ai-human.png" width="852" height="577" loading="eager" decoding="async"
@@ -2628,6 +2646,15 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption>Two heads mid-conversation, each in its own language.</figcaption>
       </figure>
     </div>
+      <div class="cs-turn">
+        <span class="cs-arrow" aria-hidden="true">
+          <svg viewBox="0 0 104 112">
+            <path d="M30 6 C31 28 21 36 33 43 C48 52 59 37 46 31 C33 25 25 43 31 62 C37 83 55 94 84 95"/>
+            <path d="M72 86 L88 95 L71 104"/>
+          </svg>
+        </span>
+        <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It stays quiet about whether the answer is right — that part is still yours. It just marks where to look.</p>
+      </div>
 
   </header>
 
