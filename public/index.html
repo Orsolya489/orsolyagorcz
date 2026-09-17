@@ -151,23 +151,6 @@ a{color:inherit}
 .btn--on:hover{background:var(--ink);border-color:var(--ink);color:var(--page)}
 .btn--sel{background:rgba(25,21,23,.10);border-color:transparent}
 .btn svg{width:var(--ico);height:var(--ico);flex:0 0 auto}
-/* ═══ resume / linkedin / email: a large initial, not an icon ═══
-   Three actions that read before they're decoded - R, in, @ are already the
-   shorthand for the thing each one opens. Auto width rather than the shared
-   .btn--icon's fixed circle: "in" needs a hair more room than a single
-   letter, so the chip becomes a small pill instead of squeezing two
-   characters into a perfect circle. A dedicated class rather than reusing
-   .btn--icon/.btn--on - both are live elsewhere (the a11y buttons toggle
-   .btn--on at runtime, and the footer has its own LinkedIn/GitHub icons on
-   .btn--icon), so changing those rules directly would move things this
-   request never mentioned. */
-.init-btn{width:auto;min-width:var(--control);padding:0 calc(var(--control)*.24)}
-.init{font-family:var(--sans);font-weight:500;font-size:calc(var(--control)*.44);
-  line-height:1;letter-spacing:-.01em;color:inherit;text-transform:none}
-/* the email action stays the one that's "on" - card-light now, matching the
-   tab pill, rather than the ink-filled state every other .btn--on still
-   uses */
-.init-btn--on{background:var(--card);border-color:var(--card);color:var(--ink)}
 /* hover bubble — the icon carries the action, this names it */
 .btn[data-tip]{position:relative}
 .btn[data-tip]::after{
@@ -335,23 +318,20 @@ a{color:inherit}
 /* bottom tab — one capsule, sliding indicator */
 .tabs{position:relative;display:flex;align-items:center;
   padding:0 3px;height:var(--control);
-  /* hairline as an inset shadow, not a border: a border would eat 2px from the
-     content box and drop the tab hit area under 44px */
-  background:var(--glass);box-shadow:inset 0 0 0 1px var(--edge-ctrl);border:0;border-radius:var(--r-pill);
+  background:var(--glass);border:0;border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .tab-ind{position:absolute;top:3px;left:0;height:calc(var(--control) - 6px);
-  background:var(--card);box-shadow:inset 0 0 0 1px var(--edge);
-  border-radius:var(--r-pill);pointer-events:none;will-change:transform,width;
+  background:var(--recess);border-radius:var(--r-pill);pointer-events:none;
+  will-change:transform,width;
   transition:transform 460ms var(--ease),width 460ms var(--ease)}
-.tab{position:relative;z-index:1;height:100%;min-width:var(--control);padding:0 calc(var(--control)*.42);
-  display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--control)*.22);
+.tab{position:relative;z-index:1;height:100%;min-width:var(--control);padding:0 calc(var(--control)*.55);
+  display:inline-flex;align-items:center;justify-content:center;
   background:none;border:0;border-radius:var(--r-pill);color:var(--muted);
   font-family:var(--serif);font-weight:500;font-size:var(--micro);letter-spacing:0;text-transform:lowercase;cursor:pointer;white-space:nowrap;
   transition:color var(--out) var(--ease),background var(--out) var(--ease)}
 .tab:hover{background:rgba(25,21,23,.06);color:var(--ink);transition-duration:var(--in)}
 .tab[aria-selected="true"]{color:var(--ink)}
 .tab[aria-selected="true"]:hover{background:none;color:var(--ink)}
-.tab svg{width:var(--ico);height:var(--ico);flex:0 0 auto}
 
 /* accessibility panel */
 .panel{position:absolute;z-index:600;right:var(--margin);
@@ -1168,14 +1148,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </nav>
 
 <div class="chrome c-tr">
-  <a class="btn init-btn" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
-    <span class="init" aria-hidden="true">R</span>
+  <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
   </a>
-  <a class="btn init-btn" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect!">
-    <span class="init" aria-hidden="true">in</span>
+  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
   </a>
-  <button class="btn init-btn init-btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
-    <span class="init" aria-hidden="true">@</span>
+  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
 </div>
 
@@ -1183,15 +1163,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   <div class="tabs" role="tablist">
     <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
     <button class="tab" role="tab" aria-selected="true" aria-controls="home" data-go="home" aria-label="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
       <span class="tab-label" aria-hidden="true">Home</span>
     </button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="work" data-go="work" aria-label="Work">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       <span class="tab-label" aria-hidden="true">Work</span>
     </button>
     <button class="tab" role="tab" aria-selected="false" aria-controls="about" data-go="about" aria-label="About">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
       <span class="tab-label" aria-hidden="true">About</span>
     </button>
   </div>
@@ -1535,20 +1512,20 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
        reads as its own zone rather than as more page. -->
   <section class="contact-band" aria-labelledby="contactH">
     <div class="wrap"><div class="cb-grid">
-    <span class="contact-loc"><span class="loc-dot" aria-hidden="true"></span>Currently in Szombathely, Hungary</span>
-    <h2 class="t-title" id="contactH">Building complex AI products or safety-critical software?</h2>
-    <p class="t-body">Open to full-time and project based contract opportunities. Preferable remote, but open to relocation.</p>
-    <div class="contact-row">
-      <button class="btn btn--on" id="mailCopy" data-tip="Copy email address">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <span>orsigorcz@gmail.com</span>
-      </button>
-      <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
-      </a>
-      <a class="btn btn--icon" href="https://github.com/Orsolya489" target="_blank" rel="noopener" aria-label="GitHub" data-tip="GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.65-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg>
-      </a>
+    <span class="contact-loc"><span class="loc-dot" aria-hidden="true"></span>Currently in Szombathely, Hungary</span>
+    <h2 class="t-title" id="contactH">Building complex AI products or safety-critical software?</h2>
+    <p class="t-body">Open to full-time and project based contract opportunities. Preferable remote, but open to relocation.</p>
+    <div class="contact-row">
+      <button class="btn btn--on" id="mailCopy" data-tip="Copy email address">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>orsigorcz@gmail.com</span>
+      </button>
+      <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+      </a>
+      <a class="btn btn--icon" href="https://github.com/Orsolya489" target="_blank" rel="noopener" aria-label="GitHub" data-tip="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.65-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg>
+      </a>
     </div>
     </div></div>
   </section>
