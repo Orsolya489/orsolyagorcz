@@ -1872,14 +1872,7 @@ a{color:inherit}
 
 /* the overview funnel sits in .cs-hero, outside .dgm, so it carries its own
    type rules rather than inheriting the diagram ones */
-.ov{display:block;width:100%;max-width:560px;height:auto;margin-inline:auto}
-/* every bar identical - that is the point, so nothing here varies */
-.ov-bar{fill:var(--line)}
-.ov-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;fill:var(--muted)}
-.ov-h{stroke:#817775;stroke-width:1;fill:none}
-/* shape, not hue: a ring and a filled square stay different in greyscale */
-.ov-ok{fill:none;stroke:#817775;stroke-width:1.5}
-.ov-no{fill:var(--ink)}
+
 
 /* channel load: a full bar is a committed channel, an outlined one is idle */
 .dgm .ch-full{fill:var(--line)}
@@ -1902,7 +1895,6 @@ a{color:inherit}
 /* high contrast: the venn's compounding fill is the one thing here that
    depends on a light wash, so it gives way to stronger edges instead */
 [data-contrast="high"] .dgm .vn{fill-opacity:.09;stroke:var(--ink)}
-[data-contrast="high"] .ov-p{stroke:var(--ink)}
 
 /* Two of these drawings are taller than the slab: the venn is 452 units and
    the range chart 420, against a --dgm-h that tops out at 450. Letting the
@@ -2622,32 +2614,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="cs-hook">Most of us already know AI can hallucinate and drift from what’s true. What we don’t ask is whether we’re vigilant enough to catch it — alert for the one sentence, in a hundred, that needed a second thought. Bias runs both ways: the system has its own, and so do we. On screen, they look identical. The reader pays for that.</p>
         <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It stays quiet about whether the answer is right — that part is still yours. It just marks where to look.</p>
       </div>
-      <figure class="cs-hero">
-        <svg class="ov" viewBox="0 0 520 292" role="img"
-             aria-label="Nine answers drawn as nine bars of exactly the same height, under the heading what you see. Underneath, what each one actually was: seven rings and two filled squares. The row you see is perfectly regular; the row underneath is not.">
-          <text class="ov-k" x="16" y="34">WHAT YOU SEE</text>
-          <rect class="ov-bar" x="16" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="70" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="124" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="178" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="232" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="286" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="340" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="394" y="54" width="40" height="116" rx="3"/>
-          <rect class="ov-bar" x="448" y="54" width="40" height="116" rx="3"/>
-          <path class="ov-h" d="M16 206h472"/>
-          <text class="ov-k" x="16" y="236">WHAT IT ACTUALLY WAS</text>
-          <circle class="ov-ok" cx="36" cy="266" r="7"/>
-          <circle class="ov-ok" cx="90" cy="266" r="7"/>
-          <circle class="ov-ok" cx="144" cy="266" r="7"/>
-          <rect class="ov-no" x="191" y="259" width="14" height="14" rx="2"/>
-          <circle class="ov-ok" cx="252" cy="266" r="7"/>
-          <circle class="ov-ok" cx="306" cy="266" r="7"/>
-          <rect class="ov-no" x="353" y="259" width="14" height="14" rx="2"/>
-          <circle class="ov-ok" cx="414" cy="266" r="7"/>
-          <circle class="ov-ok" cx="468" cy="266" r="7"/>
-        </svg>
-        <figcaption>Nine answers at the volume they arrive in. Two of them were invented.</figcaption>
+            <figure class="cs-hero">
+        <img src="signal/ai-human.png" width="852" height="577" loading="eager" decoding="async"
+             alt="Two heads facing each other in profile. The left one is drawn as a machine, with circuit traces and a lens; the right one is human. The machine’s speech bubble reads 0100110, the human’s reads HELLO.">
+        <figcaption>Two heads mid-conversation, each in its own language.</figcaption>
       </figure>
     </div>
 
