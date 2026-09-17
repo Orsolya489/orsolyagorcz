@@ -3000,7 +3000,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
       <h2 class="sec-label" id="s5h">Six findings. Two contradicted what I expected, and one changed the direction of the project.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">The short version, in the order they mattered.</p>
+        <p class="sec-lede">They are in the order they mattered, not the order they arrived. The first one is the reason this ended up a signal rather than a warning.</p>
       </div>
       <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
@@ -3119,40 +3119,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </table>
       <div class="sec-copy copy-2">
       </div>
-      <figure class="dgm">
-        <p class="dgm-hint">Scroll the drawing sideways</p>
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v6t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="v6t v6d">
-          <title id="v6t">How strongly people expect bias, against how much noticing it changes their trust</title>
-          <desc id="v6d">Two marks on one five-point scale. People rate their expectation that AI answers may be biased at 4.02, and the effect of noticing bias on their trust at 2.80. The 1.22 between the two is the finding: the expectation is already priced in.</desc>
-          <text class="t-sm t-mute" x="0" y="16">ON A ONE-TO-FIVE SCALE, n=83</text>
 
-          <text class="t-md t-ink" x="0" y="62">I assume AI answers may be biased</text>
-          <line class="hair" x1="150" y1="86" x2="850" y2="86"/>
-          <line class="trace" x1="150" y1="86" x2="678" y2="86"/>
-          <circle cx="678" cy="86" r="7" fill="var(--ink)"/>
-          <text class="t-lg t-ink t-num" x="694" y="92">4.02</text>
-
-          <text class="t-md t-ink" x="0" y="150">Noticing bias changes my trust</text>
-          <line class="hair" x1="150" y1="174" x2="850" y2="174"/>
-          <line class="trace" x1="150" y1="174" x2="465" y2="174"/>
-          <circle cx="465" cy="174" r="7" fill="var(--ink)"/>
-          <text class="t-lg t-ink t-num" x="481" y="180">2.80</text>
-
-          <!-- the gap itself, which is the finding -->
-          <rect class="f-amber" x="465" y="86" width="213" height="88" opacity=".5"/>
-          <line class="hair s-amber" x1="465" y1="86" x2="465" y2="174"/>
-          <line class="hair s-amber" x1="678" y1="86" x2="678" y2="174"/>
-          <text class="t-sm i-amber" x="572" y="134" text-anchor="middle">1.22 OF GAP</text>
-
-          <line class="rule" x1="150" y1="214" x2="850" y2="214"/>
-          <g class="t-sm t-mute t-num" text-anchor="middle">
-            <text x="150" y="236">1</text><text x="325" y="236">2</text>
-            <text x="500" y="236">3</text><text x="675" y="236">4</text><text x="850" y="236">5</text>
-          </g>
-        </svg></div>
-        <figcaption>Two means side by side: 4.02 expected, 2.80 moved.</figcaption>
-      </figure>
-      <p class="fig-note">People have already priced bias in.</p>
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="fndBtn" aria-expanded="false" aria-controls="fndPanel">
@@ -3270,7 +3237,57 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption>Three overlapping circles. Two judge a single message; the third needs three turns. One score where all three meet.</figcaption>
       </figure>
       <p class="fig-note"><b>An answer can be wrong in three unrelated ways, so there are three instruments.</b> Alert starts at 65 and no filter can score above 100 — so no single filter reaches it alone. The loudest state always needs two independent reasons.</p>
+
+      <div class="sec-copy copy-2">
+        <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
+      </div>
 <figure class="dgm">
+        <p class="dgm-hint">Scroll the drawing sideways</p>
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="d3t d3d">
+          <title id="d3t">The hysteresis gaps absorbing a score that wobbles across a boundary</title>
+          <desc id="d3d">A score line rises and falls across two pairs of thresholds. Alert switches on at sixty-five and off at fifty-five, a gap of ten. Caution switches on at forty and off at thirty-five, a gap of five. Inside either gap the current state holds rather than switching, so a wobbling score produces one steady signal instead of a flickering one.</desc>
+
+          <rect class="f-red" x="86" y="40" width="712" height="44" rx="4"/>
+          <rect class="f-amber" x="86" y="128" width="712" height="30" rx="4"/>
+
+          <line class="hair s-red" x1="86" y1="40" x2="798" y2="40" stroke-dasharray="5 4"/>
+          <line class="hair" x1="86" y1="84" x2="798" y2="84" stroke-dasharray="3 5"/>
+          <line class="hair s-amber" x1="86" y1="128" x2="798" y2="128" stroke-dasharray="5 4"/>
+          <line class="hair" x1="86" y1="158" x2="798" y2="158" stroke-dasharray="3 5"/>
+
+          <g class="t-sm t-mute t-num" text-anchor="end">
+            <text x="74" y="44">on 65</text>
+            <text x="74" y="88">off 55</text>
+            <text x="74" y="132">on 40</text>
+            <text x="74" y="162">off 35</text>
+          </g>
+          <g class="t-sm" text-anchor="start">
+            <text class="i-red" x="812" y="44">alert</text>
+            <text class="i-amber" x="812" y="132">caution</text>
+          </g>
+
+          <text class="t-sm i-red" x="442" y="68" text-anchor="middle">holds through here — gap of 10</text>
+          <text class="t-sm i-amber" x="442" y="148" text-anchor="middle">holds through here — gap of 5</text>
+
+          <path class="trace" d="M86 206 Q 200 44 320 106 T 560 96 T 798 140"/>
+          <text class="t-sm t-mute" x="86" y="238">a score that wobbles</text>
+          <text class="t-sm t-mute" x="798" y="238" text-anchor="end">one steady signal</text>
+        </svg></div>
+        <figcaption><b>The gap is wider on alert than on caution, deliberately.</b></figcaption>
+      </figure>
+
+      <div class="blueprint">
+        <h3>
+          <button class="bp-btn" id="sysBtn" aria-expanded="false" aria-controls="sysPanel">
+            <span>
+              <span class="bp-t">How the score is actually built</span>
+              <span class="bp-e">The arithmetic, and the bug it caught</span>
+            </span>
+            <span class="bp-ico" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="bp-panel" id="sysPanel" data-open="false" role="region" aria-labelledby="sysBtn"><div class="bp-inner">
+          <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d2t"><svg viewBox="0 0 900 300" role="img" aria-labelledby="d2t d2d">
           <title id="d2t">The three filters, their weights, and the research method each one stands in for</title>
@@ -3311,44 +3328,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption><b>Each detector is a working stand-in for a method I did not build.</b></figcaption>
       </figure>
-      <div class="sec-copy copy-2">
-        <p class="hmw">A system that fakes a number when it has none has already told you it will fake the others.</p>
-      </div>
-<figure class="dgm">
-        <p class="dgm-hint">Scroll the drawing sideways</p>
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d3t"><svg viewBox="0 0 900 250" role="img" aria-labelledby="d3t d3d">
-          <title id="d3t">The hysteresis gaps absorbing a score that wobbles across a boundary</title>
-          <desc id="d3d">A score line rises and falls across two pairs of thresholds. Alert switches on at sixty-five and off at fifty-five, a gap of ten. Caution switches on at forty and off at thirty-five, a gap of five. Inside either gap the current state holds rather than switching, so a wobbling score produces one steady signal instead of a flickering one.</desc>
-
-          <rect class="f-red" x="86" y="40" width="712" height="44" rx="4"/>
-          <rect class="f-amber" x="86" y="128" width="712" height="30" rx="4"/>
-
-          <line class="hair s-red" x1="86" y1="40" x2="798" y2="40" stroke-dasharray="5 4"/>
-          <line class="hair" x1="86" y1="84" x2="798" y2="84" stroke-dasharray="3 5"/>
-          <line class="hair s-amber" x1="86" y1="128" x2="798" y2="128" stroke-dasharray="5 4"/>
-          <line class="hair" x1="86" y1="158" x2="798" y2="158" stroke-dasharray="3 5"/>
-
-          <g class="t-sm t-mute t-num" text-anchor="end">
-            <text x="74" y="44">on 65</text>
-            <text x="74" y="88">off 55</text>
-            <text x="74" y="132">on 40</text>
-            <text x="74" y="162">off 35</text>
-          </g>
-          <g class="t-sm" text-anchor="start">
-            <text class="i-red" x="812" y="44">alert</text>
-            <text class="i-amber" x="812" y="132">caution</text>
-          </g>
-
-          <text class="t-sm i-red" x="442" y="68" text-anchor="middle">holds through here — gap of 10</text>
-          <text class="t-sm i-amber" x="442" y="148" text-anchor="middle">holds through here — gap of 5</text>
-
-          <path class="trace" d="M86 206 Q 200 44 320 106 T 560 96 T 798 140"/>
-          <text class="t-sm t-mute" x="86" y="238">a score that wobbles</text>
-          <text class="t-sm t-mute" x="798" y="238" text-anchor="end">one steady signal</text>
-        </svg></div>
-        <figcaption><b>The gap is wider on alert than on caution, deliberately.</b></figcaption>
-      </figure>
-<figure class="dgm">
+          <figure class="dgm">
         <p class="dgm-hint">Scroll the drawing sideways</p>
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d4t"><svg viewBox="0 0 900 260" role="img" aria-labelledby="d4t d4d">
           <title id="d4t">The three channels accumulating as the band rises</title>
@@ -3381,17 +3361,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div class="sec-copy copy-2">
         <p>Sound is gated on the mechanism, not on how serious the topic is.</p>
       </div>
-      <div class="blueprint">
-        <h3>
-          <button class="bp-btn" id="sysBtn" aria-expanded="false" aria-controls="sysPanel">
-            <span>
-              <span class="bp-t">How the score is actually built</span>
-              <span class="bp-e">The arithmetic, and the bug it caught</span>
-            </span>
-            <span class="bp-ico" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="bp-panel" id="sysPanel" data-open="false" role="region" aria-labelledby="sysBtn"><div class="bp-inner">
+
           <p>Nothing above them changes when they’re swapped — the weights, the gates and the thresholds are the design; the keyword matching is scaffolding under it. Saying which is which is the whole of the honesty here.</p>
           <p>Dropping out of alert too early costs more. Clinical alarms are wrong between 72 and 99 per cent of the time and get switched off by the people they were meant to protect. The gap is what keeps this one worth listening to.</p>
           <p>The reason waits until it’s asked for, which costs a tap deliberately — a cue that explains itself unprompted has put words in front of the answer, and words are interpretation.</p>
