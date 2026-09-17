@@ -1636,6 +1636,64 @@ a{color:inherit}
   color:var(--muted);margin-top:.6em}
 @media (max-width:1023px){ .ev{grid-column:1} }
 
+/* ═══ the sample and the age bands, side by side ═══
+   Both were already boxless typography, stacked one under the other at two
+   different widths - .ev held to the copy column, .bc running full width
+   below it. The fix is a shared row, not new decoration: each keeps its own
+   rules everywhere else on the page, and only widens or narrows here, where
+   a descendant selector beats the base rule on specificity alone. */
+.study-row{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;
+  gap:var(--gutter);align-items:start;margin-top:var(--stack)}
+.study-row > .ev{grid-column:1;max-width:none;margin-top:0}
+.study-row > .bc{grid-column:2;margin:0}
+.study-row .bc-set{max-width:none}
+/* three across, held: auto-fit drops to two at this width and orphans
+   "5 sections" on a line of its own */
+.study-row .ev-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:760px){
+  .study-row{grid-template-columns:1fr;gap:var(--section)}
+  .study-row > .ev,.study-row > .bc{grid-column:1}
+}
+
+/* ═══ the three things the study tested, as cards not a diagram ═══
+   The pillars were an SVG built to run the section's full width; asked to
+   sit at a third of that under the row above, they'd either scale their
+   labels illegible or need three separate horizontal-scroll frames for one
+   continuous idea. Plain HTML instead, in the same boxless language as the
+   sample and the age bands above them - a vertical rule between columns
+   rather than three bordered cards, matching the divider .cs-facts already
+   uses. Attention stays muted throughout and its closing rule stays dashed -
+   the one difference this section is built to show. */
+/* right under the row above, not a section away from it: these three are the
+   same showcase, read in one pass */
+.pillars-row{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--gutter);margin-top:calc(var(--section)*.38)}
+.pil-c{min-width:0;padding-left:var(--gutter);border-left:1px solid var(--edge)}
+.pil-c:first-child{padding-left:0;border-left:0}
+.pil-k{font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
+.pil-q{font-family:var(--serif);font-size:var(--body);line-height:1.4;
+  color:var(--ink);margin:0 0 1.3em;max-width:22ch}
+.pil-stats{display:flex;flex-direction:column;gap:1em;margin-bottom:1.3em}
+.pil-stats b{display:block;font-family:var(--sans);font-weight:300;
+  font-size:calc(var(--title)*.62);line-height:1;letter-spacing:-.02em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.pil-stats i{display:block;font-style:normal;font-size:var(--micro);
+  line-height:1.5;color:var(--muted);margin-top:.5em}
+.pil-v{margin:0;padding-top:1em;border-top:1px solid var(--edge-ctrl);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+.pil-v span{display:block;margin-top:.5em;font-family:var(--serif);
+  font-weight:400;letter-spacing:0;text-transform:none;color:var(--muted)}
+.pil-c--out{color:var(--muted)}
+.pil-c--out .pil-q,.pil-c--out .pil-stats b,.pil-c--out .pil-v{color:var(--muted)}
+.pil-c--out .pil-v{border-top-style:dashed}
+@media (max-width:760px){
+  .pillars-row{grid-template-columns:1fr;gap:var(--section)}
+  .pil-c{padding-left:0;border-left:0;padding-top:var(--stack);border-top:1px solid var(--edge)}
+  .pil-c:first-child{padding-top:0;border-top:0}
+}
+
 /* ═══ one layer, three apps ═══
    Where the thing lives, which the case study described and never drew. The
    three headers are the real ones - ChatGPT's near-black, Claude's cream,
@@ -2770,60 +2828,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s4" data-bar="The study" aria-labelledby="s4h">
       <h2 class="sec-label" id="s4h">I had a hypothesis I liked, so the study was built to break it.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">31 questions, 5 sections, two languages fielded as separate deployments — Hungarian (n=71) and English (n=12). Not a translation: the Hungarian version carried an extra question that produced the study’s most important number.</p>
+        <p class="sec-lede">31 questions, 5 sections, two independently fielded languages — Hungarian (n=71) and English (n=12), not a translation of each other. It set out to test three things: ethics, trust, and attention. Two held. Attention didn’t, and cutting the layer I’d built on it is what turned this from cognitive support into a signalling system.</p>
       </div>
-      <figure class="dgm dgm--tall">
-        <p class="dgm-hint">Scroll the drawing sideways</p>
-        <div class="dgm-scroll" tabindex="0" role="group" aria-label="The three things the study set out to test, and what happened to each">
-        <svg viewBox="0 0 900 356" role="img"
-             aria-label="Three columns. Ethics: whose job is it to judge a loaded answer? 4.02 of 5 expect the AI is biased, 84% say the judgment is theirs. Held — it became the constraint the product is built around. Trust: does noticing bias cost the AI trust? 2.80 of 5 is what noticing moves it, 62% would trust it more if it said so. Held but inverted — bias is already priced in, and saying so is what earns trust. Attention: do people lose the thread in long conversations? 1.94 of 5 lose track, 1.98 feel detached. Did not hold — both near the floor, and the layer built on it was cut.">
-          <g>
-            <rect class="pil-p" x="0" y="24" width="280" height="316" rx="14"/>
-            <text class="t-sm t-mute" x="26" y="58">ETHICS</text>
-            <text class="t-md t-ink" x="26" y="88">Whose job is it to judge</text>
-            <text class="t-md t-ink" x="26" y="110">a loaded answer?</text>
-            <line class="hair" x1="26" y1="134" x2="254" y2="134"/>
-            <text class="pil-n t-ink" x="26" y="176">4.02/5</text>
-            <text class="t-sm t-mute" x="26" y="198">expect the AI is biased</text>
-            <text class="pil-n t-ink" x="26" y="244">84%</text>
-            <text class="t-sm t-mute" x="26" y="266">say the judgment is theirs</text>
-            <line class="rule" x1="26" y1="288" x2="254" y2="288"/>
-            <text class="t-sm t-ink" x="26" y="310">HELD</text>
-            <text class="t-sm t-mute" x="26" y="330">It became the defining constraint.</text>
-          </g>
-          <g>
-            <rect class="pil-p" x="310" y="24" width="280" height="316" rx="14"/>
-            <text class="t-sm t-mute" x="336" y="58">TRUST</text>
-            <text class="t-md t-ink" x="336" y="88">Does noticing bias</text>
-            <text class="t-md t-ink" x="336" y="110">cost the AI trust?</text>
-            <line class="hair" x1="336" y1="134" x2="564" y2="134"/>
-            <text class="pil-n t-ink" x="336" y="176">2.80/5</text>
-            <text class="t-sm t-mute" x="336" y="198">is what noticing moves it</text>
-            <text class="pil-n t-ink" x="336" y="244">62%</text>
-            <text class="t-sm t-mute" x="336" y="266">would trust it more if it said so</text>
-            <line class="rule" x1="336" y1="288" x2="564" y2="288"/>
-            <text class="t-sm t-ink" x="336" y="310">HELD, INVERTED</text>
-            <text class="t-sm t-mute" x="336" y="330">Bias is already priced in.</text>
-          </g>
-          <g>
-            <rect class="pil-p pil-p--out" x="620" y="24" width="280" height="316" rx="14"/>
-            <text class="t-sm t-mute" x="646" y="58">ATTENTION</text>
-            <text class="t-md t-mute" x="646" y="88">Do people lose the thread</text>
-            <text class="t-md t-mute" x="646" y="110">in long conversations?</text>
-            <line class="hair" x1="646" y1="134" x2="874" y2="134"/>
-            <text class="pil-n t-mute" x="646" y="176">1.94/5</text>
-            <text class="t-sm t-mute" x="646" y="198">lose track of the topic</text>
-            <text class="pil-n t-mute" x="646" y="244">1.98/5</text>
-            <text class="t-sm t-mute" x="646" y="266">feel detached or disengaged</text>
-            <line class="pil-cut" x1="646" y1="288" x2="874" y2="288"/>
-            <text class="t-sm t-mute" x="646" y="310">DID NOT HOLD</text>
-            <text class="t-sm t-mute" x="646" y="330">The layer built on it was cut.</text>
-          </g>
-        </svg></div>
-        <figcaption>Three columns: the question asked, the two figures that answered it, and the verdict. The third is dimmed, its rule broken.</figcaption>
-      </figure>
-      <p class="fig-note"><b>The study went looking for three things, and I only kept two.</b> Ethics and trust held and changed shape. Attention did not — and cutting the layer I had built on it is what turned this from cognitive support into a signalling system.</p>
 
+      <div class="study-row">
       <div class="ev">
         <p class="ev-e">The sample</p>
         <div class="ev-row">
@@ -2835,12 +2843,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="ev-hu"></span><span class="ev-en"></span>
           </div>
           <p class="ev-key"><span class="k-hu"><b>71</b> Hungarian</span><span class="k-en"><b>12</b> English</span></p>
-        <p class="ev-n">Two versions, each written and fielded on its own. Not a translation.</p>
       </div>
 
 
       <figure class="bc">
-        <figcaption>Seven age bands, longest first: 35–44, 25–34, 45–54 and under-18s, then 55–64, 18–24 and 65+.</figcaption>
         <div class="bc-set" role="img" aria-label="Age of the 83 respondents: 35 to 44, nineteen. 25 to 34, seventeen. 45 to 54, fourteen. Under eighteen, fourteen. 55 to 64, nine. 18 to 24, seven. 65 and over, three.">
           <div class="bc-row">
             <span class="bc-k">35–44</span>
@@ -2879,7 +2885,38 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
         </div>
       </figure>
-      <p class="fig-note">It is not a room full of people who work in tech, which is why I trust the responsibility finding as much as I do.</p>
+      </div>
+      <p class="fig-note">Two versions, fielded independently rather than translated — 71 Hungarian, 12 English. The age bands run longest first, and it isn’t a room full of people who work in tech, which is why I trust what they said about responsibility as much as I do.</p>
+
+      <div class="pillars-row">
+        <div class="pil-c">
+          <p class="pil-k">Ethics</p>
+          <p class="pil-q">Whose job is it to judge a loaded answer?</p>
+          <div class="pil-stats">
+            <div><b>4.02/5</b><i>expect the AI is biased</i></div>
+            <div><b>84%</b><i>say the judgment is theirs</i></div>
+          </div>
+          <p class="pil-v">HELD <span>— it became the defining constraint.</span></p>
+        </div>
+        <div class="pil-c">
+          <p class="pil-k">Trust</p>
+          <p class="pil-q">Does noticing bias cost the AI trust?</p>
+          <div class="pil-stats">
+            <div><b>2.80/5</b><i>is what noticing moves it</i></div>
+            <div><b>62%</b><i>would trust it more if it said so</i></div>
+          </div>
+          <p class="pil-v">HELD, INVERTED <span>— bias is already priced in.</span></p>
+        </div>
+        <div class="pil-c pil-c--out">
+          <p class="pil-k">Attention</p>
+          <p class="pil-q">Do people lose the thread in long conversations?</p>
+          <div class="pil-stats">
+            <div><b>1.94/5</b><i>lose track of the topic</i></div>
+            <div><b>1.98/5</b><i>feel detached or disengaged</i></div>
+          </div>
+          <p class="pil-v">DID NOT HOLD <span>— the layer built on it was cut.</span></p>
+        </div>
+      </div>
 
       <table class="devsync">
         <thead><tr><th scope="col"><span>Read against the design</span></th><th scope="col"><span>What it settled</span></th></tr></thead>
