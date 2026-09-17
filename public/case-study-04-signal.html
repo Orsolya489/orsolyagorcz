@@ -513,7 +513,10 @@ a{color:inherit}
 /* The lede sits beside the mockup and starts level with it. Centring the two
    against each other left the first line floating somewhere down the side of
    the phone, so the page appeared to begin twice. */
-.cs-intro{margin-top:var(--section)}
+/* text left, the problem drawn on the right, both on the same measure */
+.cs-intro{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);
+  align-items:start;margin-top:var(--section)}
+@media (max-width:1023px){.cs-intro{grid-template-columns:1fr;gap:var(--section)}}
 .cs-lede{font-size:var(--body);color:var(--ink);margin:0;max-width:62ch}
 .cs-lede + .cs-lede{margin-top:1.1em}
 /* ═══ the funnel, said rather than drawn ═══
@@ -973,7 +976,7 @@ a{color:inherit}
 
 /* figures break out of the reading column to the full width of the section,
    which is where the page changes gear between one argument and the next */
-.fig{grid-column:1 / -1;margin:var(--stack) 0 0}
+.fig{grid-column:2;margin:var(--stack) 0 0}
 /* An image is never drawn larger than the file it came from. The screens are
    390-450px wide originals; stretched to fill a 965px column they were being
    run up as much as 163%, which is where the interface goes soft. width:auto
@@ -1014,7 +1017,7 @@ a{color:inherit}
    a testing plan that never ran, and anyone who wants it is one press away. The
    title and its qualifier are the control, so the whole heading is the target
    rather than a chevron beside it. */
-.blueprint{grid-column:1 / -1;margin-top:var(--section)}
+.blueprint{grid-column:2;margin-top:var(--section)}
 .bp-btn{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
   min-height:var(--control);
   gap:var(--stack);width:100%;text-align:left;cursor:pointer;
@@ -1091,7 +1094,7 @@ a{color:inherit}
    somebody else's argument, and these are not asides - they are the verdict on
    everything above. They get the width of a section and the space of one, so the
    separation comes from air and scale rather than from a line. */
-.said{grid-column:1 / -1;display:grid;grid-template-columns:1fr;
+.said{grid-column:2;display:grid;grid-template-columns:1fr;
   gap:calc(var(--section)*.5);padding-bottom:var(--section)}
 .said blockquote{margin:0}
 /* one under the other, each on a single line: both are short enough to hold
@@ -1147,7 +1150,7 @@ a{color:inherit}
   through custom properties, so every element inside it - eyebrow, facts, the
   chips in its chain - draws from the one pair of values instead of being
   recoloured individually. */
-.versus{grid-column:1 / -1;margin-top:var(--stack);
+.versus{grid-column:2;margin-top:var(--stack);
   position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter)}
 .versus-vs{position:absolute;top:50%;left:50%;translate:-50% -50%;z-index:1;
   font-family:var(--sans);font-weight:500;font-size:var(--micro);color:var(--line-soft)}
@@ -1203,7 +1206,7 @@ a{color:inherit}
    that spans both groups (Trust deficit / Transparency by design) carries a
    solid tag rather than a tint, reusing the same mark the generation strip
    already uses for "the one that mattered." */
-.tf{grid-column:1 / -1;margin-top:var(--stack)}
+.tf{grid-column:2;margin-top:var(--stack)}
 /* Held to a reading measure and centred. Run at the full width of the section
    these were single sentences stretched across 1228px with a 30px hairline
    between them - full-bleed banners that read as unrelated blocks rather than
@@ -1250,7 +1253,7 @@ a{color:inherit}
    1228px section, which is why four short lines looked cramped and odd. Rows
    also let the chosen option carry weight - it is the decision, and the other
    three rows exist to qualify it. */
-.dec{grid-column:1 / -1;width:100%;border-collapse:collapse;margin-top:var(--stack)}
+.dec{grid-column:2;width:100%;border-collapse:collapse;margin-top:var(--stack)}
 .dec caption{text-align:left;font-family:var(--sans);font-weight:500;
   font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
   color:var(--muted);padding-bottom:var(--stack)}
@@ -1320,7 +1323,7 @@ a{color:inherit}
    shipped, a hairline one for what did not. The system has eight colours and
    no red or green in it, and inventing them for two labels is not worth the
    exception - the words already say Cut and Shipped. */
-.eyebrow-b{grid-column:1 / -1;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+.eyebrow-b{grid-column:2;font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
   margin:var(--section) 0 0;padding-bottom:.8em;border-bottom:1px solid var(--edge)}
 /* in the gallery the same label separates two runs of screens rather than two
@@ -1332,7 +1335,7 @@ a{color:inherit}
    one floated in 44px of slack and the neighbours ended up 121px apart - three
    separate pictures rather than one sequence. Still fr rather than fixed tracks,
    so they shrink normally once the screen is narrower than the cap. */
-.gens{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+.gens{grid-column:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:var(--stack);max-width:calc(300px*3 + var(--stack)*2);
   margin-top:var(--stack);align-items:start}
 /* Three shots of the same screen at three stages, so they have to read as the
@@ -1369,7 +1372,7 @@ a{color:inherit}
    The table is then sized so the description columns together come to the
    measure of the body copy - 66ch over 74% of the table - so the reading part
    of a table has the same line length as the reading part of a paragraph. */
-.devsync{grid-column:1 / -1;width:100%;margin-top:var(--stack);border-collapse:collapse;
+.devsync{grid-column:2;width:100%;margin-top:var(--stack);border-collapse:collapse;
   text-align:left;table-layout:fixed;max-width:66ch}
 .devsync thead th:first-child{width:32%}
 /* 26% is only the narrowest share while there are two or three description
@@ -1408,7 +1411,7 @@ a{color:inherit}
 }
 /* the case made for the harder path, held apart with a spine rather than a box
    on every side - the emphasis belongs to the one sentence in em, not the frame */
-.pushed{grid-column:1 / -1;margin-top:var(--stack);padding-left:var(--stack);
+.pushed{grid-column:2;margin-top:var(--stack);padding-left:var(--stack);
   border-left:2px solid var(--line)}
 .pushed-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--muted);margin:0}
@@ -1603,7 +1606,7 @@ a{color:inherit}
    redecorated for the case study is no longer evidence of anything.
    Tall, because the simulator puts a phone beside a panel of internals and the
    whole point is seeing both at once. */
-.proto{grid-column:1 / -1;margin:var(--stack) 0 0}
+.proto{grid-column:2;margin:var(--stack) 0 0}
 .proto-frame{position:relative;border-radius:var(--r-lg);overflow:hidden;
   box-shadow:inset 0 0 0 1px var(--edge-ctrl);
   background:#0B0D10;
@@ -1642,7 +1645,7 @@ a{color:inherit}
    below it. The fix is a shared row, not new decoration: each keeps its own
    rules everywhere else on the page, and only widens or narrows here, where
    a descendant selector beats the base rule on specificity alone. */
-.study-row{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;
+.study-row{grid-column:2;display:grid;grid-template-columns:1fr 1fr;
   gap:var(--gutter);align-items:start;margin-top:var(--stack)}
 .study-row > .ev{grid-column:1;max-width:none;margin-top:0}
 .study-row > .bc{grid-column:2;margin:0}
@@ -1666,7 +1669,7 @@ a{color:inherit}
    the one difference this section is built to show. */
 /* right under the row above, not a section away from it: these three are the
    same showcase, read in one pass */
-.pillars-row{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+.pillars-row{grid-column:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:var(--gutter);margin-top:calc(var(--section)*.38)}
 .pil-c{min-width:0;padding-left:var(--gutter);border-left:1px solid var(--edge)}
 .pil-c:first-child{padding-left:0;border-left:0}
@@ -1702,7 +1705,7 @@ a{color:inherit}
    The dot is a single green: #558552 is the only value measured that clears
    3:1 on all three grounds (3.23, 4.74, 4.99). A mark that themed itself per
    host would be a mark you cannot find. */
-.pl{grid-column:1 / -1;margin:var(--section) 0 0}
+.pl{grid-column:2;margin:var(--section) 0 0}
 .pl-h{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:0 0 var(--stack);max-width:62ch}
 .pl-h b{color:var(--ink);font-weight:500}
@@ -1848,12 +1851,14 @@ a{color:inherit}
 
 /* the overview funnel sits in .cs-hero, outside .dgm, so it carries its own
    type rules rather than inheriting the diagram ones */
-.ov{display:block;width:100%;max-width:520px;height:auto;margin-inline:auto}
-.ov-p{fill:var(--card);stroke:#817775;stroke-width:1}
-.ov-t{font-family:var(--sans);font-weight:500;font-size:15px;fill:var(--ink)}
+.ov{display:block;width:100%;max-width:560px;height:auto;margin-inline:auto}
+/* every bar identical - that is the point, so nothing here varies */
+.ov-bar{fill:var(--line)}
 .ov-k{font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.06em;fill:var(--muted)}
 .ov-h{stroke:#817775;stroke-width:1;fill:none}
-.ov-p--out{fill:var(--page);stroke:var(--line);stroke-width:2}
+/* shape, not hue: a ring and a filled square stay different in greyscale */
+.ov-ok{fill:none;stroke:#817775;stroke-width:1.5}
+.ov-no{fill:var(--ink)}
 
 /* channel load: a full bar is a committed channel, an outlined one is idle */
 .dgm .ch-full{fill:var(--line)}
@@ -1890,7 +1895,7 @@ a{color:inherit}
    Marks that stand for people take a mark's contrast, not a hairline's:
    --line reads 6.96:1 on the page and #817775 reads 4.02, both clear of the
    3:1 floor. --line-soft would have been 2.2 and is not used here. */
-.bc{grid-column:1 / -1;margin:var(--section) 0 0}
+.bc{grid-column:2;margin:var(--section) 0 0}
 .bc-h{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:0 0 var(--stack);max-width:62ch}
 .bc-h b,.sp-h b{color:var(--ink);font-weight:500}
@@ -1905,7 +1910,7 @@ a{color:inherit}
   font-variant-numeric:tabular-nums;text-align:right}
 
 /* the three-way split, to scale */
-.sp{grid-column:1 / -1;margin:var(--section) 0 0}
+.sp{grid-column:2;margin:var(--section) 0 0}
 .sp-h{font-size:var(--micro);line-height:1.6;color:var(--muted);
   margin:0 0 var(--stack);max-width:62ch}
 .sp-bar{display:flex;height:16px;border-radius:4px;overflow:hidden;max-width:66ch;
@@ -1937,7 +1942,7 @@ a{color:inherit}
    becomes a legibility cost.
    Widths vary too, because the sentences do. A grid would have padded the
    short one out to match the long one and made them look interchangeable. */
-.voices{grid-column:1 / -1;max-width:none;margin-top:var(--section)}
+.voices{grid-column:2;max-width:none;margin-top:var(--section)}
 .voices-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
 .voices-set{display:flex;flex-direction:column;gap:var(--stack)}
@@ -2002,7 +2007,7 @@ a{color:inherit}
    90% of the page. This is the component itself, at the size it renders, on
    the two grounds it lands on - a light app and a dark one.
    Not a screenshot. The same markup the overlay ships. */
-.ui{grid-column:1 / -1;min-width:0;margin:var(--stack) 0 0}
+.ui{grid-column:2;min-width:0;margin:var(--stack) 0 0}
 .ui-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
   gap:var(--gutter)}
 .ui-host{border-radius:var(--r-lg);padding:var(--stack);min-width:0;
@@ -2056,7 +2061,7 @@ a{color:inherit}
    instead of producing a scrollbar, and the whole article would slide sideways
    on a phone. The floor has to be allowed to overflow something, and this says
    which thing: the frame, not the page. */
-.dgm{grid-column:1 / -1;min-width:0;margin:var(--stack) 0 0;
+.dgm{grid-column:2;min-width:0;margin:var(--stack) 0 0;
   background:var(--card);border-radius:var(--r-lg);
   box-shadow:inset 0 0 0 1px var(--edge);
   padding:clamp(20px,3.2cqw,44px)}
@@ -2182,7 +2187,7 @@ a{color:inherit}
    The window is one frame wide and the strip is translated behind it, which is
    the only way to show it without either squashing nine screens into a column
    or slicing the file into nine. */
-.carousel{grid-column:1 / -1;margin-top:var(--stack);
+.carousel{grid-column:2;margin-top:var(--stack);
   border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden;background:var(--card)}
 .car-top{display:flex;align-items:center;justify-content:space-between;gap:var(--stack);
   padding:.9em var(--stack);border-bottom:1px solid var(--edge)}
@@ -2239,7 +2244,7 @@ a{color:inherit}
    image: a state, what it feels like, and the response it earned. The pill
    text keeps the source's own arrow rather than an icon, so it reads as a
    continuation of the same arrow that joins the three cards. */
-.gap-cards{grid-column:1 / -1;margin-top:var(--stack);
+.gap-cards{grid-column:2;margin-top:var(--stack);
   display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:var(--stack)}
 .gap-card{padding:var(--stack);background:var(--card);border-radius:var(--r-lg);
   box-shadow:inset 0 0 0 1px var(--edge);display:flex;flex-direction:column;gap:.5em}
@@ -2269,7 +2274,7 @@ a{color:inherit}
    connector has to meet the screen, and the screen sits at the outer edge of
    its lane inside a fixed --shot column. Half that column in from each side is
    the screen centre, at every width, whatever the crop. */
-.flow{grid-column:1 / -1;margin-top:var(--stack);
+.flow{grid-column:2;margin-top:var(--stack);
   --shot:clamp(190px, 16.5vw, 270px);
   /* how far the note sits off the screen it belongs to */
   --ann-gap:clamp(12px, 1.4vw, 24px);
@@ -2472,12 +2477,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 /* Images, and the verbatims. The rule was images only; the quotes were added
    to it deliberately — five things people said are the evidence this case
    study rests on, and they earn the room the drawings get. */
-.sec > figure,
-.sec > .carousel,
-.sec > .flow,
-.sec > .gens,
-.sec > .duo,
-.sec > .voices{grid-column:1 / -1}
+/* Retired: figures used to span both tracks. The left column is the title's
+   alone now, so .sec > *{grid-column:2} already places them and this rule
+   has nothing left to say. */
 /* one column below the breakpoint, so nothing is asked to sit in a track
    that no longer exists */
 @media (max-width:1023px){
@@ -2588,6 +2590,33 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="cs-hook">Most of us already know AI can hallucinate and drift from what’s true. What we don’t ask is whether we’re vigilant enough to catch it — alert for the one sentence, in a hundred, that needed a second thought. Bias runs both ways: the system has its own, and so do we. On screen, they look identical. The reader pays for that.</p>
         <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It never says the answer is wrong. It says, quietly, that something here needs you.</p>
       </div>
+      <figure class="cs-hero">
+        <svg class="ov" viewBox="0 0 520 292" role="img"
+             aria-label="Nine answers drawn as nine bars of exactly the same height, under the heading what you see. Underneath, what each one actually was: seven rings and two filled squares. The row you see is perfectly regular; the row underneath is not.">
+          <text class="ov-k" x="16" y="34">WHAT YOU SEE</text>
+          <rect class="ov-bar" x="16" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="70" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="124" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="178" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="232" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="286" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="340" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="394" y="54" width="40" height="116" rx="3"/>
+          <rect class="ov-bar" x="448" y="54" width="40" height="116" rx="3"/>
+          <path class="ov-h" d="M16 206h472"/>
+          <text class="ov-k" x="16" y="236">WHAT IT ACTUALLY WAS</text>
+          <circle class="ov-ok" cx="36" cy="266" r="7"/>
+          <circle class="ov-ok" cx="90" cy="266" r="7"/>
+          <circle class="ov-ok" cx="144" cy="266" r="7"/>
+          <rect class="ov-no" x="191" y="259" width="14" height="14" rx="2"/>
+          <circle class="ov-ok" cx="252" cy="266" r="7"/>
+          <circle class="ov-ok" cx="306" cy="266" r="7"/>
+          <rect class="ov-no" x="353" y="259" width="14" height="14" rx="2"/>
+          <circle class="ov-ok" cx="414" cy="266" r="7"/>
+          <circle class="ov-ok" cx="468" cy="266" r="7"/>
+        </svg>
+        <figcaption>Nine answers at the volume they arrive in. Two of them were invented.</figcaption>
+      </figure>
     </div>
 
   </header>
