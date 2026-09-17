@@ -513,11 +513,24 @@ a{color:inherit}
 /* The lede sits beside the mockup and starts level with it. Centring the two
    against each other left the first line floating somewhere down the side of
    the phone, so the page appeared to begin twice. */
-.cs-intro{display:grid;grid-template-columns:4fr 5fr;gap:var(--gutter);
-  align-items:start;margin-top:var(--section)}
-@media (max-width:1023px){.cs-intro{grid-template-columns:1fr;gap:var(--section)}}
+.cs-intro{margin-top:var(--section)}
 .cs-lede{font-size:var(--body);color:var(--ink);margin:0;max-width:62ch}
 .cs-lede + .cs-lede{margin-top:1.1em}
+/* ═══ the funnel, said rather than drawn ═══
+   Four statements, each smaller and quieter than the one before, so the
+   narrowing happens in the type itself rather than in box widths and
+   connecting lines. It ends at --body size - the last line is already just
+   prose again, which is the point: the whole system narrows down to
+   something that quiet. */
+.statement-stack{grid-column:2;display:flex;flex-direction:column;
+  gap:calc(var(--stack)*.55);margin:calc(var(--section)*.5) 0}
+.stmt{margin:0;font-family:var(--sans);font-weight:300;line-height:1.15}
+.stmt--1{font-size:var(--title);letter-spacing:-.02em;color:var(--ink)}
+.stmt--2{font-size:calc(var(--title)*.78);letter-spacing:-.015em;color:var(--ink)}
+.stmt--3{font-size:calc(var(--title)*.6);letter-spacing:-.01em;color:var(--muted)}
+.stmt--4{font-size:var(--body);font-weight:400;letter-spacing:0;color:var(--muted)}
+@media (max-width:1023px){.statement-stack{grid-column:1}}
+
 /* ═══ the phone ═══
    A plain bezel, because the artwork inside is the thing being shown and a
    heavily rendered device would start competing with it. The screen crops to
@@ -2515,27 +2528,8 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <div class="cs-intro">
       <div>
         <p class="cs-hook">Most of us already know AI can hallucinate and drift from what’s true. What we don’t ask is whether we’re vigilant enough to catch it — alert for the one sentence, in a hundred, that needed a second thought. Bias runs both ways: the system has its own, and so do we. On screen, they look identical. The reader pays for that.</p>
-        <p class="cs-lede">A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.</p>
-        <p class="cs-lede">The system never says “this is wrong.” It says “something here needs you.”</p>
-        <p class="fig-note">Each step closed off a direction the one above it allowed — which is why what reaches the screen is a single line under a single sentence.</p>
+        <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It never says the answer is wrong. It says, quietly, that something here needs you.</p>
       </div>
-      <figure class="cs-hero">
-        <svg class="ov" viewBox="0 0 520 424" role="img"
-             aria-label="A funnel narrowing downward: 83 people, 2 languages and 31 questions; then 6 findings; then 5 constraints; then 3 detectors and one score; and at the narrowest, a line under one sentence.">
-          <rect class="ov-p" x="20"  y="20"  width="480" height="58" rx="14"/>
-          <text class="ov-t" x="260" y="55"  text-anchor="middle">83 people · 2 languages · 31 questions</text>
-          <rect class="ov-p" x="60"  y="106" width="400" height="58" rx="14"/>
-          <text class="ov-t" x="260" y="141" text-anchor="middle">6 findings</text>
-          <rect class="ov-p" x="100" y="192" width="320" height="58" rx="14"/>
-          <text class="ov-t" x="260" y="227" text-anchor="middle">5 constraints</text>
-          <rect class="ov-p" x="140" y="278" width="240" height="58" rx="14"/>
-          <text class="ov-t" x="260" y="313" text-anchor="middle">3 detectors · 1 score</text>
-          <path class="ov-h" d="M260 78v28M260 164v28M260 250v28M260 336v28"/>
-          <rect class="ov-p ov-p--out" x="160" y="364" width="200" height="52" rx="14"/>
-          <text class="ov-t" x="260" y="396" text-anchor="middle">a line under one sentence</text>
-        </svg>
-        <figcaption>Five steps, each narrower than the one above it.</figcaption>
-      </figure>
     </div>
 
   </header>
@@ -2626,6 +2620,16 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <h2 class="sec-label" id="s1h">Nobody asked for this one. That is the part I would point at.</h2>
       <div class="sec-copy">
         <p class="sec-lede">People bring real weight into these conversations — a dose, a legal question, a diagnosis, a bad night talked through at 2 a.m. Whether the model is recalling something true or filling a gap with something that only sounds true, it answers in the same steady, confident register. Nothing on the screen marks the difference.</p><p>That gap has already cost people dearly. In 2024, a family in Florida sued an AI companion app after their teenage son died by suicide, saying months of conversation had deepened his isolation instead of interrupting it. Through 2025, reporters at several outlets traced the same pattern wider — people with no history of psychiatric illness spiralling into delusion after weeks with a chatbot built only to agree.</p><p>No client, no brief, no employer sent me looking into this — I went looking myself. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer it, analysed it myself, and built what the answers described, which was not what I had in mind.</p>
+      </div>
+
+      <div class="statement-stack">
+          <p class="stmt stmt--1">Six findings.</p>
+          <p class="stmt stmt--2">Five constraints.</p>
+          <p class="stmt stmt--3">Three detectors, one score.</p>
+          <p class="stmt stmt--4">One line, under one sentence.</p>
+        </div>
+
+      <div class="sec-copy">
         <p>It was narrower than I expected, and better. <b>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</b> They don’t want a second opinion or a warning label. They want a notice, quiet enough to ignore.</p>
         <p>So I built a signalling layer, not an advisory one. Three kinds of friction, three senses, no verdicts.</p>
       </div>
