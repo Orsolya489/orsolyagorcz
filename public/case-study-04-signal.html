@@ -514,7 +514,11 @@ a{color:inherit}
    against each other left the first line floating somewhere down the side of
    the phone, so the page appeared to begin twice. */
 /* text left, the problem drawn on the right, both on the same measure */
-.cs-intro{display:grid;grid-template-columns:1fr 1fr;gap:var(--gutter);
+/* The drawing reads as an aside, not a second column of equal weight: the
+   text track takes two parts to its one, which lands the image at about
+   half the paragraph’s rendered width. align-items:start keeps its top edge
+   on the paragraph’s first line rather than floating it down the cell. */
+.cs-intro{display:grid;grid-template-columns:2fr 1fr;gap:var(--gutter);
   align-items:start;margin-top:var(--section)}
 @media (max-width:1023px){.cs-intro{grid-template-columns:1fr;gap:var(--section)}}
 .cs-lede{font-size:var(--body);color:var(--ink);margin:0;max-width:62ch}
@@ -595,7 +599,11 @@ a{color:inherit}
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
   transition:color var(--out) var(--ease)}
 .dev-replay:hover{color:var(--ink)}
-.cs-hero > img{width:auto;max-width:100%;height:auto;margin-inline:auto}
+/* Half the paragraph beside it, and it stays half at any width: the hook
+   caps at 58ch, so capping the drawing in ch too makes both track the type
+   together instead of the image growing with the column. 33ch measured, not
+   guessed — it lands on half at 1126 and at 1440 alike. */
+.cs-hero > img{width:auto;max-width:min(100%, 33ch);height:auto;margin-inline:auto}
 
 /* ═══ the schematic ═══
    The same drawing the card on the landing page carries, so the page opens on
