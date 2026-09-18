@@ -1668,35 +1668,50 @@ a{color:inherit}
 
 /* ═══ the slope ═══
    The harm in this case study is not one wrong answer, it is four ordinary
-   steps that each look fine. Numbered because the order is the argument,
-   and set as text rather than a drawing so it sits in the paragraph column
-   and stays readable at any width. */
+   steps that each look fine. Drawn rather than told: the same two heads as
+   the hero, and what passes between them is the only thing that changes. */
 .slope{grid-column:2;margin-top:var(--section)}
 .slope-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
-.slope-list{list-style:none;margin:0;padding:0;
-  display:flex;flex-direction:column;gap:calc(var(--stack)*1.9)}
-/* position:relative so the arrow can hang off the bottom of its own step and
-   reach into the gap below it */
-.slope-i{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);
-  gap:var(--gutter);align-items:start}
-/* the arrow sits under the number, on the number's own centre line, so the
-   whole flow reads down a single axis */
-.slope-a{position:absolute;left:0;top:100%;width:calc(var(--title)*.62);
-  display:grid;place-items:center;height:calc(var(--stack)*1.9);
-  color:var(--line-soft);pointer-events:none}
-.slope-a svg{display:block;height:78%;width:auto;fill:none;stroke:currentColor;
+.slope-flow{list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:var(--gutter);row-gap:var(--stack);align-items:start}
+/* the arrow lives in the column gap and centres on the drawing, not on the
+   panel, so it sits at the height of the thing it is connecting */
+.slope-art{position:relative;width:100%}
+.slope-ill{display:block;width:100%;max-width:190px;height:auto;
+  color:var(--ink);fill:none;stroke:currentColor;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+/* the stroke stays 1.6px whatever size the panel resolves to, so the line
+   weight matches the hero illustration instead of scaling with the box */
+.slope-ill *{vector-effect:non-scaling-stroke}
+.slope-ill .d{fill:currentColor;stroke:none}
+.slope-ill .q{stroke-dasharray:3 4;opacity:.45}
+.slope-a{position:absolute;left:100%;top:0;bottom:0;width:var(--gutter);
+  display:grid;place-items:center;color:var(--line-soft);pointer-events:none}
+.slope-a svg{display:block;width:100%;height:auto;fill:none;stroke:currentColor;
   stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-/* fixed 1em box, not the glyph's own width: it puts the digit and the arrow
-   below it on one axis, and holds when the count reaches two digits */
-.slope-n{display:block;width:1em;text-align:center;
-  font-family:var(--sans);font-weight:300;font-size:calc(var(--title)*.62);
-  line-height:1;letter-spacing:-.02em;color:var(--line-soft);font-variant-numeric:tabular-nums}
-.slope-b b{display:block;font-family:var(--serif);font-weight:500;
-  font-size:var(--body);line-height:1.4;color:var(--ink)}
-.slope-b i{display:block;font-style:normal;font-size:var(--body);line-height:1.6;
-  color:var(--body-c);margin-top:.45em;max-width:54ch}
-@media (max-width:1023px){.slope{grid-column:1}}
+.slope-a .ar-v{display:none}
+.slope-i b{display:block;font-family:var(--serif);font-weight:500;
+  font-size:var(--body);line-height:1.35;color:var(--ink);
+  margin-top:calc(var(--stack)*.6);text-wrap:balance}
+.slope-i i{display:block;font-style:normal;font-size:calc(var(--body)*.88);
+  line-height:1.55;color:var(--body-c);margin-top:.45em}
+@media (max-width:1023px){
+  .slope{grid-column:1}
+  /* four across stops fitting - back to a stack, drawing beside each step */
+  .slope-flow{grid-template-columns:1fr;row-gap:calc(var(--stack)*2.2)}
+  .slope-i{display:grid;grid-template-columns:auto minmax(0,1fr);
+    column-gap:var(--gutter);align-items:start}
+  .slope-art{grid-row:span 2;width:clamp(72px,18vw,104px)}
+  .slope-ill{max-width:none}
+  .slope-a{left:50%;top:100%;bottom:auto;transform:translateX(-50%);
+    width:auto;height:calc(var(--stack)*2.2)}
+  .slope-a svg{width:auto;height:74%}
+  .slope-a .ar-h{display:none}
+  .slope-a .ar-v{display:block}
+  .slope-i b{margin-top:0}
+}
 
 /* ═══ the sample and the age bands, side by side ═══
    Both were already boxless typography, stacked one under the other at two
@@ -2805,25 +2820,37 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
       <div class="slope">
         <p class="slope-e">How it actually goes wrong</p>
-        <ol class="slope-list">
+        <ol class="slope-flow">
           <li class="slope-i">
-            <span class="slope-n">1</span>
-            <span class="slope-b"><b>It answers, and it is good</b><i>Fast, free, always available, never impatient. For someone already isolated, that is not a small thing.</i></span>
-            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            <div class="slope-art">
+              <svg class="slope-ill" viewBox="0 0 120 96" aria-hidden="true"><circle cx="20" cy="70" r="14"/><path d="M7 67 a6 6 0 0 1 7 -9 a6 6 0 0 1 8 -2 a6 6 0 0 1 6 4 a5 5 0 0 1 5 7"/><circle cx="100" cy="70" r="14"/><circle class="d" cx="93" cy="66" r="1.9"/><circle class="d" cx="103" cy="63" r="1.9"/><circle class="d" cx="99" cy="77" r="1.9"/><path d="M93 66 L103 63 M103 63 L99 77"/><rect x="34" y="8" width="52" height="32" rx="8"/><path d="M44 40 L36 53 L54 40"/><path d="M42 20 H76 M42 29 H66"/></svg>
+              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            </div>
+            <b>It answers, and it is good</b>
+            <i>Fast, free, never impatient.</i>
           </li>
           <li class="slope-i">
-            <span class="slope-n">2</span>
-            <span class="slope-b"><b>So you bring it more</b><i>The easy questions first, then the ones you would have asked a person, then the ones you would have sat with yourself.</i></span>
-            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            <div class="slope-art">
+              <svg class="slope-ill" viewBox="0 0 120 96" aria-hidden="true"><circle cx="20" cy="70" r="14"/><path d="M7 67 a6 6 0 0 1 7 -9 a6 6 0 0 1 8 -2 a6 6 0 0 1 6 4 a5 5 0 0 1 5 7"/><circle cx="100" cy="70" r="14"/><circle class="d" cx="93" cy="66" r="1.9"/><circle class="d" cx="103" cy="63" r="1.9"/><circle class="d" cx="99" cy="77" r="1.9"/><path d="M93 66 L103 63 M103 63 L99 77"/><rect x="32" y="36" width="16" height="12" rx="4"/><path d="M36 48 L30 58 L46 48"/><rect x="54" y="26" width="22" height="16" rx="5"/><rect x="80" y="12" width="30" height="20" rx="6"/><path d="M94 32 L100 49 L86 32"/></svg>
+              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            </div>
+            <b>So you bring it more</b>
+            <i>The easy questions first, then the ones you would have sat with.</i>
           </li>
           <li class="slope-i">
-            <span class="slope-n">3</span>
-            <span class="slope-b"><b>It agrees with you</b><i>Not because it is lying. Because agreeing is what it was tuned to do, and you are the one asking.</i></span>
-            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            <div class="slope-art">
+              <svg class="slope-ill" viewBox="0 0 120 96" aria-hidden="true"><circle cx="20" cy="70" r="14"/><path d="M7 67 a6 6 0 0 1 7 -9 a6 6 0 0 1 8 -2 a6 6 0 0 1 6 4 a5 5 0 0 1 5 7"/><circle cx="100" cy="70" r="14"/><circle class="d" cx="93" cy="66" r="1.9"/><circle class="d" cx="103" cy="63" r="1.9"/><circle class="d" cx="99" cy="77" r="1.9"/><path d="M93 66 L103 63 M103 63 L99 77"/><rect x="6" y="12" width="44" height="26" rx="7"/><path d="M16 38 L14 53 L28 38"/><path d="M14 25 H42"/><rect x="70" y="12" width="44" height="26" rx="7"/><path d="M104 38 L106 53 L92 38"/><path d="M78 25 H106"/><path d="M56 21 H64 M56 29 H64"/></svg>
+              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
+            </div>
+            <b>It agrees with you</b>
+            <i>Not because it is lying. Agreeing is what it was tuned to do.</i>
           </li>
           <li class="slope-i">
-            <span class="slope-n">4</span>
-            <span class="slope-b"><b>Your own judgement gets quieter</b><i>Slowly, and from the inside it feels like confidence. This is the part nobody notices while it is happening.</i></span>
+            <div class="slope-art">
+              <svg class="slope-ill" viewBox="0 0 120 96" aria-hidden="true"><circle cx="20" cy="70" r="14"/><path d="M7 67 a6 6 0 0 1 7 -9 a6 6 0 0 1 8 -2 a6 6 0 0 1 6 4 a5 5 0 0 1 5 7"/><circle cx="100" cy="70" r="14"/><circle class="d" cx="93" cy="66" r="1.9"/><circle class="d" cx="103" cy="63" r="1.9"/><circle class="d" cx="99" cy="77" r="1.9"/><path d="M93 66 L103 63 M103 63 L99 77"/><rect class="q" x="4" y="36" width="20" height="13" rx="4"/><path class="q" d="M10 49 L10 57 L18 49"/><rect x="42" y="6" width="70" height="34" rx="8"/><path d="M92 40 L100 55 L82 40"/><path d="M50 18 H104 M50 28 H92"/></svg>
+            </div>
+            <b>Your own judgement gets quieter</b>
+            <i>From the inside it feels like confidence.</i>
           </li>
         </ol>
       </div>
