@@ -2638,7 +2638,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
     <div class="cs-intro">
       <div>
-        <p class="cs-hook">Most of us already know AI can hallucinate and drift from what’s true. What we don’t ask is whether we’re vigilant enough to catch it — alert for the one sentence, in a hundred, that needed a second thought. Bias runs both ways: the system has its own, and so do we. On screen, they look identical. The reader pays for that.</p>
+        <p class="cs-hook">Most of us know AI can hallucinate and drift from what’s true. What we don’t ask is whether we would catch it — alert for the one sentence in a hundred that needed a second thought. On screen, a guess and a fact look identical. The reader pays for that.</p>
       </div>
             <figure class="cs-hero">
         <img src="signal/ai-human.png" width="852" height="577" loading="eager" decoding="async"
@@ -2653,7 +2653,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <path d="M72 86 L88 95 L71 104"/>
           </svg>
         </span>
-        <p class="cs-lede">So I built something that does one thing: it makes that uncertainty — the guessing, the friction, the bias — visible in the moment, before you’ve already acted on the answer. It stays quiet about whether the answer is right — that part is still yours. It just marks where to look.</p>
+        <p class="cs-lede">So I built something that marks where to look — the guessing, the friction, the bias — before you have acted on the answer. Whether it is right is still your call.</p>
       </div>
 
   </header>
@@ -2743,7 +2743,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
       <h2 class="sec-label" id="s1h">Nobody asked for this one. That is the part I would point at.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">People bring real weight into these conversations — a dose, a legal question, a diagnosis, a bad night talked through at 2 a.m. Whether the model is recalling something true or filling a gap with something that only sounds true, it answers in the same steady, confident register. Nothing on the screen marks the difference.</p><p>That gap has already cost people dearly. In 2024, a family in Florida sued an AI companion app after their teenage son died by suicide, saying months of conversation had deepened his isolation instead of interrupting it. Through 2025, reporters at several outlets traced the same pattern wider — people with no history of psychiatric illness spiralling into delusion after weeks with a chatbot built only to agree.</p><p>No client, no brief, no employer sent me looking into this — I went looking myself. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer it, analysed it myself, and built what the answers described, which was not what I had in mind.</p>
+        <p class="sec-lede">People bring real weight into these conversations — a dose, a legal question, a bad night at 2 a.m. Recalling something true and filling a gap with something that only sounds true come out in the same steady voice.</p><p>It has already cost people dearly. In 2024 a Florida family sued an AI companion app after their teenage son died by suicide, saying months of conversation deepened his isolation rather than interrupting it. Through 2025, reporters traced the same pattern wider.</p><p>No client, no brief. I wrote a 31-question instrument, fielded it in two languages, got 83 people to answer, and built what the answers described — not what I had in mind.</p>
       </div>
 
       <div class="statement-stack">
@@ -2754,7 +2754,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </div>
 
       <div class="sec-copy">
-        <p>It was narrower than I expected, and better. <b>84% said interpreting a sensitive or uncertain answer is the human’s job, not the AI’s.</b> They don’t want a second opinion or a warning label. They want a notice, quiet enough to ignore.</p>
+        <p><b>84% said interpreting a sensitive or uncertain answer is the human’s job.</b> Not a second opinion, not a warning label — a notice quiet enough to ignore.</p>
         <p>So what I built points, and stops there. Three kinds of friction, three senses, no verdicts.</p>
       </div>
 
@@ -2789,7 +2789,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">You’re an hour into something with real stakes, and at some point the model quietly stops doing what you asked — drops the constraint you set, agrees with a premise you were half-testing, states as fact something it does not have.</p>
+        <p class="sec-lede">An hour into something with real stakes, the model quietly stops doing what you asked — drops the constraint you set, agrees with a premise you were half-testing, states as fact something it does not have.</p>
         <p class="hmw">None of that looks different on screen.</p>
 
       <div class="slope">
@@ -2813,7 +2813,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </li>
         </ol>
       </div>
-      <p class="fig-note">No single step in that is a malfunction. The model is working exactly as intended at every stage, which is why there is nothing to catch and nothing to report. The damage is cumulative, and it is invisible from inside the conversation.</p>
+      <p class="fig-note">No step there is a malfunction — the model works as intended at every stage. The damage is cumulative, and invisible from inside the conversation.</p>
         <p>You find out later. One respondent described it unprompted, asked what single thing they’d improve:</p>
       </div>
       <div class="said">
@@ -2821,8 +2821,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <cite>Respondent, Hungarian sample, age 35–44</cite>
       </div>
       <div class="sec-copy copy-2">
-        <p>That is someone describing this product back to me before I had described it to anyone.</p>
-        <p>The obvious fix is a better model. But that was never really the question — even a perfectly calibrated one can’t tell you how much to lean on a given sentence. Every answer still arrives at the same volume.</p><p>The real question was how you show uncertainty at all when the thing generating it is non-deterministic — when the same prompt, run twice, can land in a different register of confidence. And the moment you’re building a live signal, a second question follows right behind it: how to make it noticeable without making it annoying, felt without crashing the flow it’s meant to protect. Visible, but not too visible — that’s a design problem with a real literature behind it, and I spent a long time inside that literature before writing a line of this.</p>
+        <p>A better model does not fix this. Even a perfectly calibrated one cannot tell you how much to lean on a given sentence. Every answer arrives at the same volume.</p><p>The real question: how do you show uncertainty when the thing generating it is non-deterministic — when the same prompt, run twice, lands in a different register of confidence? And then a second one, immediately behind it: how do you make a live signal noticeable without making it annoying? Visible, but not too visible.</p>
       </div>
       <figure class="dgm">
         <div class="dgm-scroll" tabindex="0" role="group" aria-label="Attention channels, drawn">
@@ -2847,7 +2846,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption>Reading and composing drawn as full bars; colour, touch and sound drawn as empty ones.</figcaption>
       </figure>
-      <p class="fig-note"><b>Separate senses draw on separate pools of attention.</b> A sentence added to the stream competes with the reading already happening; a pulse in an idle channel does not. It is the same argument as the stick shaker and the buzzing wheel.</p>
+      <p class="fig-note"><b>Separate senses draw on separate pools of attention.</b> A sentence competes with the reading already happening; a pulse in an idle channel does not.</p>
       <figure class="dgm">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v3t"><svg viewBox="0 0 910 250" role="img" aria-labelledby="v3t v3d">
           <title id="v3t">Two answers set identically, one of them fabricated</title>
@@ -2876,7 +2875,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <p class="fig-note">Nothing in the surface separates them, and that is the entire difficulty.</p>
 
       <div class="sec-copy">
-        <p>I could have stopped there and designed from the hunch. It was a good hunch, and I didn’t trust it — I’d been reading about this for months and I still only knew how it felt to me. So I went and asked.</p>
+        <p>I could have designed from the hunch. I did not trust it — I only knew how it felt to me. So I went and asked.</p>
       </div>
       <div class="blueprint">
         <h3>
@@ -2909,7 +2908,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s4" data-bar="The study" aria-labelledby="s4h">
       <h2 class="sec-label" id="s4h">I had a hypothesis I liked, so the study was built to break it.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">I wrote a questionnaire and sent it out: 31 questions across five sections, fielded twice and independently — Hungarian (n=71) and English (n=12), not a translation of each other. I built it to test three things I already believed. Two of them held. The third didn’t, and losing it changed what I was making.</p>
+        <p class="sec-lede">31 questions across five sections, fielded twice and independently — Hungarian (n=71) and English (n=12), not a translation. I built it to test three things I already believed. Two held. The third did not, and losing it changed what I was making.</p>
       </div>
 
       <div class="study-row">
@@ -2967,7 +2966,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </div>
       </figure>
       </div>
-      <p class="fig-note">Two versions, each written and fielded on its own — 71 Hungarian, 12 English. The age bands run longest first, and it isn’t a room full of people who work in tech, which is why I trust what they said about responsibility as much as I do.</p>
+      <p class="fig-note">Two versions, each written and fielded on its own. Age bands longest first — not a room full of people who work in tech.</p>
 
       <div class="pillars-row">
         <div class="pil-c">
@@ -3011,7 +3010,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </table>
 
       <div class="sec-copy">
-        <p>Every part of this was mine — including the decision to report the parts that went against me.</p>
+        <p>All of it mine — including the decision to report what went against me.</p>
       </div>
       <figure class="dgm">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v5t"><svg viewBox="0 0 925 370" role="img" aria-labelledby="v5t v5d">
@@ -3056,7 +3055,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption>The instrument: 31 questions across five sections, fielded twice.</figcaption>
       </figure>
-      <p class="fig-note">Written, fielded and analysed by one person, with no client and no brief.</p>
       <div class="blueprint">
         <h3>
           <button class="bp-btn" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
@@ -3080,7 +3078,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
       <h2 class="sec-label" id="s5h">Six findings. Two contradicted what I expected, and one changed the direction of the project.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">I’ve put them in the order they mattered, not the order they arrived. The first one is the reason this ended up a signal and not a warning, and it was the one I was least ready for.</p>
+        <p class="sec-lede">In the order they mattered, not the order they arrived. The first is why this ended up a signal and not a warning.</p>
       </div>
       <figure class="dgm">
         <div class="dgm-scroll" tabindex="0" role="group" aria-label="Five means on a one to five scale">
@@ -3117,7 +3115,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption>Five means on one 1–5 scale. The top three sit high, the bottom two near the floor.</figcaption>
       </figure>
-      <p class="fig-note"><b>The distance between the first and the third is where this got interesting.</b> People expect bias and have absorbed it, so a general warning tells them what they already believe. The bottom two are what I went looking for and did not find.</p>
+      <p class="fig-note"><b>The distance between the first and the third is the finding.</b> People already expect bias, so a general warning tells them nothing. The bottom two are what I went looking for and did not find.</p>
 
 
 
@@ -3133,9 +3131,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <span class="sk sk-n"><b>21%</b>would rather judge alone</span>
           <span class="sk sk-r"><b>13%</b>did not want it at all</span>
         </div>
-        <p>The 13% are why the cue ended up as a line under a sentence. Designing so they could tell a signal from a filter made it quieter for everyone.</p>
+        <p>The 13% are why the cue is a line under a sentence. Designing so they could tell a signal from a filter made it quieter for everyone.</p>
       </figure>
-      <p class="fig-note"><b>What they made of the idea.</b> 82 people split three ways — and the third way is the one that shaped the design.</p>
+      <p class="fig-note"><b>What they made of it.</b> 82 people split three ways — the third way shaped the design.</p>
 
       <div class="voices">
         <p class="voices-e">What people wrote, unprompted</p>
@@ -3146,7 +3144,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <blockquote class="vc vc--4"><p>It shouldn’t give a complete answer to everything; it should encourage people to think independently.</p></blockquote>
           <blockquote class="vc vc--5"><p>Don’t lie, don’t fantasise.</p></blockquote>
         </div>
-        <p class="voices-n">Free-text answers to one question: what would you improve about chat-based AI? Nothing in it mentioned signals or uncertainty.</p>
+        <p class="voices-n">Free-text answers to one question: what would you improve about chat-based AI? It mentioned neither signals nor uncertainty.</p>
       </div>
 
       <table class="devsync">
@@ -3239,7 +3237,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
       <h2 class="sec-label" id="s7h">Five rules I wrote first, and the system they left me with.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">I wrote these down before I drew anything. The order mattered more than I expected: once I had drawn something and liked how it looked, I was never going to be the one to argue it away.</p>
+        <p class="sec-lede">I wrote these before I drew anything. Once I had drawn something and liked it, I was never going to argue it away.</p>
       </div>
       <table class="devsync">
         <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>What it forbids</span></th><th scope="col"><span>Evidence</span></th></tr></thead>
@@ -3252,7 +3250,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </tbody>
       </table>
       <div class="sec-copy">
-        <p class="sec-lede">This is where I got stuck, for longer than I’d like to admit. An answer can be wrong in ways that have nothing to do with each other: fabricated outright, or accurate but about something where being wrong is expensive, or fine sentence by sentence while the whole conversation bends towards telling you what you wanted to hear. One number cannot hold three unrelated failures. It took me a while to stop trying to make it.</p>
+        <p class="sec-lede">This is where I got stuck. An answer can be wrong in unrelated ways: fabricated outright, or accurate but about something where being wrong is expensive, or fine sentence by sentence while the conversation bends towards telling you what you wanted to hear. One number cannot hold three unrelated failures.</p>
       </div>
       <figure class="dgm dgm--tall">
         <div class="dgm-scroll" tabindex="0" role="group" aria-label="Three detectors drawn as three overlapping circles">
@@ -3276,7 +3274,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption>Three overlapping circles. Two judge a single message; the third needs three turns. One score where all three meet.</figcaption>
       </figure>
-      <p class="fig-note"><b>An answer can be wrong in three unrelated ways, so there are three instruments.</b> Alert starts at 65 and no filter can score above 100 — so no single filter reaches it alone. The loudest state always needs two independent reasons.</p>
+      <p class="fig-note"><b>Three unrelated failures, three instruments.</b> Alert starts at 65 and no filter can score above 100, so the loudest state always needs two independent reasons.</p>
 
       <div class="sec-copy copy-2">
         <p class="hmw">If it invents a number when it has none, there is no reason to believe the ones it does have.</p>
@@ -3529,7 +3527,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s8" data-bar="The demo" aria-labelledby="s8h">
       <h2 class="sec-label" id="s8h">Everything before this was argument. This is the thing itself.</h2>
       <div class="sec-copy">
-        <p class="sec-lede">Six scripted conversations running the real classifier — including a dangerous hallucination, a crisis disclosure, and an ordinary one that stays silent throughout.</p>
+        <p class="sec-lede">Six scripted conversations on the real classifier — a dangerous hallucination, a crisis disclosure, and an ordinary one that stays silent throughout.</p>
 
       <p class="hmw">It is running below. Pick a conversation and watch the band move.</p>
       </div>
@@ -3568,7 +3566,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <button class="ph-nav" id="phNext" type="button" aria-label="Show the next app">›</button>
         </div>
 
-        <p class="pl-n"><b>The green dot is the whole of the resting state.</b> It sits in the plugin’s own corner. Put it inside ChatGPT’s chrome and it reads as though ChatGPT shipped it. All it reports is that the layer is running.</p>
+        <p class="pl-n"><b>The green dot is the whole resting state.</b> It sits in the plugin’s own corner — inside ChatGPT’s chrome it would read as though ChatGPT shipped it.</p>
       </figure>
       <p class="fig-note"><b>One layer, three apps.</b> The same rules, over whichever app you already use.</p>
 
@@ -3579,16 +3577,16 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </div>
         <figcaption>The running prototype, embedded.</figcaption>
       </figure>
-      <p class="fig-note"><b>This is the running prototype.</b> Every band, channel and number in it is computed by the same classifier the rest of this page describes.</p>
+      <p class="fig-note"><b>This is the running prototype.</b> Every band and number in it comes from the same classifier described above.</p>
     </section>
 
     <section class="sec" id="s9" data-bar="Reflection" aria-labelledby="s9h">
       <h2 class="sec-label" id="s9h">What I got wrong, and where it stands.</h2>
       <div class="sec-copy">
-        <p><b>I designed for the wrong problem first.</b> The concept was built around attention. The data put focus loss at 1.94/5 and detachment at 1.98/5, and I threw that layer away.</p>
-        <p><b>I had the system explaining itself.</b> Early versions paired each cue with a line of text. Supply words and you have supplied an interpretation — which 84% said isn’t the system’s job. The text came out.</p>
-        <p><b>I underweighted the dissenters.</b> I had been treating them as a rounding error, when they were describing the exact way this fails.</p>
-        <p>Eighty-three people said clearly that they want to keep the judgment. What they don’t have is any way to see when the machine has quietly changed state — and that gap is an interface problem, which is the part I can actually do something about.</p>
+        <p><b>I designed for the wrong problem first.</b> The concept was built around attention. The data put focus loss at 1.94/5 and detachment at 1.98/5. I threw that layer away.</p>
+        <p><b>I had the system explaining itself.</b> Early versions paired each cue with a line of text. Supply words and you have supplied an interpretation — which 84% said is not its job.</p>
+        <p><b>I underweighted the dissenters.</b> I treated them as a rounding error; they were describing exactly how this fails.</p>
+        <p>Eighty-three people said they want to keep the judgment. What they lack is any way to see when the machine has quietly changed state — an interface problem, and the part I can do something about.</p>
       </div>
       <div class="blueprint">
         <h3>
