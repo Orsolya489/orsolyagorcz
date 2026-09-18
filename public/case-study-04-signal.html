@@ -1692,15 +1692,13 @@ a{color:inherit}
 .slope-i b{display:block;font-family:var(--serif);font-weight:500;
   font-size:var(--body);line-height:1.35;color:var(--ink);
   margin-top:calc(var(--stack)*.6);text-wrap:balance}
-.slope-i i{display:block;font-style:normal;font-size:calc(var(--body)*.88);
-  line-height:1.55;color:var(--body-c);margin-top:.45em}
 @media (max-width:1023px){
   .slope{grid-column:1}
   /* four across stops fitting - back to a stack, drawing beside each step */
   .slope-flow{grid-template-columns:1fr;row-gap:calc(var(--stack)*2.2)}
   .slope-i{display:grid;grid-template-columns:auto minmax(0,1fr);
-    column-gap:var(--gutter);align-items:start}
-  .slope-art{grid-row:span 2;width:clamp(104px,28vw,150px)}
+    column-gap:var(--gutter);align-items:center}
+  .slope-art{width:clamp(104px,28vw,150px)}
   .slope-a{left:50%;top:100%;bottom:auto;transform:translateX(-50%);
     width:auto;height:calc(var(--stack)*2.2)}
   .slope-a svg{width:auto;height:74%}
@@ -2823,7 +2821,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
               <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
             </div>
             <b>It answers, and it is good</b>
-            <i>Fast, free, never impatient.</i>
           </li>
           <li class="slope-i">
             <div class="slope-art">
@@ -2831,7 +2828,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
               <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
             </div>
             <b>So you bring it more</b>
-            <i>The easy questions first, then the ones you would have sat with.</i>
           </li>
           <li class="slope-i">
             <div class="slope-art">
@@ -2839,14 +2835,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
               <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
             </div>
             <b>It agrees with you</b>
-            <i>Not because it is lying. Agreeing is what it was tuned to do.</i>
           </li>
           <li class="slope-i">
             <div class="slope-art">
               <img class="slope-ill" src="signal/slope-quieter.png" width="340" height="260" loading="lazy" decoding="async" alt="The same woman with three question marks over her head, while the lightbulb belongs to the robot.">
             </div>
             <b>Your own judgement gets quieter</b>
-            <i>From the inside it feels like confidence.</i>
           </li>
         </ol>
       </div>
