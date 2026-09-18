@@ -1675,11 +1675,22 @@ a{color:inherit}
 .slope-e{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--stack)}
 .slope-list{list-style:none;margin:0;padding:0;
-  display:flex;flex-direction:column;gap:0}
-.slope-i{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--gutter);
-  padding:1.15em 0;border-top:1px solid var(--edge);align-items:start}
-.slope-i:first-child{border-top:0;padding-top:0}
-.slope-n{font-family:var(--sans);font-weight:300;font-size:calc(var(--title)*.62);
+  display:flex;flex-direction:column;gap:calc(var(--stack)*1.9)}
+/* position:relative so the arrow can hang off the bottom of its own step and
+   reach into the gap below it */
+.slope-i{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:var(--gutter);align-items:start}
+/* the arrow sits under the number, on the number's own centre line, so the
+   whole flow reads down a single axis */
+.slope-a{position:absolute;left:0;top:100%;width:calc(var(--title)*.62);
+  display:grid;place-items:center;height:calc(var(--stack)*1.9);
+  color:var(--line-soft);pointer-events:none}
+.slope-a svg{display:block;height:78%;width:auto;fill:none;stroke:currentColor;
+  stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* fixed 1em box, not the glyph's own width: it puts the digit and the arrow
+   below it on one axis, and holds when the count reaches two digits */
+.slope-n{display:block;width:1em;text-align:center;
+  font-family:var(--sans);font-weight:300;font-size:calc(var(--title)*.62);
   line-height:1;letter-spacing:-.02em;color:var(--line-soft);font-variant-numeric:tabular-nums}
 .slope-b b{display:block;font-family:var(--serif);font-weight:500;
   font-size:var(--body);line-height:1.4;color:var(--ink)}
@@ -2798,14 +2809,17 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <li class="slope-i">
             <span class="slope-n">1</span>
             <span class="slope-b"><b>It answers, and it is good</b><i>Fast, free, always available, never impatient. For someone already isolated, that is not a small thing.</i></span>
+            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
           </li>
           <li class="slope-i">
             <span class="slope-n">2</span>
             <span class="slope-b"><b>So you bring it more</b><i>The easy questions first, then the ones you would have asked a person, then the ones you would have sat with yourself.</i></span>
+            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
           </li>
           <li class="slope-i">
             <span class="slope-n">3</span>
             <span class="slope-b"><b>It agrees with you</b><i>Not because it is lying. Because agreeing is what it was tuned to do, and you are the one asking.</i></span>
+            <span class="slope-a" aria-hidden="true"><svg viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
           </li>
           <li class="slope-i">
             <span class="slope-n">4</span>
