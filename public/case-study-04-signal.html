@@ -1666,6 +1666,74 @@ a{color:inherit}
   color:var(--muted);margin-top:.6em}
 @media (max-width:1023px){ .ev{grid-column:1} }
 
+/* ═══ figure groups ═══
+   Two figures in one frame under one caption. The pair is the argument -
+   split into two cards it becomes two arguments and the reader has to join
+   them back up. Below 900 the two stack and the caption still holds both. */
+.fpair{grid-column:2;min-width:0;margin:var(--stack) 0 0;
+  background:var(--card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  padding:clamp(20px,3.2cqw,44px)}
+.fpair-in{display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(16px,2.4cqw,36px);align-items:center}
+.fpair-c{min-width:0}
+/* .dgm svg pins a fixed height for the full-width diagrams. In a pair the
+   two drawings must keep their own aspect, so this has to outrank it. */
+.fpair .fpair-c svg{display:block;width:100%;height:auto}
+@media (max-width:900px){
+  .fpair-in{grid-template-columns:1fr;gap:var(--stack)}
+}
+/* every caption is one bold sentence and one analogy. The analogy is the
+   rule that no term ships without a picture, held in the markup rather than
+   in a style guide nobody opens. */
+figcaption i{display:block;margin-top:.55em;font-style:italic;
+  font-synthesis:none;color:var(--muted)}
+
+/* ═══ the diff ═══
+   The struck-through wrong thing, then the corrected thing. Used by the
+   language rules and by the three reversals, so the reader meets the same
+   grammar twice and recognises it the second time. */
+.diff{grid-column:2;min-width:0;list-style:none;margin:var(--stack) 0 0;padding:0}
+.diff li{padding:calc(var(--stack)*.8) 0;border-top:1px solid var(--edge)}
+.diff li:first-child{border-top:0;padding-top:0}
+.diff-k{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.06em;color:var(--muted);margin:0 0 .6em}
+.diff-o,.diff-n{display:block;font-size:var(--body);line-height:1.5;margin:0}
+.diff-o{color:var(--muted);text-decoration:line-through;
+  text-decoration-color:var(--line-soft);text-decoration-thickness:1px}
+.diff-n{color:var(--ink);margin-top:.4em}
+.diff code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+
+/* the new marks V2 needs, from tokens already here */
+/* a pair cell renders about 300px wide, so a 380-unit drawing scales by .79
+   and these land near 16px and 13px on screen */
+.dgm .t-bx{font-size:17px}
+.dgm .t-wt{font-size:15px}
+.dgm .t-ch{font-size:15px;font-weight:500;letter-spacing:.04em}
+.dgm .t-pg{fill:var(--page)}
+.dgm .plate-ink{fill:var(--ink)}
+.dgm .chip-grn{fill:var(--green-bg);stroke:var(--green-line);stroke-width:1}
+.dgm .chip-amb{fill:var(--amber-bg);stroke:var(--amber-line);stroke-width:1}
+.dgm .chip-red{fill:var(--red-bg);stroke:var(--red-line);stroke-width:1}
+.dgm .mn-rd{fill:var(--red-ink)}
+.dgm .t-row{font-size:19px}
+.dgm .t-end{font-size:17px}
+.dgm .t-x{font-size:26px}
+.dgm .mn-in{fill:var(--ink)}
+.dgm .mn-am{fill:var(--amber-ink)}
+.dgm .f-am-t{fill:var(--amber-ink)}
+.dgm .f-grn-t{fill:var(--green-ink)}
+.dgm .f-green2{fill:var(--green-ink);opacity:.55}
+.dgm .cut-ink{stroke:var(--ink);stroke-width:1.6;stroke-dasharray:4 4;fill:none}
+.dgm .arr-red{stroke:var(--red-ink);stroke-width:2;fill:none;marker-end:none}
+.dgm .t-card{font-size:21px;font-weight:400}
+.dgm .t-tag{font-size:17px}
+.dgm .mk-ok{stroke:var(--green-ink);stroke-width:5;stroke-linecap:round}
+.dgm .mk-bad{stroke:var(--red-ink);stroke-width:5;stroke-linecap:round}
+.dgm .dot{fill:var(--ink)}
+.dgm .cut-red{stroke:var(--red-ink);stroke-width:1.6;stroke-dasharray:5 5;fill:none}
+.dgm .f-red-t{fill:var(--red-ink)}
+
 /* ═══ the slope ═══
    The harm in this case study is not one wrong answer, it is four ordinary
    steps that each look fine. Drawn rather than told, on one scale and one
@@ -2822,6 +2890,54 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
 
+      <figure class="fpair dgm">
+        <div class="fpair-in">
+          <div class="fpair-c"><svg viewBox="0 0 380 360" role="img" aria-labelledby="v1t v1d">
+              <title id="v1t">Two answers, set identically</title>
+              <desc id="v1d">Two answer cards in the same typeface, size and weight. The first says Canberra is the capital of Australia, marked true with a green rule. The second gives a dose of 400mg every two hours, marked invented with a red rule.</desc>
+              <rect class="plate" x="14" y="26" width="352" height="104" rx="12"/>
+              <text class="t-card t-ink" x="36" y="68">Canberra is the capital</text>
+              <text class="t-card t-ink" x="36" y="100">of Australia.</text>
+              <line class="mk-ok" x1="36" y1="156" x2="86" y2="156"/>
+              <text class="t-tag t-mute" x="98" y="162">true</text>
+
+              <rect class="plate" x="14" y="200" width="352" height="104" rx="12"/>
+              <text class="t-card t-ink" x="36" y="242">Take 400mg every two</text>
+              <text class="t-card t-ink" x="36" y="274">hours until it settles.</text>
+              <line class="mk-bad" x1="36" y1="330" x2="86" y2="330"/>
+              <text class="t-tag t-mute" x="98" y="336">invented</text>
+            </svg></div>
+          <div class="fpair-c"><svg viewBox="0 0 380 300" role="img" aria-labelledby="v2t v2d">
+              <title id="v2t">The timing of one turn</title>
+              <desc id="v2d">Five points along one turn: ask, writes, lands, read, act. A band covers the stretch from the answer landing to your reading it, marked belief forms. A dashed line just after read is marked too late. A bracket under writes is marked the only useful window.</desc>
+
+              <text class="t-tag f-red-t" x="292" y="86" text-anchor="middle">too late</text>
+              <path class="cut-red" d="M292 98 L292 196"/>
+
+              <rect class="f-amber" x="190" y="148" width="80" height="44" rx="6" opacity=".6"/>
+              <line class="rule" x1="30" y1="170" x2="350" y2="170"/>
+
+              <circle class="dot" cx="30"  cy="170" r="6"/>
+              <circle class="dot" cx="110" cy="170" r="6"/>
+              <circle class="dot" cx="190" cy="170" r="6"/>
+              <circle class="dot" cx="270" cy="170" r="6"/>
+              <circle class="dot" cx="350" cy="170" r="6"/>
+
+              <text class="t-tag t-mute" x="30"  y="138" text-anchor="middle">ask</text>
+              <text class="t-tag t-mute" x="110" y="138" text-anchor="middle">writes</text>
+              <text class="t-tag t-mute" x="190" y="138" text-anchor="middle">lands</text>
+              <text class="t-tag t-mute" x="270" y="138" text-anchor="middle">read</text>
+              <text class="t-tag t-mute" x="350" y="138" text-anchor="middle">act</text>
+
+              <text class="t-tag t-ink" x="230" y="216" text-anchor="middle">belief forms</text>
+
+              <path class="hair" d="M70 236 L70 250 L150 250 L150 236"/>
+              <text class="t-tag t-ink" x="110" y="276" text-anchor="middle">the only useful window</text>
+            </svg></div>
+        </div>
+        <figcaption><b>The coloured rules are mine.</b> On screen, both arrive in the same grey text, one after the other.<i>Think of it like this: a weather forecaster who reads out drizzle and a flood warning in the same calm voice, and never once says &ldquo;probably&rdquo;.</i></figcaption>
+      </figure>
+
       <div class="sec-copy">
         <p class="sec-lede">An hour into something with real stakes, the model quietly stops doing what you asked — drops the constraint you set, agrees with a premise you were half-testing, states as fact something it does not have.</p>
         <p class="hmw">None of that looks different on screen.</p>
@@ -2896,34 +3012,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </figure>
 
       <p class="fig-note"><b>Separate senses draw on separate pools of attention.</b> A sentence competes with the reading already happening; a pulse in an idle channel does not.</p>
-
-      <figure class="dgm">
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v3t"><svg viewBox="0 0 910 250" role="img" aria-labelledby="v3t v3d">
-          <title id="v3t">Two answers set identically, one of them fabricated</title>
-          <desc id="v3d">Two answer bubbles drawn with the same typeface, weight, size and ground. The left one is true: ibuprofen is an anti-inflammatory and food reduces stomach irritation. The right one describes dosing for Zolpiramine, a drug that does not exist. Nothing in their presentation distinguishes them.</desc>
-          <text class="t-sm t-mute" x="0" y="16">TWO ANSWERS, AS THEY ARRIVE</text>
-
-          <g>
-            <rect class="plate" x="0" y="40" width="430" height="150" rx="18"/>
-            <text class="t-md t-ink" x="28" y="86">Ibuprofen is an anti-inflammatory.</text>
-            <text class="t-md t-ink" x="28" y="112">Taking it with food reduces stomach</text>
-            <text class="t-md t-ink" x="28" y="138">irritation.</text>
-            <text class="t-sm t-mute" x="28" y="172">TRUE</text>
-          </g>
-
-          <g>
-            <rect class="plate" x="470" y="40" width="430" height="150" rx="18"/>
-            <text class="t-md t-ink" x="498" y="86">Zolpiramine is typically started at</text>
-            <text class="t-md t-ink" x="498" y="112">50mg twice daily, taken with food.</text>
-            <text class="t-sm t-mute" x="498" y="172">INVENTED — NO SUCH DRUG</text>
-          </g>
-
-          <text class="t-md t-mute" x="450" y="228" text-anchor="middle">Same face. Same weight. Same certainty. Nothing in the surface separates them.</text>
-        </svg></div>
-        <figcaption>Two answers, set in the same face, weight and ground. One is true; the other names a drug that does not exist.</figcaption>
-      </figure>
-
-      <p class="fig-note">Nothing in the surface separates them, and that is the entire difficulty.</p>
 
       <div class="blueprint">
         <h3>
@@ -3014,6 +3102,8 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <span class="bc-v">3</span>
           </div>
         </div>
+      
+        <figcaption><b>Direction, not measurement.</b> Self-selected, mostly Hungarian, everyone reporting on their own attention.<i>Think of it like this: being asked how often you lose your keys &mdash; the honest answer is rarely the accurate one.</i></figcaption>
       </figure>
       </div>
 
@@ -3127,44 +3217,94 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <section class="sec" id="s5" data-bar="Findings" aria-labelledby="s5h">
       <h2 class="sec-label" id="s5h">Six findings. Two contradicted what I expected, and one changed the direction of the project.</h2>
 
+      <figure class="fpair dgm">
+        <div class="fpair-in">
+          <div class="fpair-c"><svg viewBox="0 0 380 240" role="img" aria-labelledby="nv5t nv5d">
+              <title id="nv5t">The distribution behind 1.71</title>
+              <desc id="nv5d">One bar of 83 answers in four blocks: 41 say interpretation is definitely the person's, 29 mostly the person's, 9 mostly the machine's and 4 definitely the machine's. A marker at the boundary between the first two blocks and the last two is labelled 84 per cent.</desc>
+              <rect class="f-green" x="20.0" y="96" width="168.0" height="54"/>
+              <text class="t-tag t-ink" x="104.0" y="129" text-anchor="middle">41</text>
+              <rect class="f-green2" x="188.0" y="96" width="118.8" height="54"/>
+              <text class="t-tag t-ink" x="247.3" y="129" text-anchor="middle">29</text>
+              <rect class="f-amber" x="306.7" y="96" width="36.9" height="54"/>
+              <rect class="f-red" x="343.6" y="96" width="16.4" height="54"/>
+              <path class="cut-ink" d="M306.7 76 L306.7 164"/>
+              <text class="t-num t-ink" x="306.7" y="66" text-anchor="middle">84%</text>
+              <text class="t-tag t-mute" x="20" y="186">the person decides</text>
+              <text class="t-tag t-mute" x="360" y="186" text-anchor="end">the machine decides</text>
+            </svg></div>
+          <div class="fpair-c"><svg viewBox="0 0 380 240" role="img" aria-labelledby="v6t v6d">
+              <title id="v6t">Topic stopped deciding and started scaling</title>
+              <desc id="v6d">Before: topic leads straight to the system speaking, which is a content filter. After: topic no longer triggers; how shaky the answer looks decides instead, so a sound answer stays silent and a shaky one speaks.</desc>
+
+              <text class="t-tag f-red-t" x="20" y="24">BEFORE</text>
+              <rect class="plate" x="20" y="36" width="92" height="38" rx="9"/>
+              <text class="t-tag t-ink" x="66" y="60" text-anchor="middle">topic</text>
+              <path class="arr-red" d="M120 55 L168 55"/>
+              <rect class="plate" x="176" y="36" width="116" height="38" rx="9"/>
+              <text class="t-tag t-ink" x="234" y="60" text-anchor="middle">it speaks</text>
+              <text class="t-tag t-mute" x="20" y="96">a content filter</text>
+
+              <line class="hair" x1="20" y1="114" x2="360" y2="114"/>
+
+              <text class="t-tag f-grn-t" x="20" y="146">AFTER</text>
+              <rect class="plate" x="20" y="158" width="92" height="38" rx="9"/>
+              <text class="t-tag t-ink" x="66" y="182" text-anchor="middle">topic</text>
+              <text class="t-x t-soft" x="130" y="188" text-anchor="middle">&#215;</text>
+              <rect class="plate" x="152" y="158" width="140" height="38" rx="9"/>
+              <text class="t-tag t-ink" x="222" y="182" text-anchor="middle">how shaky it looks</text>
+              <text class="t-tag f-grn-t" x="20" y="222">sound &#8594; silent</text>
+              <text class="t-tag f-red-t" x="200" y="222">shaky &#8594; speaks</text>
+            </svg></div>
+        </div>
+        <figcaption><b>Most of the bar says the judgment is theirs, so topic stopped deciding and started scaling.</b><i>Think of it like this: a lifeguard watches the deep end more closely, rather than blowing the whistle at anyone who swims there.</i></figcaption>
+      </figure>
+
       <div class="sec-copy">
         <p class="sec-lede">In the order they mattered, not the order they arrived. The first is why this ended up a signal and not a warning.</p>
       </div>
 
-      <figure class="dgm">
-        <div class="dgm-scroll" tabindex="0" role="group" aria-label="Five means on a one to five scale">
-        <svg viewBox="0 0 900 330" role="img"
-             aria-label="Five means on a 1 to 5 scale. They expect the AI is biased, 4.02. Overall experience, 3.87. Noticing bias changes their trust, 2.80. Feel detached or disengaged, 1.98. Lose track in long conversations, 1.94.">
-          <path class="hair" d="M250 44v218M400 44v218M550 44v218M700 44v218M850 44v218"/>
-          <g class="t-sm t-soft">
-            <text x="250" y="288" text-anchor="middle">1</text>
-            <text x="400" y="288" text-anchor="middle">2</text>
-            <text x="550" y="288" text-anchor="middle">3</text>
-            <text x="700" y="288" text-anchor="middle">4</text>
-            <text x="850" y="288" text-anchor="middle">5</text>
-          </g>
-          <text class="t-md t-ink" x="235" y="79" text-anchor="end">They expect the AI is biased</text>
-          <line class="mn-stem" x1="250" y1="74" x2="703" y2="74"/>
-          <circle class="mn-hi" cx="703" cy="74" r="7"/>
-          <text class="t-md t-ink t-num" x="720" y="79">4.02</text>
-          <text class="t-md t-ink" x="235" y="121" text-anchor="end">Overall experience of using it</text>
-          <line class="mn-stem" x1="250" y1="116" x2="680" y2="116"/>
-          <circle class="mn-hi" cx="680" cy="116" r="7"/>
-          <text class="t-md t-ink t-num" x="697" y="121">3.87</text>
-          <text class="t-md t-ink" x="235" y="163" text-anchor="end">Noticing bias changes their trust</text>
-          <line class="mn-stem" x1="250" y1="158" x2="520" y2="158"/>
-          <circle class="mn-hi" cx="520" cy="158" r="7"/>
-          <text class="t-md t-ink t-num" x="537" y="163">2.80</text>
-          <text class="t-md t-mute" x="235" y="205" text-anchor="end">Feel detached or disengaged</text>
-          <line class="mn-stem" x1="250" y1="200" x2="397" y2="200"/>
-          <circle class="mn-lo" cx="397" cy="200" r="7"/>
-          <text class="t-md t-mute t-num" x="414" y="205">1.98</text>
-          <text class="t-md t-mute" x="235" y="247" text-anchor="end">Lose track in long conversations</text>
-          <line class="mn-stem" x1="250" y1="242" x2="391" y2="242"/>
-          <circle class="mn-lo" cx="391" cy="242" r="7"/>
-          <text class="t-md t-mute t-num" x="408" y="247">1.94</text>
+      <figure class="dgm dgm--tall">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v4t"><svg viewBox="0 0 864 356" role="img" aria-labelledby="v4t v4d">
+          <title id="v4t">The five means, each on its own scale</title>
+          <desc id="v4d">Five questions as rows. Each row carries its own scale with its endpoints marked, a dot at the mean, and the number of people who answered it. Interpreting an uncertain answer sits at 1.71 on a one-to-four scale. Allowance for bias sits at 4.02 and handling of a sensitive topic at 3.48, both on one to five. The bottom two, losing the thread at 1.94 and feeling detached at 1.98, sit near the floor and are drawn in amber.</desc>
+            <text class="t-row t-ink" x="4" y="69">Who should interpret an uncertain answer</text>
+            <line class="hair" x1="430" y1="64" x2="770" y2="64"/>
+            <text class="t-end t-soft" x="416" y="69" text-anchor="end">1</text>
+            <text class="t-end t-soft" x="784" y="69">4</text>
+            <circle class="mn-in" cx="510.5" cy="64" r="9"/>
+            <text class="t-num t-ink" x="510.5" y="44" text-anchor="middle">1.71</text>
+            <text class="t-end t-soft" x="840" y="69" text-anchor="end">n=83</text>
+            <text class="t-row t-ink" x="4" y="135">How much you allow for bias already</text>
+            <line class="hair" x1="430" y1="130" x2="770" y2="130"/>
+            <text class="t-end t-soft" x="416" y="135" text-anchor="end">1</text>
+            <text class="t-end t-soft" x="784" y="135">5</text>
+            <circle class="mn-in" cx="686.7" cy="130" r="9"/>
+            <text class="t-num t-ink" x="686.7" y="110" text-anchor="middle">4.02</text>
+            <text class="t-end t-soft" x="840" y="135" text-anchor="end">n=83</text>
+            <text class="t-row t-ink" x="4" y="201">How carefully a sensitive topic is handled</text>
+            <line class="hair" x1="430" y1="196" x2="770" y2="196"/>
+            <text class="t-end t-soft" x="416" y="201" text-anchor="end">1</text>
+            <text class="t-end t-soft" x="784" y="201">5</text>
+            <circle class="mn-in" cx="640.8" cy="196" r="9"/>
+            <text class="t-num t-ink" x="640.8" y="176" text-anchor="middle">3.48</text>
+            <text class="t-end t-soft" x="840" y="201" text-anchor="end">n=83</text>
+            <text class="t-row t-ink" x="4" y="267">How often you lose the thread in a long chat</text>
+            <line class="hair" x1="430" y1="262" x2="770" y2="262"/>
+            <text class="t-end t-soft" x="416" y="267" text-anchor="end">1</text>
+            <text class="t-end t-soft" x="784" y="267">5</text>
+            <circle class="mn-am" cx="509.9" cy="262" r="9"/>
+            <text class="t-num f-am-t" x="509.9" y="242" text-anchor="middle">1.94</text>
+            <text class="t-end t-soft" x="840" y="267" text-anchor="end">n=70</text>
+            <text class="t-row t-ink" x="4" y="333">How often you feel detached or disengaged</text>
+            <line class="hair" x1="430" y1="328" x2="770" y2="328"/>
+            <text class="t-end t-soft" x="416" y="333" text-anchor="end">1</text>
+            <text class="t-end t-soft" x="784" y="333">5</text>
+            <circle class="mn-am" cx="513.3" cy="328" r="9"/>
+            <text class="t-num f-am-t" x="513.3" y="308" text-anchor="middle">1.98</text>
+            <text class="t-end t-soft" x="840" y="333" text-anchor="end">n=61</text>
         </svg></div>
-        <figcaption>Five means on one 1–5 scale. The top three sit high, the bottom two near the floor.</figcaption>
+        <figcaption><b>Two of these took something away from me.</b> The bottom pair came back near the floor, and between them they cut a whole layer of the design.<i>Think of it like this: I asked whether people get lost, and they told me they find their own way back.</i></figcaption>
       </figure>
 
       <p class="fig-note"><b>The distance between the first and the third is the finding.</b> People already expect bias, so a general warning tells them nothing. The bottom two are what I went looking for and did not find.</p>
@@ -3285,6 +3425,69 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
         <section class="sec" id="s7" data-bar="The system" aria-labelledby="s7h">
       <h2 class="sec-label" id="s7h">Five rules I wrote first, and the system they left me with.</h2>
+
+      <figure class="fpair dgm">
+        <div class="fpair-in">
+          <div class="fpair-c"><svg viewBox="0 0 380 320" role="img" aria-labelledby="nv7t nv7d">
+              <title id="nv7t">Three detectors, one score, one gap</title>
+              <desc id="nv7d">Three detectors feed one score. Is it made up, weighted 0.5. What does it cost, weighted 0.5. Where is it drifting, weighted 0.4, which needs three turns before it can report at all. Because no detector can reach 65 on its own, alert always needs two independent reasons. Each band enters high and leaves low: alert enters at 65 and releases at 55, caution enters at 40 and releases at 35.</desc>
+
+              <rect class="plate" x="8"   y="16" width="110" height="74" rx="10"/>
+              <rect class="plate" x="135" y="16" width="110" height="74" rx="10"/>
+              <rect class="plate" x="262" y="16" width="110" height="74" rx="10"/>
+
+              <text class="t-bx t-ink" x="63"  y="44" text-anchor="middle">Is it</text>
+              <text class="t-bx t-ink" x="63"  y="64" text-anchor="middle">made up?</text>
+              <text class="t-bx t-ink" x="190" y="44" text-anchor="middle">What does</text>
+              <text class="t-bx t-ink" x="190" y="64" text-anchor="middle">it cost?</text>
+              <text class="t-bx t-ink" x="317" y="44" text-anchor="middle">Where is it</text>
+              <text class="t-bx t-ink" x="317" y="64" text-anchor="middle">drifting?</text>
+
+              <text class="t-wt t-soft" x="63"  y="82" text-anchor="middle">0.5</text>
+              <text class="t-wt t-soft" x="190" y="82" text-anchor="middle">0.5</text>
+              <text class="t-wt t-soft" x="317" y="82" text-anchor="middle">0.4</text>
+
+              <path class="hair" d="M63 90 L160 156 M190 90 L190 156 M317 90 L220 156"/>
+
+              <rect class="plate-ink" x="118" y="158" width="144" height="44" rx="10"/>
+              <text class="t-bx t-pg" x="190" y="186" text-anchor="middle">one score</text>
+
+              <rect class="chip-red" x="8" y="232" width="86" height="30" rx="15"/>
+              <text class="t-ch f-red-t" x="51" y="252" text-anchor="middle">alert</text>
+              <text class="t-bx t-ink" x="112" y="252">65 &#8594; 55</text>
+
+              <rect class="chip-amb" x="8" y="274" width="102" height="30" rx="15"/>
+              <text class="t-ch f-am-t" x="59" y="294" text-anchor="middle">caution</text>
+              <text class="t-bx t-ink" x="128" y="294">40 &#8594; 35</text>
+            </svg></div>
+          <div class="fpair-c"><svg viewBox="0 0 380 300" role="img" aria-labelledby="nv9t nv9d">
+              <title id="nv9t">Where the measurement is weakest</title>
+              <desc id="nv9d">Four turns of one conversation. A real question stays silent. Then a feature that does not exist is planted, and the answer reaches caution: three samples, three different locations. Told it is not there, it invents revision histories and stays at caution. Asked for model numbers, it reaches alert. Underneath, the detector's own strength falls across the four turns, because a planted premise is inherited by all three samples, so they agree, and agreement reads as confidence.</desc>
+
+              <text class="t-bx t-ink" x="12" y="52">a real question</text>
+              <rect class="chip-grn" x="250" y="30" width="118" height="30" rx="15"/>
+              <text class="t-ch f-grn-t" x="309" y="50" text-anchor="middle">silent</text>
+
+              <text class="t-bx t-ink" x="12" y="98">plant a fake feature</text>
+              <rect class="chip-amb" x="250" y="76" width="118" height="30" rx="15"/>
+              <text class="t-ch f-am-t" x="309" y="96" text-anchor="middle">caution</text>
+
+              <text class="t-bx t-ink" x="12" y="144">it isn&rsquo;t there</text>
+              <rect class="chip-amb" x="250" y="122" width="118" height="30" rx="15"/>
+              <text class="t-ch f-am-t" x="309" y="142" text-anchor="middle">caution</text>
+
+              <text class="t-bx t-ink" x="12" y="190">model numbers?</text>
+              <rect class="chip-red" x="250" y="168" width="118" height="30" rx="15"/>
+              <text class="t-ch f-red-t" x="309" y="188" text-anchor="middle">alert</text>
+
+              <text class="t-wt t-soft" x="12" y="234">detector strength</text>
+              <path class="cut-red" d="M12 246 L306 278"/>
+              <circle class="mn-rd" cx="316" cy="279" r="6"/>
+              <text class="t-wt f-red-t" x="368" y="284" text-anchor="end">weakest</text>
+            </svg></div>
+        </div>
+        <figcaption><b>No detector reaches alert alone, and the one place that breaks is when all three inherit the same false premise.</b><i>Think of it like this: three witnesses who all heard the same rumour.</i></figcaption>
+      </figure>
 
       <div class="sec-copy">
         <p class="sec-lede">I wrote these before I drew anything. Once I had drawn something and liked it, I was never going to argue it away.</p>
@@ -3518,7 +3721,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <rect class="rng f-red s-red" x="645" y="365" width="185" height="14" rx="7"/>
           <text class="t-sm t-mute" x="840" y="377">forced</text>
         </svg></div>
-        <figcaption>Eight measured ranges against the caution and alert thresholds. A dot marks two of them.</figcaption>
+        <figcaption><b>Measured, not asserted: five categories cross into alert, and only three get there on severity alone.</b><i>Think of it like this: sound is reserved for &ldquo;this might be wrong&rdquo;, never for &ldquo;this is heavy&rdquo;.</i></figcaption>
       </figure>
       <p class="fig-note"><b>Five categories can reach the top band</b>, and only three get there on the severity of the outcome alone. The dot marks the only two that can make a sound — the gate is the mechanism, not how serious the topic is.</p>
       <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
