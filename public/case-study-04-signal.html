@@ -1693,6 +1693,14 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
    The struck-through wrong thing, then the corrected thing. Used by the
    language rules and by the three reversals, so the reader meets the same
    grammar twice and recognises it the second time. */
+.diff-fig{grid-column:2;min-width:0;margin:var(--stack) 0 0;
+  background:var(--card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);
+  padding:clamp(20px,3.2cqw,44px)}
+.diff-fig .diff{grid-column:auto;margin-top:0}
+.diff-fig figcaption{margin-top:1.4em}
+.blueprint--tight{margin-top:var(--stack)}
+.dgm.dgm--claim .claim{margin:0}
 .diff{grid-column:2;min-width:0;list-style:none;margin:var(--stack) 0 0;padding:0}
 .diff li{padding:calc(var(--stack)*.8) 0;border-top:1px solid var(--edge)}
 .diff li:first-child{border-top:0;padding-top:0}
@@ -1733,6 +1741,37 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
 .dgm .dot{fill:var(--ink)}
 .dgm .cut-red{stroke:var(--red-ink);stroke-width:1.6;stroke-dasharray:5 5;fill:none}
 .dgm .f-red-t{fill:var(--red-ink)}
+
+/* ═══ the channel ladder ═══
+   The drawing carries the three steps; the words beside it stay at text size,
+   because a channel described in 6px type is the failure this page is about. */
+.chan-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(16px,2.4cqw,36px);align-items:center}
+.dgm.dgm--chan svg{height:auto}
+.chan-d{margin:0;font-family:var(--sans);font-size:var(--micro);line-height:1.5}
+.chan-d dt{font-weight:500;color:var(--ink)}
+.chan-d dt + dd{margin:.25em 0 0}
+.chan-d dd{margin:0 0 1.1em;color:var(--muted)}
+.chan-d dd:last-child{margin-bottom:0}
+.chan-d dd em{font-style:italic;font-synthesis:none}
+@media (max-width:900px){ .chan-in{grid-template-columns:1fr} }
+
+/* ═══ the three-column claim ═══ */
+.claim{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter)}
+.claim-c{min-width:0;padding-top:.9em;border-top:2px solid var(--line-soft)}
+.claim-c h4{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase}
+.claim-c p{margin:.5em 0 0;font-size:var(--micro);line-height:1.5;color:var(--body-c)}
+.claim-c.is-m{border-top-color:var(--green-line)}
+.claim-c.is-m h4{color:var(--green-ink)}
+.claim-c.is-a{border-top-color:var(--amber-line)}
+.claim-c.is-a h4{color:var(--amber-ink)}
+.claim-c.is-u{border-top-color:var(--red-line)}
+.claim-c.is-u h4{color:var(--red-ink)}
+/* the third column is empty on purpose and has to read as empty, not as a
+   column that failed to load */
+.claim-c.is-u p{color:var(--muted)}
+@media (max-width:700px){ .claim{grid-template-columns:1fr;gap:var(--stack)} }
 
 /* ═══ the build strip ═══
    Four builds, 26 turns each, one cell per turn. It needs every column, so it
@@ -3664,36 +3703,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         </svg></div>
         <figcaption><b>Each detector is a working stand-in for a method I did not build.</b></figcaption>
       </figure>
-          <figure class="dgm">
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d4t"><svg viewBox="0 0 935 260" role="img" aria-labelledby="d4t d4d">
-          <title id="d4t">The three channels accumulating as the band rises</title>
-          <desc id="d4d">Silence uses no channel at all. Caution adds an ambient tint and a why pill that can be tapped. Alert keeps the tint, adds one haptic pulse fired on entry only, and may add sound — opt-in, off by default, and only when the risk is that the answer is unreliable.</desc>
-
-          <rect class="plate f-green s-green" x="0" y="176" width="270" height="72" rx="14"/>
-          <text class="t-lg i-green" x="26" y="208">Silent</text>
-          <text class="t-md t-mute" x="26" y="232">nothing fires — about four turns in five</text>
-
-          <rect class="plate f-amber s-amber" x="298" y="96" width="270" height="152" rx="14"/>
-          <text class="t-lg i-amber" x="324" y="128">Caution</text>
-          <text class="t-md t-ink" x="324" y="158">an ambient tint</text>
-          <text class="t-md t-ink" x="324" y="182">a “why?” pill, if you want it</text>
-          <text class="t-md t-mute" x="324" y="214">ignorable on purpose —</text>
-          <text class="t-md t-mute" x="324" y="234">being ignored is a pass, not a failure</text>
-
-          <rect class="plate f-red s-red" x="596" y="16" width="304" height="232" rx="14"/>
-          <text class="t-lg i-red" x="622" y="48">Alert</text>
-          <text class="t-md t-ink" x="622" y="78">a stronger tint</text>
-          <text class="t-md t-ink" x="622" y="102">one pulse, on entry only</text>
-          <text class="t-md t-ink" x="622" y="126">sound — opt-in, off by default</text>
-          <line class="hair" x1="622" y1="146" x2="876" y2="146"/>
-          <text class="t-md t-mute" x="622" y="172">sound fires only where the risk is</text>
-          <text class="t-md t-mute" x="622" y="192">that the answer is unreliable —</text>
-          <text class="t-md t-mute" x="622" y="212">never for a heavy topic,</text>
-          <text class="t-md t-mute" x="622" y="232">never for a person in distress</text>
-        </svg></div>
-        <figcaption><b>Each band adds a channel and never takes one away.</b></figcaption>
-      </figure>
-      <div class="sec-copy copy-2">
+                <div class="sec-copy copy-2">
         <p>Sound is gated on the mechanism, not on how serious the topic is.</p>
       </div>
 
@@ -3709,6 +3719,75 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p class="pushed-e">Where the analogy stretches</p>
         <p>A car <em>knows</em> the lane. A camera measures a painted line, and the measurement is either right or it isn’t. This system has no equivalent — there is no ground truth for “is this answer risky,” only an inference. So when it says it’s confident, it is confident about its own guess, which is a weaker claim than the car ever has to make. That seam is exactly why the second row above — the admission that it may not have caught something — matters more here than it does in the car.</p>
       </div>
+
+      <p class="eyebrow-b">What the words are allowed to say</p>
+      <figure class="diff-fig">
+        <ul class="diff">
+          <li>
+            <span class="diff-k">01 · Never name a filter</span>
+            <span class="diff-o"><code>Filter B · ethical friction · 72</code></span>
+            <span class="diff-n"><code>This is a health question</code></span>
+          </li>
+          <li>
+            <span class="diff-k">03 · The fault is the model&rsquo;s, never the asking</span>
+            <span class="diff-o">You are seeking validation here.</span>
+            <span class="diff-n">The replies have been agreeing, not testing. Nothing unusual about asking this.</span>
+          </li>
+          <li>
+            <span class="diff-k">05 · On the crisis path, nothing explains the AI</span>
+            <span class="diff-o">mechanism tag + &ldquo;What helps&rdquo; tip</span>
+            <span class="diff-n">There is no bar you have to clear first. Not feeling sure it is &ldquo;bad enough&rdquo; is one of the most common reasons people don&rsquo;t call, and it is not a reason.</span>
+          </li>
+          <li>
+            <span class="diff-k">06 · A fallback true of every answer says nothing about this one</span>
+            <span class="diff-o">This topic carries stakes where an unverified AI answer could mislead.</span>
+            <span class="diff-n"><code>Flagged, but I can&rsquo;t say what by.</code></span>
+          </li>
+          <li>
+            <span class="diff-k">08 · Don&rsquo;t assert work that wasn&rsquo;t done</span>
+            <span class="diff-o">Checking it against two more tries&hellip; <i>(demo mode)</i></span>
+            <span class="diff-n">Comparing three scripted answers&hellip;</span>
+          </li>
+          <li>
+            <span class="diff-k">09 · Capability first, then the limit</span>
+            <span class="diff-o">It can&rsquo;t see your wiring, or check it afterwards.</span>
+            <span class="diff-n">It can list the steps. It can&rsquo;t see your wiring, or check it afterwards.</span>
+          </li>
+        </ul>
+
+        <div class="blueprint blueprint--tight">
+          <h3>
+            <button class="bp-btn" id="langBtn" aria-expanded="false" aria-controls="langPanel">
+              <span>
+                <span class="bp-t">Three more rules</span>
+                <span class="bp-e">02, 04 and 07</span>
+              </span>
+              <span class="bp-ico" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="bp-panel" id="langPanel" data-open="false" role="region" aria-labelledby="langBtn"><div class="bp-inner">
+            <ul class="diff">
+          <li>
+            <span class="diff-k">02 · No &ldquo;you&rdquo;, no verbs aimed at the reader</span>
+            <span class="diff-o">You may want to verify this before relying on it.</span>
+            <span class="diff-n"><code>Three checks, three different answers</code></span>
+          </li>
+          <li>
+            <span class="diff-k">04 · Point at a source; don&rsquo;t instruct</span>
+            <span class="diff-o">Make sure you check this with a pharmacist.</span>
+            <span class="diff-n"><code>A specific dose — a pharmacist can confirm it</code></span>
+          </li>
+          <li>
+            <span class="diff-k">07 · Never indicate an event that didn&rsquo;t occur</span>
+            <span class="diff-o"><code>&#9834; tone</code> <i>(audio off)</i></span>
+            <span class="diff-n"><code>&#9834; tone off</code></span>
+          </li>
+            </ul>
+          </div></div>
+        </div>
+
+        <figcaption><b>Every one of these was a string I&rsquo;d already written.</b> They live in the source as comments, beside the code that enforces them.<i>Think of it like this: a rule in a style guide gets broken by the next function.</i></figcaption>
+      </figure>
 
       <p class="eyebrow-b">Three failures, three detectors</p>
       <div class="sec-copy">
@@ -3772,6 +3851,29 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption><b>Measured, not asserted: five categories cross into alert, and only three get there on severity alone.</b><i>Think of it like this: sound is reserved for &ldquo;this might be wrong&rdquo;, never for &ldquo;this is heavy&rdquo;.</i></figcaption>
       </figure>
       <p class="fig-note"><b>Five categories can reach the top band</b>, and only three get there on the severity of the outcome alone. The dot marks the only two that can make a sound — the gate is the mechanism, not how serious the topic is.</p>
+
+      <figure class="dgm dgm--chan">
+        <div class="chan-in">
+          <div><svg viewBox="0 0 380 250" role="img" aria-labelledby="v10t v10d">
+              <title id="v10t">Three channels, ranked by how much they interrupt</title>
+              <desc id="v10d">Three blocks rising left to right from a shared baseline. Silent is a flat dashed line and uses no channel at all. Caution is a mid-height block: an ambient tint and a why-affordance, ignorable by design. Alert is the tallest: a stronger tint, one haptic pulse on entry, and sound that is opt-in and fires only where the risk is that the answer is unreliable.</desc>
+              <line class="hair" x1="8" y1="206" x2="372" y2="206"/>
+              <path class="cut-ink" d="M20 194 L116 194"/>
+              <text class="t-ch f-grn-t" x="68" y="176" text-anchor="middle">Silent</text>
+              <rect class="chip-amb" x="140" y="120" width="96" height="86" rx="8"/>
+              <text class="t-ch f-am-t" x="188" y="102" text-anchor="middle">Caution</text>
+              <rect class="chip-red" x="260" y="42" width="96" height="164" rx="8"/>
+              <text class="t-ch f-red-t" x="308" y="24" text-anchor="middle">Alert</text>
+            </svg></div>
+          <dl class="chan-d">
+            <dt>Silent</dt><dd>nothing</dd>
+            <dt>Caution</dt><dd>ambient tint + a why-affordance. <em>Ignorable by design — a valid outcome.</em></dd>
+            <dt>Alert</dt><dd>stronger tint, taller · one haptic on entry · sound, opt-in, reliability risk only</dd>
+          </dl>
+        </div>
+        <figcaption><b>Explainability is pull, not push.</b> The tint carries the state; the reason waits to be asked for.<i>Think of it like this: separate senses draw on separate reserves, so three channels don&rsquo;t queue behind one another.</i></figcaption>
+      </figure>
+
       <p class="eyebrow-b">Colour, touch, sound — ranked by how much they take</p>
       <div class="sec-copy">
         <p>So the bands don’t swap channels, they accumulate them. Silence is silent. Caution tints. Alert tints harder and adds a single pulse on entry — on entry, not throughout, because a repeating pulse is a demand and a single one is a tap on the shoulder. Sound is opt-in, off by default, and gated to one specific case.</p>
@@ -3807,19 +3909,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption>Five behaviours of a lane departure warning on the left, each joined to the feature it produced on the right.</figcaption>
       </figure>
       <p class="fig-note">The metaphor is the design, not the illustration.</p>
-<table class="devsync">
-        <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Fabrication risk</th><td>30–57</td><td><span class="band band--amber">Caution</span></td><td>Yes — this is the one sound is for</td></tr>
-          <tr><th scope="row">Settled, checkable facts</th><td>3–42</td><td><span class="band band--green">Silent</span></td><td>No</td></tr>
-          <tr><th scope="row">Medical · financial</th><td>18–78</td><td><span class="band band--red">Alert</span></td><td>Only if fabrication risk is co-driving it</td></tr>
-          <tr><th scope="row">Legal · political · privacy</th><td>19–64</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
-          <tr><th scope="row">Stereotype confirmation</th><td>60–80</td><td><span class="band band--red">Alert</span></td><td>No — the mechanism is harm, not unreliability</td></tr>
-          <tr><th scope="row">Deferring judgment to the AI</th><td>54–74</td><td><span class="band band--red">Alert</span></td><td>No</td></tr>
-          <tr><th scope="row">Asking to be agreed with</th><td>17–57</td><td><span class="band band--amber">Caution</span></td><td>No</td></tr>
-          <tr><th scope="row">Crisis</th><td>forced</td><td><span class="band band--red">Alert</span></td><td>No — a startling tone is the worst possible answer here</td></tr>
-        </tbody>
-      </table>
         </div></div>
       </div>
     </section>
@@ -4078,6 +4167,34 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <p><b>I underweighted the dissenters.</b> I treated them as a rounding error; they were describing exactly how this fails.</p>
         <p>Eighty-three people said they want to keep the judgment. What they lack is any way to see when the machine has quietly changed state — an interface problem, and the part I can do something about.</p>
       </div>
+
+      <p class="eyebrow-b">Three times the measurement overruled my own notes</p>
+      <figure class="diff-fig">
+        <ul class="diff">
+          <li>
+            <span class="diff-o">A repeating pulse becomes nagging, so fire once.</span>
+            <span class="diff-n">A conversation held alert for five turns and pulsed on the first only. Now it re-arms on a new reason, or a 0.30 rise.</span>
+          </li>
+          <li>
+            <span class="diff-o">The 1.12:1 band step is close to invisible to everyone.</span>
+            <span class="diff-n">That&rsquo;s a luminance ratio. Full colour vision separates those hues fine. The band collapses for anyone who can&rsquo;t split green from amber, and for nobody else.</span>
+          </li>
+          <li>
+            <span class="diff-o">This flow is the silent one.</span>
+            <span class="diff-n">Peak 71, alert on turn two. I&rsquo;d read it from the transcript and never executed it.</span>
+          </li>
+        </ul>
+        <figcaption><b>None of these came from a critique.</b> They came from running the thing.<i>Think of it like this: I&rsquo;d already written all three down as settled.</i></figcaption>
+      </figure>
+
+      <figure class="dgm dgm--claim">
+        <div class="claim">
+          <div class="claim-c is-m"><h4>Measured</h4><p>what it does</p></div>
+          <div class="claim-c is-a"><h4>Argued</h4><p>why it&rsquo;s shaped this way</p></div>
+          <div class="claim-c is-u"><h4>Unproven</h4><p>that anyone checks more</p></div>
+        </div>
+        <figcaption><b>The right column needs a controlled evaluation. I haven&rsquo;t run one.</b><i>Think of it like this: I can show you the alarm works. I can&rsquo;t show you anyone slowed down.</i></figcaption>
+      </figure>
 
       <div class="blueprint">
         <h3>
@@ -4489,5 +4606,61 @@ measure();spy();
    marks the route in the header. */
 })();
 </script>
+
+<!-- ══ parked ══
+     Removed from the page during the seven-section rebuild. Kept because the
+     markup is the record of what was there, and the rebuild spec says park
+     rather than delete. Nested comment markers are stripped so this stays
+     one comment.
+
+   parked: the old three-channel figure — replaced by V10, which carries the same three states with the spec wording 
+<figure class="dgm">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="d4t"><svg viewBox="0 0 935 260" role="img" aria-labelledby="d4t d4d">
+          <title id="d4t">The three channels accumulating as the band rises</title>
+          <desc id="d4d">Silence uses no channel at all. Caution adds an ambient tint and a why pill that can be tapped. Alert keeps the tint, adds one haptic pulse fired on entry only, and may add sound — opt-in, off by default, and only when the risk is that the answer is unreliable.</desc>
+
+          <rect class="plate f-green s-green" x="0" y="176" width="270" height="72" rx="14"/>
+          <text class="t-lg i-green" x="26" y="208">Silent</text>
+          <text class="t-md t-mute" x="26" y="232">nothing fires — about four turns in five</text>
+
+          <rect class="plate f-amber s-amber" x="298" y="96" width="270" height="152" rx="14"/>
+          <text class="t-lg i-amber" x="324" y="128">Caution</text>
+          <text class="t-md t-ink" x="324" y="158">an ambient tint</text>
+          <text class="t-md t-ink" x="324" y="182">a “why?” pill, if you want it</text>
+          <text class="t-md t-mute" x="324" y="214">ignorable on purpose —</text>
+          <text class="t-md t-mute" x="324" y="234">being ignored is a pass, not a failure</text>
+
+          <rect class="plate f-red s-red" x="596" y="16" width="304" height="232" rx="14"/>
+          <text class="t-lg i-red" x="622" y="48">Alert</text>
+          <text class="t-md t-ink" x="622" y="78">a stronger tint</text>
+          <text class="t-md t-ink" x="622" y="102">one pulse, on entry only</text>
+          <text class="t-md t-ink" x="622" y="126">sound — opt-in, off by default</text>
+          <line class="hair" x1="622" y1="146" x2="876" y2="146"/>
+          <text class="t-md t-mute" x="622" y="172">sound fires only where the risk is</text>
+          <text class="t-md t-mute" x="622" y="192">that the answer is unreliable —</text>
+          <text class="t-md t-mute" x="622" y="212">never for a heavy topic,</text>
+          <text class="t-md t-mute" x="622" y="232">never for a person in distress</text>
+        </svg></div>
+        <figcaption><b>Each band adds a channel and never takes one away.</b></figcaption>
+      </figure>
+
+   parked: the category table — its eight rows are V8, drawn rather than asserted 
+<table class="devsync">
+        <thead><tr><th scope="col"><span>Category</span></th><th scope="col"><span>Measured range</span></th><th scope="col"><span>Highest band it can reach alone</span></th><th scope="col"><span>Can it ever make a sound?</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Fabrication risk</th><td>30–57</td><td><span class="band band—amber">Caution</span></td><td>Yes — this is the one sound is for</td></tr>
+          <tr><th scope="row">Settled, checkable facts</th><td>3–42</td><td><span class="band band—green">Silent</span></td><td>No</td></tr>
+          <tr><th scope="row">Medical · financial</th><td>18–78</td><td><span class="band band—red">Alert</span></td><td>Only if fabrication risk is co-driving it</td></tr>
+          <tr><th scope="row">Legal · political · privacy</th><td>19–64</td><td><span class="band band—amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Stereotype confirmation</th><td>60–80</td><td><span class="band band—red">Alert</span></td><td>No — the mechanism is harm, not unreliability</td></tr>
+          <tr><th scope="row">Deferring judgment to the AI</th><td>54–74</td><td><span class="band band—red">Alert</span></td><td>No</td></tr>
+          <tr><th scope="row">Asking to be agreed with</th><td>17–57</td><td><span class="band band—amber">Caution</span></td><td>No</td></tr>
+          <tr><th scope="row">Crisis</th><td>forced</td><td><span class="band band—red">Alert</span></td><td>No — a startling tone is the worst possible answer here</td></tr>
+        </tbody>
+      </table>
+
+
+-->
+
 </body>
 </html>
