@@ -36,6 +36,8 @@
   --lattice:   rgba(25,21,23,.06);
   --edge-ctrl: rgba(25,21,23,.22);
   --glass:     rgba(250,245,243,.90);
+  /* the one saturated value on the page: it reports a state, nothing else */
+  --avail:     #3C8F66;
 
   /* space, radius, motion */
   --shell: 1680px;
@@ -192,10 +194,39 @@ a{color:inherit}
    max() stops it going off-screen on a phone, where the margin is smaller
    than the shift: there the pill lands flush on the edge with its radius
    intact and the alignment is still within 2px. */
+/* Two rows now: the wordmark on its own glass, and the availability label on
+   its own under it. The pill moved from the group to the brand, so the left
+   pull that lands the logo's first stroke on the page margin still holds and
+   the label shares that left edge. */
 .c-tl{top:var(--gutter);left:max(0px, calc(var(--margin) - var(--control)*.494));
-  height:var(--control);padding:0 calc(var(--control)*.42);
+  flex-direction:column;align-items:flex-start;gap:calc(var(--gutter)*.4);
+  height:auto;padding:0;background:none;border-radius:0;
+  -webkit-backdrop-filter:none;backdrop-filter:none}
+.c-tl .brand{height:var(--control);padding:0 calc(var(--control)*.42);
   background:var(--glass);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+/* Secondary to the wordmark and sized to say so: shorter than a control, on
+   the same glass so it stays readable over whatever scrolls beneath it. */
+.avail{display:inline-flex;align-items:center;gap:.6em;
+  height:calc(var(--control)*.64);padding:0 calc(var(--control)*.38);
+  background:var(--glass);border-radius:var(--r-pill);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  letter-spacing:.01em;color:var(--muted);white-space:nowrap}
+.avail-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);
+  background:var(--avail);animation:avail-pulse 2.6s var(--ease) infinite}
+/* the ring travels outward and fades; the dot itself never moves, so the
+   label's baseline is undisturbed */
+@keyframes avail-pulse{
+  0%{box-shadow:0 0 0 0 rgba(60,143,102,.55)}
+  70%{box-shadow:0 0 0 .5em rgba(60,143,102,0)}
+  100%{box-shadow:0 0 0 0 rgba(60,143,102,0)}}
+[data-motion="off"] .avail-dot{animation:none}
+@media (prefers-reduced-motion:reduce){.avail-dot{animation:none}}
+/* it still fits at 390, just: the label sheds its padding before it sheds
+   itself, and only goes when the line would break */
+@media (max-width:560px){.avail{padding:0 calc(var(--control)*.28);gap:.45em}}
+@media (max-width:380px){.avail{display:none}}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 /* The footer is the one block these must not cover: it carries the ways to
@@ -393,11 +424,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 /* Where, not what - so it is not one of the pills. It sits above them as a
    plain line, carrying the same dot the contact block uses, and reads as a
    standing fact about availability rather than a fourth discipline. */
-.hero-loc{display:inline-flex;align-items:center;gap:.7em;
-  margin:0 0 calc(var(--stack)*.75);
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
-  letter-spacing:.01em;text-transform:none;color:var(--muted)}
-
 /* 2 · work — the card */
 .work{padding-bottom:var(--section)}
 .stack-cards{display:flex;flex-direction:column;gap:40px}
@@ -656,11 +682,15 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     transform:translateY(25%)}
   .stack-cards>.card-slot:first-child .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
-  /* card 3 is the same tall phone as card 1, from the running prototype */
+  /* Card 3 is the same tall phone as card 1, but it is carrying a state:
+     the red wash sits in the bottom half of the screen, and at a quarter of
+     the device clipped away the signal was the one thing the card cut off.
+     It bleeds off the edge by a tenth instead, which keeps the family and
+     keeps the tint. */
   .stack-cards>.card-slot:nth-child(3) .card-shot{
     margin-left:12%;margin-bottom:0;
     width:auto;height:104%;aspect-ratio:680/1380;max-height:none;
-    transform:translateY(25%)}
+    transform:translateY(10%)}
   .stack-cards>.card-slot:nth-child(3) .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
 }
@@ -1160,6 +1190,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <circle cx="956.9" cy="129" r="18.9"/>
       </g>
     </svg></a>
+  <span class="avail"><span class="avail-dot" aria-hidden="true"></span>Currently: Szombathely, Hungary — open to relocation</span>
 </nav>
 
 <div class="chrome c-tr">
@@ -1257,7 +1288,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   <!-- 1 · HERO -->
   <section class="hero" id="home">
     <div class="hero-main">
-      <p class="hero-loc"><span class="loc-dot" aria-hidden="true"></span>Currently Szombathely, Hungary — open to relocation</p>
       <ul class="hero-labels">
         <li>Product Design</li>
         <li>Human-AI Interaction</li>
