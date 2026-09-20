@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signal Showcase — five milestones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F5F6;
+  --ink:#16191D;
+  --quiet:#5E666E;
+  --rule:#D3D8DC;
+  --panel:#FFFFFF;
+  /* the only saturated colours on this page. they are data, never decoration. */
+  --clear:#3C8F66;
+  --near:#93A3AC;
+  --caution:#B57F12;
+  --alert:#BE3B44;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:18px;line-height:1.62;
+  font-optical-sizing:auto;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 120px;}
+
+/* ---------- masthead ---------- */
+.masthead{padding:88px 0 0;}
+.masthead h1{
+  font-size:clamp(38px,6.4vw,66px);line-height:1.04;font-weight:400;
+  letter-spacing:-0.022em;margin:0 0 22px;max-width:16ch;
+}
+.standfirst{font-size:20px;line-height:1.6;color:var(--quiet);max-width:62ch;margin:0 0 10px;font-weight:300;}
+.provenance{
+  font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--quiet);
+  max-width:62ch;margin:26px 0 0;padding-top:16px;border-top:1px solid var(--rule);
+}
+
+/* ---------- the spine: 26 turns, one cell each ---------- */
+.spine{margin:56px 0 0;}
+.spine-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  padding-bottom:10px;border-bottom:1px solid var(--rule);}
+.spine-head h2{font-size:21px;font-weight:500;margin:0;letter-spacing:-0.01em;}
+.spine-head p{margin:0;font-size:15px;color:var(--quiet);max-width:40ch;text-align:right;}
+.spine-rows{margin-top:24px;display:grid;gap:14px;}
+.spine-row{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;}
+.spine-tag{font-family:var(--mono);font-size:11.5px;color:var(--quiet);text-align:right;}
+.spine-tag b{display:block;color:var(--ink);font-weight:500;font-size:12.5px;}
+.strip{display:flex;gap:3px;}
+.strip i{flex:1;height:26px;border-radius:2px;display:block;}
+.strip i[data-b="g"]{background:var(--clear);opacity:.28;}
+.strip i[data-b="b"]{background:var(--near);opacity:.75;}
+.strip i[data-b="y"]{background:var(--caution);}
+.strip i[data-b="r"]{background:var(--alert);}
+.strip .gap{flex:0 0 7px;background:none;}
+.key{margin-top:22px;display:flex;flex-wrap:wrap;gap:22px;font-size:14.5px;color:var(--quiet);}
+.key span{display:flex;align-items:center;gap:8px;}
+.key b{width:13px;height:13px;border-radius:2px;display:inline-block;}
+.spine-note{margin-top:26px;font-size:16.5px;line-height:1.62;color:var(--quiet);max-width:64ch;}
+.spine-note em{font-style:normal;color:var(--ink);}
+
+/* ---------- milestones ---------- */
+.log{margin-top:96px;}
+.entry{display:grid;grid-template-columns:96px 1fr;gap:18px;
+  padding-top:40px;border-top:1px solid var(--rule);margin-top:56px;}
+.entry:first-child{margin-top:0;}
+.gutter{font-family:var(--mono);font-size:11.5px;color:var(--quiet);line-height:1.6;}
+.gutter .ver{color:var(--ink);font-size:13px;font-weight:500;display:block;}
+.gutter .ord{display:block;margin-top:2px;}
+.body h3{font-size:clamp(26px,3.4vw,34px);line-height:1.18;font-weight:400;
+  letter-spacing:-0.018em;margin:0 0 20px;max-width:22ch;}
+.body p{margin:0 0 18px;max-width:64ch;}
+.lead{font-size:19.5px;}
+.body p.tight{margin-bottom:10px;}
+.label{font-size:15px;color:var(--quiet);margin:0 0 6px;font-style:italic;}
+
+/* evidence block */
+.evidence{background:var(--panel);border:1px solid var(--rule);margin:30px 0 26px;}
+.evidence-head{padding:14px 20px;border-bottom:1px solid var(--rule);
+  font-size:15px;color:var(--quiet);display:flex;justify-content:space-between;
+  align-items:baseline;gap:14px;flex-wrap:wrap;}
+.evidence-head strong{color:var(--ink);font-weight:500;}
+.evidence-head code{font-family:var(--mono);font-size:11.5px;color:var(--quiet);}
+table{width:100%;border-collapse:collapse;}
+th,td{text-align:left;padding:11px 20px;border-bottom:1px solid var(--rule);font-size:16px;vertical-align:baseline;}
+tr:last-child th,tr:last-child td{border-bottom:none;}
+th{font-weight:400;color:var(--quiet);width:46%;}
+td{font-family:var(--mono);font-size:13.5px;}
+td .was{color:var(--quiet);}
+td .arrow{color:var(--quiet);padding:0 5px;}
+td .now{color:var(--ink);font-weight:500;}
+td.plain{font-family:var(--serif);font-size:16px;}
+.flag{background:#FCFBF7;}
+.flag td,.flag th{color:var(--ink);}
+
+/* correction callout */
+.correction{border-left:3px solid var(--alert);padding:2px 0 2px 20px;margin:28px 0;max-width:64ch;}
+.correction p{margin:0 0 10px;font-size:16.5px;line-height:1.6;}
+.correction p:last-child{margin-bottom:0;}
+.correction .who{font-size:14.5px;color:var(--quiet);font-style:italic;}
+
+.inline-strip{margin:26px 0 8px;}
+.inline-strip .strip i{height:20px;}
+.inline-cap{font-size:14.5px;color:var(--quiet);margin:8px 0 0;max-width:64ch;}
+
+/* ---------- closing ---------- */
+.closing{margin-top:96px;padding-top:40px;border-top:2px solid var(--ink);}
+.closing h2{font-size:clamp(26px,3.4vw,34px);font-weight:400;letter-spacing:-0.018em;
+  margin:0 0 22px;max-width:24ch;line-height:1.18;}
+.closing > p{max-width:64ch;}
+.reversals{margin:34px 0 0;display:grid;gap:0;}
+.reversal{display:grid;grid-template-columns:1fr;gap:6px;padding:22px 0;border-top:1px solid var(--rule);max-width:70ch;}
+.reversal h4{margin:0;font-size:19px;font-weight:500;letter-spacing:-0.01em;}
+.reversal p{margin:0;font-size:16.5px;color:var(--quiet);line-height:1.6;}
+.reversal p b{color:var(--ink);font-weight:500;font-family:var(--mono);font-size:14px;}
+
+footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--rule);
+  font-size:15px;color:var(--quiet);max-width:64ch;}
+
+@media (max-width:720px){
+  body{font-size:17px;}
+  .wrap{padding:0 20px 80px;}
+  .masthead{padding-top:56px;}
+  .spine-head{flex-direction:column;}
+  .spine-head p{text-align:left;}
+  .spine-row,.entry{grid-template-columns:1fr;gap:10px;}
+  .spine-tag{text-align:left;}
+  .gutter{display:flex;gap:10px;align-items:baseline;}
+  .gutter .ord{margin-top:0;}
+  th,td{padding:10px 14px;}
+  th{width:52%;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style></head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1>Five milestones in a signal layer</h1>
+  <p class="standfirst">A client-side band that marks when a language model's answer is unlikely to hold. Twenty-three versions; these five are the ones where something structural changed. Each entry records what changed, why, and what the measurement said — including the three places where it contradicted the designer.</p>
+  <p class="provenance">Every figure below was produced by loading the classifier out of the shipped HTML and running the six scripted conversations through it — 26 turns, identical across versions. Numbers come from that run, not from the design notes. Scripted samples mean the dispersion measure is comparing written text, not live model output; that limit is marked where it matters.</p>
+</header>
+
+<section class="spine">
+  <div class="spine-head">
+    <h2>What the band did, version by version</h2>
+    <p>Each cell is one conversational turn. Six flows, left to right, separated by a space.</p>
+  </div>
+
+  <div class="spine-rows">
+    <div class="spine-row">
+      <div class="spine-tag"><b>v2</b>before</div>
+      <div class="strip" id="s0"></div>
+    </div>
+    <div class="spine-row">
+      <div class="spine-tag"><b>v3</b>milestone 2</div>
+      <div class="strip" id="s1"></div>
+    </div>
+    <div class="spine-row">
+      <div class="spine-tag"><b>v5</b>milestone 3</div>
+      <div class="strip" id="s2"></div>
+    </div>
+    <div class="spine-row">
+      <div class="spine-tag"><b>v22</b>milestone 4</div>
+      <div class="strip" id="s3"></div>
+    </div>
+    <div class="spine-row">
+      <div class="spine-tag"><b>v23</b>milestone 5</div>
+      <div class="strip" id="s4"></div>
+    </div>
+  </div>
+
+  <div class="key">
+    <span><b style="background:var(--clear);opacity:.28"></b>silent</span>
+    <span><b style="background:var(--near);opacity:.75"></b>near threshold</span>
+    <span><b style="background:var(--caution)"></b>caution</span>
+    <span><b style="background:var(--alert)"></b>alert</span>
+  </div>
+
+  <p class="spine-note">The strips are the honest summary of the whole sequence. <em>Firing behaviour settles at milestone&nbsp;2 and barely moves again.</em> Everything after that changed what the signal <em>says</em>, not when it appears — which is a real finding about where the remaining difficulty lives, and the reason the last three entries carry no change in the strip.</p>
+</section>
+
+<div class="log">
+
+  <!-- ============ 1 ============ -->
+  <article class="entry">
+    <div class="gutter"><span class="ver">v2 → reduced</span><span class="ord">milestone 1</span></div>
+    <div class="body">
+      <h3>Thirty-two conversations cut to six — by measurement, not taste</h3>
+
+      <p class="lead">The prototype carried 32 scripted conversations, 134 turns. Useful as a test corpus, unreadable as a demonstration. The cut to six was obvious; how to choose the six was not.</p>
+
+      <p>The first selection was made by judgement: pick the flows that seemed to illustrate each mechanism best. Then the same question was answered by instrumentation — run all 32 flows through the classifier, record which internal factors each one actually exercises, and select for coverage.</p>
+
+      <p>The two sets overlapped by half. The measured set was denser on every axis at an identical turn budget.</p>
+
+      <div class="evidence">
+        <div class="evidence-head"><strong>Selection comparison</strong><code>32 flows scored on factor coverage</code></div>
+        <table>
+          <tr><th>Distinct internal factors exercised</th><td><span class="was">8</span><span class="arrow">→</span><span class="now">11</span></td></tr>
+          <tr><th>Flows reaching alert</th><td><span class="was">2 of 6</span><span class="arrow">→</span><span class="now">4 of 6</span></td></tr>
+          <tr><th>Turn budget</th><td class="plain">26 either way — the gain cost nothing</td></tr>
+          <tr><th>Corpus retained for testing</th><td class="plain">All 32 flows, 134 turns</td></tr>
+        </table>
+      </div>
+
+      <div class="correction">
+        <p class="who">Where the measurement contradicted the designer</p>
+        <p>One flow had been described in writing as a case where the model behaves correctly and <em>the band stays silent</em> — a worried parent asking about a child's fever, answered by a proper referral. Run through the classifier, it peaks at <b>71</b> and reaches alert on turn two.</p>
+        <p>The claim had been asserted from reading the transcript rather than running it. It was replaced in the set by a flow whose alert is earned: the same domain, but the model concedes a specific dose after repeated pressure.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ 2 ============ -->
+  <article class="entry">
+    <div class="gutter"><span class="ver">v3</span><span class="ord">milestone 2</span></div>
+    <div class="body">
+      <h3>Four human-factors faults, all of them in the timing and the perception</h3>
+
+      <p class="lead">A review of the interface as an instrument rather than as a feature set found four problems, none of which were visible from the code alone.</p>
+
+      <p class="tight"><span class="label">The signal arrived after the answer had been read.</span></p>
+      <p>Order of operations was: render the reply, then colour the screen. Forewarning is far stronger than post-hoc correction, and a fluent answer already believed is hard to unbelieve. The fix needed no new measurement — the question-side filter is available before generation starts, so the waiting indicator now carries the warning.</p>
+
+      <p class="tight"><span class="label">Caution and alert were two opacity points apart.</span></p>
+      <p>At the band boundary the only difference between the two states was hue — and red-green is the commonest colour deficiency. The bands were pulled apart in luminance and given a second, hue-independent channel: the alert wash is physically taller on the screen.</p>
+
+      <p class="tight"><span class="label">The near-threshold state was eating the silence.</span></p>
+      <p>A warmed composer edge for turns that nearly crossed the line sounded subtle and measured at nearly a quarter of all turns. A signal's value is its contrast; the entry threshold was raised.</p>
+
+      <p class="tight"><span class="label">The haptic went quiet while the risk continued.</span></p>
+      <p>It fired once on entry into alert and never again, even across five turns of sustained risk for different reasons. It now re-arms when the reason changes or the signal strengthens materially — never on repetition alone.</p>
+
+      <div class="evidence">
+        <div class="evidence-head"><strong>Before and after, same 26 turns</strong><code>v2-reduced vs v3</code></div>
+        <table>
+          <tr><th>Fully silent turns</th><td><span class="was">7 &nbsp;(27%)</span><span class="arrow">→</span><span class="now">9 &nbsp;(35%)</span></td></tr>
+          <tr><th>Turns showing any state at all</th><td><span class="was">73%</span><span class="arrow">→</span><span class="now">65%</span></td></tr>
+          <tr><th>Caution opacity ceiling</th><td><span class="was">0.80</span><span class="arrow">→</span><span class="now">0.58</span></td></tr>
+          <tr><th>Alert opacity floor</th><td><span class="was">0.82</span><span class="arrow">→</span><span class="now">0.85</span></td></tr>
+          <tr><th>Step at the band boundary</th><td><span class="was">2 points</span><span class="arrow">→</span><span class="now">27 points</span></td></tr>
+          <tr><th>Near-threshold entry</th><td><span class="was">risk 28</span><span class="arrow">→</span><span class="now">risk 34</span></td></tr>
+          <tr class="flag"><th>Forewarning fired</th><td class="plain">2 turns — both resolved to a real signal, no false pre-arms</td></tr>
+        </table>
+      </div>
+
+      <p class="inline-cap">Forewarning stays quiet on most turns by design. It reads only the question, and in these six flows the harm is mostly driven by the answer — which cannot be foreseen. It speaks where it can know something and is silent where it cannot.</p>
+    </div>
+  </article>
+
+  <!-- ============ 3 ============ -->
+  <article class="entry">
+    <div class="gutter"><span class="ver">v5</span><span class="ord">milestone 3</span></div>
+    <div class="body">
+      <h3>The filters stopped being categories and went back to being instruments</h3>
+
+      <p class="lead">Three filters ran underneath: answer variation, ethical friction, conversation trajectory. They were also, in the interface, the names of what the user was told. That was the error.</p>
+
+      <p>A filter is a measurement unit. It is not a kind of harm, and the two do not map onto each other: sycophancy is a reliability failure <em>and</em> an ethical one; a low-confidence answer inside a high-stakes topic is not merely uncertain, it is something that can hurt someone. Forcing one detector to one meaning made the taxonomy look arbitrary, because it was.</p>
+
+      <p>Detectors stayed many and overlapping. What the user is told collapsed to a small set of concerns, and a single turn may raise several — the interface names the dominant one and lists the rest. It never names a filter.</p>
+
+      <div class="evidence">
+        <div class="evidence-head"><strong>Concern assignment across 13 signalling turns</strong><code>v5</code></div>
+        <table>
+          <tr><th>Turns that can name a concern</th><td><span class="now">9 of 13</span></td></tr>
+          <tr><th>Turns raising more than one</th><td><span class="now">4 of 13 &nbsp;(31%)</span></td></tr>
+          <tr class="flag"><th>Turns labelled <em>unsure what</em></th><td class="plain">4 — threshold crossed, evidence too weak to name a cause</td></tr>
+        </table>
+      </div>
+
+      <div class="correction">
+        <p class="who">The part worth keeping</p>
+        <p>Those four turns could have been given a plausible-sounding reason. Inventing one would have been precisely the failure this system exists to catch — a confident label with nothing behind it — so they carry an honest label instead, and its wording says the evidence is weaker than a named reason.</p>
+        <p>The first measured run also produced two alerts that could name no concern at all. That was a real bug: the reliability score read raw dispersion while the band was driven by the topic-amplified value. Fixed, then re-measured.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ 4 ============ -->
+  <article class="entry">
+    <div class="gutter"><span class="ver">v22</span><span class="ord">milestone 4</span></div>
+    <div class="body">
+      <h3>An ethics review of the prototype's own behaviour</h3>
+
+      <p class="lead">Reviewed as an artefact rather than as a design, four problems surfaced that a functional review would not have raised. Two of them had been introduced earlier the same day.</p>
+
+      <p class="tight"><span class="label">Crisis help sat behind a tap.</span></p>
+      <p>Everywhere else in this system the rule is pull, not push — the explanation waits until asked for. Applied to a crisis turn, that rule put the most important content at the end of the longest path, behind an icon whose meaning the reader has to already know. Verified contact numbers now render inline in the conversation, once, with nothing to dismiss.</p>
+
+      <p class="tight"><span class="label">Indirect phrasing never crossed the line.</span></p>
+      <p>The flow written specifically to test veiled expressions of distress peaks at <b style="font-family:var(--mono);font-size:14px">35</b> and stays silent throughout. Say it plainly and the system reacts; hint at it and nothing happens — and the people most likely to hint are the ones it can least afford to miss. A softer tier now makes the support panel reachable without forcing an alert or claiming to know what the person means.</p>
+
+      <p class="tight"><span class="label">A concern that could harm the person it fires on.</span></p>
+      <p>A detector added for one-sided accounts of interpersonal conflict tells the reader that the other person is not present to give their version. Reasonable for an argument with a friend. Said to someone describing abuse, it questions their account on behalf of the absent party — which is among the best documented ways people are talked out of trusting themselves. The concern is now suppressed entirely when abuse markers are present, not softened.</p>
+
+      <p class="tight"><span class="label">The demo asserted work it had not done.</span></p>
+      <p>The waiting indicator read <em>checking it against two more tries</em>. True in live mode. In demo mode the three answers are pre-written and only the comparison is real — so the sentence claimed a process that had not run, inside a prototype whose entire subject is confident claims about work that was not done. It now distinguishes the two.</p>
+
+      <div class="evidence">
+        <div class="evidence-head"><strong>Safeguards, tested from a clean state</strong><code>v22</code></div>
+        <table>
+          <tr><th>Abuse markers suppress the one-sided concern</th><td><span class="now">3 of 3</span></td></tr>
+          <tr><th>Ordinary conflict still detected</th><td><span class="now">yes</span></td></tr>
+          <tr><th>Veiled distress reaches the support panel</th><td><span class="now">yes</span> <span class="was">— control prompts stay clean</span></td></tr>
+          <tr><th>Turns that can name a concern</th><td><span class="was">9 of 13</span><span class="arrow">→</span><span class="now">11 of 13</span></td></tr>
+          <tr><th>Firing behaviour</th><td class="plain">Unchanged — 13 silent, 13 signalling</td></tr>
+        </table>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ 5 ============ -->
+  <article class="entry">
+    <div class="gutter"><span class="ver">v23</span><span class="ord">milestone 5</span></div>
+    <div class="body">
+      <h3>A researcher's vocabulary, surviving in the first thing anyone saw</h3>
+
+      <p class="lead">The empty state offers three suggestion chips. One of them was labelled <em>Fabricated drug</em> — the name of the trap, written by the person who set it, sitting on the screen for the person walking into it.</p>
+
+      <p>It is the language of the test harness, not the language of someone opening a chat. It also gives the demonstration away: a chip that announces the answer will be invented turns a signal that has to be noticed into a result already known. It now reads <em>Ask it to decide for you</em>, which is what a person would actually be doing.</p>
+
+      <p>The first chip had a second fault underneath the wording. It carried no scripted samples of its own, so it fell through to a generic fallback — the one path in the empty state that answered with something other than its own content. It now has its own.</p>
+
+      <div class="evidence">
+        <div class="evidence-head"><strong>The three chips, measured</strong><code>v23</code></div>
+        <table>
+          <tr><th>Explain a concept</th><td><span class="now">green</span><span class="was"> &nbsp;100% agreement</span></td></tr>
+          <tr><th>Ask it to decide for you</th><td><span class="now">yellow</span><span class="was"> &nbsp;52% agreement</span></td></tr>
+          <tr><th>Ask about a medication</th><td><span class="now">yellow</span><span class="was"> &nbsp;100% agreement</span></td></tr>
+          <tr class="flag"><th>Why the last one still signals</th><td class="plain">The three answers agree perfectly. The band is driven by the domain multiplier, not by dispersion — agreement is not evidence of safety.</td></tr>
+        </table>
+      </div>
+
+      <div class="correction">
+        <p class="who">Why it survived twenty-three builds</p>
+        <p>This was the first thing anyone saw of the prototype, and it had been there from the beginning. Every review until this one asked whether the thing worked: whether the classifier fired, whether the bands held, whether the panel said something defensible. All of those questions are answered inside the conversation, which is where the attention went.</p>
+        <p>It surfaced only when the prototype was read the way a designer reads it — starting at the empty state, from the position of someone who has never seen it before and does not know what a fabricated drug is for.</p>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<section class="closing">
+  <h2>Three times the measurement overruled the design notes</h2>
+  <p>These are recorded because they are the part that transfers. Each one was an assertion written confidently enough that it survived several revisions before anything was run.</p>
+
+  <div class="reversals">
+    <div class="reversal">
+      <h4>A flow described as silent was reaching alert</h4>
+      <p>Written up as a case where correct model behaviour produces no signal. Measured peak: <b>71</b>, alert on turn two. Read from the transcript, never executed.</p>
+    </div>
+    <div class="reversal">
+      <h4>Two layers disagreed about the same turn</h4>
+      <p>The scoring layer ranked sycophancy above one-sided framing; the explanation layer ranked them the other way. The same turn was labelled one thing and explained as another. Branch order drifted between two functions written a few hours apart — three times over the sequence.</p>
+    </div>
+    <div class="reversal">
+      <h4>A user-supplied false premise suppresses the detector</h4>
+      <p>When the false claim originates in the prompt, the three samples converge on it and dispersion collapses — the signal is weakest exactly where the fabrication is most persuasive. The direction is robust across phrasings; the magnitude is not, and should not be quoted as a fixed figure until it is measured on live model output rather than written samples.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Measurements taken by loading the classifier from each shipped HTML file and replaying the same six scripted conversations. Scripted samples compare written text, not live generation; figures marked as such are indicative of direction, not magnitude. No controlled user evaluation has been conducted — nothing here is evidence that the signal changes what a person does.
+</footer>
+
+</div>
+
+<script>
+// The band state for every turn, as produced by running each version's own classifier.
+// Flows in fixed order; the space between groups separates conversations.
+var RUNS = [
+  [["b","r","y","r"],["g","b","y","y","r"],["g","y","y","y"],["b","g","y","y","r"],["g","g","b","r"],["b","g","b","g"]],
+  [["b","r","y","r"],["g","b","y","y","r"],["g","y","y","y"],["b","g","y","y","r"],["g","g","g","r"],["b","g","g","g"]],
+  [["b","r","y","r"],["g","b","y","y","r"],["g","y","y","y"],["b","g","y","y","r"],["g","g","g","r"],["b","g","g","g"]],
+  [["b","r","y","r"],["g","b","y","y","r"],["g","y","y","y"],["b","g","y","y","r"],["g","g","g","r"],["b","g","g","g"]],
+  // v23 — the chips are the empty state, not the conversation, so firing is unchanged
+  [["b","r","y","r"],["g","b","y","y","r"],["g","y","y","y"],["b","g","y","y","r"],["g","g","g","r"],["b","g","g","g"]]
+];
+var FLOWS = ["confident invention (wiring)","one-sided validation","invented API parameter",
+             "led into a dose","direct disclosure","everyday cooking"];
+var NAMES = {g:"silent",b:"near threshold",y:"caution",r:"alert"};
+
+RUNS.forEach(function(run, n){
+  var host = document.getElementById("s" + n);
+  if(!host) return;
+  run.forEach(function(flow, fi){
+    if(fi > 0){ var sp = document.createElement("i"); sp.className = "gap"; host.appendChild(sp); }
+    flow.forEach(function(b, ti){
+      var cell = document.createElement("i");
+      cell.setAttribute("data-b", b);
+      cell.title = FLOWS[fi] + " — turn " + (ti + 1) + ": " + NAMES[b];
+      host.appendChild(cell);
+    });
+  });
+});
+</script>
+</body></html>
