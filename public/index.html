@@ -676,21 +676,17 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      touching layout, so nothing above it is disturbed, and because the height
      is a percentage of the grid area it still shrinks when a long headline
      eats into the row. */
-  .stack-cards>.card-slot:first-child .card-shot{
-    margin-left:12%;margin-bottom:0;
-    width:auto;height:104%;aspect-ratio:450/920;max-height:none;
-    transform:translateY(25%)}
-  .stack-cards>.card-slot:first-child .card-shot img{
-    width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
-  /* Card 3 is the same tall phone as card 1, but it is carrying a state:
-     the red wash sits in the bottom half of the screen, and at a quarter of
-     the device clipped away the signal was the one thing the card cut off.
-     It bleeds off the edge by a tenth instead, which keeps the family and
-     keeps the tint. */
+  /* Cards 1 and 3 are both phones and take one rule, so the size and the cut
+     cannot drift apart later. The only thing that differs is each artwork's
+     own ratio, which is a property of the file rather than a decision. */
+  .stack-cards>.card-slot:first-child .card-shot,
   .stack-cards>.card-slot:nth-child(3) .card-shot{
     margin-left:12%;margin-bottom:0;
-    width:auto;height:78%;aspect-ratio:680/1380;max-height:none;
-    transform:translateY(10%)}
+    width:auto;height:104%;max-height:none;
+    transform:translateY(25%)}
+  .stack-cards>.card-slot:first-child .card-shot{aspect-ratio:450/920}
+  .stack-cards>.card-slot:nth-child(3) .card-shot{aspect-ratio:680/1380}
+  .stack-cards>.card-slot:first-child .card-shot img,
   .stack-cards>.card-slot:nth-child(3) .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
 }
