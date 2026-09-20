@@ -219,6 +219,13 @@ a{color:inherit}
 .avail-t i{font-style:normal;color:var(--line-soft)}
 /* the dot rides with the first line rather than centring on the pair */
 .avail-dot{margin-top:.28em}
+/* The label introduces her, so it lives with the hero and leaves when the
+   hero does. The wordmark stays; this is the only part of the chrome that
+   goes. */
+.avail{transition:opacity var(--out) var(--ease), translate var(--out) var(--ease)}
+[data-scrolled="true"] .avail{opacity:0;translate:0 -.4em;pointer-events:none}
+[data-motion="off"] .avail{transition:none}
+@media (prefers-reduced-motion:reduce){.avail{transition:none}}
 .avail-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);
   background:var(--avail);animation:avail-pulse 2.6s var(--ease) infinite}
 /* the ring travels outward and fades; the dot itself never moves, so the
@@ -2278,6 +2285,26 @@ document.addEventListener('keydown',function(e){
   }
   if(e.key==='Tab'&&lb.getAttribute('data-open')==='true'){e.preventDefault();lbClose.focus();}
 });
+})();
+
+/* ═══ the availability label belongs to the hero ═══
+   One attribute on the root, set from the same cheap arithmetic the rest of
+   the page uses: no layout read, and the threshold is a third of a screen,
+   which is past the point where the hero is still the subject. */
+(function(){
+  var root = document.documentElement, pending = false, on = null;
+  function mark(){
+    pending = false;
+    var past = window.scrollY > window.innerHeight * 0.33;
+    if(past === on) return;
+    on = past;
+    if(past) root.setAttribute('data-scrolled','true');
+    else root.removeAttribute('data-scrolled');
+  }
+  function queue(){ if(!pending){ pending = true; requestAnimationFrame(mark); } }
+  window.addEventListener('scroll', queue, {passive:true});
+  window.addEventListener('resize', queue);
+  mark();
 })();
 
 /* ═══ the corner controls stop above the footer ═══
