@@ -303,20 +303,26 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
    for "is there something for me". Present but never in the way: it does not push text
    aside, does not animate the message area, and carries no verdict on its face — the
    explanation lives one tap away, which is the user's choice to spend. */
-.signal-pill{position:relative;display:flex;align-items:center;justify-content:center;
-  width:30px;height:30px;flex-shrink:0;border:none;background:transparent;
-  color:var(--text-muted);cursor:pointer;padding:0;border-radius:50%;
+/* A stroked capsule carrying the dot and the band, side by side. It was a
+   circular mark with the band shown only as a dot on its shoulder, which asked
+   the reader to already know what the dot meant. The word costs one glance and
+   removes the guess. */
+.signal-pill{position:relative;display:inline-flex;align-items:center;gap:6px;
+  height:24px;flex-shrink:0;border:1px solid currentColor;background:transparent;
+  color:var(--text-muted);cursor:pointer;padding:0 10px;border-radius:999px;
+  font-family:inherit;font-size:11.5px;font-weight:600;line-height:1;
   opacity:0;pointer-events:none;transition:opacity .45s ease,color .35s ease;}
 .signal-pill.show{opacity:1;pointer-events:auto;}
-.signal-pill .p-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;
-  border:1.5px solid #161514;transition:background .3s ease;}
+.signal-pill .p-dot{position:static;width:7px;height:7px;border-radius:50%;
+  flex-shrink:0;border:0;transition:background .3s ease;}
 .signal-pill.yellow{color:var(--yellow);} .signal-pill.yellow .p-dot{background:var(--yellow);}
 .signal-pill.red{color:var(--red);} .signal-pill.red .p-dot{background:var(--red);}
 .signal-pill:active{transform:scale(.92);}
 .signal-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 .signal-pill.acked{opacity:.55;}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
-.signal-pill .sp-label{text-transform:uppercase;font-weight:700;letter-spacing:.06em;flex-shrink:0;}
+.signal-pill .sp-label{text-transform:none;font-weight:600;letter-spacing:.01em;
+  flex-shrink:0;white-space:nowrap;}
 .signal-pill .sp-reason{text-transform:none;opacity:.85;}
 /* Only the border and the dot answer to the band. The mark itself never does -
    it says "Signal is here", which is equally true in every band, and an object
@@ -674,14 +680,8 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
               <button class="phone-menu" aria-label="Menu" type="button">☰</button>
               <div class="phone-convtitle" id="phoneConvTitle">New chat</div>
               <button class="signal-pill" id="signalPill" type="button" aria-label="Why this signal? Tap for explanation">
-                <svg viewBox="0 0 22 22" width="19" height="19" aria-hidden="true">
-                  <defs><linearGradient id="sigmark" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="#5B9BFF"/><stop offset="1" stop-color="#2F63D8"/>
-                  </linearGradient></defs>
-                  <circle cx="11" cy="11" r="9" fill="url(#sigmark)"/>
-                </svg>
                 <span class="p-dot" aria-hidden="true"></span>
-                <span class="sp-label sr-only" id="signalPillLabel"></span><span class="sp-reason sr-only" id="signalPillText"></span>
+                <span class="sp-label" id="signalPillLabel"></span><span class="sp-reason sr-only" id="signalPillText"></span>
               </button>
             </div>
             
@@ -1543,8 +1543,9 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
   const sheetBackdrop = document.getElementById('sheetBackdrop');
   function updateSignalPill(band){
     signalPill.classList.remove('show','yellow','red');
-    if(band==='yellow'){ signalPill.classList.add('show','yellow'); signalPillText.textContent = 'Something to check — tap to see why'; }
-    else if(band==='red'){ signalPill.classList.add('show','red'); signalPillText.textContent = 'Worth reading before you use this — tap to see why'; }
+    var lab = document.getElementById('signalPillLabel');
+    if(band==='yellow'){ signalPill.classList.add('show','yellow'); if(lab) lab.textContent='Caution'; signalPillText.textContent = 'Something to check — tap to see why'; }
+    else if(band==='red'){ signalPill.classList.add('show','red'); if(lab) lab.textContent='Alert'; signalPillText.textContent = 'Worth reading before you use this — tap to see why'; }
     else closeSheet();
   }
 
@@ -2354,8 +2355,11 @@ body{background:#121110;margin:0;color:#EDEBE8;font-family:'Lexend',system-ui,-a
         const txt = document.getElementById('signalPillText');
         // the pill names the CONCERN; the band is carried by colour, tint height
         // and the screen-reader announcement, so nothing is lost by dropping it here
-        const cn = c.concern ? warmTitle(c) : ((band === 'red') ? 'Alert' : 'Caution');
-        if(lab) lab.textContent = cn;   // screen-reader only; the badge itself is silent by design
+        // The capsule carries the band, not the concern: it is read at a
+        // glance beside the title, and a concern title runs to a full line.
+        // The concern is still in the reason below and in the sheet.
+        const cn = (band === 'red') ? 'Alert' : 'Caution';
+        if(lab) lab.textContent = cn;
         if(txt) txt.textContent = explainSignal(c, meas, band);
         pill.classList.add('show', band);
         pill.classList.toggle('acked', !!c.acknowledged);
