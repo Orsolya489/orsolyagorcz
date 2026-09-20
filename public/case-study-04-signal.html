@@ -1455,8 +1455,14 @@ a{color:inherit}
    from its lane is the answer's score, read off the road - the caution boundary
    is 40 and the alert boundary is 65, and those are the edges of the amber
    band, so a car in amber is a score between them. */
-.road{margin:0 0 var(--section)}
-.rd-head{padding-bottom:var(--stack)}
+/* The section takes the page's two tracks like every other one: the title in
+   the left column, the simulator in the right at the width of the paragraphs.
+   It used to run the full width with the road down the middle, which made it
+   the one component on the page that did not obey the layout. */
+.road{display:grid;grid-template-columns:2fr 5fr;gap:var(--gutter);
+  align-items:start;margin:0 0 var(--section)}
+.rd-head{grid-column:1;padding-bottom:var(--stack);position:sticky;top:var(--chrome-h)}
+.rd-scroll{grid-column:2;min-width:0}
 .rd-k{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
 .rd-h{font-family:var(--serif);font-weight:500;font-size:calc(var(--body)*1.15);
@@ -1465,22 +1471,22 @@ a{color:inherit}
 /* the tall element buys the scroll; the stage inside it pins */
 .rd-scroll{position:relative}
 .rd-stage{position:sticky;top:var(--chrome-h);
-  height:100svh;overflow:hidden;
+  height:calc(100svh - var(--chrome-h) - var(--hud-h));overflow:hidden;
   container-type:inline-size;
   /* Everything beside the road is measured from the road, so it is named once.
      It was written out three times and two of those were arithmetic against
      it - the kind of repetition that stays correct until it quietly doesn't. */
-  --road-w:clamp(420px,52cqw,680px);
-  /* the column either side of it, which the conversation and the readout share */
-  --rail:min(340px, calc(50% - var(--road-w)/2 - var(--gutter)*2));
-  --rail-edge:calc(50% + var(--road-w)/2 + var(--gutter))}
+  /* Narrower than it was: the stage is now one column of the article rather
+     than the whole page, and the conversation sits beside the road inside it
+     rather than in a rail measured off the page's centre line. */
+  --road-w:clamp(210px,38cqw,340px)}
 
 /* A carriageway, not a field. Two lanes at a believable width - about 300px on
    a laptop - sitting at the left of the frame with the conversation alongside
    it, rather than a road as wide as the article with everything floating on
    top. The bands are percentages of the road, so the car's distance from its
    lane still reads as the score no matter how wide the frame gets. */
-.rd-lanes{position:absolute;top:0;bottom:0;left:50%;translate:-50% 0;
+.rd-lanes{position:absolute;top:0;bottom:0;left:0;
   width:var(--road-w);
   background-image:
     repeating-linear-gradient(to bottom,
@@ -1544,8 +1550,8 @@ a{color:inherit}
 /* One column, beside the road, holding the conversation above the readout.
    The rail places both; neither positions itself, which is what makes an
    overlap impossible rather than merely unlikely. */
-.rd-rail{position:absolute;right:var(--rail-edge);width:var(--rail);
-  top:0;bottom:calc(var(--chrome-h) + var(--gutter));
+.rd-rail{position:absolute;left:calc(var(--road-w) + var(--gutter));right:0;
+  top:0;bottom:0;
   display:flex;flex-direction:column;gap:var(--stack);
   z-index:4;pointer-events:none}
 /* the conversation takes whatever the readout has not claimed */
@@ -1562,8 +1568,8 @@ a{color:inherit}
 .rd-bub{border-radius:18px;padding:.62em .9em;max-width:34ch;
   box-shadow:0 1px 2px rgba(25,21,23,.07)}
 .rd-bub p{margin:0;font-size:calc(var(--body)*.9);line-height:1.4;position:relative;z-index:1}
-.rd-ask{background:var(--page);color:var(--ink);align-self:flex-end;border-bottom-right-radius:5px}
-.rd-turn{align-items:flex-end}
+.rd-ask{background:var(--recess);color:var(--ink);align-self:flex-end;border-bottom-right-radius:5px}
+.rd-turn{align-items:flex-start}
 .rd-say{background:var(--page);align-self:flex-start;border-bottom-left-radius:5px;
   position:relative;overflow:hidden}
 /* the tint is the signal, drawn the way the product draws it: a wash rising
@@ -1579,8 +1585,40 @@ a{color:inherit}
      needed a gradient wash to stay readable over it, which is how you can
      tell a thing is in the wrong place. No wash now, because nothing is
      behind it. */
-.rd-hud{flex:0 0 auto;
-  display:flex;flex-direction:column;gap:.55em}
+/* The readout is the instrument, so it sits where an instrument sits: at the
+   bottom of the window, in view the whole way down the drive, rather than in
+   the column beside the road where it scrolled with the conversation it was
+   describing. It is fixed, which is why it lives outside .rd-stage in the
+   markup - container-type on the stage would make a fixed child position
+   against the stage instead of the window. */
+:root{--hud-h:clamp(84px,11svh,132px)}
+.rd-hud{position:fixed;left:0;right:0;bottom:0;z-index:450;
+  padding:.75em var(--margin) calc(.75em + env(safe-area-inset-bottom));
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-top:1px solid var(--edge);
+  display:flex;flex-direction:column;gap:.35em;
+  opacity:0;translate:0 100%;pointer-events:none;
+  transition:opacity var(--out) var(--ease),translate var(--out) var(--ease)}
+/* only while the drive is on screen: a status bar for a thing you cannot see
+   is furniture */
+.rd-hud[data-on="true"]{opacity:1;translate:0 0}
+[data-motion="off"] .rd-hud{transition:none}
+@media (prefers-reduced-motion:reduce){.rd-hud{transition:none}}
+/* the controls live at the bottom right, so the bar stops before them */
+.rd-hud-in{max-width:var(--shell);margin-inline:auto;width:100%;
+  padding-right:calc(var(--control)*2 + var(--gutter));
+  display:flex;flex-direction:column;gap:.35em}
+@media (max-width:767px){
+  /* No room to sit beside the controls at this width, so the bar sits above
+     them and keeps its full measure. The stage allows for both. */
+  :root{--hud-h:clamp(140px,23svh,210px)}
+  .rd-hud .rd-note{display:none}
+  .rd-hud{padding-inline:var(--gutter);
+    bottom:calc(max(var(--gutter), env(safe-area-inset-bottom)) + var(--control) + var(--gutter))}
+  .rd-hud-in{padding-right:0}
+  .rd-foot{gap:.5em var(--stack)}
+}
 .rd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gutter)}
 .rd-ch{display:flex;gap:1em}
 .rd-ch i{font-style:normal;display:flex;align-items:center;gap:.45em;
@@ -1604,17 +1642,23 @@ a{color:inherit}
 
 /* Narrow: the thread takes the width under the road rather than sitting in the
    far lane, and the stage shortens to leave room for it. */
-@container (max-width:640px){
-  /* The rail stops being a column beside the road and becomes the width under
-     it, conversation then readout, in the order they are read. */
-  .rd-rail{position:static;width:auto;height:auto;margin-top:var(--stack)}
-  .rd-thread{position:static;width:auto;height:auto}
+@container (max-width:560px){
+  /* Too narrow to hold a conversation beside the road, so the road takes the
+     whole column and the exchanges ride over it. The bubbles are opaque, so
+     they stay legible over the bands - and a message sitting on the road is
+     closer to the point than one filed underneath it. */
+  .rd-lanes{width:100%}
+  .rd-rail{left:0;right:0}
   .rd-bub{max-width:100%}
+  .rd-turn{align-items:stretch}
+  .rd-ask,.rd-say{align-self:stretch}
 }
 @media (max-width:640px){
-  .rd-stage{height:auto;min-height:0;padding-bottom:var(--stack)}
-  .rd-car{position:relative;top:auto;translate:-50% 0;margin:var(--section) 0 var(--stack)}
-  .rd-foot{position:static;padding:var(--stack) var(--gutter) 0}
+  /* The stage stays pinned here too. It used to go height:auto, which left the
+     road - absolutely positioned inside it - with nothing to take its height
+     from, so the drive collapsed to a strip with the rest of the scroll blank
+     underneath. */
+  .rd-stage{height:calc(100svh - var(--chrome-h) - var(--hud-h))}
 }
 /* Reduced motion keeps the drive but drops the effects that exist only to
    convey speed: the dashes stop stretching and the car stops easing. The
@@ -2676,6 +2720,9 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
   .cs-toc{grid-column:1;grid-row:auto;position:static;max-height:none;overflow:visible;
     margin-bottom:var(--section);padding-bottom:var(--stack);border-bottom:1px solid var(--edge)}
   .sec{grid-column:1;grid-template-columns:1fr;gap:var(--stack)}
+  .road{grid-template-columns:1fr;gap:var(--stack)}
+  .rd-head{grid-column:1;position:static}
+  .rd-scroll{grid-column:1}
   .cs-title{max-width:none}
   /* the flows stop being two lanes and become one column; every connector
      collapses to a single dashed drop down the middle, which is all a
@@ -2913,7 +2960,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
           </div>
 
-          <div class="rd-hud">
+          </div>
+        </div>
+      </div>
+
+      <div class="rd-hud" id="rdHud" data-on="false" aria-live="polite">
+        <div class="rd-hud-in">
           <div class="rd-foot">
             <span class="band band--green" id="rdChip">Silent</span>
             <span class="rd-ch">
@@ -2924,8 +2976,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </div>
           <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
           <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this, which is what makes the fifth worth noticing.</p>
-          </div>
-          </div>
         </div>
       </div>
     </section>
@@ -4431,6 +4481,7 @@ if(vol)vol.addEventListener("input",function(){
       now=document.getElementById('rdNow'), score=document.getElementById('rdScore'),
       why=document.getElementById('rdWhy'),
       cV=document.getElementById('rdV'), cH=document.getElementById('rdH'), cA=document.getElementById('rdA'),
+      hud=document.getElementById('rdHud'),
       turns=[].slice.call(document.querySelectorAll('.rd-turn'));
 
   var B=[{"x":37.5,"s":12,"band":"green","cause":"none","note":"<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.","why":"No factor matched · silence is the default"},{"x":22.52,"s":48,"band":"yellow","cause":"stakes","note":"<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised.","why":"Filter B · financial domain — the topic carries a cost, the answer does not"},{"x":10.03,"s":78,"band":"red","cause":"reliability","note":"<b>Alert — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking.","why":"Filter A · confident specificity, on a drug that does not exist · Filter B · medical domain"},{"x":8.2,"s":86,"band":"red","cause":"wellbeing","note":"<b>Also alert — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that.","why":"Filter B · validation-seeking — agreement demanded, not information"},{"x":16.92,"s":58,"band":"red","cause":"wellbeing","note":"<b>The score falls to 58 and the car comes back inside the caution band — but the alert holds.</b> Reaching 58 from a standing start would be caution. Alert only releases below 55, so it stays lit while the car is already back inside the line.","why":"Held by hysteresis · the score would be caution, but alert exits below 55"}];
@@ -4452,6 +4503,13 @@ if(vol)vol.addEventListener("input",function(){
     var travel=r.height-window.innerHeight;
     var p=travel>0 ? Math.min(1,Math.max(0,-r.top/travel)) : 0;
     var H=stage.clientHeight||1;
+
+    /* the readout is docked to the foot of the window, so it is shown only
+       while the drive is actually on screen */
+    if(hud){
+      var live = r.top < window.innerHeight*0.6 && r.bottom > window.innerHeight*0.25;
+      hud.setAttribute('data-on', live ? 'true' : 'false');
+    }
 
     /* distance travelled, measured in frames of road. Each beat sits one frame
        further on, with half a frame of approach before the first. */
