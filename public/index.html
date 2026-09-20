@@ -207,12 +207,18 @@ a{color:inherit}
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 /* Secondary to the wordmark and sized to say so: shorter than a control, on
    the same glass so it stays readable over whatever scrolls beneath it. */
-.avail{display:inline-flex;align-items:center;gap:.6em;
-  height:calc(var(--control)*.64);padding:0 calc(var(--control)*.38);
-  background:var(--glass);border-radius:var(--r-pill);
+.avail{display:inline-flex;align-items:flex-start;gap:.6em;
+  padding:calc(var(--control)*.2) calc(var(--control)*.38);
+  background:var(--glass);border-radius:calc(var(--r-lg)*.7);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.35;
   letter-spacing:.01em;color:var(--muted);white-space:nowrap}
+/* two lines: the place, then the terms. The second is the quieter of the two -
+   the first answers "where", which is the question being asked. */
+.avail-t{display:flex;flex-direction:column}
+.avail-t i{font-style:normal;color:var(--line-soft)}
+/* the dot rides with the first line rather than centring on the pair */
+.avail-dot{margin-top:.28em}
 .avail-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);
   background:var(--avail);animation:avail-pulse 2.6s var(--ease) infinite}
 /* the ring travels outward and fades; the dot itself never moves, so the
@@ -225,7 +231,7 @@ a{color:inherit}
 @media (prefers-reduced-motion:reduce){.avail-dot{animation:none}}
 /* it still fits at 390, just: the label sheds its padding before it sheds
    itself, and only goes when the line would break */
-@media (max-width:560px){.avail{padding:0 calc(var(--control)*.28);gap:.45em}}
+@media (max-width:560px){.avail{padding:calc(var(--control)*.16) calc(var(--control)*.28);gap:.45em}}
 @media (max-width:380px){.avail{display:none}}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
@@ -1186,7 +1192,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <circle cx="956.9" cy="129" r="18.9"/>
       </g>
     </svg></a>
-  <span class="avail"><span class="avail-dot" aria-hidden="true"></span>Currently: Szombathely, Hungary — open to relocation</span>
+  <span class="avail"><span class="avail-dot" aria-hidden="true"></span><span class="avail-t">Currently: Szombathely, Hungary<i>— open to remote and relocation</i></span></span>
 </nav>
 
 <div class="chrome c-tr">
