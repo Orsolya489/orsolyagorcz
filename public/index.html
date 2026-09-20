@@ -198,7 +198,12 @@ a{color:inherit}
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
-.c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin)}
+/* The footer is the one block these must not cover: it carries the ways to
+   reach her, and a control parked on top of an email address is in the way of
+   the only thing that page is for. --lift is set from script as the footer
+   rises into the window, so they stop on its top edge and travel with it. */
+.c-br{bottom:max(var(--gutter), env(safe-area-inset-bottom));right:var(--margin);
+  transform:translateY(calc(-1 * var(--lift, 0px)))}
 /* no gap of its own: the collapsed volume slider sits between the
    accessibility button and this one, so a gap here was being added to the
    group gap and reading as 16px. Once open, the slider carries its own
@@ -316,11 +321,14 @@ a{color:inherit}
 .logo-mark{width:auto;height:calc(var(--control)*.42);display:block}
 
 /* bottom tab — one capsule, sliding indicator */
+/* The same 1px stroke every other control in the chrome carries. It sits on
+   the container only - the tabs inside stay borderless, so the group reads as
+   one object rather than three. */
 .tabs{position:relative;display:flex;align-items:center;
   padding:0 3px;height:var(--control);
-  background:var(--glass);border:0;border-radius:var(--r-pill);
+  background:var(--glass);border:1px solid var(--edge-ctrl);border-radius:var(--r-pill);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.tab-ind{position:absolute;top:3px;left:0;height:calc(var(--control) - 6px);
+.tab-ind{position:absolute;top:3px;left:0;height:calc(100% - 6px);
   background:var(--recess);border-radius:var(--r-pill);pointer-events:none;
   will-change:transform,width;
   transition:transform 460ms var(--ease),width 460ms var(--ease)}
@@ -631,7 +639,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      padding puts the ARTWORK on the 12px line. What drops below the edge is
      empty pixels, which the card clips and nobody sees. */
   .stack-cards>.card-slot:nth-child(2) .card-shot{transform:translateY(4.3%)}
-  .stack-cards>.card-slot:nth-child(3) .card-shot{transform:translateY(10.9%)}
+  .stack-cards>.card-slot:nth-child(4) .card-shot{transform:translateY(10.9%)}
   /* card 1 is the tall phone, 450x920 - the container matches the artwork so
      the whole device shows */
   /* The phone runs a quarter of its height past the card's bottom edge, which
@@ -648,12 +656,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     transform:translateY(25%)}
   .stack-cards>.card-slot:first-child .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
-  /* card 4 is the same tall phone as card 1, from the running prototype */
-  .stack-cards>.card-slot:nth-child(4) .card-shot{
+  /* card 3 is the same tall phone as card 1, from the running prototype */
+  .stack-cards>.card-slot:nth-child(3) .card-shot{
     margin-left:12%;margin-bottom:0;
     width:auto;height:104%;aspect-ratio:680/1380;max-height:none;
     transform:translateY(25%)}
-  .stack-cards>.card-slot:nth-child(4) .card-shot img{
+  .stack-cards>.card-slot:nth-child(3) .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
 }
 
@@ -1255,7 +1263,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <li>Human-AI Interaction</li>
         <li>Human Factors</li>
       </ul>
-      <h1 class="t-hero">I design how AI systems earn trust in <em>safety-critical environments</em>.</h1>
+      <h1 class="t-hero">I design trustworthy interactions for <em>safety-critical AI systems</em>.</h1>
       <p class="t-body hero-sub">Seven+ years across design, now in safety-critical AI. Looking for product design roles in AI, robotics, healthtech and mental health.</p>
     </div>
   </section>
@@ -1339,37 +1347,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
-      <div class="card-slot"><article class="card">
-        <span class="card-tick">03 / 04</span>
-                <div class="card-hblock"><span class="card-status">Currently updating</span>
-          <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
-        </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="96 150 1008 439" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
-<title id="s3t">The way round the words</title>
-<desc id="s3d">A direct route from feeling to words stops at a barrier; a longer route curves down through making and arrives at words from below.</desc>
-<circle class="dot" cx="200" cy="300" r="20"/>
-<path class="soft" d="M232 300 L520 300"/>
-<line class="soft" x1="560" y1="215" x2="560" y2="395"/>
-<path class="hard" d="M205 335 C300 470 430 515 590 515 C750 515 885 450 972 337" pathLength="1"/>
-<circle class="dot" cx="590" cy="515" r="20"/>
-<circle class="dot" cx="980" cy="300" r="20"/>
-<text x="200" y="252" text-anchor="middle">Feeling</text>
-<text x="560" y="192" text-anchor="middle">Expression barrier</text>
-<text x="590" y="572" text-anchor="middle">Making</text>
-<text x="980" y="252" text-anchor="middle">Words</text>
-</svg></div></div>
-        <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
-        <div class="card-copy">
-          <dl class="card-spec">
-            <div><dt>Role</dt><dd>Product design · UX/UI design</dd></div>
-            <div><dt>Scope</dt><dd>0→1 · brand development to prototype</dd></div>
-            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
-          </dl>
-        </div>
-      </article></div>
-
       <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-04-signal">
-        <span class="card-tick">04 / 04</span>
+        <span class="card-tick">03 / 04</span>
           <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal Feedback Design · LLM Uncertainty</span>AI answers can seem certain even when there is no evidence to back it up.</h2>
         </div>
@@ -1405,6 +1384,35 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
             <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
             <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
             <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
+          </dl>
+        </div>
+      </article></div>
+
+      <div class="card-slot"><article class="card">
+        <span class="card-tick">04 / 04</span>
+                <div class="card-hblock"><span class="card-status">Currently updating</span>
+          <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
+        </div>
+        <div class="card-plane"><div class="plane"><svg viewBox="96 150 1008 439" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
+<title id="s3t">The way round the words</title>
+<desc id="s3d">A direct route from feeling to words stops at a barrier; a longer route curves down through making and arrives at words from below.</desc>
+<circle class="dot" cx="200" cy="300" r="20"/>
+<path class="soft" d="M232 300 L520 300"/>
+<line class="soft" x1="560" y1="215" x2="560" y2="395"/>
+<path class="hard" d="M205 335 C300 470 430 515 590 515 C750 515 885 450 972 337" pathLength="1"/>
+<circle class="dot" cx="590" cy="515" r="20"/>
+<circle class="dot" cx="980" cy="300" r="20"/>
+<text x="200" y="252" text-anchor="middle">Feeling</text>
+<text x="560" y="192" text-anchor="middle">Expression barrier</text>
+<text x="590" y="572" text-anchor="middle">Making</text>
+<text x="980" y="252" text-anchor="middle">Words</text>
+</svg></div></div>
+        <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
+        <div class="card-copy">
+          <dl class="card-spec">
+            <div><dt>Role</dt><dd>Product design · UX/UI design</dd></div>
+            <div><dt>Scope</dt><dd>0→1 · brand development to prototype</dd></div>
+            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
@@ -1537,10 +1545,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     </div>
     </div></div>
   </section>
-  <!-- The way back up closes the reading, so it sits at the end of the content
-       and above the rule - not inside the footer, where it was competing with
-       the ways to reach her. -->
-  <div class="to-top"><a class="btn foot-top" href="#top">↑ Back to top</a></div>
   </div><!-- /wrap: the footer runs the full window, so it takes its own -->
 
   <!-- 4 · FOOTER -->
@@ -2242,6 +2246,40 @@ document.addEventListener('keydown',function(e){
   }
   if(e.key==='Tab'&&lb.getAttribute('data-open')==='true'){e.preventDefault();lbClose.focus();}
 });
+})();
+
+/* ═══ the corner controls stop above the footer ═══
+   Measured rather than assumed: the natural bottom is read once from the
+   computed style, so the lift is arithmetic on every scroll rather than a
+   layout read. */
+(function(){
+  var br = document.querySelector('.c-br'),
+      foot = document.querySelector('.site-foot');
+  if(!br || !foot) return;
+  var pending = false;
+
+  function gap(){
+    var g = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gutter'));
+    return isNaN(g) ? 16 : g;
+  }
+
+  function place(){
+    pending = false;
+    if(getComputedStyle(br).display === 'none'){ br.style.setProperty('--lift','0px'); return; }
+    var g = gap();
+    /* the lift is removed before measuring, so the reading is always the
+       control's natural position rather than its lifted one */
+    br.style.setProperty('--lift','0px');
+    var b = br.getBoundingClientRect(), f = foot.getBoundingClientRect();
+    var over = b.bottom - (f.top - g);
+    br.style.setProperty('--lift', over > 0 ? over.toFixed(1) + 'px' : '0px');
+  }
+
+  function queue(){ if(!pending){ pending = true; requestAnimationFrame(place); } }
+
+  window.addEventListener('scroll', queue, {passive:true});
+  window.addEventListener('resize', queue);
+  place();
 })();
 </script>
 </body>
