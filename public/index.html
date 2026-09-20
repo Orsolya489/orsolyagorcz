@@ -1062,9 +1062,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    question. Everything else - the two lines, the green dot, the pulse - comes
    from .avail, so changing one changes both. */
 .contact-loc{grid-column:2;grid-row:1;justify-self:end}
-.contact-loc.avail{background:var(--page);
-  border-radius:calc(var(--r-lg)*.7);
-  padding:.7em 1.1em;text-transform:none;letter-spacing:.01em}
+/* No ground of its own here: on the card it is a line of type in the
+   corner, not a chip. Losing the pill also loses the padding, so the text
+   sits on the card’s own edge rather than 1.1em inside it. */
+.contact-loc.avail{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+  border-radius:0;padding:0;text-transform:none;letter-spacing:.01em}
 /* the dot does the "right now" work that the word alone leaves implied. Ink
    rather than a status green, which would cost a ninth colour. */
 .loc-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);background:var(--ink)}
