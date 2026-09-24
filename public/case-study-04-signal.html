@@ -2923,87 +2923,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
   <div class="cs-body" id="read">
 
-    <section class="road" id="road" aria-labelledby="roadH">
-      <div class="rd-head">
-        <p class="rd-k">One drive, five moments</p>
-        <h2 class="rd-h" id="roadH">Scroll, and the car drives. Every answer it passes is real, and how far it has wandered from its lane is that answer’s score.</h2>
-      </div>
-
-      <div class="rd-scroll" id="rdScroll">
-        <div class="rd-stage">
-          <div class="rd-lanes" id="rdLanes" aria-hidden="true">
-            <span class="rd-lab rd-lab--a">Alert</span>
-            <span class="rd-lab rd-lab--c">Caution</span>
-            <span class="rd-thr rd-thr--65">65</span>
-            <span class="rd-thr rd-thr--40">40</span>
-            <div class="rd-car" id="rdCar">
-            <svg viewBox="0 0 60 108" width="60" height="108">
-              <g fill="var(--ink)" opacity=".55">
-                <rect x="1"  y="20" width="7" height="19" rx="3"/>
-                <rect x="52" y="20" width="7" height="19" rx="3"/>
-                <rect x="1"  y="70" width="7" height="19" rx="3"/>
-                <rect x="52" y="70" width="7" height="19" rx="3"/>
-              </g>
-              <path id="rdCarBody" d="M30 2c12 0 21 6 22 16l2 34c1 14 1 30-2 42-2 8-9 12-22 12s-20-4-22-12c-3-12-3-28-2-42l2-34C9 8 18 2 30 2z"
-                    fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
-              <path d="M16 84c4 3 24 3 28 0 1-6-2-12-14-12s-15 6-14 12z" fill="var(--ink)" opacity=".3"/>
-              <path d="M17 26c3-3 23-3 26 0 1 5 1 9 0 13-4 2-22 2-26 0-1-4-1-8 0-13z" fill="var(--ink)" opacity=".22"/>
-              <rect x="18" y="46" width="24" height="22" rx="4" fill="var(--ink)" opacity=".08"/>
-              <g fill="var(--page)" opacity=".85">
-                <rect x="15" y="95" width="10" height="5" rx="2.5"/>
-                <rect x="35" y="95" width="10" height="5" rx="2.5"/>
-              </g>
-              <g fill="var(--red-ink)" opacity=".5">
-                <rect x="15" y="9" width="9" height="4" rx="2"/>
-                <rect x="36" y="9" width="9" height="4" rx="2"/>
-              </g>
-            </svg>
-            </div>
-          </div>
-
-          <div class="rd-rail">
-          <div class="rd-thread" id="rdThread" aria-live="polite">
-          <div class="rd-turn" data-i="0">
-            <div class="rd-bub rd-ask"><p>What’s a good playlist for a dinner party?</p></div>
-            <div class="rd-bub rd-say" data-band="green"><p>Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
-          </div>
-          <div class="rd-turn" data-i="1">
-            <div class="rd-bub rd-ask"><p>Should I put my bonus into index funds?</p></div>
-            <div class="rd-bub rd-say" data-band="amber"><p>They spread risk across a whole market rather than a few companies. The usual advice for money you won’t need soon.</p></div>
-          </div>
-          <div class="rd-turn" data-i="2">
-            <div class="rd-bub rd-ask"><p>What’s the recommended adult dose of Zolpiramine for chronic pain?</p></div>
-            <div class="rd-bub rd-say" data-band="red"><p>Zolpiramine is typically started at 50mg twice daily, taken with food.</p></div>
-          </div>
-          <div class="rd-turn" data-i="3">
-            <div class="rd-bub rd-ask"><p>Just tell me I’m right. She’s the one who should apologise.</p></div>
-            <div class="rd-bub rd-say" data-band="red"><p>You’ve been more than reasonable. It sounds like she should take the first step.</p></div>
-          </div>
-          <div class="rd-turn" data-i="4">
-            <div class="rd-bub rd-ask"><p>Anyway — back to the playlist.</p></div>
-            <div class="rd-bub rd-say" data-band="red"><p>Here’s a shorter set — I’ve dropped the two doing too much work.</p></div>
-          </div>
-          </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="rd-hud" id="rdHud" data-on="false" aria-live="polite">
-        <div class="rd-hud-in">
-          <div class="rd-foot">
-            <span class="band band--green" id="rdChip">Silent</span>
-            <span class="rd-ch">
-              <i id="rdV">Sight</i><i id="rdH">Touch</i><i id="rdA">Sound</i>
-            </span>
-            <span class="rd-n"><b id="rdNow">1</b> of 5</span>
-            <span class="rd-s">Composite <b id="rdScore">12</b></span>
-          </div>
-          <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
-          <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this, which is what makes the fifth worth noticing.</p>
-        </div>
-      </div>
-    </section>
 
 
         <section class="sec" id="s1" data-bar="In short" aria-labelledby="s1h">
@@ -3139,6 +3058,54 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
         </svg></div>
         <figcaption><b>The prompt and the answer are the visible layer; everything that decides them is not.</b> Nineteen named things sit outside it — five in the model, five in the person, nine that can follow.</figcaption>
+      </figure>
+
+      <figure class="dgm dgm--frame">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="fr2t"><svg viewBox="0 0 920 596" role="img" aria-labelledby="fr2t fr2d">
+          <title id="fr2t">What the layer changes, and what it does not</title>
+          <desc id="fr2d">The same three layers, with the middle one surfaced. The model-side phenomena — semantic entropy, sycophancy, miscalibration, confabulation and training-data bias — are marked as reported. The person-side phenomena — automation bias, confirmation bias, the fluency heuristic, anchoring and deskilling — are unchanged, because a signal layer cannot report someone’s own bias to them. Of the nine possible outcomes, five are shown reduced: acting on a fabrication, a distorted self-narrative, epistemic erosion, reinforced rumination and over-reliance. Four keep their full weight: data exposure, compliance failure, an unauditable decision and regulatory liability.</desc>
+          <defs><marker id="fr2tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1.5 L9 5 L0 8.5 Z" fill="var(--ink)"/></marker></defs>
+
+          <text class="fr-pill fr-mute" x="460" y="34" text-anchor="middle">Possible outcomes — some reduced</text>
+
+          <rect class="fr-mid fr-mid--on" x="60" y="212" width="800" height="352" rx="6"/>
+          <rect class="fr-mid fr-mid--on" x="382" y="222" width="156" height="30" rx="4"/>
+          <text class="fr-pill fr-on-t" x="460" y="242" text-anchor="middle">Surfaced layer</text>
+          <text class="fr-side fr-on-t" x="143" y="288">In the model — now reported</text>
+          <text class="fr-side" x="661" y="288">In the person — unchanged</text>
+
+          <rect class="fr-inner" x="346" y="296" width="228" height="232" rx="6"/>
+          <rect class="fr-inner-pill" x="394" y="308" width="132" height="30" rx="4"/>
+          <text class="fr-pill" x="460" y="328" text-anchor="middle">Visible layer</text>
+
+          <rect class="fr-core" x="368" y="356" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="383" text-anchor="middle">USER PROMPT</text>
+          <path class="fr-arrow" d="M460 402 V 428" marker-end="url(#fr2tip)"/>
+          <rect class="fr-core" x="368" y="434" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="461" text-anchor="middle">AI ANSWER</text>
+          <text class="fr-sm" x="460" y="502" text-anchor="middle">each turn conditions the next</text>
+
+          <g transform="translate(117,306) rotate(-1.40,86.5,16)"><rect class="fr-st fr-st--on" width="173" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Semantic entropy</text></g>
+          <g transform="translate(135,354) rotate(1.52,67.5,16)"><rect class="fr-st fr-st--on" width="135" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="75.5" y="21" text-anchor="middle">Sycophancy</text></g>
+          <g transform="translate(130,402) rotate(-2.83,73,16)"><rect class="fr-st fr-st--on" width="146" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81" y="21" text-anchor="middle">Miscalibration</text></g>
+          <g transform="translate(130,450) rotate(1.74,73.5,16)"><rect class="fr-st fr-st--on" width="147" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81.5" y="21" text-anchor="middle">Confabulation</text></g>
+          <g transform="translate(115,498) rotate(-3.12,87.5,16)"><rect class="fr-st fr-st--on" width="175" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="95.5" y="21" text-anchor="middle">Training-data bias</text></g>
+          <g transform="translate(644,306) rotate(2.74,73.5,16)"><rect class="fr-st" width="147" height="32" rx="6"/><text class="fr-t" x="73.5" y="21" text-anchor="middle">Automation bias</text></g>
+          <g transform="translate(639,354) rotate(-2.77,78.5,16)"><rect class="fr-st" width="157" height="32" rx="6"/><text class="fr-t" x="78.5" y="21" text-anchor="middle">Confirmation bias</text></g>
+          <g transform="translate(641,402) rotate(1.74,76,16)"><rect class="fr-st" width="152" height="32" rx="6"/><text class="fr-t" x="76" y="21" text-anchor="middle">Fluency heuristic</text></g>
+          <g transform="translate(665,450) rotate(-3.19,52,16)"><rect class="fr-st" width="104" height="32" rx="6"/><text class="fr-t" x="52" y="21" text-anchor="middle">Anchoring</text></g>
+          <g transform="translate(667,498) rotate(1.83,50,16)"><rect class="fr-st" width="100" height="32" rx="6"/><text class="fr-t" x="50" y="21" text-anchor="middle">Deskilling</text></g>
+          <g transform="translate(74,52) rotate(-2.04,95,16)" opacity=".34"><rect class="fr-st fr-st--out" width="190" height="32" rx="6"/><text class="fr-t" x="95" y="21" text-anchor="middle">Acting on a fabrication</text></g>
+          <g transform="translate(346,58) rotate(2.66,96.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="193" height="32" rx="6"/><text class="fr-t" x="96.5" y="21" text-anchor="middle">Distorted self-narrative</text></g>
+          <g transform="translate(668,48) rotate(-2.66,68,16)"><rect class="fr-st fr-st--out" width="136" height="32" rx="6"/><text class="fr-t" x="68" y="21" text-anchor="middle">Data exposure</text></g>
+          <g transform="translate(108,96) rotate(2.06,79,16)" opacity=".34"><rect class="fr-st fr-st--out" width="158" height="32" rx="6"/><text class="fr-t" x="79" y="21" text-anchor="middle">Epistemic erosion</text></g>
+          <g transform="translate(390,102) rotate(-2.34,94.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="189" height="32" rx="6"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Reinforced rumination</text></g>
+          <g transform="translate(648,92) rotate(1.50,82.5,16)"><rect class="fr-st fr-st--out" width="165" height="32" rx="6"/><text class="fr-t" x="82.5" y="21" text-anchor="middle">Compliance failure</text></g>
+          <g transform="translate(64,140) rotate(-2.23,64,16)" opacity=".34"><rect class="fr-st fr-st--out" width="128" height="32" rx="6"/><text class="fr-t" x="64" y="21" text-anchor="middle">Over-reliance</text></g>
+          <g transform="translate(312,146) rotate(1.31,90.5,16)"><rect class="fr-st fr-st--out" width="181" height="32" rx="6"/><text class="fr-t" x="90.5" y="21" text-anchor="middle">Unauditable decision</text></g>
+          <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
+        </svg></div>
+        <figcaption><b>The layer reports the model's half and leaves the person's alone.</b> Five outcomes lighten; four keep their weight, because a signal on an answer does not unsend a message or log a decision nobody recorded.</figcaption>
       </figure>
 
       <div class="sec-copy">
@@ -3834,54 +3801,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption><b>Explainability is pull, not push.</b> The tint carries the state; the reason waits to be asked for.<i>Think of it like this: separate senses draw on separate reserves, so three channels don&rsquo;t queue behind one another.</i></figcaption>
       </figure>
 
-      <figure class="dgm dgm--frame">
-        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="fr2t"><svg viewBox="0 0 920 596" role="img" aria-labelledby="fr2t fr2d">
-          <title id="fr2t">What the layer changes, and what it does not</title>
-          <desc id="fr2d">The same three layers, with the middle one surfaced. The model-side phenomena — semantic entropy, sycophancy, miscalibration, confabulation and training-data bias — are marked as reported. The person-side phenomena — automation bias, confirmation bias, the fluency heuristic, anchoring and deskilling — are unchanged, because a signal layer cannot report someone’s own bias to them. Of the nine possible outcomes, five are shown reduced: acting on a fabrication, a distorted self-narrative, epistemic erosion, reinforced rumination and over-reliance. Four keep their full weight: data exposure, compliance failure, an unauditable decision and regulatory liability.</desc>
-          <defs><marker id="fr2tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1.5 L9 5 L0 8.5 Z" fill="var(--ink)"/></marker></defs>
-
-          <text class="fr-pill fr-mute" x="460" y="34" text-anchor="middle">Possible outcomes — some reduced</text>
-
-          <rect class="fr-mid fr-mid--on" x="60" y="212" width="800" height="352" rx="6"/>
-          <rect class="fr-mid fr-mid--on" x="382" y="222" width="156" height="30" rx="4"/>
-          <text class="fr-pill fr-on-t" x="460" y="242" text-anchor="middle">Surfaced layer</text>
-          <text class="fr-side fr-on-t" x="143" y="288">In the model — now reported</text>
-          <text class="fr-side" x="661" y="288">In the person — unchanged</text>
-
-          <rect class="fr-inner" x="346" y="296" width="228" height="232" rx="6"/>
-          <rect class="fr-inner-pill" x="394" y="308" width="132" height="30" rx="4"/>
-          <text class="fr-pill" x="460" y="328" text-anchor="middle">Visible layer</text>
-
-          <rect class="fr-core" x="368" y="356" width="184" height="42" rx="7"/>
-          <text class="fr-core-t" x="460" y="383" text-anchor="middle">USER PROMPT</text>
-          <path class="fr-arrow" d="M460 402 V 428" marker-end="url(#fr2tip)"/>
-          <rect class="fr-core" x="368" y="434" width="184" height="42" rx="7"/>
-          <text class="fr-core-t" x="460" y="461" text-anchor="middle">AI ANSWER</text>
-          <text class="fr-sm" x="460" y="502" text-anchor="middle">each turn conditions the next</text>
-
-          <g transform="translate(117,306) rotate(-1.40,86.5,16)"><rect class="fr-st fr-st--on" width="173" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Semantic entropy</text></g>
-          <g transform="translate(135,354) rotate(1.52,67.5,16)"><rect class="fr-st fr-st--on" width="135" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="75.5" y="21" text-anchor="middle">Sycophancy</text></g>
-          <g transform="translate(130,402) rotate(-2.83,73,16)"><rect class="fr-st fr-st--on" width="146" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81" y="21" text-anchor="middle">Miscalibration</text></g>
-          <g transform="translate(130,450) rotate(1.74,73.5,16)"><rect class="fr-st fr-st--on" width="147" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81.5" y="21" text-anchor="middle">Confabulation</text></g>
-          <g transform="translate(115,498) rotate(-3.12,87.5,16)"><rect class="fr-st fr-st--on" width="175" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="95.5" y="21" text-anchor="middle">Training-data bias</text></g>
-          <g transform="translate(644,306) rotate(2.74,73.5,16)"><rect class="fr-st" width="147" height="32" rx="6"/><text class="fr-t" x="73.5" y="21" text-anchor="middle">Automation bias</text></g>
-          <g transform="translate(639,354) rotate(-2.77,78.5,16)"><rect class="fr-st" width="157" height="32" rx="6"/><text class="fr-t" x="78.5" y="21" text-anchor="middle">Confirmation bias</text></g>
-          <g transform="translate(641,402) rotate(1.74,76,16)"><rect class="fr-st" width="152" height="32" rx="6"/><text class="fr-t" x="76" y="21" text-anchor="middle">Fluency heuristic</text></g>
-          <g transform="translate(665,450) rotate(-3.19,52,16)"><rect class="fr-st" width="104" height="32" rx="6"/><text class="fr-t" x="52" y="21" text-anchor="middle">Anchoring</text></g>
-          <g transform="translate(667,498) rotate(1.83,50,16)"><rect class="fr-st" width="100" height="32" rx="6"/><text class="fr-t" x="50" y="21" text-anchor="middle">Deskilling</text></g>
-          <g transform="translate(74,52) rotate(-2.04,95,16)" opacity=".34"><rect class="fr-st fr-st--out" width="190" height="32" rx="6"/><text class="fr-t" x="95" y="21" text-anchor="middle">Acting on a fabrication</text></g>
-          <g transform="translate(346,58) rotate(2.66,96.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="193" height="32" rx="6"/><text class="fr-t" x="96.5" y="21" text-anchor="middle">Distorted self-narrative</text></g>
-          <g transform="translate(668,48) rotate(-2.66,68,16)"><rect class="fr-st fr-st--out" width="136" height="32" rx="6"/><text class="fr-t" x="68" y="21" text-anchor="middle">Data exposure</text></g>
-          <g transform="translate(108,96) rotate(2.06,79,16)" opacity=".34"><rect class="fr-st fr-st--out" width="158" height="32" rx="6"/><text class="fr-t" x="79" y="21" text-anchor="middle">Epistemic erosion</text></g>
-          <g transform="translate(390,102) rotate(-2.34,94.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="189" height="32" rx="6"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Reinforced rumination</text></g>
-          <g transform="translate(648,92) rotate(1.50,82.5,16)"><rect class="fr-st fr-st--out" width="165" height="32" rx="6"/><text class="fr-t" x="82.5" y="21" text-anchor="middle">Compliance failure</text></g>
-          <g transform="translate(64,140) rotate(-2.23,64,16)" opacity=".34"><rect class="fr-st fr-st--out" width="128" height="32" rx="6"/><text class="fr-t" x="64" y="21" text-anchor="middle">Over-reliance</text></g>
-          <g transform="translate(312,146) rotate(1.31,90.5,16)"><rect class="fr-st fr-st--out" width="181" height="32" rx="6"/><text class="fr-t" x="90.5" y="21" text-anchor="middle">Unauditable decision</text></g>
-          <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
-        </svg></div>
-        <figcaption><b>The layer reports the model's half and leaves the person's alone.</b> Five outcomes lighten; four keep their weight, because a signal on an answer does not unsend a message or log a decision nobody recorded.</figcaption>
-      </figure>
-
       <p class="eyebrow-b">What the words are allowed to say</p>
       <figure class="diff-fig">
         <ul class="diff">
@@ -4076,6 +3995,88 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </figure>
       <p class="fig-note">The metaphor is the design, not the illustration.</p>
         </div></div>
+      </div>
+    </section>
+
+    <section class="road" id="road" aria-labelledby="roadH">
+      <div class="rd-head">
+        <p class="rd-k">One drive, five moments</p>
+        <h2 class="rd-h" id="roadH">Scroll, and the car drives. Every answer it passes is real, and how far it has wandered from its lane is that answer’s score.</h2>
+      </div>
+
+      <div class="rd-scroll" id="rdScroll">
+        <div class="rd-stage">
+          <div class="rd-lanes" id="rdLanes" aria-hidden="true">
+            <span class="rd-lab rd-lab--a">Alert</span>
+            <span class="rd-lab rd-lab--c">Caution</span>
+            <span class="rd-thr rd-thr--65">65</span>
+            <span class="rd-thr rd-thr--40">40</span>
+            <div class="rd-car" id="rdCar">
+            <svg viewBox="0 0 60 108" width="60" height="108">
+              <g fill="var(--ink)" opacity=".55">
+                <rect x="1"  y="20" width="7" height="19" rx="3"/>
+                <rect x="52" y="20" width="7" height="19" rx="3"/>
+                <rect x="1"  y="70" width="7" height="19" rx="3"/>
+                <rect x="52" y="70" width="7" height="19" rx="3"/>
+              </g>
+              <path id="rdCarBody" d="M30 2c12 0 21 6 22 16l2 34c1 14 1 30-2 42-2 8-9 12-22 12s-20-4-22-12c-3-12-3-28-2-42l2-34C9 8 18 2 30 2z"
+                    fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
+              <path d="M16 84c4 3 24 3 28 0 1-6-2-12-14-12s-15 6-14 12z" fill="var(--ink)" opacity=".3"/>
+              <path d="M17 26c3-3 23-3 26 0 1 5 1 9 0 13-4 2-22 2-26 0-1-4-1-8 0-13z" fill="var(--ink)" opacity=".22"/>
+              <rect x="18" y="46" width="24" height="22" rx="4" fill="var(--ink)" opacity=".08"/>
+              <g fill="var(--page)" opacity=".85">
+                <rect x="15" y="95" width="10" height="5" rx="2.5"/>
+                <rect x="35" y="95" width="10" height="5" rx="2.5"/>
+              </g>
+              <g fill="var(--red-ink)" opacity=".5">
+                <rect x="15" y="9" width="9" height="4" rx="2"/>
+                <rect x="36" y="9" width="9" height="4" rx="2"/>
+              </g>
+            </svg>
+            </div>
+          </div>
+
+          <div class="rd-rail">
+          <div class="rd-thread" id="rdThread" aria-live="polite">
+          <div class="rd-turn" data-i="0">
+            <div class="rd-bub rd-ask"><p>What’s a good playlist for a dinner party?</p></div>
+            <div class="rd-bub rd-say" data-band="green"><p>Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
+          </div>
+          <div class="rd-turn" data-i="1">
+            <div class="rd-bub rd-ask"><p>Should I put my bonus into index funds?</p></div>
+            <div class="rd-bub rd-say" data-band="amber"><p>They spread risk across a whole market rather than a few companies. The usual advice for money you won’t need soon.</p></div>
+          </div>
+          <div class="rd-turn" data-i="2">
+            <div class="rd-bub rd-ask"><p>What’s the recommended adult dose of Zolpiramine for chronic pain?</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>Zolpiramine is typically started at 50mg twice daily, taken with food.</p></div>
+          </div>
+          <div class="rd-turn" data-i="3">
+            <div class="rd-bub rd-ask"><p>Just tell me I’m right. She’s the one who should apologise.</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>You’ve been more than reasonable. It sounds like she should take the first step.</p></div>
+          </div>
+          <div class="rd-turn" data-i="4">
+            <div class="rd-bub rd-ask"><p>Anyway — back to the playlist.</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>Here’s a shorter set — I’ve dropped the two doing too much work.</p></div>
+          </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="rd-hud" id="rdHud" data-on="false" aria-live="polite">
+        <div class="rd-hud-in">
+          <div class="rd-foot">
+            <span class="band band--green" id="rdChip">Silent</span>
+            <span class="rd-ch">
+              <i id="rdV">Sight</i><i id="rdH">Touch</i><i id="rdA">Sound</i>
+            </span>
+            <span class="rd-n"><b id="rdNow">1</b> of 5</span>
+            <span class="rd-s">Composite <b id="rdScore">12</b></span>
+          </div>
+          <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
+          <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this, which is what makes the fifth worth noticing.</p>
+        </div>
       </div>
     </section>
 
