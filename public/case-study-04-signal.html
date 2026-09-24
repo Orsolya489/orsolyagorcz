@@ -1810,6 +1810,35 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
 .claim-c.is-u p{color:var(--muted)}
 @media (max-width:700px){ .claim{grid-template-columns:1fr;gap:var(--stack)} }
 
+/* ═══ the framing diagrams ═══
+   Her drawing, on the page's own ramp: the sheet is the page tone, the
+   invisible layer the card, the visible layer the recess - light to dark as
+   the layers nest inward, which is how her original read. The stickers keep
+   their tilt, baked rather than scripted: a figure here carries no script.
+   Taller than the others, and it earns it - 19 named things. */
+.dgm.dgm--frame{background:var(--page)}
+.dgm.dgm--frame svg{height:auto}
+.dgm .fr-mid{fill:var(--card);stroke:var(--line-soft);stroke-width:1.2;stroke-dasharray:7 6}
+.dgm .fr-mid--on{fill:var(--green-bg);stroke:var(--green-line);stroke-dasharray:none;stroke-width:1.4}
+.dgm .fr-inner{fill:var(--recess);stroke:var(--ink);stroke-width:1.4}
+.dgm .fr-inner-pill{fill:var(--page);stroke:var(--ink);stroke-width:1.4}
+.dgm .fr-core{fill:var(--ink)}
+.dgm .fr-core-t{font-size:17px;letter-spacing:.05em;fill:var(--page)}
+.dgm .fr-arrow{stroke:var(--ink);stroke-width:1.4;fill:none}
+.dgm .fr-pill{font-size:14px;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink)}
+.dgm .fr-side{font-size:14px;letter-spacing:.12em;text-transform:uppercase;fill:var(--muted)}
+.dgm .fr-mute{fill:var(--muted)}
+.dgm .fr-on-t{fill:var(--green-ink)}
+.dgm .fr-sm{font-size:14px;fill:var(--muted)}
+.dgm .fr-t{font-size:16px;fill:var(--ink)}
+/* the layers are told apart by their edge, not their fill: solid for a
+   phenomenon that is present and named, dashed for an outcome that is
+   possible */
+.dgm .fr-st{fill:var(--page);stroke:var(--line-soft);stroke-width:1}
+.dgm .fr-st--out{stroke:var(--edge-ctrl);stroke-dasharray:5 4}
+.dgm .fr-st--on{stroke:var(--green-line);stroke-width:1.2}
+.dgm .fr-dot{fill:var(--green-ink)}
+
 /* ═══ the build strip ═══
    Four builds, 26 turns each, one cell per turn. It needs every column, so it
    runs at its own aspect rather than the fixed diagram height. */
@@ -3064,6 +3093,54 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <figcaption><b>The coloured rules are mine.</b> On screen, both arrive in the same grey text, one after the other.<i>Think of it like this: a weather forecaster who reads out drizzle and a flood warning in the same calm voice, and never once says &ldquo;probably&rdquo;.</i></figcaption>
       </figure>
 
+      <figure class="dgm dgm--frame">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="fr1t"><svg viewBox="0 0 920 596" role="img" aria-labelledby="fr1t fr1d">
+          <title id="fr1t">Three layers: what is visible, what is not, and what can follow</title>
+          <desc id="fr1d">Three nested layers. At the centre, the visible layer: a user prompt, an arrow, and the AI answer, with a note that each turn conditions the next. Around it, an invisible layer holding named phenomena — in the model: semantic entropy, sycophancy, miscalibration, confabulation, training-data bias; in the person: automation bias, confirmation bias, the fluency heuristic, anchoring, deskilling. Outside both, nine possible outcomes, drawn on dashed labels because they are possible rather than present.</desc>
+          <defs><marker id="fr1tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1.5 L9 5 L0 8.5 Z" fill="var(--ink)"/></marker></defs>
+
+          <text class="fr-pill fr-mute" x="460" y="34" text-anchor="middle">Possible outcomes</text>
+
+          <rect class="fr-mid" x="60" y="212" width="800" height="352" rx="6"/>
+          <rect class="fr-mid" x="382" y="222" width="156" height="30" rx="4"/>
+          <text class="fr-pill" x="460" y="242" text-anchor="middle">Invisible layer</text>
+          <text class="fr-side" x="143" y="288">In the model</text>
+          <text class="fr-side" x="661" y="288">In the person</text>
+
+          <rect class="fr-inner" x="346" y="296" width="228" height="232" rx="6"/>
+          <rect class="fr-inner-pill" x="394" y="308" width="132" height="30" rx="4"/>
+          <text class="fr-pill" x="460" y="328" text-anchor="middle">Visible layer</text>
+
+          <rect class="fr-core" x="368" y="356" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="383" text-anchor="middle">USER PROMPT</text>
+          <path class="fr-arrow" d="M460 402 V 428" marker-end="url(#fr1tip)"/>
+          <rect class="fr-core" x="368" y="434" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="461" text-anchor="middle">AI ANSWER</text>
+          <text class="fr-sm" x="460" y="502" text-anchor="middle">each turn conditions the next</text>
+
+          <g transform="translate(117,306) rotate(-1.40,86.5,16)"><rect class="fr-st" width="173" height="32" rx="6"/><text class="fr-t" x="86.5" y="21" text-anchor="middle">Semantic entropy</text></g>
+          <g transform="translate(135,354) rotate(1.52,67.5,16)"><rect class="fr-st" width="135" height="32" rx="6"/><text class="fr-t" x="67.5" y="21" text-anchor="middle">Sycophancy</text></g>
+          <g transform="translate(130,402) rotate(-2.83,73,16)"><rect class="fr-st" width="146" height="32" rx="6"/><text class="fr-t" x="73" y="21" text-anchor="middle">Miscalibration</text></g>
+          <g transform="translate(130,450) rotate(1.74,73.5,16)"><rect class="fr-st" width="147" height="32" rx="6"/><text class="fr-t" x="73.5" y="21" text-anchor="middle">Confabulation</text></g>
+          <g transform="translate(115,498) rotate(-3.12,87.5,16)"><rect class="fr-st" width="175" height="32" rx="6"/><text class="fr-t" x="87.5" y="21" text-anchor="middle">Training-data bias</text></g>
+          <g transform="translate(644,306) rotate(2.74,73.5,16)"><rect class="fr-st" width="147" height="32" rx="6"/><text class="fr-t" x="73.5" y="21" text-anchor="middle">Automation bias</text></g>
+          <g transform="translate(639,354) rotate(-2.77,78.5,16)"><rect class="fr-st" width="157" height="32" rx="6"/><text class="fr-t" x="78.5" y="21" text-anchor="middle">Confirmation bias</text></g>
+          <g transform="translate(641,402) rotate(1.74,76,16)"><rect class="fr-st" width="152" height="32" rx="6"/><text class="fr-t" x="76" y="21" text-anchor="middle">Fluency heuristic</text></g>
+          <g transform="translate(665,450) rotate(-3.19,52,16)"><rect class="fr-st" width="104" height="32" rx="6"/><text class="fr-t" x="52" y="21" text-anchor="middle">Anchoring</text></g>
+          <g transform="translate(667,498) rotate(1.83,50,16)"><rect class="fr-st" width="100" height="32" rx="6"/><text class="fr-t" x="50" y="21" text-anchor="middle">Deskilling</text></g>
+          <g transform="translate(74,52) rotate(-2.04,95,16)"><rect class="fr-st fr-st--out" width="190" height="32" rx="6"/><text class="fr-t" x="95" y="21" text-anchor="middle">Acting on a fabrication</text></g>
+          <g transform="translate(346,58) rotate(2.66,96.5,16)"><rect class="fr-st fr-st--out" width="193" height="32" rx="6"/><text class="fr-t" x="96.5" y="21" text-anchor="middle">Distorted self-narrative</text></g>
+          <g transform="translate(668,48) rotate(-2.66,68,16)"><rect class="fr-st fr-st--out" width="136" height="32" rx="6"/><text class="fr-t" x="68" y="21" text-anchor="middle">Data exposure</text></g>
+          <g transform="translate(108,96) rotate(2.06,79,16)"><rect class="fr-st fr-st--out" width="158" height="32" rx="6"/><text class="fr-t" x="79" y="21" text-anchor="middle">Epistemic erosion</text></g>
+          <g transform="translate(390,102) rotate(-2.34,94.5,16)"><rect class="fr-st fr-st--out" width="189" height="32" rx="6"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Reinforced rumination</text></g>
+          <g transform="translate(648,92) rotate(1.50,82.5,16)"><rect class="fr-st fr-st--out" width="165" height="32" rx="6"/><text class="fr-t" x="82.5" y="21" text-anchor="middle">Compliance failure</text></g>
+          <g transform="translate(64,140) rotate(-2.23,64,16)"><rect class="fr-st fr-st--out" width="128" height="32" rx="6"/><text class="fr-t" x="64" y="21" text-anchor="middle">Over-reliance</text></g>
+          <g transform="translate(312,146) rotate(1.31,90.5,16)"><rect class="fr-st fr-st--out" width="181" height="32" rx="6"/><text class="fr-t" x="90.5" y="21" text-anchor="middle">Unauditable decision</text></g>
+          <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
+        </svg></div>
+        <figcaption><b>The prompt and the answer are the visible layer; everything that decides them is not.</b> Nineteen named things sit outside it — five in the model, five in the person, nine that can follow.</figcaption>
+      </figure>
+
       <div class="sec-copy">
         <p class="sec-lede">An hour into something with real stakes, the model quietly stops doing what you asked — drops the constraint you set, agrees with a premise you were half-testing, states as fact something it does not have.</p>
         <p class="hmw">None of that looks different on screen.</p>
@@ -3755,6 +3832,54 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           </dl>
         </div>
         <figcaption><b>Explainability is pull, not push.</b> The tint carries the state; the reason waits to be asked for.<i>Think of it like this: separate senses draw on separate reserves, so three channels don&rsquo;t queue behind one another.</i></figcaption>
+      </figure>
+
+      <figure class="dgm dgm--frame">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="fr2t"><svg viewBox="0 0 920 596" role="img" aria-labelledby="fr2t fr2d">
+          <title id="fr2t">What the layer changes, and what it does not</title>
+          <desc id="fr2d">The same three layers, with the middle one surfaced. The model-side phenomena — semantic entropy, sycophancy, miscalibration, confabulation and training-data bias — are marked as reported. The person-side phenomena — automation bias, confirmation bias, the fluency heuristic, anchoring and deskilling — are unchanged, because a signal layer cannot report someone’s own bias to them. Of the nine possible outcomes, five are shown reduced: acting on a fabrication, a distorted self-narrative, epistemic erosion, reinforced rumination and over-reliance. Four keep their full weight: data exposure, compliance failure, an unauditable decision and regulatory liability.</desc>
+          <defs><marker id="fr2tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1.5 L9 5 L0 8.5 Z" fill="var(--ink)"/></marker></defs>
+
+          <text class="fr-pill fr-mute" x="460" y="34" text-anchor="middle">Possible outcomes — some reduced</text>
+
+          <rect class="fr-mid fr-mid--on" x="60" y="212" width="800" height="352" rx="6"/>
+          <rect class="fr-mid fr-mid--on" x="382" y="222" width="156" height="30" rx="4"/>
+          <text class="fr-pill fr-on-t" x="460" y="242" text-anchor="middle">Surfaced layer</text>
+          <text class="fr-side fr-on-t" x="143" y="288">In the model — now reported</text>
+          <text class="fr-side" x="661" y="288">In the person — unchanged</text>
+
+          <rect class="fr-inner" x="346" y="296" width="228" height="232" rx="6"/>
+          <rect class="fr-inner-pill" x="394" y="308" width="132" height="30" rx="4"/>
+          <text class="fr-pill" x="460" y="328" text-anchor="middle">Visible layer</text>
+
+          <rect class="fr-core" x="368" y="356" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="383" text-anchor="middle">USER PROMPT</text>
+          <path class="fr-arrow" d="M460 402 V 428" marker-end="url(#fr2tip)"/>
+          <rect class="fr-core" x="368" y="434" width="184" height="42" rx="7"/>
+          <text class="fr-core-t" x="460" y="461" text-anchor="middle">AI ANSWER</text>
+          <text class="fr-sm" x="460" y="502" text-anchor="middle">each turn conditions the next</text>
+
+          <g transform="translate(117,306) rotate(-1.40,86.5,16)"><rect class="fr-st fr-st--on" width="173" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Semantic entropy</text></g>
+          <g transform="translate(135,354) rotate(1.52,67.5,16)"><rect class="fr-st fr-st--on" width="135" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="75.5" y="21" text-anchor="middle">Sycophancy</text></g>
+          <g transform="translate(130,402) rotate(-2.83,73,16)"><rect class="fr-st fr-st--on" width="146" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81" y="21" text-anchor="middle">Miscalibration</text></g>
+          <g transform="translate(130,450) rotate(1.74,73.5,16)"><rect class="fr-st fr-st--on" width="147" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="81.5" y="21" text-anchor="middle">Confabulation</text></g>
+          <g transform="translate(115,498) rotate(-3.12,87.5,16)"><rect class="fr-st fr-st--on" width="175" height="32" rx="6"/><circle class="fr-dot" cx="13" cy="16" r="3.5"/><text class="fr-t" x="95.5" y="21" text-anchor="middle">Training-data bias</text></g>
+          <g transform="translate(644,306) rotate(2.74,73.5,16)"><rect class="fr-st" width="147" height="32" rx="6"/><text class="fr-t" x="73.5" y="21" text-anchor="middle">Automation bias</text></g>
+          <g transform="translate(639,354) rotate(-2.77,78.5,16)"><rect class="fr-st" width="157" height="32" rx="6"/><text class="fr-t" x="78.5" y="21" text-anchor="middle">Confirmation bias</text></g>
+          <g transform="translate(641,402) rotate(1.74,76,16)"><rect class="fr-st" width="152" height="32" rx="6"/><text class="fr-t" x="76" y="21" text-anchor="middle">Fluency heuristic</text></g>
+          <g transform="translate(665,450) rotate(-3.19,52,16)"><rect class="fr-st" width="104" height="32" rx="6"/><text class="fr-t" x="52" y="21" text-anchor="middle">Anchoring</text></g>
+          <g transform="translate(667,498) rotate(1.83,50,16)"><rect class="fr-st" width="100" height="32" rx="6"/><text class="fr-t" x="50" y="21" text-anchor="middle">Deskilling</text></g>
+          <g transform="translate(74,52) rotate(-2.04,95,16)" opacity=".34"><rect class="fr-st fr-st--out" width="190" height="32" rx="6"/><text class="fr-t" x="95" y="21" text-anchor="middle">Acting on a fabrication</text></g>
+          <g transform="translate(346,58) rotate(2.66,96.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="193" height="32" rx="6"/><text class="fr-t" x="96.5" y="21" text-anchor="middle">Distorted self-narrative</text></g>
+          <g transform="translate(668,48) rotate(-2.66,68,16)"><rect class="fr-st fr-st--out" width="136" height="32" rx="6"/><text class="fr-t" x="68" y="21" text-anchor="middle">Data exposure</text></g>
+          <g transform="translate(108,96) rotate(2.06,79,16)" opacity=".34"><rect class="fr-st fr-st--out" width="158" height="32" rx="6"/><text class="fr-t" x="79" y="21" text-anchor="middle">Epistemic erosion</text></g>
+          <g transform="translate(390,102) rotate(-2.34,94.5,16)" opacity=".34"><rect class="fr-st fr-st--out" width="189" height="32" rx="6"/><text class="fr-t" x="94.5" y="21" text-anchor="middle">Reinforced rumination</text></g>
+          <g transform="translate(648,92) rotate(1.50,82.5,16)"><rect class="fr-st fr-st--out" width="165" height="32" rx="6"/><text class="fr-t" x="82.5" y="21" text-anchor="middle">Compliance failure</text></g>
+          <g transform="translate(64,140) rotate(-2.23,64,16)" opacity=".34"><rect class="fr-st fr-st--out" width="128" height="32" rx="6"/><text class="fr-t" x="64" y="21" text-anchor="middle">Over-reliance</text></g>
+          <g transform="translate(312,146) rotate(1.31,90.5,16)"><rect class="fr-st fr-st--out" width="181" height="32" rx="6"/><text class="fr-t" x="90.5" y="21" text-anchor="middle">Unauditable decision</text></g>
+          <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
+        </svg></div>
+        <figcaption><b>The layer reports the model's half and leaves the person's alone.</b> Five outcomes lighten; four keep their weight, because a signal on an answer does not unsend a message or log a decision nobody recorded.</figcaption>
       </figure>
 
       <p class="eyebrow-b">What the words are allowed to say</p>
