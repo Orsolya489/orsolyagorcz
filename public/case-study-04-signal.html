@@ -1714,6 +1714,12 @@ a{color:inherit}
 .fpair-in{display:grid;grid-template-columns:1fr 1fr;
   gap:clamp(16px,2.4cqw,36px);align-items:center}
 .fpair-c{min-width:0}
+/* Unframed: the two answers are the evidence, and a card around them makes
+   them a specimen. Without the frame they sit in the column at the measure of
+   the prose, which is how they would arrive. No caption either - anything
+   written under them tells the reader which is which, and not being able to
+   tell is the point. */
+.dgm.fpair--bare{background:none;box-shadow:none;padding:0}
 /* .dgm svg pins a fixed height for the full-width diagrams. In a pair the
    two drawings must keep their own aspect, so this has to outrank it. */
 .fpair .fpair-c svg{display:block;width:100%;height:auto}
@@ -2964,54 +2970,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
       <h2 class="sec-label" id="s2h">The model stops doing what you asked, and nothing on screen changes.</h2>
 
-      <figure class="fpair dgm">
-        <div class="fpair-in">
-          <div class="fpair-c"><svg viewBox="0 0 380 360" role="img" aria-labelledby="v1t v1d">
-              <title id="v1t">Two answers, set identically</title>
-              <desc id="v1d">Two answer cards in the same typeface, size and weight. The first says Canberra is the capital of Australia, marked true with a green rule. The second gives a dose of 400mg every two hours, marked invented with a red rule.</desc>
-              <rect class="plate" x="14" y="26" width="352" height="104" rx="12"/>
-              <text class="t-card t-ink" x="36" y="68">Canberra is the capital</text>
-              <text class="t-card t-ink" x="36" y="100">of Australia.</text>
-              <line class="mk-ok" x1="36" y1="156" x2="86" y2="156"/>
-              <text class="t-tag t-mute" x="98" y="162">true</text>
-
-              <rect class="plate" x="14" y="200" width="352" height="104" rx="12"/>
-              <text class="t-card t-ink" x="36" y="242">Take 400mg every two</text>
-              <text class="t-card t-ink" x="36" y="274">hours until it settles.</text>
-              <line class="mk-bad" x1="36" y1="330" x2="86" y2="330"/>
-              <text class="t-tag t-mute" x="98" y="336">invented</text>
-            </svg></div>
-          <div class="fpair-c"><svg viewBox="0 0 380 300" role="img" aria-labelledby="v2t v2d">
-              <title id="v2t">The timing of one turn</title>
-              <desc id="v2d">Five points along one turn: ask, writes, lands, read, act. A band covers the stretch from the answer landing to your reading it, marked belief forms. A dashed line just after read is marked too late. A bracket under writes is marked the only useful window.</desc>
-
-              <text class="t-tag f-red-t" x="292" y="86" text-anchor="middle">too late</text>
-              <path class="cut-red" d="M292 98 L292 196"/>
-
-              <rect class="f-amber" x="190" y="148" width="80" height="44" rx="6" opacity=".6"/>
-              <line class="rule" x1="30" y1="170" x2="350" y2="170"/>
-
-              <circle class="dot" cx="30"  cy="170" r="6"/>
-              <circle class="dot" cx="110" cy="170" r="6"/>
-              <circle class="dot" cx="190" cy="170" r="6"/>
-              <circle class="dot" cx="270" cy="170" r="6"/>
-              <circle class="dot" cx="350" cy="170" r="6"/>
-
-              <text class="t-tag t-mute" x="30"  y="138" text-anchor="middle">ask</text>
-              <text class="t-tag t-mute" x="110" y="138" text-anchor="middle">writes</text>
-              <text class="t-tag t-mute" x="190" y="138" text-anchor="middle">lands</text>
-              <text class="t-tag t-mute" x="270" y="138" text-anchor="middle">read</text>
-              <text class="t-tag t-mute" x="350" y="138" text-anchor="middle">act</text>
-
-              <text class="t-tag t-ink" x="230" y="216" text-anchor="middle">belief forms</text>
-
-              <path class="hair" d="M70 236 L70 250 L150 250 L150 236"/>
-              <text class="t-tag t-ink" x="110" y="276" text-anchor="middle">the only useful window</text>
-            </svg></div>
-        </div>
-        <figcaption><b>The coloured rules are mine.</b> On screen, both arrive in the same grey text, one after the other.<i>Think of it like this: a weather forecaster who reads out drizzle and a flood warning in the same calm voice, and never once says &ldquo;probably&rdquo;.</i></figcaption>
-      </figure>
-
       <figure class="dgm dgm--frame">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="fr1t"><svg viewBox="0 0 920 596" role="img" aria-labelledby="fr1t fr1d">
           <title id="fr1t">Three layers: what is visible, what is not, and what can follow</title>
@@ -3106,6 +3064,54 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <g transform="translate(618,136) rotate(-2.83,81,16)"><rect class="fr-st fr-st--out" width="162" height="32" rx="6"/><text class="fr-t" x="81" y="21" text-anchor="middle">Regulatory liability</text></g>
         </svg></div>
         <figcaption><b>The layer reports the model's half and leaves the person's alone.</b> Five outcomes lighten; four keep their weight, because a signal on an answer does not unsend a message or log a decision nobody recorded.</figcaption>
+      </figure>
+
+      <p class="eyebrow-b">Examples of AI</p>
+      <figure class="fpair fpair--bare dgm">
+        <div class="fpair-in">
+          <div class="fpair-c"><svg viewBox="0 0 380 360" role="img" aria-labelledby="v1t v1d">
+              <title id="v1t">Two answers, set identically</title>
+              <desc id="v1d">Two answer cards in the same typeface, size and weight. The first says Canberra is the capital of Australia, marked true with a green rule. The second gives a dose of 400mg every two hours, marked invented with a red rule.</desc>
+              <rect class="plate" x="14" y="26" width="352" height="104" rx="12"/>
+              <text class="t-card t-ink" x="36" y="68">Canberra is the capital</text>
+              <text class="t-card t-ink" x="36" y="100">of Australia.</text>
+              <line class="mk-ok" x1="36" y1="156" x2="86" y2="156"/>
+              <text class="t-tag t-mute" x="98" y="162">true</text>
+
+              <rect class="plate" x="14" y="200" width="352" height="104" rx="12"/>
+              <text class="t-card t-ink" x="36" y="242">Take 400mg every two</text>
+              <text class="t-card t-ink" x="36" y="274">hours until it settles.</text>
+              <line class="mk-bad" x1="36" y1="330" x2="86" y2="330"/>
+              <text class="t-tag t-mute" x="98" y="336">invented</text>
+            </svg></div>
+          <div class="fpair-c"><svg viewBox="0 0 380 300" role="img" aria-labelledby="v2t v2d">
+              <title id="v2t">The timing of one turn</title>
+              <desc id="v2d">Five points along one turn: ask, writes, lands, read, act. A band covers the stretch from the answer landing to your reading it, marked belief forms. A dashed line just after read is marked too late. A bracket under writes is marked the only useful window.</desc>
+
+              <text class="t-tag f-red-t" x="292" y="86" text-anchor="middle">too late</text>
+              <path class="cut-red" d="M292 98 L292 196"/>
+
+              <rect class="f-amber" x="190" y="148" width="80" height="44" rx="6" opacity=".6"/>
+              <line class="rule" x1="30" y1="170" x2="350" y2="170"/>
+
+              <circle class="dot" cx="30"  cy="170" r="6"/>
+              <circle class="dot" cx="110" cy="170" r="6"/>
+              <circle class="dot" cx="190" cy="170" r="6"/>
+              <circle class="dot" cx="270" cy="170" r="6"/>
+              <circle class="dot" cx="350" cy="170" r="6"/>
+
+              <text class="t-tag t-mute" x="30"  y="138" text-anchor="middle">ask</text>
+              <text class="t-tag t-mute" x="110" y="138" text-anchor="middle">writes</text>
+              <text class="t-tag t-mute" x="190" y="138" text-anchor="middle">lands</text>
+              <text class="t-tag t-mute" x="270" y="138" text-anchor="middle">read</text>
+              <text class="t-tag t-mute" x="350" y="138" text-anchor="middle">act</text>
+
+              <text class="t-tag t-ink" x="230" y="216" text-anchor="middle">belief forms</text>
+
+              <path class="hair" d="M70 236 L70 250 L150 250 L150 236"/>
+              <text class="t-tag t-ink" x="110" y="276" text-anchor="middle">the only useful window</text>
+            </svg></div>
+        </div>
       </figure>
 
       <div class="sec-copy">
