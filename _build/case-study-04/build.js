@@ -161,9 +161,14 @@ head = once(head, '<meta property="og:image:width" content="680">', '<meta prope
 head = once(head, '<meta property="og:image:height" content="1380">', '<meta property="og:image:height" content="2000">', 'og h');
 head = head.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="A phone chat in its warning state, with a Reliability, Low row under an answer about ibuprofen and the reason opened beneath it.">');
 head = once(head, '</style>', fs.readFileSync(HERE + '/new.css', 'utf8') + fs.readFileSync(HERE + '/research.css', 'utf8') + '</style>', 'style end');
+/* the phone layer every page shares: after the page's own styles, so it wins on a phone */
+head = once(head, '</head>', '<link rel="stylesheet" href="/site-mobile.css">\n</head>', 'mobile css');
 
 /* ── chrome ── */
 let chrome = src.slice(BODY_AT, src.indexOf('<div class="wrap">', BODY_AT));
+/* on a phone, Noise for focus is a row in the accessibility panel; the page's
+   noise script already drives a #noiseBtnM when there is one */
+chrome = once(chrome, '<p class="pnote">', '<div class="prow prow--m"><span>Noise for focus</span><button class="btn" id="noiseBtnM" aria-label="Play noise for focus" aria-pressed="false">Off</button></div>\n    <p class="pnote">', 'panel noise row');
 const [oi, oj] = between(chrome, '<ol>', '</ol>');
 chrome = chrome.slice(0, oi) + '<ol>\n        <li><a href="#s1">The problem</a></li>\n        <li><a href="#s2">The research</a></li>\n        <li><a href="#s3">The system</a></li>\n        <li><a href="#s4">The design</a></li>\n        <li><a href="#s5">The prototype</a></li>\n        <li><a href="#s6">What’s next</a></li>\n      </ol>' + chrome.slice(oj + 5);
 
@@ -237,7 +242,7 @@ const d1 = script.indexOf('/* the blueprints fold away');
 must(d0 > 0 && d1 > d0, 'script cut points');
 script = script.slice(0, d0) + TOGGLE + script.slice(d1);
 
-const out = head + chrome + body + '\n\n' + script + '\n\n</body>\n</html>\n';
+const out = head + chrome + body + '\n\n' + script + '\n<script src="/site-mobile.js" defer></script>\n</body>\n</html>\n';
 fs.writeFileSync(REPO + '/public/case-study-04-signal.html', out);
 console.log('page bytes', out.length);
 

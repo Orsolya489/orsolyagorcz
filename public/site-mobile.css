@@ -1,0 +1,130 @@
+/* ═══ site-mobile.css — the phone layer, shared by the home page and the four case studies ═══
+   Desktop is settled, so everything that changes how a page looks sits inside
+   the phone query below. The only rules outside it hide the two things this
+   layer adds (the panel's noise row and the expand badges) on larger screens.
+
+   Every size multiplies by --tscale, so the text-size buttons in the
+   accessibility panel keep working. */
+
+@media (min-width:768px){
+  .prow--m{display:none}
+}
+
+@media (max-width:767px){
+
+  /* ── tokens ── a little more room at the sides, and one floor for small text */
+  :root{
+    --margin:24px;
+    --micro:calc(12px * var(--tscale));
+    --body:calc(16px * var(--tscale));
+  }
+
+  /* ── chrome ── Noise for focus lives in the accessibility panel on a phone;
+     the floating pill sat over the text and over the drive's readout */
+  .c-br .noise{display:none}
+  .prow--m{display:flex}
+
+  /* ═══ case studies ═══ */
+
+  /* the head: title, hook, facts, each with its own room */
+  .cs-head{padding-bottom:calc(var(--section) * 1.05)}
+  .cs-eyebrow{margin-bottom:18px;line-height:1.6}
+  .cs-title{font-size:calc(32px * var(--tscale));line-height:1.12;letter-spacing:-.022em}
+  .cs-prompt{font-size:calc(21px * var(--tscale));margin-top:14px}
+  .cs-hook{font-size:calc(18px * var(--tscale));line-height:1.55;margin-top:24px}
+  .cs-facts{margin-top:32px}
+  .cs-facts dt{font-size:calc(11.5px * var(--tscale))}
+  .cs-facts dd{font-size:calc(14px * var(--tscale));line-height:1.45}
+  .cs-facts div{padding-top:.8em;padding-bottom:.8em}
+  .cs-facts + *{margin-top:44px}
+  .cs-head .cs-lede{line-height:1.7}
+
+  /* sections: a clear step from heading to text, and more air between them */
+  .sec{gap:26px;padding-bottom:calc(var(--section) * 1.2)}
+  /* .sec-label is a section heading on the case studies and a small caps label
+     on the home page; only the first changes here */
+  .sec > .sec-label{font-size:calc(26px * var(--tscale));line-height:1.2;letter-spacing:-.012em}
+  .sec-copy > * + *{margin-top:1.3em}
+  .sec-lede{font-size:calc(17px * var(--tscale));line-height:1.6}
+  .sec-copy h3{font-size:calc(20px * var(--tscale));line-height:1.3;margin-top:2.4em}
+  .sec-copy h3 + *{margin-top:.8em}
+  .eyebrow-b{margin-top:8px}
+
+  /* figures stand clear of the prose around them; the section's 26px gap
+     adds to these, so it is about 54px above a figure and 48px below */
+  .fig,.dgm,.rfig{margin-top:28px;margin-bottom:22px}
+  figcaption,.fig figcaption,.rfig figcaption,.dgm figcaption{
+    font-size:calc(13.5px * var(--tscale));line-height:1.55;margin-top:14px}
+
+  /* figure titles sit a step below the section heading, never above it */
+  .rfig .ft{font-size:calc(20px * var(--tscale));margin-bottom:14px}
+  .rfig .fk{font-size:calc(11px * var(--tscale))}
+
+  /* the small serif notes that carried the argument at 12px */
+  .ann-t,.ann-b,.gap-d,.gen-label,.gen-note,.car-desc,.tf-close p,
+  .stat-l,.stat-src,.stat-upd,.sm-key li,.sm-note,.reslinks li,.cmp-list li,
+  .claim-c p{font-size:calc(13.5px * var(--tscale));line-height:1.55}
+
+  /* the closing list of other case studies */
+  .cs-foot .sec-label{font-size:calc(22px * var(--tscale))}
+
+  /* Mindure's before/after: the 3cm inset that frames it on a laptop left it
+     230px wide on a phone, with its two tags running into each other */
+  .cmp-stage,.cmp-cols{width:100%}
+  .cmp-side{padding:20px}
+
+  /* Mindure's and Ness's research toggles are .bp-btn without .bp-toggle, so they
+     arrived as the browser's grey button. On a phone they take the same ruled
+     row and + circle as Tribe's blueprint. */
+  .bp-btn:not(.bp-toggle){display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+    column-gap:var(--stack);width:100%;margin:0;padding:1.1em 0;text-align:left;cursor:pointer;
+    font:inherit;color:inherit;background:none;border:0;border-radius:0;
+    border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl);-webkit-appearance:none;appearance:none}
+  .bp-btn:not(.bp-toggle) .bp-t,.bp-btn:not(.bp-toggle) .bp-e{display:block;grid-column:1}
+  .bp-btn:not(.bp-toggle)::after{content:"";grid-column:2;grid-row:1 / span 2;
+    width:var(--control);height:var(--control);border-radius:var(--r-pill);
+    box-shadow:inset 0 0 0 1px var(--edge-ctrl);
+    background:linear-gradient(var(--muted),var(--muted)) center / 14px 1px no-repeat,
+               linear-gradient(var(--muted),var(--muted)) center / 1px 14px no-repeat}
+  .bp-btn:not(.bp-toggle)[aria-expanded="true"]::after{
+    background:linear-gradient(var(--page),var(--page)) center / 14px 1px no-repeat,var(--ink);
+    box-shadow:none}
+
+  /* ═══ home ═══ */
+
+  /* the availability line sits under the name in the fixed bar; the hero
+     starts below both instead of under them */
+  .hero{padding-top:140px}
+  .t-title{font-size:calc(28px * var(--tscale));line-height:1.18}
+  .about-lede{font-size:calc(26px * var(--tscale))}
+  .card-h{font-size:calc(24px * var(--tscale))}
+  .t-lead{font-size:calc(22px * var(--tscale))}
+  .t-body{line-height:1.7}
+  .about-flow > .t-body + .t-body{margin-top:1.25em}
+  .about-flow > .about-lede{margin-top:calc(var(--section) * .6)}
+  .cred-row .t-body span,.cred-row .t-body i{font-size:calc(13px * var(--tscale))}
+  .more{padding-bottom:calc(var(--section) * 1.1)}
+  /* Leica's three drawings: the height cap that fits all three side by side in
+     one window shrank them to 140px once they stacked; stacked, each takes the
+     column */
+  .cw-trio{gap:28px}
+  .cw-trio img{width:100%;max-width:100%;max-height:none}
+
+  /* ═══ expand: a tap shows any picture full size ═══
+     A small mark on each figure says it opens; site-mobile.js does the rest. */
+  .sec figure:has(img,svg):not(:has(.zoom,.cmp-stage)),.cw-media{position:relative}
+  .sec figure:has(img,svg):not(:has(.zoom,.cmp-stage))::after,.cw-media::after{
+    content:"";position:absolute;top:8px;right:8px;width:30px;height:30px;pointer-events:none;
+    border-radius:var(--r-pill);background:var(--page) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23191517' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M14 4h6v6M10 20H4v-6M20 4l-7.5 7.5M4 20l7.5-7.5'/%3E%3C/svg%3E") center/14px no-repeat;
+    box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+  .sec figure img,.sec figure svg,.cw-media img{cursor:zoom-in}
+
+  .mlb{width:100%;max-width:100%;height:100%;max-height:100%;margin:0;padding:0;border:0;background:none}
+  .mlb::backdrop{background:rgba(25,21,23,.96)}
+  .mlb-in{display:grid;place-items:center;width:100%;height:100%;padding:64px 12px 24px;overflow:auto}
+  .mlb-in img{max-width:100%;max-height:100%;border-radius:12px}
+  .mlb-svg{width:100%;margin:0;padding:16px 12px;border:0;background:var(--page);border-radius:12px}
+  .mlb-svg svg{display:block;width:100%;height:auto;min-width:0 !important}
+  .mlb-x{position:fixed;top:14px;right:14px;width:44px;height:44px;border:0;border-radius:var(--r-pill);
+    font-size:24px;line-height:1;color:var(--ink);background:var(--page);cursor:pointer}
+}

@@ -1645,6 +1645,7 @@ a{color:inherit}
   .sec > figure,.sec > .carousel,.sec > .flow,.sec > .gens,.sec > .duo{grid-column:1}
 }
 </style>
+<link rel="stylesheet" href="/site-mobile.css">
 </head>
 <body>
 
@@ -1722,6 +1723,7 @@ a{color:inherit}
       <button class="btn" id="contrastBtn" aria-pressed="false">Off</button></div>
     <div class="prow"><span>Reduce motion</span>
       <button class="btn" id="motionBtn" aria-pressed="false">Off</button></div>
+    <div class="prow prow--m"><span>Noise for focus</span><button class="btn" id="noiseBtnM" aria-label="Play noise for focus" aria-pressed="false">Off</button></div>
     <p class="pnote">Pink noise plays a steady, even tone that can help with focus. It stays off until you turn it on.</p>
   </div>
 
@@ -2938,5 +2940,6 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
 })();
 })();
 </script>
+<script src="/site-mobile.js" defer></script>
 </body>
 </html>
