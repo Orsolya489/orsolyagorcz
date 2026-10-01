@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study 04 · research figures</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* No colours of their own: every fill reads the site's tokens. The fallbacks only make
+   this file viewable on its own. Survey evidence = --ink; literature = --ink-3. */
+:root{
+  --paper:#F4F5F6; --surface:#FFFFFF; --ink:#16191D; --ink-2:#3A424A; --ink-3:#5E666E; --rule:#D3D8DC; --rule-2:#C2C9CF;
+  --serif:'Newsreader',Georgia,serif; --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;padding:32px 20px;}
+figure{max-width:960px;margin:0 auto 56px;padding:22px 0 8px;border-top:1px solid var(--rule);}
+.fk{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px;}
+.ft{font-size:24px;font-weight:400;letter-spacing:-.012em;margin:0 0 18px;}
+svg{display:block;width:100%;height:auto;overflow:visible;}
+.lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink-3);}
+.lab-ink{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink);}
+.meta{font-family:var(--mono);font-size:10px;fill:var(--ink-3);}
+.num{font-family:var(--serif);font-size:30px;fill:var(--ink);}
+.numS{font-family:var(--serif);font-size:18px;fill:var(--ink);}
+.txt{font-family:var(--serif);font-size:14px;fill:var(--ink-2);}
+/* voices */
+.vhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);}
+.voices{display:grid;grid-template-columns:2.1fr 1fr;gap:24px;align-items:start;}
+.vcol h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:500;margin:0 0 10px;}
+.bubs{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;}
+.vcol.obj .bubs{grid-template-columns:1fr;}
+.q{background:var(--surface);border:1px solid var(--rule);border-radius:14px 14px 14px 4px;padding:11px 13px 9px;font-size:15.5px;line-height:1.42;color:var(--ink);}
+.vcol.obj .q{border-radius:14px 14px 4px 14px;}
+.q .m{display:flex;align-items:center;gap:8px;margin-top:7px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--ink-3);}
+.rn{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--ink);color:var(--surface);font-family:var(--mono);font-size:9.5px;letter-spacing:0;flex:none;}
+.rkey{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-3);}
+.rkey span{display:inline-flex;align-items:center;gap:6px;}
+@media (max-width:720px){ .voices,.bubs{grid-template-columns:1fr;} }
+.sk .rib{fill:none;stroke-linecap:round;transition:opacity .2s;}
+.sk.focus .rib{opacity:.1;} .sk.focus .rib.on{opacity:1;}
+.sk.focus .rnode{opacity:.35;} .sk.focus .rnode.on{opacity:1;}
+
+.thread{display:flex;flex-direction:column;gap:10px;}
+.thread .q{max-width:64%;align-self:flex-start;box-shadow:0 1px 0 var(--rule);}
+.thread .q.f1{margin-left:4%;} .thread .q.f2{margin-left:9%;} .thread .q.f3{margin-left:2%;}
+.thread .q.obj{align-self:flex-end;border-radius:14px 14px 4px 14px;margin-right:2%;}
+.thread .q.obj.o2{margin-right:7%;}
+@media (max-width:720px){ .thread .q{max-width:92%;margin-left:0 !important;margin-right:0 !important;} }
+
+.thread{gap:22px;padding:10px 0;}
+.thread .q{box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 14px -8px rgba(0,0,0,.18);position:relative;}
+.thread .q:nth-child(1){transform:rotate(-1.4deg);}
+.thread .q:nth-child(2){transform:rotate(1.1deg);}
+.thread .q:nth-child(3){transform:rotate(-0.7deg);}
+.thread .q:nth-child(4){transform:rotate(1.6deg);}
+.thread .q:nth-child(5){transform:rotate(-1.1deg);}
+.thread .q:nth-child(6){transform:rotate(0.8deg);}
+.thread .q:nth-child(7){transform:rotate(1.3deg);}
+.thread .q:nth-child(8){transform:rotate(-1.5deg);}
+@media (prefers-reduced-motion: reduce){ .thread .q{transform:none !important;} }
+
+/* R3 stickers: bubbles only, one speaker, scattered across the width, slightly off-straight */
+#R3{border-top:none;}
+.stickers{display:flex;flex-direction:column;gap:34px;padding:16px 0;}
+.st{max-width:390px;background:var(--surface);border:1px solid var(--rule);border-radius:20px 20px 20px 6px;padding:20px 24px;
+  font-family:var(--serif);font-size:23px;line-height:1.38;color:var(--ink);
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 14px -8px rgba(0,0,0,.18);}
+.st.p1{align-self:flex-start;margin-left:2%;transform:rotate(-1.4deg);}
+.st.p2{align-self:flex-end;margin-right:4%;transform:rotate(1.2deg);margin-top:-40px;}
+.st.p3{align-self:flex-start;margin-left:22%;transform:rotate(-0.8deg);}
+.st.p4{align-self:flex-end;margin-right:12%;transform:rotate(1.6deg);margin-top:-18px;}
+.st.p5{align-self:flex-start;margin-left:6%;transform:rotate(-1.1deg);}
+.st.p6{align-self:flex-end;margin-right:2%;transform:rotate(0.9deg);margin-top:-30px;}
+.st.p7{align-self:flex-start;margin-left:24%;transform:rotate(1.3deg);}
+.st.p8{align-self:flex-end;margin-right:8%;transform:rotate(-1.5deg);margin-top:-8px;}
+@media (max-width:720px){ .st{max-width:88%;margin:0 !important;align-self:flex-start !important;} }
+@media (prefers-reduced-motion: reduce){ .st{transform:none !important;} }
+
+.st .lang{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);}
+
+/* R2 tiles: four questions, two by two, generous spacing */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.tile{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 22px 18px;display:flex;flex-direction:column;gap:14px;}
+.tm{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--ink-3);}
+.tq{font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--ink);margin:0;font-style:italic;flex:1;}
+.tc svg{display:block;overflow:visible;}
+.tr{display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--rule);padding-top:12px;}
+.tn{font-family:var(--serif);font-size:30px;line-height:1;color:var(--ink);white-space:nowrap;}
+.tf{font-family:var(--serif);font-size:15px;line-height:1.35;color:var(--ink-2);}
+@media (max-width:760px){ .tiles{grid-template-columns:1fr;} }
+</style></head><body>
+
+<figure id="R1">
+ <p class="fk">Fig. R1</p><h3 class="ft">Time</h3>
+ <svg id="svgR1" viewBox="0 0 960 136" role="img" aria-label="Project time by phase, November 2025 to September 2026: survey design 5 percent, analysis 5 percent, literature, synthesis and system 80 percent, interface 10 percent. The focus hypothesis was rejected during analysis; the first screen was drawn at the start of the interface phase."></svg>
+</figure>
+
+<figure id="R2">
+ <p class="fk">Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording</p><h3 class="ft">Survey</h3>
+ <div class="tiles">
+  <div class="tile">
+   <p class="tq">“During longer or complex chats, how often do you lose focus/track of the topic?”</p>
+   <div class="tc" id="c3"></div>
+   <div class="tr"><span class="tn">1.94</span><span class="tf">Rarely. My starting hypothesis was wrong.</span></div></div>
+  <div class="tile">
+   <p class="tq">“When [the AI] provides information that might be uncertain, morally complex, or sensitive, who should take responsibility for careful interpretation?”</p>
+   <div class="tc" id="c4"></div>
+   <div class="tr"><span class="tn">84%</span><span class="tf">They say the judgment is theirs: 41 definitely, 29 mostly.</span></div></div>
+  <div class="tile">
+   <p class="tq">“How much do you consider the possibility of bias or unfairness in AI responses?” <br>“If you notice possible bias or unfairness in AI responses, how much does it affect your trust in AI?”</p>
+   <div class="tc" id="c5"></div>
+   <div class="tr"><span class="tn">4.02 vs 2.80</span><span class="tf">Bias is expected, and it moves trust less.</span></div></div>
+  <div class="tile">
+   <p class="tq">“How would you feel if [the AI] gently signaled these situations in real time without giving advice (for example: a subtle visual cue or an alert)?”</p>
+   <div class="tc" id="c6"></div>
+   <div class="tr"><span class="tn">66%</span><span class="tf">Useful, when described at its gentlest. Even then, a third were neutral or against.</span></div></div>
+ </div>
+</figure>
+
+<figure id="R3" aria-label="Eight open survey answers">
+ <div class="stickers">
+  <div class="st p1">“It supports you in all your nonsense and says you’re right, even when that isn’t the most appropriate.”<span class="lang">HU → EN</span></div>
+  <div class="st p2">“It shouldn’t lie or fantasise, and it should grasp what I want! It should be able to interpret!”<span class="lang">HU → EN</span></div>
+  <div class="st p3">“The AI should signal when it loses consistency and focus! It only turns out afterwards that it had stopped keeping to the instructions for the original task and dropped the character, but it didn’t signal it.”<span class="lang">HU → EN</span></div>
+  <div class="st p4">“A significant reduction in hallucinations, and the ability to signal uncertainty.”<span class="lang">HU → EN</span></div>
+  <div class="st p5">“I don’t want to outsource decision‑making.”<span class="lang">EN</span></div>
+  <div class="st p6">“Perhaps I’d change it so it doesn’t give a complete answer to everything, and encourages people to think independently.”<span class="lang">HU → EN</span></div>
+  <div class="st p7">“It shouldn’t want to protect the user from themselves.”<span class="lang">HU → EN</span></div>
+  <div class="st p8">“Fewer filters; it should answer sensitive topics more boldly too.”<span class="lang">HU → EN</span></div>
+ </div>
+</figure>
+
+<figure id="R4">
+ <p class="fk">Fig. R4</p><h3 class="ft">Literature</h3>
+ <svg id="svgR4" viewBox="0 0 960 500" role="img" aria-label="Five fields around the project. Cognitive psychology: automation bias, fluency effect. Human factors: alarm fatigue, vigilance, alert levels. Psychophysics: just-noticeable difference, startle reflex, redundant signals. AI systems: semantic entropy, sycophancy. AI ethics and policy: human-AI guidelines, EU AI Act, safe messaging."></svg>
+</figure>
+
+<figure id="R5">
+ <p class="fk">Fig. R5</p><h3 class="ft">Synthesis</h3>
+ <svg id="svgR5" class="sk" viewBox="0 0 960 540" role="img" aria-label="Survey evidence on the left and five literature fields on the right, each connected to the design rules in the middle that it supports. Rules 4 and 7 draw on literature only."></svg>
+</figure>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+function tx(p,x,y,s,cls,anchor){const t=el('text',{x,y,class:cls||'txt'},p);if(anchor)t.setAttribute('text-anchor',anchor);t.textContent=s;return t;}
+const V=n=>'var('+n+')';
+const RULES=['Verdict stays with the person','Name the reason','Silent by default','More danger, more senses','Watch the whole conversation','Point, never block','No alarm in a crisis'];
+
+/* R1 · time: November 2025 to now */
+(function(){
+  const s=document.getElementById('svgR1');
+  const P=[['Survey design',5,1],['Analysis',5,1],['Literature · synthesis · system',80,1],['Interface',10,0]];
+  const W=960,Y=30,H=30; let x=0;
+  P.forEach(function(p){ p.x=x; p.w=W*p[1]/100; el('rect',{x:x+1,y:Y,width:p.w-2,height:H,rx:3,fill:p[2]?V('--ink'):V('--rule-2')},s); x+=p.w; });
+  const r1=Y+H+20, r2=Y+H+40;
+  // labels never share a line with their neighbour
+  tx(s,P[0].x+1,r1,'Survey design · 5%','lab-ink');
+  tx(s,P[1].x+1,r2,'Analysis · 5%','lab-ink');
+  tx(s,P[2].x+P[2].w/2,r1,'Literature · synthesis · system · 80%','lab-ink','middle');
+  tx(s,W-1,r1,'Interface · 10%','lab-ink','end');
+  tx(s,0,Y-10,'Nov 2025','meta'); tx(s,W,Y-10,'Sep 2026','meta','end');
+  // two moments, marked on the bar and named below the labels
+  function pin(px,label,end){ el('path',{d:'M'+(px-4.5)+' '+(Y+H+6)+' L '+px+' '+(Y+H+1)+' L '+(px+4.5)+' '+(Y+H+6)+' Z',fill:V('--ink')},s);
+    tx(s,end?px:px,Y+H+66,label,'meta',end?'end':'start'); }
+  pin(P[1].x+P[1].w/2,'↑ Hypothesis rejected');
+  pin(P[3].x+2,'First screen ↑',true);
+})();
+
+/* R2 · one chart per question, from the raw counts */
+(function(){
+  const CW=400;
+  function svg(id,h){ return el('svg',{viewBox:'0 0 '+CW+' '+h,width:'100%'},document.getElementById(id)); }
+  // Q3.1 distribution 1–5
+  (function(){ const s=svg('c3',86), d=[29,22,13,6,0];
+    d.forEach(function(n,j){ const h=58*n/29, x=j*80+10; el('rect',{x,y:64-h,width:56,height:Math.max(h,1),rx:2,fill:V('--ink')},s);
+      tx(s,x+28,80,String(j+1),'meta','middle'); tx(s,x+28,58-h,String(n),'meta','middle'); }); })();
+  // Q4.1 stacked, human to AI
+  (function(){ const s=svg('c4',86), seg=[[41,'definitely human'],[29,'mostly human'],[9,'mostly AI'],[4,'definitely AI']]; let x=0;
+    seg.forEach(function(g,j){ const w=CW*g[0]/83; el('rect',{x,y:26,width:w-2,height:22,rx:2,fill:j<2?V('--ink'):V('--rule-2'),opacity:j===1?.65:1},s);
+      if(j<2){ tx(s,x,70,String(g[0]),'meta'); tx(s,x,82,g[1],'meta'); } x+=w; });
+    tx(s,CW,70,'9 · 4','meta','end'); tx(s,CW,82,'AI','meta','end'); })();
+  // Q4.3 vs Q4.4 on one 1–5 scale
+  (function(){ const s=svg('c5',86), p=v=>10+(CW-20)*(v-1)/4, y=40;
+    el('path',{d:'M10 '+y+' H '+(CW-10),stroke:V('--rule-2'),'stroke-width':2},s);
+    [1,2,3,4,5].forEach(v=>{ el('path',{d:'M'+p(v)+' '+(y-4)+' V '+(y+4),stroke:V('--rule-2')},s); tx(s,p(v),y+22,String(v),'meta','middle'); });
+    el('path',{d:'M'+p(2.80)+' '+y+' H '+p(4.02),stroke:V('--ink'),'stroke-width':2.5},s);
+    el('circle',{cx:p(2.80),cy:y,r:6,fill:V('--surface'),stroke:V('--ink'),'stroke-width':2},s);
+    el('circle',{cx:p(4.02),cy:y,r:6,fill:V('--ink')},s);
+    tx(s,p(4.02),y-14,'considered 4.02','meta','middle'); tx(s,p(2.80),y-14,'trust 2.80','meta','middle'); })();
+  // Q4.5 five answers, stacked
+  (function(){ const s=svg('c6',86), seg=[[29,'useful'],[25,'some topics'],[17,'neutral'],[7,'distracting'],[4,'no signals']]; let x=0;
+    seg.forEach(function(g,j){ const w=CW*g[0]/82; el('rect',{x,y:26,width:w-2,height:22,rx:2,fill:j<2?V('--ink'):(j===2?V('--rule'):V('--rule-2')),opacity:j===1?.65:1},s);
+      if(w>44){ tx(s,x,70,String(g[0]),'meta'); tx(s,x,82,g[1],'meta'); } x+=w; });
+    tx(s,CW,70,'7 · 4','meta','end'); tx(s,CW,82,'against','meta','end'); })();
+})();
+
+/* R4 · literature */
+(function(){
+  const s=document.getElementById('svgR4'); const cx=480, cy=206, R=188;
+  const F=[['Cognitive psychology',['automation bias','fluency effect'],-126],
+           ['Human factors',['alarm fatigue','vigilance','alert levels'],-54],
+           ['Psychophysics',['JND','startle reflex','redundant signals'],18],
+           ['AI systems',['semantic entropy','sycophancy'],90],
+           ['AI ethics & policy',['HAI guidelines','EU AI Act','safe messaging'],162]];
+  F.forEach(function(f){ const a=f[2]*Math.PI/180; f.x=cx+R*Math.cos(a)*1.25; f.y=cy+R*Math.sin(a);
+    el('path',{d:'M'+cx+' '+cy+' L '+f.x+' '+f.y,stroke:V('--rule-2'),'stroke-width':1},s); });
+  el('circle',{cx,cy,r:52,fill:V('--surface'),stroke:V('--ink'),'stroke-width':1.2},s);
+  tx(s,cx,cy-3,'Reliability','numS','middle'); tx(s,cx,cy+17,'Signal','numS','middle');
+  F.forEach(function(f){
+    el('circle',{cx:f.x,cy:f.y,r:7,fill:V('--ink-3')},s);
+    const anchor = f.x<cx-20 ? 'end' : (Math.abs(f.x-cx)<30 ? 'middle' : 'start');
+    const dx = anchor==='end'?-14:anchor==='start'?14:0, dy = anchor==='middle'?28:4;
+    tx(s,f.x+dx,f.y+dy,f[0],'lab-ink',anchor);
+    let yy = anchor==='middle' ? f.y+52 : f.y+22;
+    f[1].forEach(function(c){ const w=c.length*6.8+16, chx = anchor==='end'? f.x+dx-w : anchor==='start'? f.x+dx : f.x-w/2;
+      el('rect',{x:chx,y:yy-12,width:w,height:18,rx:9,fill:'none',stroke:V('--rule-2')},s);
+      tx(s,chx+8,yy+1,c,'meta'); yy+=23; });
+  });
+})();
+
+/* R5 · synthesis */
+(function(){
+  const s=document.getElementById('svgR5'); const Lx=0,Mx=360,Rx=720,NW=240,NH=34;
+  const L=['Judgment to the person · 84%','Bias expected · 4.02','Signals: useful, for some topics','Drift, unannounced','Objection to protection'];
+  const Rr=['Cognitive psychology','Human factors','Psychophysics','AI systems','AI ethics & policy'];
+  const links=[[0,0,null],[0,null,0],[0,null,4],[1,1,null],[1,null,1],[2,2,null],[2,null,1],[3,null,2],[3,null,1],[4,3,null],[4,null,3],[5,4,null],[5,null,4],[6,null,4],[6,null,2]];
+  const pos=(i,top,gap)=>top+i*gap;
+  tx(s,Lx,16,'Survey','lab-ink'); tx(s,Mx+NW/2,16,'Rules','lab-ink','middle'); tx(s,Rx+NW,16,'Literature','lab-ink','end');
+  const G=el('g',{},s);
+  links.forEach(function(k){ const my=pos(k[0],34,72)+NH/2;
+    if(k[1]!==null){ const ly=pos(k[1],44,100)+NH/2; el('path',{class:'rib r'+k[0],d:'M'+NW+' '+ly+' C '+(NW+60)+' '+ly+', '+(Mx-60)+' '+my+', '+Mx+' '+my,stroke:V('--ink'),'stroke-width':3},G); }
+    if(k[2]!==null){ const ry=pos(k[2],44,100)+NH/2; el('path',{class:'rib r'+k[0],d:'M'+(Mx+NW)+' '+my+' C '+(Mx+NW+60)+' '+my+', '+(Rx-60)+' '+ry+', '+Rx+' '+ry,stroke:V('--rule-2'),'stroke-width':3},G); }
+  });
+  L.forEach(function(n,i){ const y=pos(i,44,100); el('rect',{x:Lx,y,width:NW,height:NH,rx:NH/2,fill:V('--surface'),stroke:V('--ink'),'stroke-width':1},s); tx(s,Lx+14,y+NH/2+4.5,n,'txt'); });
+  Rr.forEach(function(n,i){ const y=pos(i,44,100); el('rect',{x:Rx,y,width:NW,height:NH,rx:NH/2,fill:V('--surface'),stroke:V('--rule-2'),'stroke-width':1},s); tx(s,Rx+NW-14,y+NH/2+4.5,n,'txt','end'); });
+  RULES.forEach(function(r,i){ const y=pos(i,34,72); const g=el('g',{class:'rnode'},s);
+    el('rect',{x:Mx,y,width:NW,height:NH,rx:NH/2,fill:V('--paper'),stroke:V('--ink'),'stroke-width':1.2},g);
+    el('circle',{cx:Mx+17,cy:y+NH/2,r:9,fill:V('--ink')},g);
+    const t=tx(g,Mx+17,y+NH/2+3.5,String(i+1),'meta','middle'); t.setAttribute('style','fill:var(--surface)');
+    tx(g,Mx+34,y+NH/2+4.5,r,'txt');
+    g.addEventListener('mouseenter',()=>{ s.classList.add('focus'); g.classList.add('on'); s.querySelectorAll('.rib.r'+i).forEach(x=>x.classList.add('on')); });
+    g.addEventListener('mouseleave',()=>{ s.classList.remove('focus'); g.classList.remove('on'); s.querySelectorAll('.rib.on').forEach(x=>x.classList.remove('on')); });
+  });
+})();
+</script></body></html>

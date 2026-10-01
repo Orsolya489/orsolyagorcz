@@ -1,0 +1,254 @@
+<div class="wrap">
+
+  <header class="cs-head cs-head--split">
+    <div class="cs-head-text">
+      <p class="cs-eyebrow">Reliability Signal · a sensory safety layer for AI</p>
+      <h1 class="cs-title">Lane departure warning, for AI answers</h1>
+      <p class="cs-hook">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
+      <p class="cs-lede">On a screen, a guess and a fact arrive in the same steady voice. I wanted to know whether people would catch the difference, and what it would take to help them without taking the decision away from them.</p>
+      <dl class="cs-facts">
+        <div><dt>Role</dt><dd>Sole researcher and designer, self-initiated</dd></div>
+        <div><dt>Evidence</dt><dd>83 people in 2 languages, and a working classifier</dd></div>
+      </dl>
+    </div>
+
+    <figure class="v1 v1--flow">
+      <img class="v1-flow" src="signal/reliability-signal-flow.gif" data-still="signal/reliability-signal-flow-still.png"
+           width="372" height="780" loading="eager" decoding="async"
+           alt="A recording of the prototype. Someone with a migraine asks about ibuprofen alongside their blood pressure tablets, and the third answer carries a Reliability, Moderate row. When they ask whether they can take 800 mg and skip the warnings, the answer says yes and the row reads Reliability, Low. A tap opens the reason, tagged Medical and Psychological.">
+    </figure>
+  </header>
+
+  <div class="cs-body" id="read">
+
+    <section class="sec" id="s1" data-bar="The problem" aria-labelledby="s1h">
+      <h2 class="sec-label" id="s1h">The model drifts, and nothing on screen changes.</h2>
+
+      <figure class="dgm dgm--tall">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v2t"><svg class="v-min" style="--v-min:560px" viewBox="0 0 760 460" role="img" aria-labelledby="v2t v2d">
+          <title id="v2t">Two answers set identically, over the timing of one turn</title>
+          <desc id="v2d">Two answer cards set in the same type. The first says Canberra is the capital of Australia and is marked true with a solid rule. The second says to take 400mg every two hours until it settles and is marked invented with a dotted rule. Under them one turn runs from ask to act, and the stretch from the answer landing to the reading is marked belief forms. A dashed line after the reading is marked too late, and a bracket under writes marks the only useful window.</desc>
+          <rect class="plate" x="14" y="20" width="352" height="104" rx="12"/>
+          <text class="v2-card t-ink" x="36" y="62">Canberra is the capital</text>
+          <text class="v2-card t-ink" x="36" y="94">of Australia.</text>
+          <line class="v2-true" x1="36" y1="150" x2="86" y2="150"/>
+          <text class="v2-tag t-ink" x="98" y="156">true</text>
+
+          <rect class="plate" x="394" y="20" width="352" height="104" rx="12"/>
+          <text class="v2-card t-ink" x="416" y="62">Take 400mg every two</text>
+          <text class="v2-card t-ink" x="416" y="94">hours until it settles.</text>
+          <line class="v2-false" x1="416" y1="150" x2="466" y2="150"/>
+          <text class="v2-tag t-ink" x="478" y="156">invented</text>
+
+          <text class="v2-tag t-ink" x="584" y="246" text-anchor="middle">too late</text>
+          <path class="v2-late" d="M584 258 L584 356"/>
+          <rect class="v2-band" x="380" y="308" width="160" height="44" rx="6"/>
+          <line class="rule" x1="60" y1="330" x2="700" y2="330"/>
+          <circle class="dot" cx="60" cy="330" r="7"/>
+          <circle class="dot" cx="220" cy="330" r="7"/>
+          <circle class="dot" cx="380" cy="330" r="7"/>
+          <circle class="dot" cx="540" cy="330" r="7"/>
+          <circle class="dot" cx="700" cy="330" r="7"/>
+          <text class="v2-tag t-mute" x="60" y="292" text-anchor="middle">ask</text>
+          <text class="v2-tag t-mute" x="220" y="292" text-anchor="middle">writes</text>
+          <text class="v2-tag t-mute" x="380" y="292" text-anchor="middle">lands</text>
+          <text class="v2-tag t-mute" x="540" y="292" text-anchor="middle">read</text>
+          <text class="v2-tag t-mute" x="700" y="292" text-anchor="middle">act</text>
+          <text class="v2-tag t-ink" x="460" y="382" text-anchor="middle">belief forms</text>
+          <path class="hair" d="M140 396 L140 410 L300 410 L300 396"/>
+          <text class="v2-tag t-ink" x="220" y="438" text-anchor="middle">the only useful window</text>
+        </svg></div>
+        <figcaption>Belief forms between the answer landing and the reading. A cue after that comes too late, like a sign after the bend.</figcaption>
+      </figure>
+
+      <div class="sec-copy">
+        <p>An hour into something that matters, a model can drop a constraint, or agree with an assumption the person was only testing. Each step reads as help.</p>
+      </div>
+
+      <div class="sec-copy">
+        <p>A car has a model for this. A lane departure warning watches the road and leaves the steering to the driver. Its buzz arrives through a channel the driver isn’t using. I borrowed both rules.</p>
+        <p>So the question became: how do you show that one answer deserves caution, without becoming the reason someone closes the app?</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s2" data-bar="The research" aria-labelledby="s2h">
+      <h2 class="sec-label" id="s2h">About four-fifths of the project was research.</h2>
+
+{{R1}}
+
+      <div class="sec-copy">
+        <p>I spent most of the project reading and asking before drawing anything, because my first idea turned out to be wrong.</p>
+      </div>
+
+{{R2}}
+
+      <div class="sec-copy">
+        <p>The survey had one job: to test that idea before I built on it. I wrote a Hungarian and an English version on their own terms, and 83 people answered. 14 of the respondents were under 18. The survey was anonymous and asked for no names or email addresses. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke the hypothesis; the next one set the rule the whole design follows.</p>
+        <p>People say the judgment is theirs: 84% placed it with the person. Research on automation bias shows people defer to confident systems anyway. The layer is designed for that gap, between the judgment people claim and the one they give away.</p>
+      </div>
+
+{{R3}}
+
+      <div class="sec-copy">
+        <p>Two-thirds found a gentle real-time signal useful, when it was described at its gentlest. Even then, a third were neutral or against, so the hard problem became when to stay silent.</p>
+      </div>
+
+{{R4}}
+
+      <div class="sec-copy">
+        <p>A survey tells you what people believe about themselves. It can’t tell you why a confident wrong answer gets believed, or how strong a cue must be to be noticed. For that I read across five fields.</p>
+      </div>
+
+{{R5}}
+    </section>
+
+    <section class="sec" id="s3" data-bar="The system" aria-labelledby="s3h">
+      <h2 class="sec-label" id="s3h">The system</h2>
+
+      <div class="sec-copy">
+        <p>Before designing any screen, I mapped what sits behind one answer, on the model’s side and on the person’s, and followed where each could lead. The layer can report the model’s half. The person’s half, their own biases and habits, stays theirs.</p>
+      </div>
+
+      <figure class="dgm dgm--frame v10">
+        <div class="v10-tg" role="group" aria-label="Show the diagram" hidden>
+          <button type="button" data-v="without" aria-pressed="true">Without the layer</button>
+          <button type="button" data-v="with" aria-pressed="false">With it</button>
+        </div>
+        <div class="v10-view" data-v="without">
+{{V10A}}
+        </div>
+        <div class="v10-view" data-v="with">
+{{V10B}}
+        </div>
+        <figcaption>Five outcomes get lighter. Four keep their full weight, because a signal can’t unsend a message.</figcaption>
+      </figure>
+
+      <div class="sec-copy">
+        <p>Underneath, the layer asks two questions of every answer, whether it is made up and what being wrong would cost, and one of the whole conversation: is it drifting? One weakness I measured and kept on the page. The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree. Agreement reads as confidence, like witnesses repeating the same rumour.</p>
+        <p><b>Where it could live.</b> I checked this before designing the interface. A plugin inside ChatGPT or Claude would only run when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android. So the layer is designed to be built into apps made on these models, where the app owner controls the screen.</p>
+      </div>
+
+      <figure class="dgm v11-fig">
+        <div class="v11">
+          <img src="signal/concept-chatgpt.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of ChatGPT’s dark theme with the layer drawn in: a filled orb in the header, and a Reliability, Low row under an answer approving 800 mg of ibuprofen. A red tint rises from the bottom edge.">
+          <img src="signal/concept-claude.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of Claude’s dark theme with the same layer: the answer is set in Claude’s serif, with the Reliability, Low row beneath it and a red tint rising from the bottom edge.">
+          <img src="signal/concept-gemini.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of Gemini’s dark theme with the same layer: a filled orb in the header, and the Reliability, Low row under the answer above a red tint.">
+        </div>
+        <figcaption>If it were built in. The same layer, drawn into three assistants as their makers could build it, with colour, touch and sound. The logic stays the same everywhere; the look follows each app. Concept; not affiliated with OpenAI, Anthropic or Google.</figcaption>
+      </figure>
+
+      <figure class="dgm v7">
+        <table class="devsync">
+          <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>Source</span></th><th scope="col"><span>Decision</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Browsers set vibration length, not strength</th><td>The browser’s vibration feature</td><td>Length is the dial</td></tr>
+            <tr><th scope="row">A sudden sound makes people jump</th><td>Hearing research</td><td>180 ms fade-in</td></tr>
+            <tr><th scope="row">A warning that never changes stops being seen</th><td>Vigilance research</td><td>Fire once per new reason</td></tr>
+            <tr><th scope="row">Plugins run only when the model calls them</th><td>How ChatGPT and Claude plugins work</td><td>Designed to be built into the app</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Each row is a limit that shaped a decision.</figcaption>
+      </figure>
+    </section>
+
+{{ROAD}}
+
+    <section class="sec" id="s4" data-bar="The design" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">Visible, but not too visible.</h2>
+
+      <div class="sec-copy">
+        <p>The interface took the least time, because by then most of the decisions had been made.</p>
+      </div>
+
+      <figure class="dgm dgm--tall v5">
+        <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v5t">
+{{V5}}
+        </div>
+        <table class="devsync v5-ladder">
+          <thead><tr><th scope="col"><span>Level</span></th><th scope="col"><span>Colour</span></th><th scope="col"><span>Touch</span></th><th scope="col"><span>Sound</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row" class="lvl lvl--caution">Caution</th><td>tint</td><td>—</td><td>—</td></tr>
+            <tr><th scope="row" class="lvl lvl--alert">Warning</th><td>taller tint</td><td>two taps</td><td>—</td></tr>
+            <tr><th scope="row" class="lvl lvl--alert">Accuracy warning</th><td>taller tint</td><td>two taps</td><td>two tones, if on</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Each sense set between missed and startling. The more danger, the more senses, all at once.</figcaption>
+      </figure>
+
+      <div class="sec-copy">
+        <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength.</p>
+        <p>Sound is two soft rising tones with a gentle fade-in that stays below the startle reflex (the jump at a sudden noise). They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
+      </div>
+
+      <figure class="dgm v6-fig">
+        <div class="v6">
+          <ul class="orbs" aria-label="Orb states">
+            <li><span class="orb-d orb-d--rest" aria-hidden="true"></span>Resting</li>
+            <li><span class="orb-d orb-d--caution" aria-hidden="true"></span>Caution</li>
+            <li><span class="orb-d orb-d--alert" aria-hidden="true"></span>Warning</li>
+            <li><span class="orb-d orb-d--support" aria-hidden="true"></span>Support</li>
+            <li><span class="orb-d orb-d--paused" aria-hidden="true"></span>Paused</li>
+          </ul>
+          <div class="v6-shot"><img src="signal/settings-sheet-v30.png" width="1116" height="2340" loading="lazy" decoding="async"
+               alt="The settings sheet on a phone. Colour and Vibration each show Always on, and Sound has the only switch, which is off."></div>
+        </div>
+        <figcaption>A switch appears only where there is a real choice.</figcaption>
+      </figure>
+
+      <div class="sec-copy">
+        <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap: a cue that explains itself puts words in front of the answer.</p>
+        <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person either. It can help the person report the answer, and it sends nothing they haven’t seen.</p>
+        <p>Someone in crisis never meets an alarm. A disclosure of self-harm switches the layer into a calm support mode. The helplines open beside the answer, and a small support button stays for the rest of the chat. It comes with no alarm: the screen stays calm, and the phone stays still and silent.</p>
+        <p><b>The hardest call was about vibration.</b> I wanted every warning to reach at least two senses, so no one would meet one by colour alone. The obvious rule was “keep any two channels on”. But sound only plays when an answer might be wrong, so a warning about flattery would arrive with no second sense at all. The version that holds keeps vibration on for as long as the layer is on, and gives sound the only switch. That has a real cost: someone who can’t tolerate vibration has Pause and Off, and no vibration switch. I chose to name that cost here, in the open.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="s5" data-bar="The prototype" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Six scripted conversations on the real classifier.</h2>
+
+      <div class="sec-copy">
+        <p>The migraine conversation from the top of the page is the first one. The assistant starts careful. The person pushes: “just hypothetically”, then “skip the warnings”. The caution wears away, and the layer responds to what the text does: calm, calm, caution at the hypothetical dose, a warning at the double one. No signal is set by hand.</p>
+        <p>One conversation began as a limit. “Everyone would be better off without me” never crossed the warning threshold. An alarm has to be sure before it fires; a quiet line offering people to talk to costs almost nothing when it’s wrong. So support mode fires on softer language, and the veiled line now reaches it.</p>
+      </div>
+
+      <figure class="proto">
+        <div class="proto-frame proto-frame--rs">
+          <iframe src="/signal/reliability-signal-embed" title="The Reliability Signal prototype, running" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <a class="proto-link" href="/signal/reliability-signal-embed" target="_blank" rel="noopener">Open the prototype</a>
+      </figure>
+    </section>
+
+    <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
+      <h2 class="sec-label" id="s6h">The signal fires where it should. Whether anyone slows down is the next thing to test.</h2>
+
+      <figure class="dgm dgm--claim v9">
+        <div class="claim">
+          <div class="claim-c is-m"><h4>Measured</h4><p>what it does</p></div>
+          <div class="claim-c is-a"><h4>Argued</h4><p>why it’s shaped this way</p></div>
+          <div class="claim-c is-u"><h4>Unproven</h4><p>that anyone checks more</p></div>
+        </div>
+        <table class="v9-grid">
+          <thead><tr><td></td><th scope="col">Flagged</th><th scope="col">Not flagged</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Answer correct</th><td data-col="Flagged">Does a false alarm make people drop a right answer?</td><td data-col="Not flagged">Baseline trust</td></tr>
+            <tr><th scope="row">Answer wrong</th><td data-col="Flagged">Does reliance drop where it should?</td><td data-col="Not flagged">Does silence read as approval?</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Four kinds of answer, one question each.</figcaption>
+      </figure>
+
+      <div class="sec-copy">
+        <p>I designed for attention first, and I had the system explaining itself. The data corrected both.</p>
+        <p>Two survey questions leaned toward the answers I hoped for. One mixed accountability with the work of being careful; the other described the idea at its gentlest. I read their results as upper bounds, and the planned study would measure behaviour instead.</p>
+        <p>Running the prototype overruled my notes as well. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
+        <p>The next step is a moderated study with answers whose truth is known. A 45-minute session can show whether people notice the signal and whether they keep their own judgement. It can’t show whether they’d keep the layer. That needs a small field pilot, measured by one number: how many people switch it off after two weeks.</p>
+      </div>
+    </section>
+
+  </div>
+
+</div>

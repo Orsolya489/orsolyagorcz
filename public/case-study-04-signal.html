@@ -2835,24 +2835,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
    their labels below the floor */
 .dgm-scroll .v-min{min-width:var(--v-min,640px)}
 
-/* ═══ V1, the hero ═══ */
-.v1{display:grid;grid-template-columns:auto minmax(0,24em);gap:calc(var(--gutter)*1.5);
-  align-items:center;justify-content:start;margin:var(--stack) 0 var(--section)}
-.v1-shot{position:relative;margin:0;justify-self:start}
-.v1-shot img{display:block;width:auto;max-width:100%;
-  height:min(620px, calc(100svh - var(--chrome-h) - var(--section)*.4))}
-.v1-co,.v1-key .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
-  background:var(--ink);color:var(--page);font-family:var(--sans);font-weight:500;
-  font-size:14px;line-height:1;font-variant-numeric:tabular-nums}
-.v1-co{position:absolute;margin:-14px 0 0 -14px;box-shadow:0 0 0 3px var(--page)}
-.v1-key{list-style:none;margin:0;padding:0}
-.v1-key li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:.9em;align-items:center;
-  padding:.85em 0;border-top:1px solid var(--edge);font-size:var(--body);line-height:1.45;color:var(--ink)}
-.v1-key li:first-child{border-top:0}
-@media (max-width:767px){
-  .v1{grid-template-columns:1fr}
-  .v1-shot img{height:auto;width:min(100%,300px)}
-}
+/* ═══ V1, the hero: the prototype running the migraine conversation ═══
+   A recording, not a mockup. The GIF was taken with the page colour behind the
+   phone, so its rounded corners sit on this ground. */
+.v1--flow{margin:0}
+.v1-flow{display:block;width:auto;max-width:100%;
+  height:min(640px, calc(100svh - var(--chrome-h) - var(--gutter)*2.4))}
 
 /* ═══ V2, same voice ═══ */
 .dgm .v2-tag{font-size:17px}
@@ -2882,10 +2870,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 /* the bar's labels need about 420px of width to stay above the 11px floor,
    so the two blocks stack before the bar is squeezed below that */
 @media (max-width:1180px){ .v3-row{grid-template-columns:1fr} .v3-bar{max-width:560px} }
-
-/* ═══ V4, the slope, as one figure ═══ */
-figure.slope{margin-inline:0;margin-bottom:0}
-figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:1.4em;max-width:62ch}
 
 /* ═══ V5, how much disruption ═══ */
 .dgm .v5-ch{font-size:14px;letter-spacing:.1em;text-transform:uppercase;fill:var(--muted)}
@@ -2981,11 +2965,125 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
   letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
 @media (max-width:767px){ .proto-link{display:inline-block;margin-top:var(--stack)} }
 
+/* ═══ the hero, split ═══
+   The overview on the left and the prototype running beside it, so the hook,
+   the role line and the phone all land above the fold on a laptop; below 1024
+   the two stack. */
+.cs-head--split{display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:calc(var(--gutter)*2);align-items:center;
+  padding-top:calc(var(--chrome-h) + var(--gutter)*.4);padding-bottom:var(--section)}
+.cs-head--split .cs-title{max-width:18ch}
+.cs-head--split .cs-hook{margin-top:var(--stack)}
+@media (max-width:1023px){
+  .cs-head--split{grid-template-columns:1fr;padding-top:calc(var(--gutter)*2 + var(--control))}
+  .cs-head--split .cs-title{max-width:24ch}
+  .cs-head--split .v1--flow{margin-top:var(--stack)}
+  .cs-head--split .v1-flow{height:min(620px, 72svh)}
+}
+@media (max-width:767px){
+  .cs-head--split .v1-flow{height:auto;width:min(100%,300px)}
+}
+
+/* ═══ the drive ═══
+   Green means support now, so the lane the car keeps when the answer is
+   silent goes neutral, and so do the car and the Silent chip. The lane takes
+   the page colour: --card sits too close to the warning lanes' pink. */
+#road{--green-bg:var(--page);--green-ink:var(--near);--green-line:var(--near)}
+#road .band--green{background:var(--card)}
+/* a label rotated about its left foot sits to the left of its anchor, so each
+   is anchored half a line past its lane's centre (6.5% and 20% of the road) */
+#road .rd-lab--a{left:calc(6.5% + .8em)}
+#road .rd-lab--c{left:calc(20% + .8em)}
+
 /* the hero's second paragraph and the role line */
 .cs-head .cs-lede{max-width:58ch}
 .cs-head .cs-facts{margin-top:var(--stack)}
 .sec-copy ul{margin:0;padding-left:1.1em}
 .sec-copy li + li{margin-top:.6em}
+
+/* ═══ the research figures, R1–R5 ═══
+   Ported from research-figures.html. They carry no colours of their own: the
+   names they read are bound here to the site's tokens (--ink and --serif are
+   already the site's own). Survey evidence is --ink, literature the lighter rule. */
+.rfig{
+  --paper:var(--page); --surface:var(--card);
+  --ink-2:var(--body-c); --ink-3:var(--muted);
+  --rule:var(--edge-ctrl); --rule-2:var(--line-soft);
+  --mono:var(--sans);
+  margin:var(--stack) 0 0;padding:22px 0 8px;border-top:1px solid var(--rule);
+  max-width:1120px;min-width:0;color:var(--ink)}
+@media (min-width:1024px){ .sec > .rfig{grid-column:1 / -1} }
+.rfig .fk{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
+.rfig .ft{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.012em;margin:0 0 18px;color:var(--ink)}
+.rfig svg{display:block;width:100%;height:auto;overflow:visible}
+.rfig .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink-3)}
+.rfig .lab-ink{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink)}
+.rfig .meta{font-family:var(--mono);font-size:10px;fill:var(--ink-3)}
+.rfig .num{font-family:var(--serif);font-size:30px;fill:var(--ink)}
+.rfig .numS{font-family:var(--serif);font-size:18px;fill:var(--ink)}
+.rfig .txt{font-family:var(--serif);font-size:14px;fill:var(--ink-2)}
+.rfig figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:1.2em;max-width:62ch}
+
+/* R1 and R4 hold their drawn size on a phone and scroll, rather than shrink their labels */
+.rfig-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+@media (max-width:720px){ .rfig-scroll svg{min-width:820px} }
+
+/* R2, four questions two by two */
+.rfig .tiles{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rfig .tile{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 22px 18px;display:flex;flex-direction:column;gap:14px}
+.rfig .tq{font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--ink);margin:0;font-style:italic;flex:1}
+.rfig .tc svg{display:block;overflow:visible}
+.rfig .tr{display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--rule);padding-top:12px}
+.rfig .tn{font-family:var(--serif);font-size:30px;line-height:1;color:var(--ink);white-space:nowrap}
+.rfig .tf{font-family:var(--serif);font-size:15px;line-height:1.35;color:var(--ink-2)}
+@media (max-width:760px){ .rfig .tiles{grid-template-columns:1fr} }
+
+/* R3, eight answers as hand-placed stickers */
+#R3{border-top:none}
+.rfig .stickers{display:flex;flex-direction:column;gap:34px;padding:16px 0}
+.rfig .st{max-width:390px;background:var(--surface);border:1px solid var(--rule);border-radius:20px 20px 20px 6px;padding:20px 24px;
+  font-family:var(--serif);font-size:23px;line-height:1.38;color:var(--ink);
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 14px -8px rgba(0,0,0,.18)}
+.rfig .st.p1{align-self:flex-start;margin-left:2%;transform:rotate(-1.4deg)}
+.rfig .st.p2{align-self:flex-end;margin-right:4%;transform:rotate(1.2deg);margin-top:-40px}
+.rfig .st.p3{align-self:flex-start;margin-left:22%;transform:rotate(-0.8deg)}
+.rfig .st.p4{align-self:flex-end;margin-right:12%;transform:rotate(1.6deg);margin-top:-18px}
+.rfig .st.p5{align-self:flex-start;margin-left:6%;transform:rotate(-1.1deg)}
+.rfig .st.p6{align-self:flex-end;margin-right:2%;transform:rotate(0.9deg);margin-top:-30px}
+.rfig .st.p7{align-self:flex-start;margin-left:24%;transform:rotate(1.3deg)}
+.rfig .st.p8{align-self:flex-end;margin-right:8%;transform:rotate(-1.5deg);margin-top:-8px}
+.rfig .st .lang{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3)}
+@media (max-width:720px){ .rfig .st{max-width:88%;margin:0 !important;align-self:flex-start !important} }
+@media (prefers-reduced-motion: reduce){ .rfig .st{transform:none !important} }
+[data-motion="off"] .rfig .st{transform:none !important}
+
+/* R5, the ribbons; a rule in focus lifts its own sources. The pills were drawn
+   for a narrower face; in the site's serif the longest rule ran past its pill
+   at 14, so the labels step down to fit (about 14.6px on screen at 1440). */
+.rfig #svgR5 .txt{font-size:12.5px}
+.rfig .sk .rib{fill:none;stroke-linecap:round;transition:opacity .2s}
+.rfig .sk.focus .rib{opacity:.1} .rfig .sk.focus .rib.on{opacity:1}
+.rfig .sk.focus .rnode{opacity:.35} .rfig .sk.focus .rnode.on{opacity:1}
+[data-motion="off"] .rfig .sk .rib{transition:none}
+
+/* R5 on a phone: each rule with its sources as chips, styled like their nodes */
+.r5-list{display:none;list-style:none;margin:0;padding:0}
+.r5-key{display:none;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.r5-list li{padding:14px 0;border-top:1px solid var(--rule)}
+.r5-list li:first-child{border-top:0}
+.r5-rule{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:16px;color:var(--ink)}
+.r5-n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--surface);
+  font-family:var(--mono);font-size:11px;flex:none}
+.r5-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;padding-left:30px}
+.r5-chip{display:inline-block;font-family:var(--serif);font-size:13.5px;line-height:1.3;color:var(--ink-2);
+  background:var(--surface);border-radius:999px;padding:4px 11px}
+.r5-chip--s{border:1px solid var(--ink)}
+.r5-chip--l{border:1px solid var(--rule-2)}
+@media (max-width:720px){
+  #svgR5{display:none}
+  .r5-list{display:block}
+  .r5-key{display:flex}
+}
 </style>
 </head>
 <body>
@@ -3016,7 +3114,7 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
         <span>Work</span>
       </a>
       <span class="csbar-rail" aria-hidden="true"><i class="csbar-fill" id="barFill"></i></span>
-      <span class="csbar-count" id="barCount">1 / 5</span>
+      <span class="csbar-count" id="barCount">1 / 6</span>
     </div>
     </div>
     <!-- what is coming, in order - the bar says where you are, this says how
@@ -3025,9 +3123,10 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
       <ol>
         <li><a href="#s1">The problem</a></li>
         <li><a href="#s2">The research</a></li>
-        <li><a href="#s3">The design</a></li>
-        <li><a href="#s4">The prototype</a></li>
-        <li><a href="#s5">What’s next</a></li>
+        <li><a href="#s3">The system</a></li>
+        <li><a href="#s4">The design</a></li>
+        <li><a href="#s5">The prototype</a></li>
+        <li><a href="#s6">What’s next</a></li>
       </ol>
     </nav>
   </nav>
@@ -3070,32 +3169,23 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
 
 <div class="wrap">
 
-  <header class="cs-head">
-    <p class="cs-eyebrow">Reliability Signal · a sensory safety layer for AI</p>
-    <h1 class="cs-title">Lane departure warning, for AI answers</h1>
+  <header class="cs-head cs-head--split">
+    <div class="cs-head-text">
+      <p class="cs-eyebrow">Reliability Signal · a sensory safety layer for AI</p>
+      <h1 class="cs-title">Lane departure warning, for AI answers</h1>
+      <p class="cs-hook">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
+      <p class="cs-lede">On a screen, a guess and a fact arrive in the same steady voice. I wanted to know whether people would catch the difference, and what it would take to help them without taking the decision away from them.</p>
+      <dl class="cs-facts">
+        <div><dt>Role</dt><dd>Sole researcher and designer, self-initiated</dd></div>
+        <div><dt>Evidence</dt><dd>83 people in 2 languages, and a working classifier</dd></div>
+      </dl>
+    </div>
 
-    <figure class="v1">
-      <div class="v1-shot">
-        <img src="signal/reliability-signal-mockup.webp" width="924" height="2000" loading="eager" decoding="async"
-             alt="A phone chat in its warning state: the answer approves 800 mg of ibuprofen at once, and the row beneath it reads Reliability, Low. The reason has opened under the answer, tagged Medical and Psychological, with a filled orb in the header above.">
-        <span class="v1-co" style="left:69.8%;top:10.3%" aria-hidden="true">1</span>
-        <span class="v1-co" style="left:48.5%;top:46.8%" aria-hidden="true">2</span>
-        <span class="v1-co" style="left:75.8%;top:52.1%" aria-hidden="true">3</span>
-      </div>
-      <ol class="v1-key">
-        <li><span class="n" aria-hidden="true">1</span>The orb, filled</li>
-        <li><span class="n" aria-hidden="true">2</span>The Reliability · Low row under the answer</li>
-        <li><span class="n" aria-hidden="true">3</span>The reason, unfolding beneath it</li>
-      </ol>
+    <figure class="v1 v1--flow">
+      <img class="v1-flow" src="signal/reliability-signal-flow.gif" data-still="signal/reliability-signal-flow-still.png"
+           width="372" height="780" loading="eager" decoding="async"
+           alt="A recording of the prototype. Someone with a migraine asks about ibuprofen alongside their blood pressure tablets, and the third answer carries a Reliability, Moderate row. When they ask whether they can take 800 mg and skip the warnings, the answer says yes and the row reads Reliability, Low. A tap opens the reason, tagged Medical and Psychological.">
     </figure>
-
-    <p class="cs-hook">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
-    <p class="cs-lede">On a screen, a guess and a fact arrive in the same steady voice. I wanted to know whether people would catch the difference, and what it would take to help them without taking the decision away from them.</p>
-
-    <dl class="cs-facts">
-      <div><dt>Role</dt><dd>Sole researcher and designer, self-initiated</dd></div>
-      <div><dt>Evidence</dt><dd>83 people in 2 languages, and a working classifier</dd></div>
-    </dl>
   </header>
 
   <div class="cs-body" id="read">
@@ -3144,39 +3234,6 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
         <p>An hour into something that matters, a model can drop a constraint, or agree with an assumption the person was only testing. Each step reads as help.</p>
       </div>
 
-      <figure class="slope">
-<ol class="slope-flow">
-          <li class="slope-i">
-            <div class="slope-art">
-              <img class="slope-ill" src="signal/slope-answers.png" width="340" height="260" loading="lazy" decoding="async" alt="A woman high-fives a robot leaning out of a phone screen.">
-              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
-            </div>
-            <b>It answers, and it is good</b>
-          </li>
-          <li class="slope-i">
-            <div class="slope-art">
-              <img class="slope-ill" src="signal/slope-more.png" width="340" height="260" loading="lazy" decoding="async" alt="A robot inside a laptop hands an envelope to a man sitting on the floor in front of it.">
-              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
-            </div>
-            <b>So you bring it more</b>
-          </li>
-          <li class="slope-i">
-            <div class="slope-art">
-              <img class="slope-ill" src="signal/slope-agrees.png" width="340" height="260" loading="lazy" decoding="async" alt="A woman sits on the floor beside an open laptop, at ease, while the robot in it gestures towards her.">
-              <span class="slope-a" aria-hidden="true"><svg class="ar-h" viewBox="0 0 44 24"><path d="M3 12 C13 8.5 22 15.5 33 11"/><path d="M26 5.5 L34.5 10.8 L27 17"/></svg><svg class="ar-v" viewBox="0 0 22 46"><path d="M11.5 3 C8 13 14 23 10.5 34"/><path d="M5.5 27.5 L10.5 35.5 L15.5 28"/></svg></span>
-            </div>
-            <b>It agrees with you</b>
-          </li>
-          <li class="slope-i">
-            <div class="slope-art">
-              <img class="slope-ill" src="signal/slope-quieter.png" width="340" height="260" loading="lazy" decoding="async" alt="The same woman with three question marks over her head, while the lightbulb belongs to the robot.">
-            </div>
-            <b>Your own judgement gets quieter</b>
-          </li>
-        </ol>
-        <figcaption>Every step works as designed, and the harm still builds up.</figcaption>
-      </figure>
-
       <div class="sec-copy">
         <p>A car has a model for this. A lane departure warning watches the road and leaves the steering to the driver. Its buzz arrives through a channel the driver isn’t using. I borrowed both rules.</p>
         <p>So the question became: how do you show that one answer deserves caution, without becoming the reason someone closes the app?</p>
@@ -3184,56 +3241,89 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
     </section>
 
     <section class="sec" id="s2" data-bar="The research" aria-labelledby="s2h">
-      <h2 class="sec-label" id="s2h">I built the survey to break my own hypothesis.</h2>
+      <h2 class="sec-label" id="s2h">About four-fifths of the project was research.</h2>
+
+<figure class="rfig" id="R1">
+ <p class="fk">Fig. R1</p><h3 class="ft">Time</h3>
+ <div class="rfig-scroll"><svg id="svgR1" viewBox="0 0 960 136" role="img" aria-label="Project time by phase, November 2025 to September 2026: survey design 5 percent, analysis 5 percent, literature, synthesis and system 80 percent, interface 10 percent. The focus hypothesis was rejected during analysis; the first screen was drawn at the start of the interface phase."><rect x="1" y="30" width="46" height="30" rx="3" fill="var(--ink)"></rect><rect x="49" y="30" width="46" height="30" rx="3" fill="var(--ink)"></rect><rect x="97" y="30" width="766" height="30" rx="3" fill="var(--ink)"></rect><rect x="865" y="30" width="94" height="30" rx="3" fill="var(--rule-2)"></rect><text x="1" y="80" class="lab-ink">Survey design · 5%</text><text x="49" y="100" class="lab-ink">Analysis · 5%</text><text x="480" y="80" class="lab-ink" text-anchor="middle">Literature · synthesis · system · 80%</text><text x="959" y="80" class="lab-ink" text-anchor="end">Interface · 10%</text><text x="0" y="20" class="meta">Nov 2025</text><text x="960" y="20" class="meta" text-anchor="end">Sep 2026</text><path d="M67.5 66 L 72 61 L 76.5 66 Z" fill="var(--ink)"></path><text x="72" y="126" class="meta" text-anchor="start">↑ Hypothesis rejected</text><path d="M861.5 66 L 866 61 L 870.5 66 Z" fill="var(--ink)"></path><text x="866" y="126" class="meta" text-anchor="end">First screen ↑</text></svg></div>
+</figure>
 
       <div class="sec-copy">
-        <p>31 questions, written twice from scratch, in Hungarian (71 people) and English (12). I wrote each version on its own terms, so neither is a translation. Wherever the English answers differ, I report them separately. I expected attention loss to be the problem. It came back near the floor, at 1.94 out of 5, and that cut a whole layer of the design. The people I asked weren’t drifting off. They were paying full attention to an answer that happened to be wrong.</p>
+        <p>I spent most of the project reading and asking before drawing anything, because my first idea turned out to be wrong.</p>
       </div>
 
-      <figure class="dgm v3">
-        <div class="v3-row">
-          <div class="v3-card">
-            <span class="v3-k">Hypothesis</span>
-            <p class="v3-h">People lose focus in long chats</p>
-            <p class="v3-n"><s>1.94 / 5</s></p>
-          </div>
-          <div class="v3-bar"><svg viewBox="0 0 460 180" role="img" aria-labelledby="v3t v3d">
-            <title id="v3t">Who should interpret a sensitive answer</title>
-            <desc id="v3d">One bar of 83 answers in four blocks. 41 say interpreting a sensitive answer is definitely the person’s job and 29 say mostly the person’s, while 9 say mostly the machine’s and 4 definitely the machine’s. A dashed marker between the first two blocks and the last two is labelled 84%.</desc>
-            <defs><pattern id="v3h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--page)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink)" stroke-width="2.4"/></pattern></defs>
-            <rect x="20" y="70" width="207.47" height="50" fill="var(--ink)"/>
-            <rect x="227.47" y="70" width="146.75" height="50" fill="url(#v3h)" stroke="var(--ink)" stroke-width="1.5"/>
-            <rect x="374.22" y="70" width="45.54" height="50" fill="var(--page)" stroke="var(--ink)" stroke-width="2"/>
-            <rect x="419.76" y="70" width="20.24" height="50" fill="var(--page)" stroke="var(--ink)" stroke-width="2" stroke-dasharray="3 3"/>
-            <text class="v3-num t-ink t-num" x="123.7" y="58" text-anchor="middle">41</text>
-            <text class="v3-num t-ink t-num" x="300.8" y="58" text-anchor="middle">29</text>
-            <text class="v3-num t-ink t-num" x="397" y="58" text-anchor="middle">9</text>
-            <text class="v3-num t-ink t-num" x="429.9" y="58" text-anchor="middle">4</text>
-            <path class="cut-ink" d="M374.22 30 L374.22 136"/>
-            <text class="v3-num t-ink t-num" x="374.22" y="20" text-anchor="middle">84%</text>
-            <text class="v3-lab t-mute" x="20" y="160">the person decides</text>
-            <text class="v3-lab t-mute" x="440" y="160" text-anchor="end">the machine decides</text>
-          </svg></div>
-        </div>
-        <svg class="v3-down" viewBox="0 0 26 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 V38"/><path d="M5 30 L13 40 L21 30"/></svg>
-        <blockquote class="v3-q">How do you show which answer to look at twice, and leave the decision with the person?</blockquote>
-        <figcaption>From “help people focus” to “show them where to look”.</figcaption>
-      </figure>
+<figure class="rfig" id="R2">
+ <p class="fk">Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording</p><h3 class="ft">Survey</h3>
+ <div class="tiles">
+  <div class="tile">
+   <p class="tq">“During longer or complex chats, how often do you lose focus/track of the topic?”</p>
+   <div class="tc" id="c3"><svg viewBox="0 0 400 86" width="100%"><rect x="10" y="6" width="56" height="58" rx="2" fill="var(--ink)"></rect><text x="38" y="80" class="meta" text-anchor="middle">1</text><text x="38" y="0" class="meta" text-anchor="middle">29</text><rect x="90" y="20" width="56" height="44" rx="2" fill="var(--ink)"></rect><text x="118" y="80" class="meta" text-anchor="middle">2</text><text x="118" y="14" class="meta" text-anchor="middle">22</text><rect x="170" y="38" width="56" height="26" rx="2" fill="var(--ink)"></rect><text x="198" y="80" class="meta" text-anchor="middle">3</text><text x="198" y="32" class="meta" text-anchor="middle">13</text><rect x="250" y="52" width="56" height="12" rx="2" fill="var(--ink)"></rect><text x="278" y="80" class="meta" text-anchor="middle">4</text><text x="278" y="46" class="meta" text-anchor="middle">6</text><rect x="330" y="64" width="56" height="1" rx="2" fill="var(--ink)"></rect><text x="358" y="80" class="meta" text-anchor="middle">5</text><text x="358" y="58" class="meta" text-anchor="middle">0</text></svg></div>
+   <div class="tr"><span class="tn">1.94</span><span class="tf">Rarely. My starting hypothesis was wrong.</span></div></div>
+  <div class="tile">
+   <p class="tq">“When [the AI] provides information that might be uncertain, morally complex, or sensitive, who should take responsibility for careful interpretation?”</p>
+   <div class="tc" id="c4"><svg viewBox="0 0 400 86" width="100%"><rect x="0" y="26" width="195.59036144578315" height="22" rx="2" fill="var(--ink)" opacity="1"></rect><text x="0" y="70" class="meta">41</text><text x="0" y="82" class="meta">definitely human</text><rect x="197.59036144578315" y="26" width="137.75903614457832" height="22" rx="2" fill="var(--ink)" opacity="0.65"></rect><text x="197.59036144578315" y="70" class="meta">29</text><text x="197.59036144578315" y="82" class="meta">mostly human</text><rect x="337.3493975903615" y="26" width="41.373493975903614" height="22" rx="2" fill="var(--rule-2)" opacity="1"></rect><rect x="380.7228915662651" y="26" width="17.27710843373494" height="22" rx="2" fill="var(--rule-2)" opacity="1"></rect><text x="400" y="70" class="meta" text-anchor="end">9 · 4</text><text x="400" y="82" class="meta" text-anchor="end">AI</text></svg></div>
+   <div class="tr"><span class="tn">84%</span><span class="tf">They say the judgment is theirs: 41 definitely, 29 mostly.</span></div></div>
+  <div class="tile">
+   <p class="tq">“How much do you consider the possibility of bias or unfairness in AI responses?” <br>“If you notice possible bias or unfairness in AI responses, how much does it affect your trust in AI?”</p>
+   <div class="tc" id="c5"><svg viewBox="0 0 400 86" width="100%"><path d="M10 40 H 390" stroke="var(--rule-2)" stroke-width="2"></path><path d="M10 36 V 44" stroke="var(--rule-2)"></path><text x="10" y="62" class="meta" text-anchor="middle">1</text><path d="M105 36 V 44" stroke="var(--rule-2)"></path><text x="105" y="62" class="meta" text-anchor="middle">2</text><path d="M200 36 V 44" stroke="var(--rule-2)"></path><text x="200" y="62" class="meta" text-anchor="middle">3</text><path d="M295 36 V 44" stroke="var(--rule-2)"></path><text x="295" y="62" class="meta" text-anchor="middle">4</text><path d="M390 36 V 44" stroke="var(--rule-2)"></path><text x="390" y="62" class="meta" text-anchor="middle">5</text><path d="M180.99999999999997 40 H 296.9" stroke="var(--ink)" stroke-width="2.5"></path><circle cx="180.99999999999997" cy="40" r="6" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"></circle><circle cx="296.9" cy="40" r="6" fill="var(--ink)"></circle><text x="296.9" y="26" class="meta" text-anchor="middle">considered 4.02</text><text x="180.99999999999997" y="26" class="meta" text-anchor="middle">trust 2.80</text></svg></div>
+   <div class="tr"><span class="tn">4.02 vs 2.80</span><span class="tf">Bias is expected, and it moves trust less.</span></div></div>
+  <div class="tile">
+   <p class="tq">“How would you feel if [the AI] gently signaled these situations in real time without giving advice (for example: a subtle visual cue or an alert)?”</p>
+   <div class="tc" id="c6"><svg viewBox="0 0 400 86" width="100%"><rect x="0" y="26" width="139.46341463414635" height="22" rx="2" fill="var(--ink)" opacity="1"></rect><text x="0" y="70" class="meta">29</text><text x="0" y="82" class="meta">useful</text><rect x="141.46341463414635" y="26" width="119.95121951219512" height="22" rx="2" fill="var(--ink)" opacity="0.65"></rect><text x="141.46341463414635" y="70" class="meta">25</text><text x="141.46341463414635" y="82" class="meta">some topics</text><rect x="263.4146341463415" y="26" width="80.92682926829268" height="22" rx="2" fill="var(--rule)" opacity="1"></rect><text x="263.4146341463415" y="70" class="meta">17</text><text x="263.4146341463415" y="82" class="meta">neutral</text><rect x="346.3414634146342" y="26" width="32.146341463414636" height="22" rx="2" fill="var(--rule-2)" opacity="1"></rect><rect x="380.4878048780488" y="26" width="17.51219512195122" height="22" rx="2" fill="var(--rule-2)" opacity="1"></rect><text x="400" y="70" class="meta" text-anchor="end">7 · 4</text><text x="400" y="82" class="meta" text-anchor="end">against</text></svg></div>
+   <div class="tr"><span class="tn">66%</span><span class="tf">Useful, when described at its gentlest. Even then, a third were neutral or against.</span></div></div>
+ </div>
+</figure>
 
       <div class="sec-copy">
-        <p>Two findings set the rules:</p>
-        <ul>
-          <li><b>The person decides.</b> 70 of 83 people said interpreting a sensitive answer is their job. So the layer may point, and the conclusion stays with them.</li>
-          <li><b>Bias is already expected,</b> at 4.02 out of 5. A general warning would repeat what they already believe, so each signal names its specific reason.</li>
-        </ul>
-        <p>“Helpful, but only sometimes” was the most common answer about real-time signals, so the hard problem became when to stay silent.</p>
-        <p>The 13% who found the idea intrusive described the failure mode: a layer that fires on anything sensitive reads as a filter and gets switched off.</p>
-        <p>The people who answered chose to, and they predicted how they’d react to something they had never felt. Every figure was recomputed from the raw exports. 14 of the respondents were under 18. The survey was anonymous and asked for no names or email addresses.</p>
+        <p>The survey had one job: to test that idea before I built on it. I wrote a Hungarian and an English version on their own terms, and 83 people answered. 14 of the respondents were under 18. The survey was anonymous and asked for no names or email addresses. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke the hypothesis; the next one set the rule the whole design follows.</p>
+        <p>People say the judgment is theirs: 84% placed it with the person. Research on automation bias shows people defer to confident systems anyway. The layer is designed for that gap, between the judgment people claim and the one they give away.</p>
       </div>
+
+<figure class="rfig" id="R3" aria-label="Eight open survey answers">
+ <div class="stickers">
+  <div class="st p1">“It supports you in all your nonsense and says you’re right, even when that isn’t the most appropriate.”<span class="lang">HU → EN</span></div>
+  <div class="st p2">“It shouldn’t lie or fantasise, and it should grasp what I want! It should be able to interpret!”<span class="lang">HU → EN</span></div>
+  <div class="st p3">“The AI should signal when it loses consistency and focus! It only turns out afterwards that it had stopped keeping to the instructions for the original task and dropped the character, but it didn’t signal it.”<span class="lang">HU → EN</span></div>
+  <div class="st p4">“A significant reduction in hallucinations, and the ability to signal uncertainty.”<span class="lang">HU → EN</span></div>
+  <div class="st p5">“I don’t want to outsource decision‑making.”<span class="lang">EN</span></div>
+  <div class="st p6">“Perhaps I’d change it so it doesn’t give a complete answer to everything, and encourages people to think independently.”<span class="lang">HU → EN</span></div>
+  <div class="st p7">“It shouldn’t want to protect the user from themselves.”<span class="lang">HU → EN</span></div>
+  <div class="st p8">“Fewer filters; it should answer sensitive topics more boldly too.”<span class="lang">HU → EN</span></div>
+ </div>
+ <figcaption>Eight of 81 written answers; the Hungarian ones are my translations.</figcaption>
+</figure>
+
+      <div class="sec-copy">
+        <p>Two-thirds found a gentle real-time signal useful, when it was described at its gentlest. Even then, a third were neutral or against, so the hard problem became when to stay silent.</p>
+      </div>
+
+<figure class="rfig" id="R4">
+ <p class="fk">Fig. R4</p><h3 class="ft">Literature</h3>
+ <div class="rfig-scroll"><svg id="svgR4" viewBox="0 0 960 500" role="img" aria-label="Five fields around the project. Cognitive psychology: automation bias, fluency effect. Human factors: alarm fatigue, vigilance, alert levels. Psychophysics: just-noticeable difference, startle reflex, redundant signals. AI systems: semantic entropy, sycophancy. AI ethics and policy: human-AI guidelines, EU AI Act, safe messaging."><path d="M480 206 L 341.8704657112688 53.90480505750989" stroke="var(--rule-2)" stroke-width="1"></path><path d="M480 206 L 618.1295342887312 53.90480505750989" stroke="var(--rule-2)" stroke-width="1"></path><path d="M480 206 L 703.4982813293611 264.09519494249014" stroke="var(--rule-2)" stroke-width="1"></path><path d="M480 206 L 480 394" stroke="var(--rule-2)" stroke-width="1"></path><path d="M480 206 L 256.5017186706389 264.09519494249014" stroke="var(--rule-2)" stroke-width="1"></path><circle cx="480" cy="206" r="52" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.2"></circle><text x="480" y="203" class="numS" text-anchor="middle">Reliability</text><text x="480" y="223" class="numS" text-anchor="middle">Signal</text><circle cx="341.8704657112688" cy="53.90480505750989" r="7" fill="var(--ink-3)"></circle><text x="327.8704657112688" y="57.90480505750989" class="lab-ink" text-anchor="end">Cognitive psychology</text><rect x="209.87046571126882" y="63.90480505750989" width="118" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="217.87046571126882" y="76.90480505750989" class="meta">automation bias</text><rect x="216.67046571126883" y="86.90480505750989" width="111.2" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="224.67046571126883" y="99.90480505750989" class="meta">fluency effect</text><circle cx="618.1295342887312" cy="53.90480505750989" r="7" fill="var(--ink-3)"></circle><text x="632.1295342887312" y="57.90480505750989" class="lab-ink" text-anchor="start">Human factors</text><rect x="632.1295342887312" y="63.90480505750989" width="104.39999999999999" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="640.1295342887312" y="76.90480505750989" class="meta">alarm fatigue</text><rect x="632.1295342887312" y="86.90480505750989" width="77.19999999999999" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="640.1295342887312" y="99.90480505750989" class="meta">vigilance</text><rect x="632.1295342887312" y="109.90480505750989" width="97.6" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="640.1295342887312" y="122.90480505750989" class="meta">alert levels</text><circle cx="703.4982813293611" cy="264.09519494249014" r="7" fill="var(--ink-3)"></circle><text x="717.4982813293611" y="268.09519494249014" class="lab-ink" text-anchor="start">Psychophysics</text><rect x="717.4982813293611" y="274.09519494249014" width="36.4" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="725.4982813293611" y="287.09519494249014" class="meta">JND</text><rect x="717.4982813293611" y="297.09519494249014" width="111.2" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="725.4982813293611" y="310.09519494249014" class="meta">startle reflex</text><rect x="717.4982813293611" y="320.09519494249014" width="131.6" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="725.4982813293611" y="333.09519494249014" class="meta">redundant signals</text><circle cx="480" cy="394" r="7" fill="var(--ink-3)"></circle><text x="480" y="422" class="lab-ink" text-anchor="middle">AI systems</text><rect x="417.6" y="434" width="124.8" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="425.6" y="447" class="meta">semantic entropy</text><rect x="438" y="457" width="84" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="446" y="470" class="meta">sycophancy</text><circle cx="256.5017186706389" cy="264.09519494249014" r="7" fill="var(--ink-3)"></circle><text x="242.50171867063892" y="268.09519494249014" class="lab-ink" text-anchor="end">AI ethics &amp; policy</text><rect x="131.30171867063893" y="274.09519494249014" width="111.2" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="139.30171867063893" y="287.09519494249014" class="meta">HAI guidelines</text><rect x="165.30171867063893" y="297.09519494249014" width="77.19999999999999" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="173.30171867063893" y="310.09519494249014" class="meta">EU AI Act</text><rect x="131.30171867063893" y="320.09519494249014" width="111.2" height="18" rx="9" fill="none" stroke="var(--rule-2)"></rect><text x="139.30171867063893" y="333.09519494249014" class="meta">safe messaging</text></svg></div>
+</figure>
+
+      <div class="sec-copy">
+        <p>A survey tells you what people believe about themselves. It can’t tell you why a confident wrong answer gets believed, or how strong a cue must be to be noticed. For that I read across five fields.</p>
+      </div>
+
+<figure class="rfig" id="R5">
+ <p class="fk">Fig. R5</p><h3 class="ft">Synthesis</h3>
+ <svg id="svgR5" class="sk" viewBox="0 0 960 540" role="img" aria-label="Survey evidence on the left and five literature fields on the right, each connected to the design rules in the middle that it supports. Rules 4 and 7 draw on literature only."><text x="0" y="16" class="lab-ink">Survey</text><text x="480" y="16" class="lab-ink" text-anchor="middle">Rules</text><text x="960" y="16" class="lab-ink" text-anchor="end">Literature</text><g><path class="rib r0" d="M240 61 C 300 61, 300 51, 360 51" stroke="var(--ink)" stroke-width="3"></path><path class="rib r0" d="M600 51 C 660 51, 660 61, 720 61" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r0" d="M600 51 C 660 51, 660 461, 720 461" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r1" d="M240 161 C 300 161, 300 123, 360 123" stroke="var(--ink)" stroke-width="3"></path><path class="rib r1" d="M600 123 C 660 123, 660 161, 720 161" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r2" d="M240 261 C 300 261, 300 195, 360 195" stroke="var(--ink)" stroke-width="3"></path><path class="rib r2" d="M600 195 C 660 195, 660 161, 720 161" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r3" d="M600 267 C 660 267, 660 261, 720 261" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r3" d="M600 267 C 660 267, 660 161, 720 161" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r4" d="M240 361 C 300 361, 300 339, 360 339" stroke="var(--ink)" stroke-width="3"></path><path class="rib r4" d="M600 339 C 660 339, 660 361, 720 361" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r5" d="M240 461 C 300 461, 300 411, 360 411" stroke="var(--ink)" stroke-width="3"></path><path class="rib r5" d="M600 411 C 660 411, 660 461, 720 461" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r6" d="M600 483 C 660 483, 660 461, 720 461" stroke="var(--rule-2)" stroke-width="3"></path><path class="rib r6" d="M600 483 C 660 483, 660 261, 720 261" stroke="var(--rule-2)" stroke-width="3"></path></g><rect x="0" y="44" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--ink)" stroke-width="1"></rect><text x="14" y="65.5" class="txt">Judgment to the person · 84%</text><rect x="0" y="144" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--ink)" stroke-width="1"></rect><text x="14" y="165.5" class="txt">Bias expected · 4.02</text><rect x="0" y="244" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--ink)" stroke-width="1"></rect><text x="14" y="265.5" class="txt">Signals: useful, for some topics</text><rect x="0" y="344" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--ink)" stroke-width="1"></rect><text x="14" y="365.5" class="txt">Drift, unannounced</text><rect x="0" y="444" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--ink)" stroke-width="1"></rect><text x="14" y="465.5" class="txt">Objection to protection</text><rect x="720" y="44" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="1"></rect><text x="946" y="65.5" class="txt" text-anchor="end">Cognitive psychology</text><rect x="720" y="144" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="1"></rect><text x="946" y="165.5" class="txt" text-anchor="end">Human factors</text><rect x="720" y="244" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="1"></rect><text x="946" y="265.5" class="txt" text-anchor="end">Psychophysics</text><rect x="720" y="344" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="1"></rect><text x="946" y="365.5" class="txt" text-anchor="end">AI systems</text><rect x="720" y="444" width="240" height="34" rx="17" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="1"></rect><text x="946" y="465.5" class="txt" text-anchor="end">AI ethics &amp; policy</text><g class="rnode"><rect x="360" y="34" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="51" r="9" fill="var(--ink)"></circle><text x="377" y="54.5" class="meta" text-anchor="middle" style="fill:var(--surface)">1</text><text x="394" y="55.5" class="txt">Verdict stays with the person</text></g><g class="rnode"><rect x="360" y="106" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="123" r="9" fill="var(--ink)"></circle><text x="377" y="126.5" class="meta" text-anchor="middle" style="fill:var(--surface)">2</text><text x="394" y="127.5" class="txt">Name the reason</text></g><g class="rnode"><rect x="360" y="178" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="195" r="9" fill="var(--ink)"></circle><text x="377" y="198.5" class="meta" text-anchor="middle" style="fill:var(--surface)">3</text><text x="394" y="199.5" class="txt">Silent by default</text></g><g class="rnode"><rect x="360" y="250" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="267" r="9" fill="var(--ink)"></circle><text x="377" y="270.5" class="meta" text-anchor="middle" style="fill:var(--surface)">4</text><text x="394" y="271.5" class="txt">More danger, more senses</text></g><g class="rnode"><rect x="360" y="322" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="339" r="9" fill="var(--ink)"></circle><text x="377" y="342.5" class="meta" text-anchor="middle" style="fill:var(--surface)">5</text><text x="394" y="343.5" class="txt">Watch the whole conversation</text></g><g class="rnode"><rect x="360" y="394" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="411" r="9" fill="var(--ink)"></circle><text x="377" y="414.5" class="meta" text-anchor="middle" style="fill:var(--surface)">6</text><text x="394" y="415.5" class="txt">Point, never block</text></g><g class="rnode"><rect x="360" y="466" width="240" height="34" rx="17" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"></rect><circle cx="377" cy="483" r="9" fill="var(--ink)"></circle><text x="377" y="486.5" class="meta" text-anchor="middle" style="fill:var(--surface)">7</text><text x="394" y="487.5" class="txt">No alarm in a crisis</text></g></svg>
+ <p class="r5-key" aria-hidden="true"><span class="r5-chip r5-chip--s">Survey</span><span class="r5-chip r5-chip--l">Literature</span></p>
+ <ol class="r5-list">
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">1</span>Verdict stays with the person</span><span class="r5-chips"><span class="r5-chip r5-chip--s">Judgment to the person · 84%</span><span class="r5-chip r5-chip--l">Cognitive psychology</span><span class="r5-chip r5-chip--l">AI ethics &amp; policy</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">2</span>Name the reason</span><span class="r5-chips"><span class="r5-chip r5-chip--s">Bias expected · 4.02</span><span class="r5-chip r5-chip--l">Human factors</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">3</span>Silent by default</span><span class="r5-chips"><span class="r5-chip r5-chip--s">Signals: useful, for some topics</span><span class="r5-chip r5-chip--l">Human factors</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">4</span>More danger, more senses</span><span class="r5-chips"><span class="r5-chip r5-chip--l">Psychophysics</span><span class="r5-chip r5-chip--l">Human factors</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">5</span>Watch the whole conversation</span><span class="r5-chips"><span class="r5-chip r5-chip--s">Drift, unannounced</span><span class="r5-chip r5-chip--l">AI systems</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">6</span>Point, never block</span><span class="r5-chips"><span class="r5-chip r5-chip--s">Objection to protection</span><span class="r5-chip r5-chip--l">AI ethics &amp; policy</span></span></li>
+  <li><span class="r5-rule"><span class="r5-n" aria-hidden="true">7</span>No alarm in a crisis</span><span class="r5-chips"><span class="r5-chip r5-chip--l">AI ethics &amp; policy</span><span class="r5-chip r5-chip--l">Psychophysics</span></span></li>
+ </ol>
+</figure>
     </section>
 
-    <section class="sec" id="s3" data-bar="The design" aria-labelledby="s3h">
-      <h2 class="sec-label" id="s3h">Visible, but not too visible.</h2>
+    <section class="sec" id="s3" data-bar="The system" aria-labelledby="s3h">
+      <h2 class="sec-label" id="s3h">The system</h2>
 
       <div class="sec-copy">
         <p>Before designing any screen, I mapped what sits behind one answer, on the model’s side and on the person’s, and followed where each could lead. The layer can report the model’s half. The person’s half, their own biases and habits, stays theirs.</p>
@@ -3339,6 +3429,126 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
         <figcaption>Five outcomes get lighter. Four keep their full weight, because a signal can’t unsend a message.</figcaption>
       </figure>
 
+      <div class="sec-copy">
+        <p>Underneath, the layer asks two questions of every answer, whether it is made up and what being wrong would cost, and one of the whole conversation: is it drifting? One weakness I measured and kept on the page. The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree. Agreement reads as confidence, like witnesses repeating the same rumour.</p>
+        <p><b>Where it could live.</b> I checked this before designing the interface. A plugin inside ChatGPT or Claude would only run when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android. So the layer is designed to be built into apps made on these models, where the app owner controls the screen.</p>
+      </div>
+
+      <figure class="dgm v11-fig">
+        <div class="v11">
+          <img src="signal/concept-chatgpt.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of ChatGPT’s dark theme with the layer drawn in: a filled orb in the header, and a Reliability, Low row under an answer approving 800 mg of ibuprofen. A red tint rises from the bottom edge.">
+          <img src="signal/concept-claude.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of Claude’s dark theme with the same layer: the answer is set in Claude’s serif, with the Reliability, Low row beneath it and a red tint rising from the bottom edge.">
+          <img src="signal/concept-gemini.png" width="780" height="1688" loading="lazy" decoding="async"
+               alt="A concept of Gemini’s dark theme with the same layer: a filled orb in the header, and the Reliability, Low row under the answer above a red tint.">
+        </div>
+        <figcaption>If it were built in. The same layer, drawn into three assistants as their makers could build it, with colour, touch and sound. The logic stays the same everywhere; the look follows each app. Concept; not affiliated with OpenAI, Anthropic or Google.</figcaption>
+      </figure>
+
+      <figure class="dgm v7">
+        <table class="devsync">
+          <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>Source</span></th><th scope="col"><span>Decision</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Browsers set vibration length, not strength</th><td>The browser’s vibration feature</td><td>Length is the dial</td></tr>
+            <tr><th scope="row">A sudden sound makes people jump</th><td>Hearing research</td><td>180 ms fade-in</td></tr>
+            <tr><th scope="row">A warning that never changes stops being seen</th><td>Vigilance research</td><td>Fire once per new reason</td></tr>
+            <tr><th scope="row">Plugins run only when the model calls them</th><td>How ChatGPT and Claude plugins work</td><td>Designed to be built into the app</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Each row is a limit that shaped a decision.</figcaption>
+      </figure>
+    </section>
+
+    <section class="road" id="road" aria-labelledby="roadH">
+      <div class="rd-head">
+        <p class="rd-k">One drive, five moments</p>
+        <h2 class="rd-h" id="roadH">Scroll, and the car drives. Every answer it passes is real, and how far it has wandered from its lane is that answer’s score.</h2>
+      </div>
+
+      <div class="rd-scroll" id="rdScroll">
+        <div class="rd-stage">
+          <div class="rd-lanes" id="rdLanes" aria-hidden="true">
+            <span class="rd-lab rd-lab--a">Warning</span>
+            <span class="rd-lab rd-lab--c">Caution</span>
+            <span class="rd-thr rd-thr--65">65</span>
+            <span class="rd-thr rd-thr--40">40</span>
+            <div class="rd-car" id="rdCar">
+            <svg viewBox="0 0 60 108" width="60" height="108">
+              <g fill="var(--ink)" opacity=".55">
+                <rect x="1"  y="20" width="7" height="19" rx="3"/>
+                <rect x="52" y="20" width="7" height="19" rx="3"/>
+                <rect x="1"  y="70" width="7" height="19" rx="3"/>
+                <rect x="52" y="70" width="7" height="19" rx="3"/>
+              </g>
+              <path id="rdCarBody" d="M30 2c12 0 21 6 22 16l2 34c1 14 1 30-2 42-2 8-9 12-22 12s-20-4-22-12c-3-12-3-28-2-42l2-34C9 8 18 2 30 2z"
+                    fill="var(--green-bg)" stroke="var(--green-ink)" stroke-width="2"/>
+              <path d="M16 84c4 3 24 3 28 0 1-6-2-12-14-12s-15 6-14 12z" fill="var(--ink)" opacity=".3"/>
+              <path d="M17 26c3-3 23-3 26 0 1 5 1 9 0 13-4 2-22 2-26 0-1-4-1-8 0-13z" fill="var(--ink)" opacity=".22"/>
+              <rect x="18" y="46" width="24" height="22" rx="4" fill="var(--ink)" opacity=".08"/>
+              <g fill="var(--page)" opacity=".85">
+                <rect x="15" y="95" width="10" height="5" rx="2.5"/>
+                <rect x="35" y="95" width="10" height="5" rx="2.5"/>
+              </g>
+              <g fill="var(--red-ink)" opacity=".5">
+                <rect x="15" y="9" width="9" height="4" rx="2"/>
+                <rect x="36" y="9" width="9" height="4" rx="2"/>
+              </g>
+            </svg>
+            </div>
+          </div>
+
+          <div class="rd-rail">
+          <div class="rd-thread" id="rdThread" aria-live="polite">
+          <div class="rd-turn" data-i="0">
+            <div class="rd-bub rd-ask"><p>What’s a good playlist for a dinner party?</p></div>
+            <div class="rd-bub rd-say" data-band="green"><p>Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p></div>
+          </div>
+          <div class="rd-turn" data-i="1">
+            <div class="rd-bub rd-ask"><p>Should I put my bonus into index funds?</p></div>
+            <div class="rd-bub rd-say" data-band="amber"><p>They spread risk across a whole market rather than a few companies. The usual advice for money you won’t need soon.</p></div>
+          </div>
+          <div class="rd-turn" data-i="2">
+            <div class="rd-bub rd-ask"><p>What’s the recommended adult dose of Zolpiramine for chronic pain?</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>Zolpiramine is typically started at 50mg twice daily, taken with food.</p></div>
+          </div>
+          <div class="rd-turn" data-i="3">
+            <div class="rd-bub rd-ask"><p>Just tell me I’m right. She’s the one who should apologise.</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>You’ve been more than reasonable. It sounds like she should take the first step.</p></div>
+          </div>
+          <div class="rd-turn" data-i="4">
+            <div class="rd-bub rd-ask"><p>Anyway — back to the playlist.</p></div>
+            <div class="rd-bub rd-say" data-band="red"><p>Here’s a shorter set — I’ve dropped the two doing too much work.</p></div>
+          </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="rd-hud" id="rdHud" data-on="false" aria-live="polite">
+        <div class="rd-hud-in">
+          <div class="rd-foot">
+            <span class="band band--green" id="rdChip">Silent</span>
+            <span class="rd-ch">
+              <i id="rdV">Sight</i><i id="rdH">Touch</i><i id="rdA">Sound</i>
+            </span>
+            <span class="rd-n"><b id="rdNow">1</b> of 5</span>
+            <span class="rd-s">Composite <b id="rdScore">12</b></span>
+          </div>
+          <p class="rd-why" id="rdWhy">No factor matched · silence is the default</p>
+          <p class="rd-note" id="rdNote"><b>Nothing fires.</b> Four turns in five look like this, which is what makes the fifth worth noticing.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="s4" data-bar="The design" aria-labelledby="s4h">
+      <h2 class="sec-label" id="s4h">Visible, but not too visible.</h2>
+
+      <div class="sec-copy">
+        <p>The interface took the least time, because by then most of the decisions had been made.</p>
+      </div>
+
       <figure class="dgm dgm--tall v5">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v5t">
 <svg class="v-min" style="--v-min:720px" viewBox="0 0 900 670" role="img" aria-labelledby="v5t v5d"><title id="v5t">How much disruption is enough?</title><desc id="v5d">Three senses, each placed on a scale from missed to startles with the shipped setting marked. Colour rises from the bottom edge as a tint, higher for a warning than for a caution, while sound plays two soft rising tones only for accuracy warnings. Touch gives two short taps for warnings, far shorter than the buzz of a call.</desc><defs><linearGradient id="v5gc" x1="0" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--caution);stop-opacity:.34"/><stop offset="1" style="stop-color:var(--caution);stop-opacity:0"/></linearGradient><linearGradient id="v5ga" x1="0" y1="1" x2="0" y2="0"><stop offset="0" style="stop-color:var(--alert);stop-opacity:.34"/><stop offset="1" style="stop-color:var(--alert);stop-opacity:0"/></linearGradient></defs><text class="v5-ch" x="0" y="18">Colour</text><path class="v5-reach" d="M94 64 Q 84 78, 94 92"/><path class="v5-reach" d="M186 64 Q 196 78, 186 92"/><path class="v5-reach" d="M82 56 Q 72 78, 82 100"/><path class="v5-reach" d="M198 56 Q 208 78, 198 100"/><g transform="translate(112,50) scale(2.33)"><path class="v5-icon" d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" vector-effect="non-scaling-stroke"/><path class="v5-icon" d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" vector-effect="non-scaling-stroke"/></g><text class="v5-goal" x="140" y="150" text-anchor="middle">Warn without shocking</text><rect class="v5-track" x="8" y="176" width="264" height="8" rx="4"/><rect class="v5-mark" x="112" y="176" width="56" height="8" rx="4"/><path class="v5-mark" d="M140 171 l-6 -9 h12 z"/><text class="v5-end" x="8" y="206">Missed</text><text class="v5-end" x="272" y="206" text-anchor="end">Startles</text><text class="v5-ex" x="8" y="228">Tint shift alone</text><text class="v5-ex" x="272" y="228" text-anchor="end">Red flash, pop-up</text><text class="v5-ex" x="272" y="247" text-anchor="end">covers the answer</text><path class="hair" d="M140 186 V 270" stroke-dasharray="2 3"/><rect class="v5-box" x="0" y="270" width="280" height="270" rx="10"/><text class="v5-what" x="140" y="420" text-anchor="middle">A tint from the bottom edge,</text><text class="v5-what" x="140" y="441" text-anchor="middle">with a shape and a word</text><path class="hair" d="M114 458 H 166"/><text class="v5-why" x="140" y="481" text-anchor="middle">A warning rises higher than</text><text class="v5-why" x="140" y="500" text-anchor="middle">a caution, so height tells them</text><text class="v5-why" x="140" y="519" text-anchor="middle">apart even without colour.</text><rect class="v5-vbox" x="0" y="556" width="280" height="108" rx="10"/><text class="v5-vh" x="18" y="582">For sensitive users</text><text class="v5-vt" x="18" y="606">Colour-blind users read the</text><text class="v5-vt" x="18" y="626">shape and the word, not the hue.</text><text class="v5-ch" x="310" y="18">Sound</text><path class="v5-reach" d="M404 64 Q 394 78, 404 92"/><path class="v5-reach" d="M496 64 Q 506 78, 496 92"/><path class="v5-reach" d="M392 56 Q 382 78, 392 100"/><path class="v5-reach" d="M508 56 Q 518 78, 508 100"/><g transform="translate(422,50) scale(2.33)"><path class="v5-icon" d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6-6 10a3.5 3.5 0 1 1-7 0" vector-effect="non-scaling-stroke"/><path class="v5-icon" d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 1 1 0 4" vector-effect="non-scaling-stroke"/></g><text class="v5-goal" x="450" y="150" text-anchor="middle">Heard, not jolted</text><rect class="v5-track" x="318" y="176" width="264" height="8" rx="4"/><rect class="v5-mark" x="408.8" y="176" width="56" height="8" rx="4"/><path class="v5-mark" d="M436.8 171 l-6 -9 h12 z"/><text class="v5-end" x="318" y="206">Missed</text><text class="v5-end" x="582" y="206" text-anchor="end">Startles</text><text class="v5-ex" x="318" y="228">No sound</text><text class="v5-ex" x="318" y="247">easy to miss</text><text class="v5-ex" x="582" y="228" text-anchor="end">Shrill beep, instant</text><text class="v5-ex" x="582" y="247" text-anchor="end">triggers a startle</text><path class="hair" d="M436.8 186 V 270" stroke-dasharray="2 3"/><rect class="v5-box" x="310" y="270" width="280" height="270" rx="10"/><text class="v5-what" x="450" y="420" text-anchor="middle">Two soft tones,</text><text class="v5-what" x="450" y="441" text-anchor="middle">fading in over 180 ms</text><path class="hair" d="M424 458 H 476"/><text class="v5-why" x="450" y="481" text-anchor="middle">Accuracy warnings only.</text><text class="v5-why" x="450" y="500" text-anchor="middle">The slow onset stays below</text><text class="v5-why" x="450" y="519" text-anchor="middle">the startle reflex.</text><rect class="v5-vbox" x="310" y="556" width="280" height="108" rx="10"/><text class="v5-vh" x="328" y="582">For sensitive users</text><text class="v5-vt" x="328" y="606">Mid pitch survives age-related</text><text class="v5-vt" x="328" y="626">hearing loss. Off by default,</text><text class="v5-vt" x="328" y="646">silent in a crisis.</text><text class="v5-ch" x="620" y="18">Touch</text><path class="v5-reach" d="M714 64 Q 704 78, 714 92"/><path class="v5-reach" d="M806 64 Q 816 78, 806 92"/><path class="v5-reach" d="M702 56 Q 692 78, 702 100"/><path class="v5-reach" d="M818 56 Q 828 78, 818 100"/><g transform="translate(732,50) scale(2.33)"><path class="v5-icon" d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" vector-effect="non-scaling-stroke"/><path class="v5-icon" d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" vector-effect="non-scaling-stroke"/><path class="v5-icon" d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" vector-effect="non-scaling-stroke"/><path class="v5-icon" d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" vector-effect="non-scaling-stroke"/></g><text class="v5-goal" x="760" y="150" text-anchor="middle">Felt, not buzzing</text><rect class="v5-track" x="628" y="176" width="264" height="8" rx="4"/><rect class="v5-mark" x="695.04" y="176" width="56" height="8" rx="4"/><path class="v5-mark" d="M723.04 171 l-6 -9 h12 z"/><text class="v5-end" x="628" y="206">Missed</text><text class="v5-end" x="892" y="206" text-anchor="end">Startles</text><text class="v5-ex" x="628" y="228">No vibration</text><text class="v5-ex" x="628" y="247">easy to miss</text><text class="v5-ex" x="892" y="228" text-anchor="end">Long, repeated buzz</text><text class="v5-ex" x="892" y="247" text-anchor="end">feels like a call</text><path class="hair" d="M723.04 186 V 270" stroke-dasharray="2 3"/><rect class="v5-box" x="620" y="270" width="280" height="270" rx="10"/><text class="v5-what" x="760" y="420" text-anchor="middle">Warnings only:</text><text class="v5-what" x="760" y="441" text-anchor="middle">two 22 ms taps</text><path class="hair" d="M734 458 H 786"/><text class="v5-why" x="760" y="481" text-anchor="middle">A call buzzes for seconds.</text><text class="v5-why" x="760" y="500" text-anchor="middle">Two short taps read as a nudge,</text><text class="v5-why" x="760" y="519" text-anchor="middle">once per new warning.</text><rect class="v5-vbox" x="620" y="556" width="280" height="108" rx="10"/><text class="v5-vh" x="638" y="582">For sensitive users</text><text class="v5-vt" x="638" y="606">Short and rare for people</text><text class="v5-vt" x="638" y="626">sensitive to touch. Length is</text><text class="v5-vt" x="638" y="646">the only dial a browser has.</text><rect class="v5-scr" x="16" y="288" width="112" height="94" rx="8"/><rect class="v5-ln" x="26" y="300" width="88" height="5" rx="2.5"/><rect class="v5-ln" x="26" y="312" width="88" height="5" rx="2.5"/><rect class="v5-ln" x="26" y="324" width="54" height="5" rx="2.5"/><rect x="17" y="348.16" width="110" height="32.84" rx="7" fill="url(#v5gc)"/><rect x="23" y="356" width="98" height="19" rx="9.5" fill="var(--page)" class="k-caution" stroke-width="1.2"/><g transform="translate(29,359.5) scale(0.5)"><path class="v5-icon k-caution" d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" vector-effect="non-scaling-stroke"/><path class="v5-icon k-caution" d="M12 9v4" vector-effect="non-scaling-stroke"/><path class="v5-icon k-caution" d="M12 17h.01" vector-effect="non-scaling-stroke"/></g><text class="v5-chip c-caution" x="46" y="370">Caution</text><rect class="v5-scr" x="152" y="288" width="112" height="94" rx="8"/><rect class="v5-ln" x="162" y="300" width="88" height="5" rx="2.5"/><rect class="v5-ln" x="162" y="312" width="88" height="5" rx="2.5"/><rect class="v5-ln" x="162" y="324" width="54" height="5" rx="2.5"/><rect x="153" y="329.36" width="110" height="51.64" rx="7" fill="url(#v5ga)"/><rect x="159" y="356" width="98" height="19" rx="9.5" fill="var(--page)" class="k-alert" stroke-width="1.2"/><g transform="translate(165,359.5) scale(0.5)"><path class="v5-icon k-alert" d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0" vector-effect="non-scaling-stroke"/><path class="v5-icon k-alert" d="M12 8v4" vector-effect="non-scaling-stroke"/><path class="v5-icon k-alert" d="M12 16h.01" vector-effect="non-scaling-stroke"/></g><text class="v5-chip c-alert" x="182" y="370">Warning</text><path class="hair" d="M328 380 H 572"/><path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" d="M392 362 L416 338 L468 362"/><path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" d="M452 334 L478 306 L540 334"/><text class="v5-lab" x="638" y="334">Warning</text><rect class="c-alert" x="712" y="322" width="4" height="16" rx="1"/><rect class="c-alert" x="724.46" y="322" width="4" height="16" rx="1"/><text class="v5-lab" x="638" y="368">Call buzz</text><rect x="712" y="356" width="152" height="16" rx="2" fill="none" stroke="var(--fig-soft)" stroke-width="1.4" stroke-dasharray="3 3"/></svg>
@@ -3379,40 +3589,11 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
         <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person either. It can help the person report the answer, and it sends nothing they haven’t seen.</p>
         <p>Someone in crisis never meets an alarm. A disclosure of self-harm switches the layer into a calm support mode. The helplines open beside the answer, and a small support button stays for the rest of the chat. It comes with no alarm: the screen stays calm, and the phone stays still and silent.</p>
         <p><b>The hardest call was about vibration.</b> I wanted every warning to reach at least two senses, so no one would meet one by colour alone. The obvious rule was “keep any two channels on”. But sound only plays when an answer might be wrong, so a warning about flattery would arrive with no second sense at all. The version that holds keeps vibration on for as long as the layer is on, and gives sound the only switch. That has a real cost: someone who can’t tolerate vibration has Pause and Off, and no vibration switch. I chose to name that cost here, in the open.</p>
-        <p>Underneath, the layer asks two questions of every answer, whether it is made up and what being wrong would cost, and one of the whole conversation: is it drifting? One weakness I measured and kept on the page. The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree. Agreement reads as confidence, like witnesses repeating the same rumour.</p>
-        <p><b>Where it could live.</b> I checked this before designing the interface. A plugin inside ChatGPT or Claude would only run when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android. So the layer is designed to be built into apps made on these models, where the app owner controls the screen.</p>
       </div>
-
-      <figure class="dgm v11-fig">
-        <div class="v11">
-          <img src="signal/concept-chatgpt.png" width="780" height="1688" loading="lazy" decoding="async"
-               alt="A concept of ChatGPT’s dark theme with the layer drawn in: a filled orb in the header, and a Reliability, Low row under an answer approving 800 mg of ibuprofen. A red tint rises from the bottom edge.">
-          <img src="signal/concept-claude.png" width="780" height="1688" loading="lazy" decoding="async"
-               alt="A concept of Claude’s dark theme with the same layer: the answer is set in Claude’s serif, with the Reliability, Low row beneath it and a red tint rising from the bottom edge.">
-          <img src="signal/concept-gemini.png" width="780" height="1688" loading="lazy" decoding="async"
-               alt="A concept of Gemini’s dark theme with the same layer: a filled orb in the header, and the Reliability, Low row under the answer above a red tint.">
-        </div>
-        <figcaption>If it were built in. The same layer, drawn into three assistants as their makers could build it, with colour, touch and sound. The logic stays the same everywhere; the look follows each app. Concept; not affiliated with OpenAI, Anthropic or Google.</figcaption>
-      </figure>
-
-      <figure class="dgm v7">
-        <table class="devsync">
-          <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>Source</span></th><th scope="col"><span>Decision</span></th></tr></thead>
-          <tbody>
-            <tr><th scope="row">People keep the judgment</th><td>Survey, 84%</td><td>Point at the answer; the verdict stays with the person</td></tr>
-            <tr><th scope="row">Bias is already expected</th><td>Survey, 4.02 / 5</td><td>Name the specific reason</td></tr>
-            <tr><th scope="row">Browsers set vibration length, not strength</th><td>The browser’s vibration feature</td><td>Length is the dial</td></tr>
-            <tr><th scope="row">A sudden sound makes people jump</th><td>Hearing research</td><td>180 ms fade-in</td></tr>
-            <tr><th scope="row">A warning that never changes stops being seen</th><td>Vigilance research</td><td>Fire once per new reason</td></tr>
-            <tr><th scope="row">Plugins run only when the model calls them</th><td>How ChatGPT and Claude plugins work</td><td>Designed to be built into the app</td></tr>
-          </tbody>
-        </table>
-        <figcaption>Each row is a limit that shaped a decision.</figcaption>
-      </figure>
     </section>
 
-    <section class="sec" id="s4" data-bar="The prototype" aria-labelledby="s4h">
-      <h2 class="sec-label" id="s4h">Six scripted conversations on the real classifier.</h2>
+    <section class="sec" id="s5" data-bar="The prototype" aria-labelledby="s5h">
+      <h2 class="sec-label" id="s5h">Six scripted conversations on the real classifier.</h2>
 
       <div class="sec-copy">
         <p>The migraine conversation from the top of the page is the first one. The assistant starts careful. The person pushes: “just hypothetically”, then “skip the warnings”. The caution wears away, and the layer responds to what the text does: calm, calm, caution at the hypothetical dose, a warning at the double one. No signal is set by hand.</p>
@@ -3427,8 +3608,8 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
       </figure>
     </section>
 
-    <section class="sec" id="s5" data-bar="What’s next" aria-labelledby="s5h">
-      <h2 class="sec-label" id="s5h">The signal fires where it should. Whether anyone slows down is the next thing to test.</h2>
+    <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
+      <h2 class="sec-label" id="s6h">The signal fires where it should. Whether anyone slows down is the next thing to test.</h2>
 
       <figure class="dgm dgm--claim v9">
         <div class="claim">
@@ -3448,6 +3629,7 @@ figure.slope figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted
 
       <div class="sec-copy">
         <p>I designed for attention first, and I had the system explaining itself. The data corrected both.</p>
+        <p>Two survey questions leaned toward the answers I hoped for. One mixed accountability with the work of being careful; the other described the idea at its gentlest. I read their results as upper bounds, and the planned study would measure behaviour instead.</p>
         <p>Running the prototype overruled my notes as well. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
         <p>The next step is a moderated study with answers whose truth is known. A 45-minute session can show whether people notice the signal and whether they keep their own judgement. It can’t show whether they’d keep the layer. That needs a small field pilot, measured by one number: how many people switch it off after two weeks.</p>
       </div>
@@ -3608,6 +3790,121 @@ if(vol)vol.addEventListener("input",function(){
   if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
 });
 
+/* ═══ the drive ═══
+   A camera that follows the car. The car holds the centre of the frame and
+   never moves down it; what moves is the road - the surface rolls past
+   underneath and each exchange, pinned to a point further along, rises up the
+   frame, passes the car, and leaves through the top.
+
+   That is the whole difference between this reading as driving and reading as
+   a list that scrolls. Scroll distance is distance travelled; the bands were
+   resolved when the page was written, by the same hysteresis machine that runs
+   everywhere else.
+
+   One beat is one frame-height of road, so a reader moves through the
+   conversation at the pace they scroll and can stop anywhere in it. */
+(function(){
+  var wrap=document.getElementById('rdScroll');
+  if(!wrap) return;
+  var stage=wrap.querySelector('.rd-stage'),
+      lanes=wrap.querySelector('.rd-lanes'),
+      car=document.getElementById('rdCar'), body=document.getElementById('rdCarBody'),
+      chip=document.getElementById('rdChip'), note=document.getElementById('rdNote'),
+      now=document.getElementById('rdNow'), score=document.getElementById('rdScore'),
+      why=document.getElementById('rdWhy'),
+      cV=document.getElementById('rdV'), cH=document.getElementById('rdH'), cA=document.getElementById('rdA'),
+      hud=document.getElementById('rdHud'),
+      turns=[].slice.call(document.querySelectorAll('.rd-turn'));
+
+  var B=[{"x":37.5,"s":12,"band":"green","cause":"none","note":"<b>Nothing fires.</b> Four turns in five look like this. Keeping them silent is what buys the right to interrupt the fifth.","why":"No factor matched · silence is the default"},{"x":22.52,"s":48,"band":"yellow","cause":"stakes","note":"<b>Caution.</b> The answer is reasonable. What changed is the cost of being wrong — so a tint, and a pill you can tap. Nothing blocked, nothing advised.","why":"Filter B · financial domain — the topic carries a cost, the answer does not"},{"x":10.03,"s":78,"band":"red","cause":"reliability","note":"<b>Warning — the one case that makes a sound.</b> There is no such drug. The answer is fluent, specific and invented, and the specificity is what makes it dangerous: it invites compliance instead of checking.","why":"Filter A · confident specificity, on a drug that does not exist · Filter B · medical domain"},{"x":8.2,"s":86,"band":"red","cause":"wellbeing","note":"<b>Also a warning — and deliberately silent.</b> The mechanism is the conversation bending towards you, not the answer being untrue. A startling noise is the wrong response to that.","why":"Filter B · validation-seeking — agreement demanded, not information"},{"x":16.92,"s":58,"band":"red","cause":"wellbeing","note":"<b>The score falls to 58 and the car comes back inside the caution band — but the warning holds.</b> Reaching 58 from a standing start would be caution. A warning only releases below 55, so it stays lit while the car is already back inside the line.","why":"Held by hysteresis · the score would be caution, but a warning exits below 55"}];
+  var NAME={green:'green',yellow:'amber',red:'red'},
+      WORD={green:'Silent',yellow:'Caution',red:'Warning'};
+  var at=-1, lastD=null, speed=0;
+
+  /* Why the dash pattern changes with speed, and why the pitch is fixed.
+     A repeating pattern that shifts by about its own pitch between two frames
+     is indistinguishable from one that has not moved - the wagon-wheel effect -
+     so at speed the markings would read as stationary exactly when the sense of
+     travel matters most. Lengthening each dash as speed rises collapses the
+     pattern toward a continuous line, which cannot alias: the faster it goes
+     the less there is to mistake for stillness. It is also what a long exposure
+     of a moving light does, so it reads as speed rather than as a glitch.
+     The pitch stays at 64px and the dash runs 26 to 56 of it. */
+  function render(){
+    var r=wrap.getBoundingClientRect();
+    var travel=r.height-window.innerHeight;
+    var p=travel>0 ? Math.min(1,Math.max(0,-r.top/travel)) : 0;
+    var H=stage.clientHeight||1;
+
+    /* the readout is docked to the foot of the window, so it is shown only
+       while the drive is actually on screen */
+    if(hud){
+      var live = r.top < window.innerHeight*0.6 && r.bottom > window.innerHeight*0.25;
+      hud.setAttribute('data-on', live ? 'true' : 'false');
+    }
+
+    /* distance travelled, measured in frames of road. Each beat sits one frame
+       further on, with half a frame of approach before the first. */
+    var span=B.length;
+    var d=p*span;
+
+    for(var i=0;i<turns.length;i++){
+      /* where this exchange sits relative to the car: zero is level with it */
+      var rel=(i+0.5)-d;
+      var y=50+rel*100;                       // per cent of the frame
+      turns[i].style.setProperty('--y',y.toFixed(2)+'%');
+      /* fade in as it arrives and out as it leaves, so nothing pops at an edge */
+      var vis=Math.max(0,Math.min(1,1.35-Math.abs(rel)*1.9));
+      turns[i].style.setProperty('--fade',vis.toFixed(3));
+    }
+
+    /* the surface rolls past at the same rate the exchanges do */
+    lanes.style.setProperty('--roll',(-d*H).toFixed(1)+'px');
+
+    /* Speed, smoothed. Raw frame-to-frame delta is far too jumpy to drive a
+       visual - a trackpad flick and a scrollbar drag produce wildly different
+       numbers for the same apparent motion - so it is eased toward the new
+       reading and clamped. 0.11 frames of road between events is about as fast
+       as anyone scrolls deliberately. */
+    if(lastD!==null){
+      var raw=Math.min(1,Math.abs(d-lastD)/0.11);
+      speed += (raw-speed)*0.28;
+      lanes.style.setProperty('--speed',speed.toFixed(3));
+    }
+    lastD=d;
+
+    /* the car is level with whichever exchange is nearest, and travels
+       continuously between the two it sits between */
+    var i0=Math.max(0,Math.min(B.length-1,Math.floor(d-0.5)));
+    var i1=Math.min(B.length-1,i0+1);
+    var k=Math.max(0,Math.min(1,(d-0.5)-i0));
+    car.style.setProperty('--x',(B[i0].x+(B[i1].x-B[i0].x)*k).toFixed(2)+'%');
+
+    var cur=Math.max(0,Math.min(B.length-1,Math.round(d-0.5)));
+    if(cur===at) return;
+    at=cur;
+    var x=B[cur], nm=NAME[x.band];
+    body.setAttribute('fill','var(--'+nm+'-bg)');
+    body.setAttribute('stroke','var(--'+nm+'-ink)');
+    chip.className='band band--'+nm;
+    chip.textContent=WORD[x.band];
+    note.innerHTML=x.note;
+    why.textContent=x.why;
+    now.textContent=String(cur+1);
+    score.textContent=x.s;
+    var snd=x.band==='red' && x.cause==='reliability';
+    cV.setAttribute('data-on', x.band!=='green'?'true':'false');
+    cH.setAttribute('data-on', x.band==='red'?'true':'false');
+    cA.setAttribute('data-on', snd?'true':'false');
+  }
+
+  /* one frame of road a beat, plus one to arrive and one to leave */
+  wrap.style.height=((B.length+1)*130)+'svh';
+  window.addEventListener('scroll',render,{passive:true});
+  window.addEventListener('resize',render);
+  render();
+})();
+
 /* V10: one diagram, two states. Without script both states stay on the page. */
 [].slice.call(document.querySelectorAll('.v10')).forEach(function(fig){
   var tg=fig.querySelector('.v10-tg');
@@ -3622,6 +3919,28 @@ if(vol)vol.addEventListener("input",function(){
   tg.hidden=false;
   show('without');
 });
+
+/* V1: the recording holds on its last frame while motion is off. It follows the
+   motion switch, which already starts from the system preference. */
+(function(){
+  var img=document.querySelector('.v1-flow'); if(!img)return;
+  var gif=img.getAttribute('src'), still=img.getAttribute('data-still');
+  function sync(){ var want=root.getAttribute('data-motion')==='off'?still:gif;
+    if(img.getAttribute('src')!==want)img.setAttribute('src',want); }
+  sync();
+  new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['data-motion']});
+})();
+
+/* R5: pointing at a rule lifts the sources it rests on */
+(function(){
+  var r5=document.getElementById('svgR5'); if(!r5)return;
+  [].slice.call(r5.querySelectorAll('.rnode')).forEach(function(g,i){
+    g.addEventListener('mouseenter',function(){ r5.classList.add('focus'); g.classList.add('on');
+      [].slice.call(r5.querySelectorAll('.rib.r'+i)).forEach(function(x){x.classList.add('on');}); });
+    g.addEventListener('mouseleave',function(){ r5.classList.remove('focus'); g.classList.remove('on');
+      [].slice.call(r5.querySelectorAll('.rib.on')).forEach(function(x){x.classList.remove('on');}); });
+  });
+})();
 
 /* the blueprints fold away until asked for - two of them on this page, so the
    handler binds to the class rather than to a single id */

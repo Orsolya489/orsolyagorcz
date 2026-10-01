@@ -1,0 +1,84 @@
+
+/* ═══ the research figures, R1–R5 ═══
+   Ported from research-figures.html. They carry no colours of their own: the
+   names they read are bound here to the site's tokens (--ink and --serif are
+   already the site's own). Survey evidence is --ink, literature the lighter rule. */
+.rfig{
+  --paper:var(--page); --surface:var(--card);
+  --ink-2:var(--body-c); --ink-3:var(--muted);
+  --rule:var(--edge-ctrl); --rule-2:var(--line-soft);
+  --mono:var(--sans);
+  margin:var(--stack) 0 0;padding:22px 0 8px;border-top:1px solid var(--rule);
+  max-width:1120px;min-width:0;color:var(--ink)}
+@media (min-width:1024px){ .sec > .rfig{grid-column:1 / -1} }
+.rfig .fk{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
+.rfig .ft{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.012em;margin:0 0 18px;color:var(--ink)}
+.rfig svg{display:block;width:100%;height:auto;overflow:visible}
+.rfig .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink-3)}
+.rfig .lab-ink{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--ink)}
+.rfig .meta{font-family:var(--mono);font-size:10px;fill:var(--ink-3)}
+.rfig .num{font-family:var(--serif);font-size:30px;fill:var(--ink)}
+.rfig .numS{font-family:var(--serif);font-size:18px;fill:var(--ink)}
+.rfig .txt{font-family:var(--serif);font-size:14px;fill:var(--ink-2)}
+.rfig figcaption{font-size:var(--micro);line-height:1.6;color:var(--muted);margin-top:1.2em;max-width:62ch}
+
+/* R1 and R4 hold their drawn size on a phone and scroll, rather than shrink their labels */
+.rfig-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+@media (max-width:720px){ .rfig-scroll svg{min-width:820px} }
+
+/* R2, four questions two by two */
+.rfig .tiles{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rfig .tile{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 22px 18px;display:flex;flex-direction:column;gap:14px}
+.rfig .tq{font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--ink);margin:0;font-style:italic;flex:1}
+.rfig .tc svg{display:block;overflow:visible}
+.rfig .tr{display:flex;align-items:baseline;gap:12px;border-top:1px solid var(--rule);padding-top:12px}
+.rfig .tn{font-family:var(--serif);font-size:30px;line-height:1;color:var(--ink);white-space:nowrap}
+.rfig .tf{font-family:var(--serif);font-size:15px;line-height:1.35;color:var(--ink-2)}
+@media (max-width:760px){ .rfig .tiles{grid-template-columns:1fr} }
+
+/* R3, eight answers as hand-placed stickers */
+#R3{border-top:none}
+.rfig .stickers{display:flex;flex-direction:column;gap:34px;padding:16px 0}
+.rfig .st{max-width:390px;background:var(--surface);border:1px solid var(--rule);border-radius:20px 20px 20px 6px;padding:20px 24px;
+  font-family:var(--serif);font-size:23px;line-height:1.38;color:var(--ink);
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 14px -8px rgba(0,0,0,.18)}
+.rfig .st.p1{align-self:flex-start;margin-left:2%;transform:rotate(-1.4deg)}
+.rfig .st.p2{align-self:flex-end;margin-right:4%;transform:rotate(1.2deg);margin-top:-40px}
+.rfig .st.p3{align-self:flex-start;margin-left:22%;transform:rotate(-0.8deg)}
+.rfig .st.p4{align-self:flex-end;margin-right:12%;transform:rotate(1.6deg);margin-top:-18px}
+.rfig .st.p5{align-self:flex-start;margin-left:6%;transform:rotate(-1.1deg)}
+.rfig .st.p6{align-self:flex-end;margin-right:2%;transform:rotate(0.9deg);margin-top:-30px}
+.rfig .st.p7{align-self:flex-start;margin-left:24%;transform:rotate(1.3deg)}
+.rfig .st.p8{align-self:flex-end;margin-right:8%;transform:rotate(-1.5deg);margin-top:-8px}
+.rfig .st .lang{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3)}
+@media (max-width:720px){ .rfig .st{max-width:88%;margin:0 !important;align-self:flex-start !important} }
+@media (prefers-reduced-motion: reduce){ .rfig .st{transform:none !important} }
+[data-motion="off"] .rfig .st{transform:none !important}
+
+/* R5, the ribbons; a rule in focus lifts its own sources. The pills were drawn
+   for a narrower face; in the site's serif the longest rule ran past its pill
+   at 14, so the labels step down to fit (about 14.6px on screen at 1440). */
+.rfig #svgR5 .txt{font-size:12.5px}
+.rfig .sk .rib{fill:none;stroke-linecap:round;transition:opacity .2s}
+.rfig .sk.focus .rib{opacity:.1} .rfig .sk.focus .rib.on{opacity:1}
+.rfig .sk.focus .rnode{opacity:.35} .rfig .sk.focus .rnode.on{opacity:1}
+[data-motion="off"] .rfig .sk .rib{transition:none}
+
+/* R5 on a phone: each rule with its sources as chips, styled like their nodes */
+.r5-list{display:none;list-style:none;margin:0;padding:0}
+.r5-key{display:none;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.r5-list li{padding:14px 0;border-top:1px solid var(--rule)}
+.r5-list li:first-child{border-top:0}
+.r5-rule{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:16px;color:var(--ink)}
+.r5-n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--surface);
+  font-family:var(--mono);font-size:11px;flex:none}
+.r5-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;padding-left:30px}
+.r5-chip{display:inline-block;font-family:var(--serif);font-size:13.5px;line-height:1.3;color:var(--ink-2);
+  background:var(--surface);border-radius:999px;padding:4px 11px}
+.r5-chip--s{border:1px solid var(--ink)}
+.r5-chip--l{border:1px solid var(--rule-2)}
+@media (max-width:720px){
+  #svgR5{display:none}
+  .r5-list{display:block}
+  .r5-key{display:flex}
+}

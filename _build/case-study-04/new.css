@@ -1,0 +1,192 @@
+
+/* ═══ the curated rewrite ═══
+   Four band colours, and only these four carry meaning. Each clears 4.5:1 as
+   text on --page, --card and --recess, so one value serves type and drawing. */
+:root{
+  --caution:#7A5A10;
+  --alert:#9A3A2A;
+  --support:#4A6638;
+  --near:#636161;
+}
+
+/* Green now means support, so the reused drawings lose their green and red:
+   what they marked was never a band. */
+.dgm .fr-mid--on{fill:var(--card);stroke:var(--ink);stroke-dasharray:none;stroke-width:1.4}
+.dgm .fr-on-t{fill:var(--ink)}
+.dgm .fr-st--on{stroke:var(--ink);stroke-width:1.4}
+.dgm .fr-dot{fill:var(--ink)}
+.claim-c,.claim-c.is-m,.claim-c.is-a,.claim-c.is-u{border-top:2px solid var(--ink)}
+.claim-c.is-a{border-top-style:dashed}
+.claim-c.is-u{border-top-style:dotted;border-top-width:3px}
+.claim-c h4,.claim-c.is-m h4,.claim-c.is-a h4,.claim-c.is-u h4{color:var(--ink)}
+.claim-c.is-u p{color:var(--body-c)}
+
+/* drawings that hold their size and scroll on a phone rather than shrink
+   their labels below the floor */
+.dgm-scroll .v-min{min-width:var(--v-min,640px)}
+
+/* ═══ V1, the hero: the prototype running the migraine conversation ═══
+   A recording, not a mockup. The GIF was taken with the page colour behind the
+   phone, so its rounded corners sit on this ground. */
+.v1--flow{margin:0}
+.v1-flow{display:block;width:auto;max-width:100%;
+  height:min(640px, calc(100svh - var(--chrome-h) - var(--gutter)*2.4))}
+
+/* ═══ V2, same voice ═══ */
+.dgm .v2-tag{font-size:17px}
+.dgm .v2-card{font-size:21px;font-weight:400}
+.dgm .v2-true{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.dgm .v2-false{stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-dasharray:2 9}
+.dgm .v2-band{fill:var(--recess)}
+.dgm .v2-late{stroke:var(--ink);stroke-width:1.6;stroke-dasharray:5 5;fill:none}
+
+/* ═══ V3, the reframe ═══ */
+.v3-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);
+  gap:calc(var(--gutter)*1.4);align-items:center}
+.v3-card{background:var(--page);border-radius:14px;box-shadow:inset 0 0 0 1px var(--fig-soft);
+  padding:1.1em 1.25em 1.2em}
+.v3-k{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.v3-h{margin:.45em 0 0;font-size:var(--body);line-height:1.4;font-weight:500;color:var(--ink)}
+.v3-n{margin:.55em 0 0;font-family:var(--sans);font-weight:300;font-size:calc(var(--title)*.85);
+  line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.v3-n s{text-decoration-thickness:2px;text-decoration-color:var(--ink)}
+.v3-bar svg{display:block;width:100%;height:auto}
+.dgm .v3-lab{font-size:15px}
+.dgm .v3-num{font-size:17px}
+.dgm .v3-down{display:block;width:26px;height:44px;margin:var(--stack) auto 0;color:var(--ink)}
+.v3-q{margin:.6em auto 0;max-width:34ch;text-align:center;font-style:italic;font-synthesis:none;
+  font-size:calc(var(--body)*1.2);line-height:1.45;color:var(--ink)}
+/* the bar's labels need about 420px of width to stay above the 11px floor,
+   so the two blocks stack before the bar is squeezed below that */
+@media (max-width:1180px){ .v3-row{grid-template-columns:1fr} .v3-bar{max-width:560px} }
+
+/* ═══ V5, how much disruption ═══ */
+.dgm .v5-ch{font-size:14px;letter-spacing:.1em;text-transform:uppercase;fill:var(--muted)}
+.dgm .v5-goal{font-size:21px;font-weight:500;fill:var(--ink)}
+.dgm .v5-end{font-size:13px;letter-spacing:.1em;text-transform:uppercase;fill:var(--muted)}
+.dgm .v5-ex{font-size:15px;fill:var(--body-c)}
+.dgm .v5-what{font-size:17px;fill:var(--ink)}
+.dgm .v5-why{font-size:15px;fill:var(--body-c)}
+.dgm .v5-vh{font-size:13px;letter-spacing:.1em;text-transform:uppercase;fill:var(--ink)}
+.dgm .v5-vt{font-size:15px;fill:var(--ink)}
+.dgm .v5-chip{font-size:13px;font-weight:500}
+.dgm .v5-lab{font-size:14px;fill:var(--ink)}
+.dgm .v5-track{fill:var(--recess)}
+.dgm .v5-mark{fill:var(--ink)}
+.dgm .v5-box{fill:var(--page);stroke:var(--fig-soft);stroke-width:1}
+.dgm .v5-vbox{fill:var(--recess)}
+.dgm .v5-scr{fill:var(--page);stroke:var(--fig-soft);stroke-width:1}
+.dgm .v5-ln{fill:var(--line-soft)}
+.dgm .v5-icon{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dgm .v5-reach{fill:none;stroke:var(--fig-soft);stroke-width:2;stroke-linecap:round}
+.dgm .c-caution{fill:var(--caution)}
+.dgm .c-alert{fill:var(--alert)}
+.dgm .k-caution{stroke:var(--caution)}
+.dgm .k-alert{stroke:var(--alert)}
+.v5-ladder{margin-top:var(--stack);max-width:none;grid-column:auto}
+.v5-ladder thead th:first-child{width:28%}
+.lvl{font-family:var(--sans);font-weight:500}
+.lvl--caution{color:var(--caution)}
+.lvl--alert{color:var(--alert)}
+
+/* ═══ V6, quiet by default ═══ */
+.v6{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);
+  gap:calc(var(--gutter)*1.5);align-items:center}
+.orbs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:var(--stack) var(--gutter)}
+.orbs li{display:flex;flex-direction:column;align-items:center;gap:.8em;text-align:center;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);color:var(--ink)}
+.orb-d{width:44px;height:44px;border-radius:50%;box-sizing:border-box}
+.orb-d--rest{background:var(--card);border:2px solid var(--near)}
+.orb-d--caution{background:var(--caution)}
+.orb-d--alert{background:var(--alert)}
+.orb-d--support{background:var(--support)}
+.orb-d--paused{background:none;border:2px dashed var(--near)}
+.v6-shot{margin:0}
+.v6-shot img{display:block;width:100%;height:auto}
+.dgm .v6 + figcaption,.dgm.v6-fig figcaption{margin-top:1.4em}
+@media (max-width:900px){
+  .v6{grid-template-columns:1fr}
+  .v6-shot{max-width:300px}
+}
+
+/* ═══ V7, V9 tables inside a figure ═══ */
+.dgm .devsync{grid-column:auto;max-width:none;margin-top:0}
+.v9-grid{width:100%;border-collapse:collapse;margin-top:var(--stack);table-layout:fixed;text-align:left}
+.v9-grid th,.v9-grid td{padding:1em 1.1em;vertical-align:top;border:1px solid var(--edge-ctrl)}
+.v9-grid thead td{border:0}
+.v9-grid thead th{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);border-top:0}
+.v9-grid tbody th{width:22%;font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);border-left:0}
+.v9-grid td{font-size:var(--body);line-height:1.5;color:var(--ink);background:var(--page)}
+@media (max-width:640px){
+  .v9-grid,.v9-grid thead,.v9-grid tbody,.v9-grid tr,.v9-grid th,.v9-grid td{display:block;width:auto}
+  .v9-grid thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .v9-grid tbody th{padding:var(--stack) 0 .4em;border:0}
+  .v9-grid td{border:1px solid var(--edge-ctrl);border-radius:10px;margin-top:.5em}
+  .v9-grid td::before{content:attr(data-col);display:block;font-family:var(--sans);font-weight:500;
+    font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.3em}
+}
+
+/* ═══ V10, one diagram, two states ═══ */
+.v10-tg{display:inline-grid;grid-template-columns:1fr 1fr;gap:2px;padding:3px;margin:0 0 var(--stack);
+  background:var(--recess);border-radius:var(--r-pill)}
+.v10-tg[hidden]{display:none}
+.v10-tg button{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.02em;
+  min-height:var(--control);padding:0 1.2em;border:0;border-radius:var(--r-pill);background:none;
+  color:var(--muted);cursor:pointer}
+.v10-tg button[aria-pressed="true"]{background:var(--page);color:var(--ink);box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+.v10-tg button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.v10-view[hidden]{display:none}
+.v10-view + .v10-view{margin-top:var(--stack)}
+
+/* ═══ V11, if it were built in ═══ */
+.v11{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter);align-items:start}
+.v11 figure{margin:0}
+.v11 img{display:block;width:100%;height:auto}
+.v11 figcaption{margin-top:.8em;text-align:center;font-family:var(--sans);font-weight:500;
+  font-size:var(--micro);color:var(--ink)}
+@media (max-width:640px){ .v11{grid-template-columns:1fr;max-width:320px} }
+
+/* ═══ V8, the prototype ═══ */
+.proto-frame--rs{height:880px;background:#EEE6E2}
+.proto-link{display:none;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink)}
+@media (max-width:767px){ .proto-link{display:inline-block;margin-top:var(--stack)} }
+
+/* ═══ the hero, split ═══
+   The overview on the left and the prototype running beside it, so the hook,
+   the role line and the phone all land above the fold on a laptop; below 1024
+   the two stack. */
+.cs-head--split{display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:calc(var(--gutter)*2);align-items:center;
+  padding-top:calc(var(--chrome-h) + var(--gutter)*.4);padding-bottom:var(--section)}
+.cs-head--split .cs-title{max-width:18ch}
+.cs-head--split .cs-hook{margin-top:var(--stack)}
+@media (max-width:1023px){
+  .cs-head--split{grid-template-columns:1fr;padding-top:calc(var(--gutter)*2 + var(--control))}
+  .cs-head--split .cs-title{max-width:24ch}
+  .cs-head--split .v1--flow{margin-top:var(--stack)}
+  .cs-head--split .v1-flow{height:min(620px, 72svh)}
+}
+@media (max-width:767px){
+  .cs-head--split .v1-flow{height:auto;width:min(100%,300px)}
+}
+
+/* ═══ the drive ═══
+   Green means support now, so the lane the car keeps when the answer is
+   silent goes neutral, and so do the car and the Silent chip. The lane takes
+   the page colour: --card sits too close to the warning lanes' pink. */
+#road{--green-bg:var(--page);--green-ink:var(--near);--green-line:var(--near)}
+#road .band--green{background:var(--card)}
+/* a label rotated about its left foot sits to the left of its anchor, so each
+   is anchored half a line past its lane's centre (6.5% and 20% of the road) */
+#road .rd-lab--a{left:calc(6.5% + .8em)}
+#road .rd-lab--c{left:calc(20% + .8em)}
+
+/* the hero's second paragraph and the role line */
+.cs-head .cs-lede{max-width:58ch}
+.cs-head .cs-facts{margin-top:var(--stack)}
+.sec-copy ul{margin:0;padding-left:1.1em}
+.sec-copy li + li{margin-top:.6em}
