@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-motion="full">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -224,7 +224,7 @@ a{color:inherit}
    goes. */
 .avail{transition:opacity var(--out) var(--ease), translate var(--out) var(--ease)}
 [data-scrolled="true"] .c-tl .avail{opacity:0;translate:0 -.4em;pointer-events:none}
-[data-motion="off"] .avail{transition:none}
+[data-motion="reduced"] .avail{transition:none}
 @media (prefers-reduced-motion:reduce){.avail{transition:none}}
 .avail-dot{width:.5em;height:.5em;flex:0 0 auto;border-radius:var(--r-pill);
   background:var(--avail);animation:avail-pulse 2.6s var(--ease) infinite}
@@ -234,7 +234,7 @@ a{color:inherit}
   0%{box-shadow:0 0 0 0 rgba(60,143,102,.55)}
   70%{box-shadow:0 0 0 .5em rgba(60,143,102,0)}
   100%{box-shadow:0 0 0 0 rgba(60,143,102,0)}}
-[data-motion="off"] .avail-dot{animation:none}
+[data-motion="reduced"] .avail-dot{animation:none}
 @media (prefers-reduced-motion:reduce){.avail-dot{animation:none}}
 /* it still fits at 390, just: the label sheds its padding before it sheds
    itself, and only goes when the line would break */
@@ -851,7 +851,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   text-transform:uppercase;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.22em;transition:text-decoration-color var(--out) var(--ease),color var(--out) var(--ease)}
 .cw-link:hover{text-decoration-color:currentColor;transition-duration:var(--in)}
 @media (max-width:1023px){.cw-row{grid-template-columns:1fr}.cw-inner{grid-template-columns:1fr}}
-[data-motion="off"] .cw-panel{transition:none}
+[data-motion="reduced"] .cw-panel{transition:none}
 
 /* 3 · portrait — square photo beside a text column. Lives inside .wrap now,
    so it takes the page column instead of carrying its own copy of the width
@@ -1175,13 +1175,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .card{transform:none !important;opacity:1 !important}
   .n-wave{animation:none}
 }
-[data-motion="off"]{scroll-behavior:auto}
-[data-motion="off"] *{transition-duration:.001ms !important;animation-duration:.001ms !important}
-[data-motion="off"] .card{transform:none !important;opacity:1 !important}
-[data-motion="off"] .n-wave{animation:none}
-[data-motion="off"] .tab-ind{transition:none}
+[data-motion="reduced"]{scroll-behavior:auto}
+[data-motion="reduced"] *{transition-duration:.001ms !important;animation-duration:.001ms !important}
+[data-motion="reduced"] .card{transform:none !important;opacity:1 !important}
+[data-motion="reduced"] .n-wave{animation:none}
+[data-motion="reduced"] .tab-ind{transition:none}
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
+<link rel="stylesheet" href="/site-motion.css">
 </head>
 <body>
 <div class="wrap" id="top"><a class="skip" href="#main">Skip to content</a></div>
@@ -1311,10 +1312,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
   <!-- 2 · WORK -->
   <section class="work" id="work" aria-label="Case studies">
+    <p class="sec-label">In depth</p>
     <div class="stack-cards">
 
       <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-01-tribe">
-        <span class="card-tick">01 / 04</span>
+        <span class="card-tick">01 / 03</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
         </div>
@@ -1364,7 +1366,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       </article></div>
 
       <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-02-mindure">
-        <span class="card-tick">02 / 04</span>
+        <span class="card-tick">02 / 03</span>
         <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
         </div>
@@ -1389,7 +1391,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       </article></div>
 
       <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-04-signal">
-        <span class="card-tick">03 / 04</span>
+        <span class="card-tick">03 / 03</span>
           <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal sensory feedback · LLM uncertainty</span>AI sounds sure even when it's wrong. A research-led signal marks when to look twice.</h2>
         </div>
@@ -1429,40 +1431,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </div>
       </article></div>
 
-      <div class="card-slot"><article class="card">
-        <span class="card-tick">04 / 04</span>
-                <div class="card-hblock"><span class="card-status">Currently updating</span>
-          <h2 class="card-h t-title"><span class="card-eyebrow">Therapy on Artboard with Real Time Guidance</span>Reaching someone through what they make, when words won't come.</h2>
-        </div>
-        <div class="card-plane"><div class="plane"><svg viewBox="96 150 1008 439" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
-<title id="s3t">The way round the words</title>
-<desc id="s3d">A direct route from feeling to words stops at a barrier; a longer route curves down through making and arrives at words from below.</desc>
-<circle class="dot" cx="200" cy="300" r="20"/>
-<path class="soft" d="M232 300 L520 300"/>
-<line class="soft" x1="560" y1="215" x2="560" y2="395"/>
-<path class="hard" d="M205 335 C300 470 430 515 590 515 C750 515 885 450 972 337" pathLength="1"/>
-<circle class="dot" cx="590" cy="515" r="20"/>
-<circle class="dot" cx="980" cy="300" r="20"/>
-<text x="200" y="252" text-anchor="middle">Feeling</text>
-<text x="560" y="192" text-anchor="middle">Expression barrier</text>
-<text x="590" y="572" text-anchor="middle">Making</text>
-<text x="980" y="252" text-anchor="middle">Words</text>
-</svg></div></div>
-        <div class="card-shot"><img src="ness/ness_thumbnail_no_background_casestudy2.png" alt="Ness multi-device app" loading="lazy" decoding="async"></div>
-        <div class="card-copy">
-          <dl class="card-spec">
-            <div><dt>Role</dt><dd>Product design · UX/UI design</dd></div>
-            <div><dt>Scope</dt><dd>0→1 · brand development to prototype</dd></div>
-            <div><dt>Practice</dt><dd>Creative Therapy · AI Guide · Emotional Safety · Human Factors</dd></div>
-          </dl>
-        </div>
-      </article></div>
-
     </div>
   </section>
 
   <section class="more" id="more">
-    <p class="sec-label">Also shipped</p>
+    <p class="sec-label">In brief</p>
     <div class="cw-row">
         <button class="cw-card" id="cw-lc" aria-expanded="false" aria-controls="cwp-lc">
           <span class="cw-eyebrow">Physical Product · Client Work · Leica</span>
@@ -1526,6 +1499,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <p class="t-body">Visual work never used the analytical half of how I think. I kept ending up in the part of a project that was about behaviour — why someone hesitated, what they assumed, what the environment was doing to them. Product design is where that belongs.</p>
         <p class="t-body">Both jobs were about what happens when a system doesn't behave the way someone expects. That's what I work on now, in AI.</p>
         <p class="t-body">I see the structural problem before I see the screen. That's easier to hear early than late, so I try to say what's wrong and what we can ship in the same sentence.</p>
+        <p class="t-body">Every duration on this site resolves to one of four tokens, and the reduce-motion setting removes all of them without removing any information.</p>
 
         <h2 class="about-lede t-title">What shapes the way I design</h2>
         <div class="lens-grid">
@@ -1605,7 +1579,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 (function(){
 "use strict";
 var root=document.documentElement;
-function motionOff(){return root.getAttribute('data-motion')==='off';}
+function motionOff(){return root.getAttribute('data-motion')==='reduced';}
 
 /* tab indicator */
 var tabs=[].slice.call(document.querySelectorAll('.tab')),ind=document.getElementById('tabInd');
@@ -1854,7 +1828,7 @@ cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')
 /* motion — overrides the system preference in both directions */
 var mb=document.getElementById('motionBtn');
 mb.addEventListener('click',function(){var off=motionOff();
-  if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
+  if(off)root.setAttribute('data-motion','full');else root.setAttribute('data-motion','reduced');
   mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
   /* stack() was the sticky-stacking pass this section used before the scroll
      flow replaced it; it no longer exists, and the call was throwing on every
@@ -1862,7 +1836,7 @@ mb.addEventListener('click',function(){var off=motionOff();
      state just switched into, without waiting for the next scroll. */
   mb.classList.toggle('btn--on',!off);queueFlow();});
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
+  root.setAttribute('data-motion','reduced');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
 /* Name pronunciation. There is no recording yet, so the browser speaks the
@@ -2344,5 +2318,6 @@ document.addEventListener('keydown',function(e){
 })();
 </script>
 <script src="/site-mobile.js" defer></script>
+<script src="/site-motion.js" defer></script>
 </body>
 </html>

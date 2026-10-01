@@ -119,8 +119,7 @@ function lzw(data, minCode) {
   blocks.push(0); return Buffer.from(blocks);
 }
 const u16 = v => [v & 255, v >> 8];
-const parts = [Buffer.from('GIF89a', 'latin1'), Buffer.from([...u16(W), ...u16(H), 0xF7, 0, 0]), Buffer.from(pal.flat()),
-  Buffer.from([0x21, 0xFF, 0x0B, ...Buffer.from('NETSCAPE2.0', 'latin1'), 0x03, 0x01, 0, 0, 0])];
+const parts = [Buffer.from('GIF89a', 'latin1'), Buffer.from([...u16(W), ...u16(H), 0xF7, 0, 0]), Buffer.from(pal.flat())]   /* no NETSCAPE loop block: the site's motion budget has no loops, so it plays once and holds */;
 let prev = null;
 for (const t of tl) {
   let x0 = 0, y0 = 0, x1 = W - 1, y1 = H - 1;

@@ -1,0 +1,86 @@
+/* ═══ site-motion.css — the motion system, shared by every page ═══
+   Motion answers one of three questions: where did this come from, what
+   changed, or is the system alive. Four durations, two curves; every
+   transition on the site resolves to these. */
+
+:root{
+  --t-instant:120ms;   /* hover, press, focus, toggle feedback */
+  --t-enter:  300ms;   /* an element arriving */
+  --t-settle: 500ms;   /* page transition, section change */
+  --t-clear:  700ms;   /* an element leaving, a state resolving */
+  --ease-enter:cubic-bezier(.32,.72,0,1);
+  --ease-exit: cubic-bezier(.4,0,.2,1);
+  /* the pages' own names, resolved to the tokens */
+  --in:var(--t-instant);
+  --out:var(--t-settle);
+  --ease:var(--ease-enter);
+}
+
+/* ── the few hard-coded timings, brought onto the tokens ── */
+/* the tab indicator slides; its width no longer animates (layout) */
+.tab-ind{transition:transform var(--t-settle) var(--ease-enter)}
+/* the drive's car: left is a layout property, so it follows the scroll directly */
+.rd-car{transition:none}
+.rfig .sk .rib{transition:opacity var(--t-instant) var(--ease-enter)}
+/* the availability dot no longer pulses: the header lamp is the one ambient motion */
+.avail-dot{animation:none}
+
+/* ── focus rings: never animated, never delayed ── */
+:focus-visible{transition:none !important}
+
+/* ── the signature: one lamp beside the wordmark ──
+   Comes on once at load and settles to rest, like a dashboard self-test light.
+   Is the system alive. */
+.brand:has(.lamp){display:inline-flex;align-items:center}
+.lamp{display:inline-block;width:5px;height:5px;margin-left:7px;border-radius:50%;
+  background:currentColor;opacity:.22;vertical-align:middle;flex:none;
+  animation:lamp 1600ms var(--ease-exit) both}
+@keyframes lamp{0%{opacity:0}30%{opacity:.95}100%{opacity:.22}}
+
+/* ── scroll reveal: opacity only, once. Where did this come from. ── */
+.reveal{opacity:0;transition:opacity var(--t-enter) var(--ease-enter)}
+.reveal.in{opacity:1}
+
+/* ── case-study cards on the home page: a 2px lift and a rule under the
+   title. What changed. ── */
+.card-slot{transition:transform var(--t-instant) var(--ease-enter)}
+.card-h{position:relative}
+.card-h::after{content:"";position:absolute;left:0;bottom:-8px;width:3em;height:1px;background:currentColor;
+  transform:scaleX(0);transform-origin:left;transition:transform var(--t-instant) var(--ease-enter)}
+@media (hover:hover){
+  .card-slot:has(.card[role="link"]:hover),.card-slot:has(.card[role="link"]:focus-visible){transform:translateY(-2px)}
+  .card[role="link"]:hover .card-h::after,.card[role="link"]:focus-visible .card-h::after{transform:scaleX(1)}
+  .card-slot:has(.card[role="link"]:active){transform:translateY(0)}
+}
+
+/* ── high contrast cross-fades rather than snapping. What changed. ── */
+:root.mt-swap *,:root.mt-swap *::before,:root.mt-swap *::after{
+  transition:color var(--t-enter) var(--ease-enter),background-color var(--t-enter) var(--ease-enter),
+             border-color var(--t-enter) var(--ease-enter) !important}
+
+/* ── messages fade in, and leave more slowly ── */
+.toast{transition:opacity var(--t-clear) var(--ease-exit) !important}
+.toast[data-show="true"]{transition:opacity var(--t-enter) var(--ease-enter) !important}
+
+/* ── page transitions: a cross-fade, and a case-study card becomes its hero ── */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--t-settle)}
+.card[data-href="/case-study-01-tribe"],:root:has(meta[property="og:url"][content$="case-study-01-tribe"]) .cs-head{view-transition-name:cs-01}
+.card[data-href="/case-study-02-mindure"],:root:has(meta[property="og:url"][content$="case-study-02-mindure"]) .cs-head{view-transition-name:cs-02}
+.card[data-href="/case-study-04-signal"],:root:has(meta[property="og:url"][content$="case-study-04-signal"]) .cs-head{view-transition-name:cs-04}
+::view-transition-group(*){animation-duration:var(--t-settle);animation-timing-function:var(--ease-enter)}
+
+/* ═══ reduced: what survives is short opacity and colour changes, and every
+   piece of content. No transform, no keyframes, no reveal, no page transition. ═══ */
+@media (prefers-reduced-motion:reduce){ @view-transition{navigation:none} }
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after{
+  animation:none !important;
+  transition-property:opacity,color,background-color,border-color !important;
+  transition-duration:150ms !important}
+:root[data-motion="reduced"] .reveal{opacity:1}
+:root[data-motion="reduced"] .card-slot{transform:none !important}
+:root[data-motion="reduced"]::view-transition-group(*),
+:root[data-motion="reduced"]::view-transition-old(*),
+:root[data-motion="reduced"]::view-transition-new(*){animation:none !important}

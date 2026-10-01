@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-motion="full">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -108,7 +108,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-[data-motion="off"] *{animation:none !important;transition:none !important}
+[data-motion="reduced"] *{animation:none !important;transition:none !important}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--page);color:var(--body-c);
@@ -591,12 +591,12 @@ a{color:inherit}
    does move when text rewraps, and a hard cut there reads as a glitch. */
 .phone-chips{position:absolute;left:0;right:0;overflow:hidden;display:none;
   transition:top var(--out) var(--ease)}
-[data-motion="off"] .phone-chips{transition:none}
+[data-motion="reduced"] .phone-chips{transition:none}
 @media (prefers-reduced-motion:reduce){.phone-chips{transition:none}}
 .phone-caret{position:absolute;width:2px;background:#F5F0E8;display:none;
   animation:phone-blink 1.06s steps(1,end) infinite}
 @keyframes phone-blink{0%,55%{opacity:1}55.01%,100%{opacity:0}}
-[data-motion="off"] .phone-caret{animation:none}
+[data-motion="reduced"] .phone-caret{animation:none}
 @media (prefers-reduced-motion:reduce){.phone-caret{animation:none}}
 
 /* the run is under four seconds and does not loop, so no pause control is
@@ -1072,7 +1072,7 @@ a{color:inherit}
     transition:height var(--out) var(--ease)}
   .bp-panel[data-open="true"]{height:auto}
 }
-[data-motion="off"] .bp-panel{transition:none}
+[data-motion="reduced"] .bp-panel{transition:none}
 @media (prefers-reduced-motion:reduce){ .bp-panel{transition:none} }
 .bp-panel[data-open="true"]{grid-template-rows:1fr}
 .bp-inner{overflow:hidden;min-height:0}
@@ -1534,7 +1534,7 @@ a{color:inherit}
    half car widths across the way a real one does. */
 .rd-car svg{display:block;width:clamp(46px,6cqw,78px);height:auto}
 .rd-car path{transition:fill var(--out) var(--ease),stroke var(--out) var(--ease)}
-[data-motion="off"] .rd-car{transition:none}
+[data-motion="reduced"] .rd-car{transition:none}
 
 /* The exchanges are places on the road, not a list beside it. Each one is
    pinned to a point further along, and the camera moving forward is what brings
@@ -1596,7 +1596,7 @@ a{color:inherit}
 /* only while the drive is on screen: a status bar for a thing you cannot see
    is furniture */
 .rd-hud[data-on="true"]{opacity:1;translate:0 0}
-[data-motion="off"] .rd-hud{transition:none}
+[data-motion="reduced"] .rd-hud{transition:none}
 @media (prefers-reduced-motion:reduce){.rd-hud{transition:none}}
 /* the controls live at the bottom right, so the bar stops before them */
 .rd-hud-in{max-width:var(--shell);margin-inline:auto;width:100%;
@@ -1657,8 +1657,8 @@ a{color:inherit}
    convey speed: the dashes stop stretching and the car stops easing. The
    information is unchanged - position, band, channels - and only the sensation
    of travel goes, which is the thing the setting is actually about. */
-[data-motion="off"] .rd-lanes{--speed:0 !important}
-[data-motion="off"] .rd-car{transition:none}
+[data-motion="reduced"] .rd-lanes{--speed:0 !important}
+[data-motion="reduced"] .rd-car{transition:none}
 @media (prefers-reduced-motion:reduce){
   .rd-lanes{--speed:0 !important}
   .rd-car{transition:none}
@@ -2127,7 +2127,7 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
   .pl-drops span:not(:nth-child(2)){display:none}
   .pl-drops span:nth-child(2){flex-basis:min(230px,62vw)}
 }
-[data-motion="off"] .ph{transition:none}
+[data-motion="reduced"] .ph{transition:none}
 @media (prefers-reduced-motion:reduce){ .ph{transition:none} }
 [data-contrast="high"] .ph{box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
 [data-contrast="high"] .ph[data-pos="l"],
@@ -2424,7 +2424,7 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
 /* the drawings are static, but the scroll region is not - a reader who has asked
    for less movement should not be handed a pane that slides under their thumb
    before they have decided to move it */
-[data-motion="off"] .dgm-scroll{scroll-behavior:auto}
+[data-motion="reduced"] .dgm-scroll{scroll-behavior:auto}
 /* One face, one weight, two sizes. Diagram labels are scanned rather than read,
    so they take the sans like every other scanned thing on the page - and they
    are set in the same --micro the captions use, so a label inside a figure and
@@ -2522,7 +2522,7 @@ figcaption i{display:block;margin-top:.55em;font-style:italic;
 .car-window{position:relative;overflow:hidden;flex:0 0 auto}
 .car-window img{display:block;height:auto;width:auto;max-width:none;
   transition:transform var(--out) var(--ease)}
-[data-motion="off"] .car-window img{transition:none}
+[data-motion="reduced"] .car-window img{transition:none}
 /* the two neighbours stay legible but stand back */
 .car-veil{position:absolute;top:0;bottom:0;background:var(--page);opacity:.62;
   pointer-events:none;transition:width var(--out) var(--ease)}
@@ -3055,7 +3055,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .rfig .st .lang{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3)}
 @media (max-width:720px){ .rfig .st{max-width:88%;margin:0 !important;align-self:flex-start !important} }
 @media (prefers-reduced-motion: reduce){ .rfig .st{transform:none !important} }
-[data-motion="off"] .rfig .st{transform:none !important}
+[data-motion="reduced"] .rfig .st{transform:none !important}
 
 /* R5, the ribbons; a rule in focus lifts its own sources. The pills were drawn
    for a narrower face; in the site's serif the longest rule ran past its pill
@@ -3064,7 +3064,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .rfig .sk .rib{fill:none;stroke-linecap:round;transition:opacity .2s}
 .rfig .sk.focus .rib{opacity:.1} .rfig .sk.focus .rib.on{opacity:1}
 .rfig .sk.focus .rnode{opacity:.35} .rfig .sk.focus .rnode.on{opacity:1}
-[data-motion="off"] .rfig .sk .rib{transition:none}
+[data-motion="reduced"] .rfig .sk .rib{transition:none}
 
 /* R5 on a phone: each rule with its sources as chips, styled like their nodes */
 .r5-list{display:none;list-style:none;margin:0;padding:0}
@@ -3086,6 +3086,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 }
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
+<link rel="stylesheet" href="/site-motion.css">
 </head>
 <body>
 
@@ -3676,12 +3677,12 @@ cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')
 
 /* motion — overrides the system preference in both directions */
 var mb=document.getElementById('motionBtn');
-mb.addEventListener('click',function(){var off=root.getAttribute('data-motion')==='off';
-  if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
+mb.addEventListener('click',function(){var off=root.getAttribute('data-motion')==='reduced';
+  if(off)root.setAttribute('data-motion','full');else root.setAttribute('data-motion','reduced');
   mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
   mb.classList.toggle('btn--on',!off);});
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
+  root.setAttribute('data-motion','reduced');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
 /* noise for focus — toggle plus a volume dragger that slides out */
@@ -3927,7 +3928,7 @@ if(vol)vol.addEventListener("input",function(){
 (function(){
   var img=document.querySelector('.v1-flow'); if(!img)return;
   var gif=img.getAttribute('src'), still=img.getAttribute('data-still');
-  function sync(){ var want=root.getAttribute('data-motion')==='off'?still:gif;
+  function sync(){ var want=root.getAttribute('data-motion')==='reduced'?still:gif;
     if(img.getAttribute('src')!==want)img.setAttribute('src',want); }
   sync();
   new MutationObserver(sync).observe(root,{attributes:true,attributeFilter:['data-motion']});
@@ -4012,5 +4013,6 @@ measure();spy();
 })();
 </script>
 <script src="/site-mobile.js" defer></script>
+<script src="/site-motion.js" defer></script>
 </body>
 </html>

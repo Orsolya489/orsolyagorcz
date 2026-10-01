@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-motion="full">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -86,7 +86,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-[data-motion="off"] *{animation:none !important;transition:none !important}
+[data-motion="reduced"] *{animation:none !important;transition:none !important}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--page);color:var(--body-c);
@@ -533,12 +533,12 @@ a{color:inherit}
    does move when text rewraps, and a hard cut there reads as a glitch. */
 .phone-chips{position:absolute;left:0;right:0;overflow:hidden;display:none;
   transition:top var(--out) var(--ease)}
-[data-motion="off"] .phone-chips{transition:none}
+[data-motion="reduced"] .phone-chips{transition:none}
 @media (prefers-reduced-motion:reduce){.phone-chips{transition:none}}
 .phone-caret{position:absolute;width:2px;background:#F5F0E8;display:none;
   animation:phone-blink 1.06s steps(1,end) infinite}
 @keyframes phone-blink{0%,55%{opacity:1}55.01%,100%{opacity:0}}
-[data-motion="off"] .phone-caret{animation:none}
+[data-motion="reduced"] .phone-caret{animation:none}
 @media (prefers-reduced-motion:reduce){.phone-caret{animation:none}}
 
 /* the run is under four seconds and does not loop, so no pause control is
@@ -1032,7 +1032,7 @@ a{color:inherit}
     transition:height var(--out) var(--ease)}
   .bp-panel[data-open="true"]{height:auto}
 }
-[data-motion="off"] .bp-panel{transition:none}
+[data-motion="reduced"] .bp-panel{transition:none}
 @media (prefers-reduced-motion:reduce){ .bp-panel{transition:none} }
 .bp-panel[data-open="true"]{grid-template-rows:1fr}
 .bp-inner{overflow:hidden;min-height:0}
@@ -1383,7 +1383,7 @@ a{color:inherit}
 .car-window{position:relative;overflow:hidden;flex:0 0 auto}
 .car-window img{display:block;height:auto;width:auto;max-width:none;
   transition:transform var(--out) var(--ease)}
-[data-motion="off"] .car-window img{transition:none}
+[data-motion="reduced"] .car-window img{transition:none}
 /* the two neighbours stay legible but stand back */
 .car-veil{position:absolute;top:0;bottom:0;background:var(--page);opacity:.62;
   pointer-events:none;transition:width var(--out) var(--ease)}
@@ -1646,6 +1646,7 @@ a{color:inherit}
 }
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
+<link rel="stylesheet" href="/site-motion.css">
 </head>
 <body>
 
@@ -2476,12 +2477,12 @@ cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')
 
 /* motion — overrides the system preference in both directions */
 var mb=document.getElementById('motionBtn');
-mb.addEventListener('click',function(){var off=root.getAttribute('data-motion')==='off';
-  if(off)root.removeAttribute('data-motion');else root.setAttribute('data-motion','off');
+mb.addEventListener('click',function(){var off=root.getAttribute('data-motion')==='reduced';
+  if(off)root.setAttribute('data-motion','full');else root.setAttribute('data-motion','reduced');
   mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
   mb.classList.toggle('btn--on',!off);});
 if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-  root.setAttribute('data-motion','off');mb.setAttribute('aria-pressed','true');
+  root.setAttribute('data-motion','reduced');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
 
 /* noise for focus — toggle plus a volume dragger that slides out */
@@ -2808,7 +2809,7 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
   }
 
   function still(){
-    return document.documentElement.getAttribute("data-motion")==="off"
+    return document.documentElement.getAttribute("data-motion")==="reduced"
       || (window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches);
   }
 
@@ -2941,5 +2942,6 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
 })();
 </script>
 <script src="/site-mobile.js" defer></script>
+<script src="/site-motion.js" defer></script>
 </body>
 </html>
