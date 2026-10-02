@@ -657,7 +657,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
      fixed number of pixels tall, so on a short card it climbs much higher up
      the card than it does on a tall one. Reserving its space in px keeps the
      frame clear of it at every size instead of only the roomy ones. */
-  .stack-cards>.card-slot:first-child .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(30% + 132px)}
+  .stack-cards>.card-slot:nth-child(2) .card-plane{left:50%;top:2cqw;height:auto;bottom:calc(30% + 132px)}
   /* Full column, not 90%. The quarter-columns came out at 133px while the
      longest declared line - "Self-directed research" - measured 145, so three
      values were wrapping inside a line that was supposed to be whole. The 10%
@@ -670,14 +670,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     margin-left:0;margin-top:4cqh;margin-bottom:12px;
     width:64%;aspect-ratio:1.32;max-height:min(360px, 40cqh, 100%)}
   /* Mindure alone comes down ~22%; the artboard card keeps the shared size */
-  .stack-cards>.card-slot:nth-child(2) .card-shot{width:50%}
+  .stack-cards>.card-slot:nth-child(3) .card-shot{width:50%}
   /* Both of these renders are exported with transparent padding baked in, so
      the box sitting 12px off the card edge left the visible artwork much
      further up - 4.3% of the image on card 3, 10.9% on card 4. translateY is
      a percentage of the element's own height, so shifting each by its own
      padding puts the ARTWORK on the 12px line. What drops below the edge is
      empty pixels, which the card clips and nobody sees. */
-  .stack-cards>.card-slot:nth-child(2) .card-shot{transform:translateY(4.3%)}
+  .stack-cards>.card-slot:nth-child(3) .card-shot{transform:translateY(4.3%)}
   .stack-cards>.card-slot:nth-child(4) .card-shot{transform:translateY(10.9%)}
   /* card 1 is the tall phone, 450x920 - the container matches the artwork so
      the whole device shows */
@@ -692,15 +692,15 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   /* Cards 1 and 3 are both phones and take one rule, so the size and the cut
      cannot drift apart later. The only thing that differs is each artwork's
      own ratio, which is a property of the file rather than a decision. */
-  .stack-cards>.card-slot:first-child .card-shot,
-  .stack-cards>.card-slot:nth-child(3) .card-shot{
+  .stack-cards>.card-slot:nth-child(2) .card-shot,
+  .stack-cards>.card-slot:first-child .card-shot{
     margin-left:12%;margin-bottom:0;
     width:auto;height:104%;max-height:none;
     transform:translateY(25%)}
-  .stack-cards>.card-slot:first-child .card-shot{aspect-ratio:450/920}
-  .stack-cards>.card-slot:nth-child(3) .card-shot{aspect-ratio:924/2000}
-  .stack-cards>.card-slot:first-child .card-shot img,
-  .stack-cards>.card-slot:nth-child(3) .card-shot img{
+  .stack-cards>.card-slot:nth-child(2) .card-shot{aspect-ratio:450/920}
+  .stack-cards>.card-slot:first-child .card-shot{aspect-ratio:924/2000}
+  .stack-cards>.card-slot:nth-child(2) .card-shot img,
+  .stack-cards>.card-slot:first-child .card-shot img{
     width:100%;height:100%;min-height:0;object-fit:contain;object-position:center}
 }
 
@@ -1315,8 +1315,49 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     <p class="sec-label">In depth</p>
     <div class="stack-cards">
 
-      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-01-tribe">
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-04-signal">
         <span class="card-tick">01 / 03</span>
+          <div class="card-hblock">
+        <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal sensory feedback · LLM uncertainty</span>AI sounds sure even when it's wrong. A research-led signal marks when to look twice.</h2>
+        </div>
+        <div class="card-plane"><div class="plane"><svg class="s4" viewBox="56 105 1488 506" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s4t s4d">
+<title id="s4t">One answer, two things it might be, and the signal that reaches the human by another channel</title>
+<desc id="s4d">A node labelled AI answer branches at a marked point into two outcomes, true and invented, drawn at the same size and weight and joined by the label identical on screen. Both outcomes then converge again and arrive at a single node: human judgment. A separate solid line leaves the branch point, travels the long way round beneath the whole flow, and enters that same node from below. It is labelled signal. The text channel cannot distinguish the two outcomes; the second channel is what does.</desc>
+
+<path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
+<path class="soft" d="M380 316 H484 Q500 316 500 332 V420 Q500 436 516 436 H620"/>
+<rect class="hard" x="80" y="256" width="300" height="120" rx="14"/>
+<rect class="hard" x="620" y="136" width="300" height="120" rx="14"/>
+<rect class="hard" x="620" y="376" width="300" height="120" rx="14"/>
+<circle class="dot" cx="500" cy="316" r="20"/>
+<text x="230" y="325" text-anchor="middle">AI answer</text>
+<text x="770" y="205" text-anchor="middle">True</text>
+<text x="770" y="445" text-anchor="middle">Invented</text>
+<text class="row" x="770" y="322" text-anchor="middle">Identical on screen</text>
+
+<!-- both arrive at the same person, by the same route -->
+<path class="soft" d="M920 196 H1044 Q1060 196 1060 212 V300 Q1060 316 1076 316 H1160"/>
+<path class="soft" d="M920 436 H1044 Q1060 436 1060 420 V332 Q1060 316 1076 316 H1160"/>
+<rect class="hard" x="1160" y="256" width="360" height="120" rx="14"/>
+<text x="1340" y="325" text-anchor="middle">Human judgment</text>
+
+<!-- the signal: taken at the branch, delivered by another channel entirely -->
+<path class="hard" d="M500 336 V560 Q500 580 520 580 H1320 Q1340 580 1340 560 V406"/>
+<polygon class="arrow-head" points="1340,376 1330,404 1350,404"/>
+<text class="num" x="895" y="552" text-anchor="middle">Signal</text>
+</svg></div></div>
+        <div class="card-shot"><img src="signal/reliability-signal-mockup.webp" alt="A phone chat in its warning state: the answer approves 800 mg of ibuprofen, and the row beneath it reads Reliability, Low. The reason has opened under the answer." loading="lazy" decoding="async" width="924" height="2000"></div>
+        <div class="card-copy">
+          <dl class="card-spec">
+            <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
+            <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
+            <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
+          </dl>
+        </div>
+      </article></div>
+
+      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-01-tribe">
+        <span class="card-tick">02 / 03</span>
                 <div class="card-hblock">
           <h2 class="card-h t-title"><span class="card-eyebrow">Human-first NLP · People Matching</span>Building enough safety for someone to type the thing they actually want.</h2>
         </div>
@@ -1366,7 +1407,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       </article></div>
 
       <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-02-mindure">
-        <span class="card-tick">02 / 03</span>
+        <span class="card-tick">03 / 03</span>
         <div class="card-hblock">
         <h2 class="card-h t-title"><span class="card-eyebrow">Career Anxiety Research · Dashboard Design</span>Giving someone a clear next move when the future feels automated away.</h2>
         </div>
@@ -1386,47 +1427,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
             <div><dt>Role</dt><dd>Behavioral Researcher &amp; Designer</dd></div>
             <div><dt>Scope</dt><dd>Deep research · model prototype</dd></div>
             <div><dt>Practice</dt><dd>R&amp;D Human Factors · HAI</dd></div>
-          </dl>
-        </div>
-      </article></div>
-
-      <div class="card-slot"><article class="card" role="link" tabindex="0" data-href="/case-study-04-signal">
-        <span class="card-tick">03 / 03</span>
-          <div class="card-hblock">
-        <h2 class="card-h t-title"><span class="card-eyebrow">Multi-modal sensory feedback · LLM uncertainty</span>AI sounds sure even when it's wrong. A research-led signal marks when to look twice.</h2>
-        </div>
-        <div class="card-plane"><div class="plane"><svg class="s4" viewBox="56 105 1488 506" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s4t s4d">
-<title id="s4t">One answer, two things it might be, and the signal that reaches the human by another channel</title>
-<desc id="s4d">A node labelled AI answer branches at a marked point into two outcomes, true and invented, drawn at the same size and weight and joined by the label identical on screen. Both outcomes then converge again and arrive at a single node: human judgment. A separate solid line leaves the branch point, travels the long way round beneath the whole flow, and enters that same node from below. It is labelled signal. The text channel cannot distinguish the two outcomes; the second channel is what does.</desc>
-
-<path class="soft" d="M380 316 H484 Q500 316 500 300 V212 Q500 196 516 196 H620"/>
-<path class="soft" d="M380 316 H484 Q500 316 500 332 V420 Q500 436 516 436 H620"/>
-<rect class="hard" x="80" y="256" width="300" height="120" rx="14"/>
-<rect class="hard" x="620" y="136" width="300" height="120" rx="14"/>
-<rect class="hard" x="620" y="376" width="300" height="120" rx="14"/>
-<circle class="dot" cx="500" cy="316" r="20"/>
-<text x="230" y="325" text-anchor="middle">AI answer</text>
-<text x="770" y="205" text-anchor="middle">True</text>
-<text x="770" y="445" text-anchor="middle">Invented</text>
-<text class="row" x="770" y="322" text-anchor="middle">Identical on screen</text>
-
-<!-- both arrive at the same person, by the same route -->
-<path class="soft" d="M920 196 H1044 Q1060 196 1060 212 V300 Q1060 316 1076 316 H1160"/>
-<path class="soft" d="M920 436 H1044 Q1060 436 1060 420 V332 Q1060 316 1076 316 H1160"/>
-<rect class="hard" x="1160" y="256" width="360" height="120" rx="14"/>
-<text x="1340" y="325" text-anchor="middle">Human judgment</text>
-
-<!-- the signal: taken at the branch, delivered by another channel entirely -->
-<path class="hard" d="M500 336 V560 Q500 580 520 580 H1320 Q1340 580 1340 560 V406"/>
-<polygon class="arrow-head" points="1340,376 1330,404 1350,404"/>
-<text class="num" x="895" y="552" text-anchor="middle">Signal</text>
-</svg></div></div>
-        <div class="card-shot"><img src="signal/reliability-signal-mockup.webp" alt="A phone chat in its warning state: the answer approves 800 mg of ibuprofen, and the row beneath it reads Reliability, Low. The reason has opened under the answer." loading="lazy" decoding="async" width="924" height="2000"></div>
-        <div class="card-copy">
-          <dl class="card-spec">
-            <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
-            <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
-            <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
           </dl>
         </div>
       </article></div>
