@@ -1180,6 +1180,16 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 [data-motion="reduced"] .card{transform:none !important;opacity:1 !important}
 [data-motion="reduced"] .n-wave{animation:none}
 [data-motion="reduced"] .tab-ind{transition:none}
+
+/* desktop: the hero's headline group sits in the bottom-left corner of the first screen */
+@media (min-width:768px){
+  .hero{padding-bottom:calc(var(--gutter)*2.2)}
+  .hero-main{justify-content:flex-end}
+}
+/* the hero labels: outlined, no fill */
+.hero-labels li{background:none;box-shadow:inset 0 0 0 1px var(--edge-ctrl);color:var(--ink);font-size:calc(var(--micro)*1.08);
+  transition:background-color var(--t-instant,120ms) var(--ease),box-shadow var(--t-instant,120ms) var(--ease)}
+.hero-labels li:hover{background:var(--card);box-shadow:inset 0 0 0 1px var(--ink)}
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
 <link rel="stylesheet" href="/site-motion.css">
