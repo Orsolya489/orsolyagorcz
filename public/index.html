@@ -1186,10 +1186,30 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .hero{padding-bottom:calc(var(--gutter)*2.2)}
   .hero-main{justify-content:flex-end}
 }
+/* the claim on two set lines: who and what, then what for */
+@media (min-width:768px){ .hero .t-hero{max-width:none} .t-hero .hl{display:block;white-space:nowrap}
+  .hero-sub{max-width:none} .hero-sub .hl{display:block;white-space:nowrap} }
+/* the availability line under the logo reads as one line */
+@media (min-width:768px){ .c-tl .avail-t{flex-direction:row;gap:.35em} }
 /* the hero labels: outlined, no fill */
 .hero-labels li{background:none;box-shadow:inset 0 0 0 1px var(--edge-ctrl);color:var(--ink);font-size:calc(var(--micro)*1.08);
   transition:background-color var(--t-instant,120ms) var(--ease),box-shadow var(--t-instant,120ms) var(--ease)}
 .hero-labels li:hover{background:var(--card);box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* ═══ one filled header: logo, tabs and buttons on a single, short bar ═══ */
+:root{--bar-pad:8px}
+/* the page colour behind the bar; its last 14px melt into the page, inside
+   the header's own height, so nothing below the header is ever dimmed. No motion. */
+.chrome-shell::before{content:"";position:fixed;left:0;right:0;top:0;z-index:-1;pointer-events:none;
+  height:calc(var(--bar-pad)*2 + var(--control));background:var(--page);
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(to bottom,#000 calc(100% - 14px),transparent)}
+.c-tl,.c-tr{top:var(--bar-pad)}
+@media (min-width:768px){ .c-bc{top:var(--bar-pad)} }
+.c-tl .brand{background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.c-bc .tabs{background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+/* the availability line keeps its place under the logo, below the bar, on its own glass */
+.c-tl{gap:calc(var(--bar-pad) + 6px)}
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
 <link rel="stylesheet" href="/site-motion.css">
@@ -1315,8 +1335,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         <li>Human-AI Interaction</li>
         <li>Human Factors</li>
       </ul>
-      <h1 class="t-hero">I design trustworthy interactions for <em>safety-critical AI systems</em>.</h1>
-      <p class="t-body hero-sub">Seven+ years across design, now in safety-critical AI. Looking for product design roles in AI, robotics, healthtech and mental health.</p>
+      <h1 class="t-hero"><span class="hl">I design trustworthy interactions</span> <span class="hl">for <em>safety-critical AI systems</em>.</span></h1>
+      <p class="t-body hero-sub">Seven+ years across design, now in safety-critical AI. <span class="hl">Looking for product design roles in AI, robotics, healthtech and mental health.</span></p>
     </div>
   </section>
 
