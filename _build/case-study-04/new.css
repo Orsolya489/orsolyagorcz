@@ -177,8 +177,8 @@
 /* ═══ the drive ═══
    Green means support now, so the lane the car keeps when the answer is
    silent goes neutral, and so do the car and the Silent chip. The lane takes
-   the page colour: --card sits too close to the warning lanes' pink. */
-#road{--green-bg:var(--page);--green-ink:var(--near);--green-line:var(--near)}
+   the card colour, so the road reads as its own surface on the page. */
+#road{--green-bg:var(--card);--green-ink:var(--near);--green-line:var(--near)}
 #road .band--green{background:var(--card)}
 /* a label rotated about its left foot sits to the left of its anchor, so each
    is anchored half a line past its lane's centre (6.5% and 20% of the road) */
@@ -190,3 +190,31 @@
 .cs-head .cs-facts{margin-top:var(--stack)}
 .sec-copy ul{margin:0;padding-left:1.1em}
 .sec-copy li + li{margin-top:.6em}
+
+/* ═══ every visual sits in the reading column ═══
+   The title column is for titles only; the research figures and every
+   drawing start at the paragraphs' left edge and stop at the column's right
+   edge. Nothing is centred in the page. */
+@media (min-width:1024px){
+  .sec > *:not(.sec-label),.sec > .rfig{grid-column:2}
+}
+.rfig{max-width:none}
+/* sized for the column: smaller titles, tighter tiles and stickers */
+.rfig .ft{font-size:20px;margin-bottom:14px}
+.rfig .tiles{gap:14px}
+.rfig .tile{padding:16px 18px 14px;gap:10px}
+.rfig .tq{font-size:15px}
+.rfig .tn{font-size:26px}
+.rfig .tf{font-size:14px}
+.rfig .stickers{gap:26px}
+.rfig .st{max-width:330px;font-size:19px;padding:15px 18px}
+/* R1's labels, a step up so they hold their size in the narrower column */
+#svgR1 .lab-ink{font-size:12px}
+#svgR1 .meta{font-size:11.5px}
+
+/* the drive: the conversation on the left, the road on the right, both in
+   the reading column */
+@media (min-width:768px){
+  #road .rd-lanes{left:auto;right:0}
+  #road .rd-rail{left:0;right:calc(var(--road-w) + var(--gutter))}
+}

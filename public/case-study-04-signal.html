@@ -23,8 +23,8 @@
 /* ═══ tokens — identical to index.html; design-system.md is the source of truth ═══ */
 :root{
   /* colour — 8 values */
-  --page:      #FAF5F3;
-  --card:      #F2E5E2;
+  --page:      #F2E5E2;
+  --card:      #FAF5F3;
   --recess:    #EDDCD9;
   --ink:       #191517;
   --body-c:    #4E4649;
@@ -34,7 +34,7 @@
   --edge:      rgba(25,21,23,.09);
   --lattice:   rgba(25,21,23,.06);
   --edge-ctrl: rgba(25,21,23,.22);
-  --glass:     rgba(250,245,243,.90);
+  --glass:     rgba(242,229,226,.90);
   /* a warm terracotta and a warm olive, held at the same lightness and the
      same low chroma as --card - this system's red and green, not a signal
      red and green. Used wherever the page reads for friction and response:
@@ -189,7 +189,7 @@ a{color:inherit}
      it - the effect should be that the article fades under the menu, not that
      it dissolves. */
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
-  background:rgba(250,245,243,.62);
+  background:rgba(242,229,226,.62);
   -webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 100%);
   mask-image:linear-gradient(to bottom,#000 58%,transparent 100%)}
 /* nothing to soften when the page cannot scroll under it */
@@ -328,9 +328,9 @@ a{color:inherit}
 .noise[data-on="true"] .noise-btn:hover{color:var(--page)}
 /* the level has to read on ink too: a page-coloured thumb on a dimmed page-
    coloured track, rather than the ink-on-light pair used when the pill is off */
-.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(242,229,226,.38)}
 .noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
-.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(242,229,226,.38)}
 .noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
 /* Back inside the pill and back in the flow, so its width is what opens the
    pill up. Kept to 1.5 controls rather than the 3.2 it was: the button steps
@@ -2987,8 +2987,8 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 /* ═══ the drive ═══
    Green means support now, so the lane the car keeps when the answer is
    silent goes neutral, and so do the car and the Silent chip. The lane takes
-   the page colour: --card sits too close to the warning lanes' pink. */
-#road{--green-bg:var(--page);--green-ink:var(--near);--green-line:var(--near)}
+   the card colour, so the road reads as its own surface on the page. */
+#road{--green-bg:var(--card);--green-ink:var(--near);--green-line:var(--near)}
 #road .band--green{background:var(--card)}
 /* a label rotated about its left foot sits to the left of its anchor, so each
    is anchored half a line past its lane's centre (6.5% and 20% of the road) */
@@ -3001,6 +3001,34 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .sec-copy ul{margin:0;padding-left:1.1em}
 .sec-copy li + li{margin-top:.6em}
 
+/* ═══ every visual sits in the reading column ═══
+   The title column is for titles only; the research figures and every
+   drawing start at the paragraphs' left edge and stop at the column's right
+   edge. Nothing is centred in the page. */
+@media (min-width:1024px){
+  .sec > *:not(.sec-label),.sec > .rfig{grid-column:2}
+}
+.rfig{max-width:none}
+/* sized for the column: smaller titles, tighter tiles and stickers */
+.rfig .ft{font-size:20px;margin-bottom:14px}
+.rfig .tiles{gap:14px}
+.rfig .tile{padding:16px 18px 14px;gap:10px}
+.rfig .tq{font-size:15px}
+.rfig .tn{font-size:26px}
+.rfig .tf{font-size:14px}
+.rfig .stickers{gap:26px}
+.rfig .st{max-width:330px;font-size:19px;padding:15px 18px}
+/* R1's labels, a step up so they hold their size in the narrower column */
+#svgR1 .lab-ink{font-size:12px}
+#svgR1 .meta{font-size:11.5px}
+
+/* the drive: the conversation on the left, the road on the right, both in
+   the reading column */
+@media (min-width:768px){
+  #road .rd-lanes{left:auto;right:0}
+  #road .rd-rail{left:0;right:calc(var(--road-w) + var(--gutter))}
+}
+
 /* ═══ the research figures, R1–R5 ═══
    Ported from research-figures.html. They carry no colours of their own: the
    names they read are bound here to the site's tokens (--ink and --serif are
@@ -3011,8 +3039,8 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
   --rule:var(--edge-ctrl); --rule-2:var(--line-soft);
   --mono:var(--sans);
   margin:var(--stack) 0 0;padding:22px 0 8px;border-top:1px solid var(--rule);
-  max-width:1120px;min-width:0;color:var(--ink)}
-@media (min-width:1024px){ .sec > .rfig{grid-column:1 / -1} }
+  max-width:none;min-width:0;color:var(--ink)}
+/* in the reading column, like every other visual */
 .rfig .fk{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
 .rfig .ft{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.012em;margin:0 0 18px;color:var(--ink)}
 .rfig svg{display:block;width:100%;height:auto;overflow:visible}

@@ -23,8 +23,8 @@
 /* ═══ tokens — design-system.md is the source of truth ═══ */
 :root{
   /* colour — 8 values */
-  --page:      #FAF5F3;
-  --card:      #F2E5E2;
+  --page:      #F2E5E2;
+  --card:      #FAF5F3;
   --recess:    #EDDCD9;
   --ink:       #191517;
   --body-c:    #4E4649;
@@ -35,7 +35,7 @@
   --edge:      rgba(25,21,23,.09);
   --lattice:   rgba(25,21,23,.06);
   --edge-ctrl: rgba(25,21,23,.22);
-  --glass:     rgba(250,245,243,.90);
+  --glass:     rgba(242,229,226,.90);
   /* the one saturated value on the page: it reports a state, nothing else */
   --avail:     #3C8F66;
 
@@ -288,9 +288,9 @@ a{color:inherit}
 .noise[data-on="true"] .noise-btn:hover{color:var(--page)}
 /* the level has to read on ink too: a page-coloured thumb on a dimmed page-
    coloured track, rather than the ink-on-light pair used when the pill is off */
-.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-webkit-slider-runnable-track{background:rgba(242,229,226,.38)}
 .noise[data-on="true"] input[type="range"]::-webkit-slider-thumb{background:var(--page)}
-.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(250,245,243,.38)}
+.noise[data-on="true"] input[type="range"]::-moz-range-track{background:rgba(242,229,226,.38)}
 .noise[data-on="true"] input[type="range"]::-moz-range-thumb{background:var(--page)}
 /* flex:none is load-bearing. The chrome row is a flex container, so a plain
    width on this leaves it shrinkable - and because overflow:hidden drops its

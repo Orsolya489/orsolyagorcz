@@ -9,8 +9,8 @@
   --rule:var(--edge-ctrl); --rule-2:var(--line-soft);
   --mono:var(--sans);
   margin:var(--stack) 0 0;padding:22px 0 8px;border-top:1px solid var(--rule);
-  max-width:1120px;min-width:0;color:var(--ink)}
-@media (min-width:1024px){ .sec > .rfig{grid-column:1 / -1} }
+  max-width:none;min-width:0;color:var(--ink)}
+/* in the reading column, like every other visual */
 .rfig .fk{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
 .rfig .ft{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.012em;margin:0 0 18px;color:var(--ink)}
 .rfig svg{display:block;width:100%;height:auto;overflow:visible}

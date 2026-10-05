@@ -244,7 +244,7 @@ script = script.slice(0, d0) + TOGGLE + script.slice(d1);
 
 const out = head + chrome + body + '\n\n' + script + '\n<script src="/site-mobile.js" defer></script>\n</body>\n</html>\n';
 /* the site's motion contract (data-motion full|reduced) and its shared files */
-fs.writeFileSync(REPO + '/public/case-study-04-signal.html', require('../motion-rename.js')(out));
+fs.writeFileSync(REPO + '/public/case-study-04-signal.html', require('../surface-swap.js')(require('../motion-rename.js')(out)));
 console.log('page bytes', out.length);
 
 /* ── the embed keeps two columns down to 700px, so it fits the frame on the page ── */
