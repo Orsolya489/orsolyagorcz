@@ -1012,16 +1012,14 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   padding:clamp(28px,4.5vw,56px);
   display:grid;grid-template-columns:minmax(0,1fr) auto;
   column-gap:var(--stack);row-gap:calc(var(--stack)*1.15);align-items:start}
-.contact-band h2{grid-column:1;grid-row:1;margin:0;max-width:24ch}
-.contact-band .t-body{grid-column:1;grid-row:2;margin:0;max-width:46ch}
-.contact-band .contact-row{grid-column:1/-1;grid-row:3;
+.contact-band .t-body{grid-column:1;grid-row:1;margin:0;max-width:46ch}
+.contact-band .contact-row{grid-column:1/-1;grid-row:2;
   margin-top:calc(var(--stack)*.35)}
 @media (max-width:720px){
   .cb-grid{grid-template-columns:1fr}
   .contact-band .contact-loc{grid-column:1;grid-row:1;justify-self:start}
-  .contact-band h2{grid-row:2}
-  .contact-band .t-body{grid-row:3}
-  .contact-band .contact-row{grid-row:4}
+  .contact-band .t-body{grid-row:2}
+  .contact-band .contact-row{grid-row:3}
 }
 
 /* ═══ the signature ═══
@@ -1582,11 +1580,10 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   <!-- 3b · CONTACT — lifted out of the footer, which now carries the
        signature and nothing else. It keeps the card ground so it still
        reads as its own zone rather than as more page. -->
-  <section class="contact-band" aria-labelledby="contactH">
+  <section class="contact-band" aria-label="Contact">
     <div class="wrap"><div class="cb-grid">
     <span class="contact-loc avail"><span class="avail-dot" aria-hidden="true"></span><span class="avail-t">Currently: Szombathely, Hungary<i>open to remote and relocation</i></span></span>
-    <h2 class="t-title" id="contactH">Building complex AI products or safety-critical software?</h2>
-    <p class="t-body">Open to full-time and project based contract opportunities. Preferable remote, but open to relocation.</p>
+    <p class="t-body">Open to full-time and project based contract opportunities.</p>
     <div class="contact-row">
       <button class="btn btn--on" id="mailCopy" data-tip="Copy email address">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
