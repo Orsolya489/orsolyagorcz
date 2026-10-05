@@ -1,0 +1,63 @@
+/* ═══ site-ui.css — interaction states, shared by every page ═══
+   One stroke weight, three stroke values, one hover fill, one "on" state,
+   one focus ring. Every control family below takes these and nothing else.
+
+   rest    1px var(--stroke-ctrl)
+   hover   1px var(--stroke-hover), fill var(--fill-hover), ink text
+   on      fill var(--fill-on), text var(--text-on)
+   focus   2px var(--ring) outline, 3px offset, never animated
+   cards   1px var(--stroke) at rest, var(--stroke-ctrl) on hover
+   links   ink on hover */
+
+:root{
+  --stroke:var(--edge);            /* passive surfaces: cards, figures */
+  --stroke-ctrl:var(--edge-ctrl);  /* controls at rest */
+  --stroke-hover:var(--ink);       /* controls under the pointer */
+  --fill-hover:var(--card);
+  --fill-on:var(--ink);
+  --text-on:var(--page);
+  --ring:var(--ink);
+}
+
+/* ── controls: pill and circle buttons ── */
+.btn,.noise,.car-btn,.ph-nav,.say,.zoom,.v10-tg button,.hero-labels li,.bp-ico,.cw-ico{
+  transition:background-color var(--t-instant) var(--ease-enter),border-color var(--t-instant) var(--ease-enter),
+             color var(--t-instant) var(--ease-enter)}
+.btn,.noise,.car-btn,.ph-nav{border-color:var(--stroke-ctrl)}
+.say{background:none;box-shadow:inset 0 0 0 1px var(--stroke-ctrl)}
+.bp-ico,.cw-ico{border-color:var(--stroke-ctrl)}
+@media (hover:hover){
+  .btn:not(.btn--on):not(.noise-btn):not([aria-pressed="true"]):hover,
+  .noise:not([data-on="true"]):hover,
+  .car-btn:hover:not(:disabled),
+  .ph-nav:hover{background:var(--fill-hover);border-color:var(--stroke-hover);color:var(--ink)}
+  .say:hover,.zoom:hover,.hero-labels li:hover{background:var(--fill-hover);box-shadow:inset 0 0 0 1px var(--stroke-hover);color:var(--ink)}
+  .v10-tg button[aria-pressed="false"]:hover{background:var(--fill-hover);color:var(--ink)}
+  .bp-toggle:hover .bp-ico,.bp-btn:hover .bp-ico,.cw-card:hover .cw-ico{background:var(--fill-hover);border-color:var(--stroke-hover)}
+  .bp-toggle[aria-expanded="true"]:hover .bp-ico,.cw-card[aria-expanded="true"]:hover .cw-ico{background:var(--fill-on);border-color:var(--fill-on)}
+}
+/* on: the same everywhere, and it holds under the pointer */
+.btn--on,.btn--on:hover,.btn[aria-pressed="true"]:not(.noise-btn),.noise[data-on="true"],.noise[data-on="true"]:hover{
+  background:var(--fill-on);border-color:var(--fill-on);color:var(--text-on)}
+.say:focus-visible{background:var(--fill-on);color:var(--text-on)}
+
+/* ── tabs: the segment under the pointer takes the hover fill ── */
+@media (hover:hover){ .tab:not([aria-selected="true"]):hover{background:var(--fill-hover);color:var(--ink)} }
+
+/* ── cards that are links: the hairline steps up on hover ── */
+@media (hover:hover){
+  .card[data-href]:hover,.cw-card:hover,.lens-card:hover{box-shadow:inset 0 0 0 1px var(--stroke-ctrl)}
+  .proto:hover{border-color:var(--stroke-ctrl)}
+}
+
+/* ── text links ── */
+.cs-back,.cs-route a,.cs-toc ol a,.next a,.reslinks a,.stat-src a,.stat-upd a,.cert-view,.cw-link,.hero-cue,.dev-replay{
+  transition:color var(--t-instant) var(--ease-enter)}
+@media (hover:hover){
+  .cs-back:hover,.cs-route a:hover,.cs-toc ol a:hover,.next a:hover,.reslinks a:hover,.stat-src a:hover,
+  .stat-upd a:hover,.cert-view:hover,.cw-link:hover,.hero-cue:hover,.dev-replay:hover{color:var(--ink)}
+}
+
+/* ── focus: one ring for every control and link ── */
+a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focus-visible,input:focus-visible,summary:focus-visible{
+  outline:2px solid var(--ring);outline-offset:3px}

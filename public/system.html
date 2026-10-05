@@ -575,6 +575,16 @@ em{font-style:italic}
   </section>
 
 </div>
+
+  <section class="blk" id="states">
+    <div class="blk-head"><p class="eyebrow">Interaction</p><h2 class="t-title">One stroke weight, three stroke values, one hover fill, one on state, one focus ring.</h2></div>
+    <div class="cols">
+      <div class="col"><p class="col-title">Controls</p><p class="t-body">Buttons, pills, circle toggles, carousel arrows, chips. At rest a 1px stroke in --stroke-ctrl. Under the pointer the stroke turns ink and the fill becomes --fill-hover. On: ink fill, page-coloured text, held under the pointer.</p></div>
+      <div class="col"><p class="col-title">Cards and links</p><p class="t-body">A card that is a link keeps its 1px --stroke hairline and steps it up to --stroke-ctrl on hover. Text links turn ink. Tabs take --fill-hover on the segment under the pointer.</p></div>
+      <div class="col"><p class="col-title">Focus and timing</p><p class="t-body">Every control and link shows a 2px ink outline at a 3px offset, never animated. Hover changes run at --t-instant, 120ms. The rules live in site-ui.css, which every page loads.</p></div>
+    </div>
+  </section>
+
 </main>
 
 <script>
