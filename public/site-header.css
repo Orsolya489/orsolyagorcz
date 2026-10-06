@@ -1,0 +1,38 @@
+/* ═══ site-header.css — the case-study header, matched to the home page's ═══
+   A bar in the page colour whose last 14px melt into the page, no capsule, no
+   blur. The progress track and the section names sit on the reading column,
+   at the width of the visuals; the wordmark and the back link hold the title
+   column. */
+
+:root{--bar-pad:8px}
+
+/* the bar itself */
+.chrome-shell::before{height:var(--chrome-h);background:var(--page);
+  -webkit-backdrop-filter:none;backdrop-filter:none;
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(to bottom,#000 calc(100% - 14px),transparent)}
+.c-tl{top:var(--bar-pad);background:none;border-radius:0}
+.c-br{z-index:1}
+
+@media (min-width:901px){
+  :root{--chrome-h:calc(var(--bar-pad)*2 + var(--control) + var(--control)*.32)}
+  /* wordmark | back link | the reading column. With no padding the bar spans
+     margin to margin like a section, so the last track is exactly the right
+     column: (width - gutter) x 5/7, starting one gutter after the title column. */
+  .c-tl{padding-inline:0;column-gap:var(--gutter);
+    grid-template-columns:auto minmax(0,1fr) calc((100% - var(--gutter))*5/7)}
+  .c-tl .brand{grid-column:1}
+  .c-tl .cs-back{grid-column:2;justify-self:start}
+  .csbar-rail{grid-column:3;grid-row:1;width:100%}
+  .cs-route{grid-column:3;grid-row:2}
+  .csbar-count{grid-column:3;grid-row:2;justify-self:end;margin-top:0}
+}
+@media (max-width:900px){
+  :root{--chrome-h:calc(var(--bar-pad)*2 + var(--control))}
+}
+/* on a narrow laptop the section names fill the column, so the count steps
+   aside; the track and the names already say where you are */
+@media (min-width:901px) and (max-width:1199px){
+  .csbar-count{display:none}
+  .cs-route ol{gap:0 1.1em}
+}
