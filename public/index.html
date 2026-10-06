@@ -1243,6 +1243,18 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 }
 /* the In depth rule stops short of the floating Noise and accessibility buttons */
 @media (min-width:768px){ #work > .sec-label{margin-right:calc(var(--control)*5.6 + var(--gutter))} }
+/* About lands with the portrait and Who I am just under the header: the scroll
+   margin pays back the section's own top padding */
+#about{scroll-margin-top:calc(var(--control) + var(--gutter) + 28px - var(--section))}
+/* the footer sits on the recess tone, like the diagram frames in the cards */
+.site-foot{background:var(--recess);border-top-color:var(--stroke,var(--edge))}
+/* the email tooltip, once copied: a check before the words, held visible */
+.btn[data-tip][data-done]::after{content:"\2713\00a0\00a0" attr(data-tip);opacity:1;translate:-50% 0}
+.c-tr > *:last-child[data-tip][data-done]::after{translate:0 0}
+/* while confirmed the button holds the on state: ink fill, page-coloured check */
+.btn[data-done],.btn[data-done]:hover{background:var(--fill-on,var(--ink)) !important;border-color:var(--fill-on,var(--ink)) !important;color:var(--text-on,var(--page)) !important}
+/* the toast is now only a live region for screen readers */
+.toast{position:absolute !important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 /* header GitHub and LinkedIn: no outline; a fill on hover only */
 .btn--plain,.btn--plain:hover{border-color:transparent !important}
 .btn--plain{background:none}
@@ -1609,7 +1621,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </a>
     </div>
     <div class="cred-more">
-    <button class="btn cred-toggle" id="credBtn" aria-expanded="false" aria-controls="credList">See more</button>
+    <button class="btn-text cred-toggle" id="credBtn" type="button" aria-expanded="false" aria-controls="credList"><span>See more</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
     <div class="cred-list" id="credList" data-open="false"><div class="cred-inner">
       <a class="cred-row" href="https://www.coursera.org/account/accomplishments/specialization/LL9M9F51S9EU" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">Google UX Design — Professional Certificate · Google</span><span class="cert-view">View ↗</span></a>
       <a class="cred-row" href="https://www.coursera.org/account/accomplishments/verify/MQX255JM40YY" target="_blank" rel="noopener"><span class="cred-year">2025</span><span class="t-body">AI, Empathy and Ethics — Certificate · University of California Santa Cruz</span><span class="cert-view">View ↗</span></a>
@@ -1665,7 +1677,11 @@ function follow(){var t0=performance.now();(function f(){place();if(performance.
 function select(el){tabs.forEach(function(t){t.setAttribute('aria-selected',t===el?'true':'false');});follow();}
 tabs.forEach(function(t){t.addEventListener('click',function(){
   select(t);var el=document.getElementById(t.getAttribute('data-go'));
-  if(el)el.scrollIntoView({behavior:motionOff()?'auto':'smooth',block:'start'});});});
+  if(!el)return;
+  /* About arrives on a slower, calmer glide; the others keep the native scroll */
+  if(el.id==='about'){var m=parseFloat(getComputedStyle(el).scrollMarginTop)||0;
+    glideTo(el.getBoundingClientRect().top+window.scrollY-m,0,1000);return;}
+  el.scrollIntoView({behavior:motionOff()?'auto':'smooth',block:'start'});});});
 window.addEventListener('resize',place);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(follow);
 place();
@@ -1865,10 +1881,26 @@ flow();
 var MAIL='orsigorcz@gmail.com',toast=document.getElementById('toast'),tt;
 function shout(m){toast.textContent=m;toast.setAttribute('data-show','true');
   clearTimeout(tt);tt=setTimeout(function(){toast.removeAttribute('data-show');},2200);}
-function copyMail(){
+/* Copying answers in the tooltip the pointer is already on: it changes to
+   Email copied with a check, holds two seconds, then returns. The toast stays
+   as an unseen live region, so a screen reader still hears it. */
+function copyMail(e){
+  var b=e&&e.currentTarget, tip=b&&b.getAttribute('data-tip');
+  if(b&&!b._tip)b._tip=tip;
+  function done(ok){
+    toast.textContent=ok?'Email address copied':MAIL;
+    if(!b)return;
+    clearTimeout(b._tt);
+    b.setAttribute('data-tip',ok?'Email copied':MAIL);b.setAttribute('data-done','');
+    /* the button itself changes state: the icon becomes a check */
+    var svg=b.querySelector('svg');
+    if(svg&&ok){if(!b._icon)b._icon=svg.innerHTML;svg.innerHTML='<path d="M5 12.5 10 17.5 19 7"/>';}
+    b._tt=setTimeout(function(){b.setAttribute('data-tip',b._tip);b.removeAttribute('data-done');
+      if(svg&&b._icon)svg.innerHTML=b._icon;},2000);
+  }
   if(navigator.clipboard&&window.isSecureContext){
-    navigator.clipboard.writeText(MAIL).then(function(){shout('email copied');},function(){shout(MAIL);});
-  }else{shout(MAIL);}
+    navigator.clipboard.writeText(MAIL).then(function(){done(true);},function(){done(false);});
+  }else{done(false);}
 }
 ['mailBtn','mailCopy'].forEach(function(id){
   var b=document.getElementById(id);
@@ -2240,7 +2272,7 @@ function revealRow(shrinkBy){
   });
 }
 
-function glideTo(target,shrinkBy){
+function glideTo(target,shrinkBy,dur){
   var vh=window.innerHeight;
   var max=Math.max(0,document.documentElement.scrollHeight-(shrinkBy||0)-vh);
   target=Math.max(0,Math.min(target,max));
@@ -2248,7 +2280,7 @@ function glideTo(target,shrinkBy){
   if(Math.abs(d)<2)return;
   if(motionOff()||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     window.scrollTo(0,target);return;}
-  var t0=performance.now(),D=560;
+  var t0=performance.now(),D=dur||560;
   /* html sets scroll-behavior:smooth, which would start its own animation on
      every frame of this one - suspend it for the duration */
   var prev=root.style.scrollBehavior;root.style.scrollBehavior='auto';
@@ -2314,7 +2346,7 @@ if(credBtn&&credList){
     var shrink=open?credList.getBoundingClientRect().height:0;
     credBtn.setAttribute('aria-expanded',open?'false':'true');
     credList.setAttribute('data-open',open?'false':'true');
-    credBtn.textContent=open?'See more':'See less';
+    credBtn.querySelector('span').textContent=open?'See more':'See less';
     revealCred(shrink);
   });
 }
@@ -2395,5 +2427,6 @@ document.addEventListener('keydown',function(e){
 </script>
 <script src="/site-mobile.js" defer></script>
 <script src="/site-motion.js" defer></script>
+<script src="/site-consent.js" defer></script>
 </body>
 </html>

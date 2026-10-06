@@ -29,7 +29,7 @@
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, { rootMargin: '0px 0px -12% 0px' });
-    [].forEach.call(document.querySelectorAll('.sec > figure, .sec > .fig, .sec > .rfig'), function(f){
+    [].forEach.call(document.querySelectorAll('.sec > figure, .sec > .fig, .sec > .rfig, .about-grid'), function(f){
       if (f.getBoundingClientRect().top < innerHeight) return;
       f.classList.add('reveal'); io.observe(f);
     });

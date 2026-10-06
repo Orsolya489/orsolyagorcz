@@ -9,5 +9,5 @@ module.exports = function(s){
     .replace(/removeAttribute\('data-motion'\)/g, "setAttribute('data-motion','full')")
     .replace('<html lang="en">', '<html lang="en" data-motion="full">')
     .replace('<link rel="stylesheet" href="/site-mobile.css">', '<link rel="stylesheet" href="/site-mobile.css">\n<link rel="stylesheet" href="/site-motion.css">\n<link rel="stylesheet" href="/site-ui.css">')
-    .replace('<script src="/site-mobile.js" defer></script>', '<script src="/site-mobile.js" defer></script>\n<script src="/site-motion.js" defer></script>');
+    .replace('<script src="/site-mobile.js" defer></script>', '<script src="/site-mobile.js" defer></script>\n<script src="/site-motion.js" defer></script>\n<script src="/site-consent.js" defer></script>');
 };
