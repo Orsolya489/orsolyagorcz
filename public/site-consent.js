@@ -4,7 +4,7 @@
 (function(){
   /* ── the two IDs. Leave either empty and that tool never loads. ── */
   var GA_ID = 'G-9JFQBK829V';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
-  var CLARITY_ID = '';   /* Microsoft Clarity project ID, e.g. abcd1234ef */
+  var CLARITY_ID = 'ytkbn367fz';   /* Microsoft Clarity project ID, e.g. abcd1234ef */
 
   var KEY = 'og-consent';
   /* the banner names only the tools that are switched on */
