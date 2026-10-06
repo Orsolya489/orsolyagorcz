@@ -238,3 +238,19 @@
   .cs-facts div:nth-child(4n+1){padding-left:0;border-left:0}
 }
 @media (max-width:600px){ .cs-facts div:nth-child(n){padding-left:0;border-left:0} }
+
+/* the drive's conversation in one column: the question above its answer,
+   both the width of the column */
+#road .rd-turn{align-items:stretch;gap:.5em}
+#road .rd-ask,#road .rd-say{align-self:stretch;max-width:none}
+#road .rd-ask{border-bottom-right-radius:18px;border-top-left-radius:5px}
+#road .rd-say{border-bottom-left-radius:5px}
+/* the readout is centred in the bar */
+#road .rd-hud-in{padding-right:0;align-items:center;text-align:center}
+#road .rd-foot{justify-content:center}
+#road .rd-s,#road .rd-n{margin-left:0;margin-right:0}
+
+/* V5 without its frame: the three senses get the column's full width; the
+   boxes inside the drawing stay */
+.dgm.v5{background:none !important;box-shadow:none !important;padding:0 !important;border-radius:0}
+.dgm .v5-ax{font-size:12px;fill:var(--muted)}

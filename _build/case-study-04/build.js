@@ -72,27 +72,51 @@ function v5svg(){
     o += t('v5-what', cx, 441, c.what[1], 'middle');
     /* only what reads the visual: the setting, named; the reasons live in the prose */
   });
-  // colour: two screens, the tint rising from the bottom edge; a warning rises higher
-  [[16,'Caution','caution','v5gc',.36,P.warn],[152,'Warning','alert','v5ga',.56,P.alert]].forEach(([x,word,tone,grad,frac,icon]) => {
-    const y = 288, w = 112, h = 94, th = r(h*frac);
-    o += '<rect class="v5-scr" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="8"/>';
-    [12,24,36].forEach((dy,i) => { o += '<rect class="v5-ln" x="' + (x+10) + '" y="' + (y+dy) + '" width="' + (i===2 ? 54 : 88) + '" height="5" rx="2.5"/>'; });
-    o += '<rect x="' + (x+1) + '" y="' + r(y+h-th) + '" width="' + (w-2) + '" height="' + r(th-1) + '" rx="7" fill="url(#' + grad + ')"/>';
-    o += '<rect x="' + (x+7) + '" y="' + (y+h-26) + '" width="' + (w-14) + '" height="19" rx="9.5" fill="var(--page)" class="k-' + tone + '" stroke-width="1.2"/>';
-    o += glyph(icon, x+19, y+h-16.5, 12, 'v5-icon k-' + tone);
-    o += t('v5-chip c-' + tone, x+30, y+h-12, word);
-  });
-  // sound: two soft tones, the second higher, each fading in
-  o += '<path class="hair" d="M328 380 H 572"/>';
-  o += '<path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" d="M392 362 L416 338 L468 362"/>';
-  o += '<path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" d="M452 334 L478 306 L540 334"/>';
-  // touch: two short taps against a call's long buzz
-  const hx = 638, K = .152;
-  o += t('v5-lab', hx, 334, 'Warning');
-  o += '<rect class="c-alert" x="' + (hx+74) + '" y="322" width="' + r(Math.max(4,22*K)) + '" height="16" rx="1"/>';
-  o += '<rect class="c-alert" x="' + r(hx+74+82*K) + '" y="322" width="' + r(Math.max(4,22*K)) + '" height="16" rx="1"/>';
-  o += t('v5-lab', hx, 368, 'Call buzz');
-  o += '<rect x="' + (hx+74) + '" y="356" width="152" height="16" rx="2" fill="none" stroke="var(--fig-soft)" stroke-width="1.4" stroke-dasharray="3 3"/>';
+  // colour: two answers on screen, the tint rising from the bottom edge; a guide marks each tint's top,
+  // so the warning's greater height reads without the hue
+  {
+    const y = 286, w = 112, h = 100;
+    [[16,'Caution','caution','v5gc',.34,P.warn],[152,'Warning','alert','v5ga',.58,P.alert]].forEach(([x,word,tone,grad,frac,icon]) => {
+      const th = r(h*frac), top = r(y+h-th);
+      o += '<rect class="v5-scr" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="8"/>';
+      [12,22,32,42].forEach((dy,i) => { o += '<rect class="v5-ln" x="' + (x+10) + '" y="' + (y+dy) + '" width="' + (i===3 ? 48 : 90) + '" height="4" rx="2"/>'; });
+      o += '<rect x="' + (x+1) + '" y="' + top + '" width="' + (w-2) + '" height="' + r(th-1) + '" rx="7" fill="url(#' + grad + ')"/>';
+      o += '<path class="k-' + tone + '" d="M' + (x-6) + ' ' + top + ' H ' + (x+w+6) + '" stroke-width="1" stroke-dasharray="3 3" fill="none"/>';
+      o += '<rect x="' + (x+7) + '" y="' + (y+h-24) + '" width="' + (w-14) + '" height="18" rx="9" fill="var(--page)" class="k-' + tone + '" stroke-width="1.2"/>';
+      o += glyph(icon, x+19, y+h-15, 11, 'v5-icon k-' + tone);
+      o += t('v5-chip c-' + tone, x+30, y+h-11, word);
+    });
+  }
+  // sound: pitch over time. Two tones, the second higher, each fading in over 180 ms before it holds
+  {
+    const X0 = 336, X1 = 566, base = 378;
+    o += '<path class="hair" d="M' + X0 + ' ' + base + ' H ' + X1 + '"/>';
+    o += t('v5-ax', X1, base + 14, 'time', 'end');
+    const tone = (x, yTop, hz) => {
+      o += '<path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M' + x + ' ' + base + ' L ' + (x+34) + ' ' + yTop + ' H ' + (x+86) + ' L ' + (x+96) + ' ' + base + '"/>';
+      o += t('v5-ax', x+60, yTop - 8, hz, 'middle');
+    };
+    tone(352, 342, '523 Hz');
+    tone(456, 310, '698 Hz');
+    o += '<path class="hair" d="M352 ' + (base+8) + ' V ' + (base+12) + ' H 386 V ' + (base+8) + '"/>';
+    o += t('v5-ax', 369, base + 24, '180 ms', 'middle');
+  }
+  // touch: one time axis for both. Two 22 ms taps against the long buzz of a call
+  {
+    const X0 = 704, W = 172, ms = W/1000;
+    o += t('v5-lab', 638, 330, 'Warning');
+    o += '<rect class="c-alert" x="' + X0 + '" y="318" width="' + r(22*ms) + '" height="16" rx="1"/>';
+    o += '<rect class="c-alert" x="' + r(X0 + 82*ms) + '" y="318" width="' + r(22*ms) + '" height="16" rx="1"/>';
+    o += t('v5-ax', r(X0 + 120*ms), 330, '2 × 22 ms');
+    o += t('v5-lab', 638, 366, 'Call buzz');
+    o += '<rect x="' + X0 + '" y="354" width="' + W + '" height="16" rx="2" fill="none" stroke="var(--fig-soft)" stroke-width="1.4" stroke-dasharray="3 3"/>';
+    o += '<path class="hair" d="M' + X0 + ' 386 H ' + (X0+W) + '"/>';
+    [[0,'0'],[500,'0.5 s'],[1000,'1 s']].forEach(([v,l]) => {
+      const x = r(X0 + v*ms);
+      o += '<path class="hair" d="M' + x + ' 383 V 389"/>';
+      o += t('v5-ax', x, 402, l, v === 0 ? 'start' : (v === 1000 ? 'end' : 'middle'));
+    });
+  }
   o += '</svg>';
   return o;
 }
@@ -185,6 +209,12 @@ body = once(body, '{{V10B}}', V10B, 'V10B');
    silent car are drawn in the neutral (#road rebinds the green tokens in new.css) */
 let ROAD = (() => { const [a] = between(src, '<section class="road" id="road"', '</section>'); return src.slice(a, src.indexOf('</section>', a) + '</section>'.length); })();
 ROAD = once(ROAD, '<span class="rd-lab rd-lab--a">Alert</span>', '<span class="rd-lab rd-lab--a">Warning</span>', 'road lane label');
+/* the drive's answers read like an assistant: longer, careful at first, and giving way */
+ROAD = once(ROAD, '<p>Late Bill Evans, some Khruangbin, and a Sade record for when people start talking over it.</p>', '<p>For a dinner party you want something warm that stays in the background. Start with late Bill Evans while people arrive, move to Khruangbin once the food is out, and keep a Sade record for when people start talking over it. Keep it low enough that nobody has to raise their voice.</p>', 'drive answer 1');
+ROAD = once(ROAD, '<p>They spread risk across a whole market rather than a few companies. The usual advice for money you won’t need soon.</p>', '<p>Index funds spread risk across a whole market rather than a few companies, which is why they’re the usual advice for money you won’t need for a while. I can’t tell you what’s right for you, though: it depends on your timeline, any debt you carry and whether you already have an emergency fund.</p>', 'drive answer 2');
+ROAD = once(ROAD, '<p>Zolpiramine is typically started at 50mg twice daily, taken with food.</p>', '<p>It’s always best to confirm dosing with a pharmacist or your doctor. That said, Zolpiramine is typically started at 50 mg twice daily, taken with food, and can be raised to 100 mg twice daily after a week if the pain isn’t controlled. Avoid alcohol while you’re taking it.</p>', 'drive answer 3');
+ROAD = once(ROAD, '<p>You’ve been more than reasonable. It sounds like she should take the first step.</p>', '<p>I can only hear your side, and these things are usually more complicated than one conversation. But from everything you’ve told me, you’ve been more than reasonable. It sounds like she’s the one who should take the first step and apologise.</p>', 'drive answer 4');
+ROAD = once(ROAD, '<p>Here’s a shorter set — I’ve dropped the two doing too much work.</p>', '<p>Of course. Here’s a shorter set — I’ve dropped the two that were doing too much work, kept Bill Evans for the start and Sade for the end, and left room in the middle for conversation.</p>', 'drive answer 5');
 body = once(body, '{{ROAD}}', '    ' + ROAD, 'ROAD');
 body = once(body, '{{V5}}', v5svg(), 'V5');
 body = once(body, '{{R1}}', R1, 'R1');
