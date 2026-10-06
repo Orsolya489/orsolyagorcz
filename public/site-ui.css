@@ -3,7 +3,7 @@
    one focus ring. Every control family below takes these and nothing else.
 
    rest    1px var(--stroke-ctrl)
-   hover   1px var(--stroke-hover), fill var(--fill-hover), ink text
+   hover   1px var(--stroke-hover), a 6% ink tint laid over the control's own ground, ink text
    on      fill var(--fill-on), text var(--text-on)
    focus   2px var(--ring) outline, 3px offset, never animated
    cards   1px var(--stroke) at rest, var(--stroke-ctrl) on hover
@@ -16,7 +16,7 @@
   --stroke:var(--edge);            /* passive surfaces: cards, figures */
   --stroke-ctrl:var(--edge-ctrl);  /* controls at rest */
   --stroke-hover:var(--ink);       /* controls under the pointer */
-  --fill-hover:var(--card);
+  --fill-hover:rgba(25,21,23,.06);   /* hover darkens a touch; it never whitens */
   --fill-on:var(--ink);
   --text-on:var(--page);
   --ring:var(--ink);
@@ -122,7 +122,7 @@ tr,th,td{border-color:var(--stroke)}
 [data-tip]::after,.btn[data-tip]::after,.tab{text-transform:none}
 
 /* ── controls: pill and circle buttons ── */
-.btn,.noise,.car-btn,.ph-nav,.say,.zoom,.v10-tg button,.hero-labels li,.bp-ico,.cw-ico{
+.btn,.noise,.car-btn,.ph-nav,.say,.zoom,.v10-tg button,.bp-ico,.cw-ico{
   transition:background-color var(--t-instant) var(--ease-enter),border-color var(--t-instant) var(--ease-enter),
              color var(--t-instant) var(--ease-enter)}
 .btn,.noise,.car-btn,.ph-nav,a.proto{border-color:var(--stroke-ctrl)}
@@ -132,11 +132,11 @@ tr,th,td{border-color:var(--stroke)}
   .btn:not(.btn--on):not(.noise-btn):not([aria-pressed="true"]):hover,
   .noise:not([data-on="true"]):hover,
   .car-btn:hover:not(:disabled),
-  .ph-nav:hover,a.proto:hover{background:var(--fill-hover);border-color:var(--stroke-hover);color:var(--ink)}
-  .say:hover,.zoom:hover,.hero-labels li:hover{background:var(--fill-hover);box-shadow:inset 0 0 0 1px var(--stroke-hover);color:var(--ink)}
+  .ph-nav:hover,a.proto:hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover));border-color:var(--stroke-hover);color:var(--ink)}
+  .say:hover,.zoom:hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover));box-shadow:inset 0 0 0 1px var(--stroke-hover);color:var(--ink)}
   .zoom:hover{box-shadow:inset 0 0 0 1px var(--stroke-hover),var(--shadow-1)}
-  .v10-tg button[aria-pressed="false"]:hover{background:var(--fill-hover);color:var(--ink)}
-  .bp-toggle:hover .bp-ico,.bp-btn:hover .bp-ico,.cw-card:hover .cw-ico{background:var(--fill-hover);border-color:var(--stroke-hover)}
+  .v10-tg button[aria-pressed="false"]:hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover));color:var(--ink)}
+  .bp-toggle:hover .bp-ico,.bp-btn:hover .bp-ico,.cw-card:hover .cw-ico{background-image:linear-gradient(var(--fill-hover),var(--fill-hover));border-color:var(--stroke-hover)}
   .bp-btn:not(.bp-toggle):not([aria-expanded="true"]):hover::after{background-color:var(--fill-hover);box-shadow:inset 0 0 0 1px var(--stroke-hover)}
   .bp-toggle[aria-expanded="true"]:hover .bp-ico,.cw-card[aria-expanded="true"]:hover .cw-ico{background:var(--fill-on);border-color:var(--fill-on)}
 }
@@ -146,7 +146,7 @@ tr,th,td{border-color:var(--stroke)}
 .say:focus-visible{background:var(--fill-on);color:var(--text-on)}
 
 /* ── tabs: the segment under the pointer takes the hover fill ── */
-@media (hover:hover){ .tab:not([aria-selected="true"]):hover{background:var(--fill-hover);color:var(--ink)} }
+@media (hover:hover){ .tab:not([aria-selected="true"]):hover{background-color:transparent;background-image:linear-gradient(var(--fill-hover),var(--fill-hover));color:var(--ink)} }
 
 /* ── cards that are links: the hairline steps up on hover ── */
 @media (hover:hover){
@@ -176,4 +176,73 @@ a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focu
 .consent-b{display:flex;gap:var(--gap-btn);justify-content:flex-end}
 @media (max-width:767px){
   .consent{left:16px;right:16px;max-width:none;bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control) + 12px)}
+}
+
+
+/* ═══ component tiers — emphasis follows role, never the page it is on ═══
+   primary control    ink fill, page text                     .btn--on
+   secondary control  1px --stroke-ctrl, ink text, 13px caps   .btn and every circle
+   tertiary control   no stroke, ink text                      .btn-text .btn--plain .cs-back
+   tag                1px --stroke, --body-c text, 12px caps,  28px, never hovers
+   status             --surface-card fill, ink text            .avail
+   eyebrow            12px caps, muted, no stroke
+   A tag is always quieter than a control: lighter stroke, softer text, a step
+   smaller. Only something that does something answers the pointer. */
+:root{--ui-size:13px;--tag-size:12px;--tag-h:28px;--ui-track:.07em}
+
+/* controls: ink text everywhere */
+.btn:not(.btn--on):not([data-done]),.noise .noise-btn,.car-btn,.zoom,.say,a.proto,.cs-back,.btn-text{color:var(--ink)}
+.noise[data-on="true"] .noise-btn{color:var(--page)}
+.cs-back{font-size:var(--ui-size);letter-spacing:var(--ui-track)}
+.say{font-size:var(--ui-size)}
+
+/* tags */
+.hero-labels li,.chip,.tag,.cmp-tag,.stat-upd-k,.gap-pill{
+  display:inline-flex;align-items:center;min-height:var(--tag-h);height:auto;padding:0 .9em;border:0;border-radius:var(--r-pill);
+  font-family:var(--sans);font-weight:500;font-size:calc(var(--tag-size) * var(--tscale,1));line-height:1.2;
+  letter-spacing:var(--ui-track);text-transform:uppercase;color:var(--body-c);
+  background:none;box-shadow:inset 0 0 0 1px var(--stroke);transition:none}
+.hero-labels li:hover{background:none;box-shadow:inset 0 0 0 1px var(--stroke)}
+/* a gap pill quotes a design response, so it keeps its own case */
+.gap-pill{text-transform:none;letter-spacing:.01em}
+/* tags that sit on a picture take the page colour so they stay legible */
+.cmp-tag{background:var(--page)}
+/* the one emphasised tag: what shipped, in ink, still not filled */
+.tag--ship{color:var(--ink);background:none;box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* eyebrows */
+.cw-eyebrow,.dec-lab,.card-eyebrow,.eyebrow-b,.cs-eyebrow,.rd-k,.cmp-side-k,.vs-e,.pushed-e,.cmp-h + .cmp-sub{
+  font-size:calc(var(--tag-size) * var(--tscale,1));letter-spacing:var(--ui-track)}
+.cert-view,.lens-go{font-size:var(--ui-size)}
+.v10-tg button{font-size:var(--ui-size)}
+.avail,.contact-loc.avail,.site-foot .contact-loc{font-size:var(--ui-size)}
+
+
+/* ═══ calm technology: one surface, one shadow, one hover ═══
+   surface   every content module sits on --surface-card, a shade lighter than
+             the page, with the 1px --stroke hairline, 20px corners and
+             --shadow-module. Device frames are hardware and keep their own.
+   hover     controls and navigation darken by --fill-hover and outlined ones
+             take an ink stroke; nothing turns white. Content cards that are
+             links keep their slow lightening.
+   Fewer values, each with a reason. */
+:root{
+  --surface-card:color-mix(in srgb, var(--page) 70%, var(--card));
+  --shadow-module:0 1px 2px rgba(25,21,23,.04),0 10px 28px -14px rgba(25,21,23,.16);
+}
+.stack-cards .card,.cw-card,.lens-card,.panel,.consent,
+.dgm,.gap-card,.ann,.carousel,.quad-card,.proto-frame,.claim-c,.rfig .tile,.rfig .st,.arch-side{
+  background-color:var(--surface-card);border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--stroke),var(--shadow-module)}
+.rfig .tile,.rfig .st{border-color:transparent}
+/* link cards: the hairline steps up and the shadow deepens a little */
+@media (hover:hover){
+  .stack-cards .card[data-href]:hover,.cw-card:hover,.lens-card:hover{
+    box-shadow:inset 0 0 0 1px var(--stroke-ctrl),0 1px 2px rgba(25,21,23,.05),0 14px 34px -14px rgba(25,21,23,.2)}
+}
+/* plain controls (no outline) take the tint on hover, like the tabs */
+@media (hover:hover){
+  .btn--plain:hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover)) !important}
+  .btn:not(.btn--on):not([data-done]):not(.noise-btn):hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover))}
+  .noise:not([data-on="true"]):hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover))}
 }
