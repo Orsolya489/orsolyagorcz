@@ -73,22 +73,6 @@
   .cmp-stage,.cmp-cols{width:100%}
   .cmp-side{padding:20px}
 
-  /* Mindure's and Ness's research toggles are .bp-btn without .bp-toggle, so they
-     arrived as the browser's grey button. On a phone they take the same ruled
-     row and + circle as Tribe's blueprint. */
-  .bp-btn:not(.bp-toggle){display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
-    column-gap:var(--stack);width:100%;margin:0;padding:1.1em 0;text-align:left;cursor:pointer;
-    font:inherit;color:inherit;background:none;border:0;border-radius:0;
-    border-top:1px solid var(--edge-ctrl);border-bottom:1px solid var(--edge-ctrl);-webkit-appearance:none;appearance:none}
-  .bp-btn:not(.bp-toggle) .bp-t,.bp-btn:not(.bp-toggle) .bp-e{display:block;grid-column:1}
-  .bp-btn:not(.bp-toggle)::after{content:"";grid-column:2;grid-row:1 / span 2;
-    width:var(--control);height:var(--control);border-radius:var(--r-pill);
-    box-shadow:inset 0 0 0 1px var(--edge-ctrl);
-    background:linear-gradient(var(--muted),var(--muted)) center / 14px 1px no-repeat,
-               linear-gradient(var(--muted),var(--muted)) center / 1px 14px no-repeat}
-  .bp-btn:not(.bp-toggle)[aria-expanded="true"]::after{
-    background:linear-gradient(var(--page),var(--page)) center / 14px 1px no-repeat,var(--ink);
-    box-shadow:none}
 
   /* ═══ home ═══ */
 

@@ -574,19 +574,19 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .card-plane{position:relative;
   border-radius:var(--r-lg);
   padding:clamp(14px,2.4cqw,28px);
-  /* between the card and the page: lighter than the page, darker than the card */
-  background-color:#F6EDEB;
+  /* a recess below the card, which sits in the page colour */
+  background-color:var(--recess);
   background-image:
     linear-gradient(var(--lattice) 1px, transparent 1px),
     linear-gradient(90deg, var(--lattice) 1px, transparent 1px),
-    linear-gradient(transparent, transparent);
+    linear-gradient(rgba(25,21,23,.03), rgba(25,21,23,.03));
   background-size:
     clamp(16px,1.5cqw,24px) clamp(16px,1.5cqw,24px),
     clamp(16px,1.5cqw,24px) clamp(16px,1.5cqw,24px),
     100% 100%;
   background-position:center center, center center, 0 0;
   box-shadow:
-    inset 0 0 14px rgba(25,21,23,.05),
+    inset 0 0 14px rgba(25,21,23,.09),
     inset 0 0 0 1px var(--edge);
 }
 /* The ground is --recess, six L* below --card, and --line-soft does not survive
@@ -1182,7 +1182,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 
 /* desktop: the hero's headline group sits in the bottom-left corner of the first screen */
 @media (min-width:768px){
-  .hero{padding-bottom:calc(var(--gutter)*2.2 + 28px)}
+  /* the hero leaves room at the foot of the first screen for the In depth label */
+  .hero{padding-bottom:calc(var(--gutter)*2.2);min-height:calc(100svh - 96px)}
   .hero-main{justify-content:flex-end}
 }
 /* the claim on two set lines: who and what, then what for */
@@ -1192,13 +1193,59 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 @media (min-width:768px){ .c-tl .avail-t{flex-direction:row;gap:.35em} .c-tl .avail-t i::before{content:"·";margin-right:.35em} }
 /* both parts of the availability line in the same colour */
 .avail-t i{color:inherit}
-/* a quiet cue that the page continues below the first screen; static */
-.hero{position:relative}
-.hero-cue{position:absolute;left:50%;translate:-50% 0;bottom:10px;
-  font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;padding:.6em .8em}
-.hero-cue:hover{color:var(--ink)}
-@media (max-width:767px){ .hero-cue{display:none} }
+/* the availability line as a filled label in the card tone, with the pulsing dot */
+.avail,.contact-loc.avail{border-radius:var(--r-pill);background:color-mix(in srgb, var(--page) 35%, var(--card));box-shadow:none;
+  padding:.55em 1.1em;align-items:center;color:var(--ink)}
+.avail .avail-t,.avail .avail-t i{color:var(--ink)}
+/* the active tab sits in the diagram-frame tone */
+.tab-ind{background:var(--recess)}
+/* the tab group: a filled pill in the card tone, no outline */
+.c-bc .tabs.tabs{border-color:transparent;background:var(--surface-card)}
+/* inactive tab labels dark enough to read on the fill */
+.tab:not([aria-selected="true"]){color:var(--body-c)}
+/* on a phone the tab bar floats over the page, so it keeps a ground of its own */
+@media (max-width:767px){ .c-bc .tabs{box-shadow:0 2px 12px rgba(25,21,23,.08)} }
+.avail-dot{margin-top:0}
+/* one card tone */
+:root{--surface-card:color-mix(in srgb, var(--page) 70%, var(--card))}
+/* the cards sit a shade lighter than the page and lighten a little more, slowly, under the pointer */
+.stack-cards .card,.cw-card,.lens-card{background-color:var(--surface-card);
+  transition:background-color var(--t-clear,700ms) var(--ease-exit,ease),box-shadow var(--t-clear,700ms) var(--ease-exit,ease)}
+@media (hover:hover){ .stack-cards .card[data-href]:hover,.cw-card:hover,.lens-card:hover{background-color:color-mix(in srgb, var(--page) 35%, var(--card))} }
+/* footer: availability and the line of copy top left, the icons top right;
+   the notice and the mark on the row beneath */
+.site-foot .foot-end{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+  column-gap:var(--stack);row-gap:14px}
+.site-foot .foot-mid{display:contents}
+.site-foot .contact-loc{grid-column:1;grid-row:1;justify-self:start;font-size:14px}
+/* the offer, said at the size of a section title */
+.site-foot .foot-line{grid-column:1;grid-row:2;margin:6px 0 0;font-family:var(--sans);font-weight:300;
+  font-size:calc(clamp(24px, 2.4vw, 34px) * var(--tscale));line-height:1.2;letter-spacing:-.01em;color:var(--ink);max-width:24ch;text-wrap:balance}
+.site-foot .foot-btns{grid-column:2;grid-row:1 / span 2;align-self:start;justify-self:end;display:flex;gap:var(--gap-btn)}
+.site-foot .foot-note{grid-column:1;grid-row:3;margin-top:calc(var(--stack)*1.2)}
+.site-foot .foot-mark{grid-column:2;grid-row:3;justify-self:end;margin-top:calc(var(--stack)*1.2)}
+@media (max-width:767px){
+  .site-foot .contact-loc,.site-foot .foot-line{grid-column:1 / -1}
+  .site-foot .foot-btns{grid-column:1 / -1;grid-row:3;justify-self:start;margin-left:-10px}
+  .site-foot .foot-note,.site-foot .foot-mark{grid-row:4}
+}
+@media (min-width:768px){
+  .foot-mid .avail-t{flex-direction:row;gap:.35em}
+  .foot-mid .avail-t i::before{content:"·";margin-right:.35em}
+}
+/* credential cards: a readable title, description and source */
+.lens-name{font-size:calc(19px * var(--tscale));line-height:1.3}
+.lens-apply,.lens-apply span{font-size:calc(15px * var(--tscale));line-height:1.6}
+.lens-org,.lens-go{font-size:calc(13px * var(--tscale))}
+@media (max-width:767px){
+  .lens-name{font-size:calc(17px * var(--tscale))}
+  .lens-org,.lens-go{font-size:calc(12.5px * var(--tscale))}
+}
+/* the In depth rule stops short of the floating Noise and accessibility buttons */
+@media (min-width:768px){ #work > .sec-label{margin-right:calc(var(--control)*5.6 + var(--gutter))} }
+/* header GitHub and LinkedIn: no outline; a fill on hover only */
+.btn--plain,.btn--plain:hover{border-color:transparent !important}
+.btn--plain{background:none}
 /* the hero labels: outlined, no fill */
 .hero-labels li{background:none;box-shadow:inset 0 0 0 1px var(--edge-ctrl);color:var(--ink);font-size:calc(var(--micro)*1.08);
   transition:background-color var(--t-instant,120ms) var(--ease),box-shadow var(--t-instant,120ms) var(--ease)}
@@ -1245,13 +1292,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </nav>
 
 <div class="chrome c-tr">
-  <a class="btn btn--icon" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener" aria-label="Open resume" data-tip="Open resume">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14.5 3v4.5H19"/></svg>
+  <a class="btn-text" href="https://drive.google.com/file/d/14QYAJEDzAabEu0XaLHI1OzDsaMLLG597/view?usp=sharing" target="_blank" rel="noopener">
+    <span>Resume</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
   </a>
-  <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
-  </a>
-  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Email me">
+  <button class="btn btn--icon btn--on" id="mailBtn" aria-label="Email me — copies the address" data-tip="Copy email address">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
   </button>
 </div>
@@ -1347,7 +1392,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       <h1 class="t-hero"><span class="hl">I design trustworthy interactions</span> <span class="hl">for <em>safety-critical AI systems</em>.</span></h1>
       <p class="t-body hero-sub">Seven+ years across design, now in safety-critical AI. <span class="hl">Looking for product design roles in AI, robotics, healthtech and mental health.</span></p>
     </div>
-    <a class="hero-cue" href="#work">In depth <span aria-hidden="true">↓</span></a>
   </section>
 
   <!-- 2 · WORK -->
@@ -1577,28 +1621,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     </div><!-- /about-grid -->
   </section>
 
-
-  <!-- 3b · CONTACT — lifted out of the footer, which now carries the
-       signature and nothing else. It keeps the card ground so it still
-       reads as its own zone rather than as more page. -->
-  <section class="contact-band" aria-label="Contact">
-    <div class="wrap"><div class="cb-grid">
-    <span class="contact-loc avail"><span class="avail-dot" aria-hidden="true"></span><span class="avail-t">Currently: Szombathely, Hungary<i>open to remote and relocation</i></span></span>
-    <p class="t-body">Open to full-time and project based contract opportunities.</p>
-    <div class="contact-row">
-      <button class="btn btn--on" id="mailCopy" data-tip="Copy email address">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        <span>orsigorcz@gmail.com</span>
-      </button>
-      <a class="btn btn--icon" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="Let's connect on LinkedIn" data-tip="Let's connect">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
-      </a>
-      <a class="btn btn--icon" href="https://github.com/Orsolya489" target="_blank" rel="noopener" aria-label="GitHub" data-tip="GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.65-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg>
-      </a>
-    </div>
-    </div></div>
-  </section>
   </div><!-- /wrap: the footer runs the full window, so it takes its own -->
 
   <!-- 4 · FOOTER -->
@@ -1606,6 +1628,21 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
     <div class="wrap">
     <div class="foot-end">
       <p class="foot-note">© 2026 Orsolya Gorcz</p>
+      <div class="foot-mid">
+        <span class="contact-loc avail"><span class="avail-dot" aria-hidden="true"></span><span class="avail-t">Currently: Szombathely, Hungary<i>open to remote and relocation</i></span></span>
+        <p class="foot-line">Open to full-time and project based contract opportunities.</p>
+        <div class="foot-btns">
+          <button class="btn btn--icon btn--plain" id="mailCopy" aria-label="Copy email address: orsigorcz@gmail.com" data-tip="Copy email address">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          </button>
+          <a class="btn btn--icon btn--plain" href="https://www.linkedin.com/in/orsolya-gorcz-b0783a212/" target="_blank" rel="noopener" aria-label="LinkedIn" data-tip="Connect me!">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.7c0-1.36-.03-3.11-2-3.11-2 0-2.3 1.48-2.3 3.01V21h-4V9Z"/></svg>
+          </a>
+          <a class="btn btn--icon btn--plain" href="https://github.com/Orsolya489" target="_blank" rel="noopener" aria-label="GitHub" data-tip="See my gits">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.65-5.48 5.95.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z"/></svg>
+          </a>
+        </div>
+      </div>
       <!-- the wordmark itself, not a second copy of it: the chrome's mark
            carries the paths and this points at them -->
       <span class="foot-mark" aria-hidden="true"><svg viewBox="0 0 1000 168.7" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><use href="#wordmark"/></svg></span>

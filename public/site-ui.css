@@ -9,6 +9,9 @@
    cards   1px var(--stroke) at rest, var(--stroke-ctrl) on hover
    links   ink on hover */
 
+/* outlines a step stronger site-wide; high contrast keeps its own, stronger values */
+:root:not([data-contrast="high"]){--edge:rgba(25,21,23,.14);--edge-ctrl:rgba(25,21,23,.30)}
+
 :root{
   --stroke:var(--edge);            /* passive surfaces: cards, figures */
   --stroke-ctrl:var(--edge-ctrl);  /* controls at rest */
@@ -19,21 +22,118 @@
   --ring:var(--ink);
 }
 
+/* ═══ strokes, shadows and accents: one value per role ═══
+   stroke      1px --stroke       passive surfaces: cards, figures, frames, bubbles
+   stroke-ctrl 1px --stroke-ctrl  controls, labels, chips and tags
+   accent      2px ink            the decision and pushback rules
+   shadow-1                       small floating things: badges, knobs, bubbles
+   shadow-2                       raised device frames: the phone, the laptop
+   recess                         the inset wash of a diagram frame */
+:root{
+  --shadow-1:0 1px 2px rgba(25,21,23,.08);
+  --shadow-2:0 1px 2px rgba(25,21,23,.08),0 14px 36px -10px rgba(25,21,23,.18);
+}
+/* passive surfaces */
+.rfig,.rfig .tile,.rfig .tr,.rfig .st,.r5-list li{border-color:var(--stroke)}
+.dgm,.gap-card,.ann,.carousel,.quad-card,.cmp-stage,.proto-frame{box-shadow:inset 0 0 0 1px var(--stroke)}
+/* labels, chips and tags */
+.chip,.tag,.cmp-tag,.stat-upd-k{box-shadow:inset 0 0 0 1px var(--stroke-ctrl)}
+/* raised frames */
+.phone,.mac-frame{box-shadow:inset 0 0 0 1px var(--stroke),var(--shadow-2)}
+/* small floating things */
+.rfig .st,.rd-bub{box-shadow:var(--shadow-1)}
+.zoom{box-shadow:inset 0 0 0 1px var(--stroke-ctrl),var(--shadow-1)}
+.cmp-seam i,.lb-x{box-shadow:var(--shadow-1)}
+/* table rules are passive too */
+tr,th,td{border-color:var(--stroke)}
+/* accent rules */
+.dec-p,.pushed{border-color:var(--ink)}
+
+
+/* Mindure's research toggle is a .bp-btn without .bp-toggle: it takes the same
+   ruled row and + circle as Tribe's blueprint, at every width */
+.bp-btn:not(.bp-toggle){display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+  column-gap:var(--stack);width:100%;margin:0;padding:1.1em 0;text-align:left;cursor:pointer;
+  font:inherit;color:inherit;background:none;border:0;border-radius:0;
+  border-top:1px solid var(--stroke-ctrl);border-bottom:1px solid var(--stroke-ctrl);-webkit-appearance:none;appearance:none}
+.bp-btn:not(.bp-toggle) .bp-t,.bp-btn:not(.bp-toggle) .bp-e{display:block;grid-column:1}
+.bp-btn:not(.bp-toggle)::after{content:"";grid-column:2;grid-row:1 / span 2;
+  width:var(--control);height:var(--control);border-radius:var(--r-pill);
+  box-shadow:inset 0 0 0 1px var(--stroke-ctrl);
+  background:linear-gradient(var(--muted),var(--muted)) center / 14px 1px no-repeat,
+             linear-gradient(var(--muted),var(--muted)) center / 1px 14px no-repeat}
+.bp-btn:not(.bp-toggle)[aria-expanded="true"]::after{
+  background:linear-gradient(var(--page),var(--page)) center / 14px var(--ico-w) no-repeat,var(--ink);
+  box-shadow:none}
+
+/* ═══ shape and movement ═══
+   radius   pill for controls, labels and chips; 20px (--r-lg) for every
+            surface; 12px (--r-sm) for a mark nested inside a surface; device
+            frames keep their hardware radius
+   movement only toward meaning, and only 2px: a link card lifts, an arrow
+            steps in its own direction; nothing scales */
+:root{--r-sm:12px}
+.rfig .tile,.rd-bub{border-radius:var(--r-lg)}
+.car-mark{border-radius:var(--r-sm)}
+.claim-c.is-u{border-top-width:2px}
+@media (hover:hover){
+  .cs-back:hover svg{translate:-2px 0}
+  .next a:hover .next-go{translate:2px -2px}
+  .noise-vol input[type="range"]:hover::-webkit-slider-thumb{scale:1}
+}
+
+/* ═══ icons and buttons ═══
+   icon     one line weight, 1.5px on screen at any size; 18px inside a
+            button, 14px beside a word (the back chevron, the arrows)
+   button   one height (--control); pill with a label, circle without; label
+            13px sans 500 caps, 12px on a phone
+   plus     the + and the - of the toggle circles are drawn in the same 1.5px */
+:root{--ico:18px;--ico-sm:14px;--ico-w:1.5px}
+:is(.btn,.car-btn,.zoom,.ph-nav,.lb-x,.mlb-x) svg{width:var(--ico);height:var(--ico)}
+:is(.cs-back) svg{width:var(--ico-sm);height:var(--ico-sm)}
+:is(.btn,.cs-back,.car-btn,.zoom,.ph-nav,.lb-x,.mlb-x) svg :is(path,line,polyline,polygon,circle,rect,ellipse){
+  stroke-width:var(--ico-w);vector-effect:non-scaling-stroke}
+:is(.cw-ico,.bp-ico)::before,:is(.cw-ico,.bp-ico)::after{border-top-width:var(--ico-w)}
+.cw-card .cw-ico,.bp-toggle .bp-ico{width:var(--control);height:var(--control)}
+.btn:not(.btn--icon):not(.noise-btn),a.proto,.hero-link,.hero-cue{font-size:13px;letter-spacing:.07em}
+@media (max-width:767px){ .btn:not(.btn--icon):not(.noise-btn),a.proto{font-size:12px} }
+.noise .noise-btn{font-size:13px;letter-spacing:.07em}
+
+/* text button: a secondary action with no outline and no fill; the label and an
+   arrow that says where it goes. Same type as a button label, same height. */
+.btn-text{display:inline-flex;align-items:center;gap:.45em;min-height:var(--control);padding:0 .2em;
+  font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;transition:color var(--t-instant) var(--ease-enter)}
+.btn-text span{text-decoration:underline;text-decoration-color:var(--stroke-ctrl);text-underline-offset:.35em;
+  transition:text-decoration-color var(--t-instant) var(--ease-enter)}
+.btn-text svg{width:var(--ico-sm);height:var(--ico-sm);transition:translate var(--t-instant) var(--ease-enter)}
+.btn-text svg *{stroke-width:var(--ico-w);vector-effect:non-scaling-stroke}
+@media (hover:hover){
+  .btn-text:hover span{text-decoration-color:var(--ink)}
+  .btn-text:hover svg{translate:2px -2px}
+}
+@media (max-width:767px){ .btn-text{font-size:12px} }
+
+/* tooltips and the menu keep their capitals */
+[data-tip]::after,.btn[data-tip]::after,.tab{text-transform:none}
+
 /* ── controls: pill and circle buttons ── */
 .btn,.noise,.car-btn,.ph-nav,.say,.zoom,.v10-tg button,.hero-labels li,.bp-ico,.cw-ico{
   transition:background-color var(--t-instant) var(--ease-enter),border-color var(--t-instant) var(--ease-enter),
              color var(--t-instant) var(--ease-enter)}
-.btn,.noise,.car-btn,.ph-nav{border-color:var(--stroke-ctrl)}
+.btn,.noise,.car-btn,.ph-nav,a.proto{border-color:var(--stroke-ctrl)}
 .say{background:none;box-shadow:inset 0 0 0 1px var(--stroke-ctrl)}
 .bp-ico,.cw-ico{border-color:var(--stroke-ctrl)}
 @media (hover:hover){
   .btn:not(.btn--on):not(.noise-btn):not([aria-pressed="true"]):hover,
   .noise:not([data-on="true"]):hover,
   .car-btn:hover:not(:disabled),
-  .ph-nav:hover{background:var(--fill-hover);border-color:var(--stroke-hover);color:var(--ink)}
+  .ph-nav:hover,a.proto:hover{background:var(--fill-hover);border-color:var(--stroke-hover);color:var(--ink)}
   .say:hover,.zoom:hover,.hero-labels li:hover{background:var(--fill-hover);box-shadow:inset 0 0 0 1px var(--stroke-hover);color:var(--ink)}
+  .zoom:hover{box-shadow:inset 0 0 0 1px var(--stroke-hover),var(--shadow-1)}
   .v10-tg button[aria-pressed="false"]:hover{background:var(--fill-hover);color:var(--ink)}
   .bp-toggle:hover .bp-ico,.bp-btn:hover .bp-ico,.cw-card:hover .cw-ico{background:var(--fill-hover);border-color:var(--stroke-hover)}
+  .bp-btn:not(.bp-toggle):not([aria-expanded="true"]):hover::after{background-color:var(--fill-hover);box-shadow:inset 0 0 0 1px var(--stroke-hover)}
   .bp-toggle[aria-expanded="true"]:hover .bp-ico,.cw-card[aria-expanded="true"]:hover .cw-ico{background:var(--fill-on);border-color:var(--fill-on)}
 }
 /* on: the same everywhere, and it holds under the pointer */
@@ -47,7 +147,6 @@
 /* ── cards that are links: the hairline steps up on hover ── */
 @media (hover:hover){
   .card[data-href]:hover,.cw-card:hover,.lens-card:hover{box-shadow:inset 0 0 0 1px var(--stroke-ctrl)}
-  .proto:hover{border-color:var(--stroke-ctrl)}
 }
 
 /* ── text links ── */

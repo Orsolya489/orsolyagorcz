@@ -22,20 +22,12 @@
 /* the drive's car: left is a layout property, so it follows the scroll directly */
 .rd-car{transition:none}
 .rfig .sk .rib{transition:opacity var(--t-instant) var(--ease-enter)}
-/* the availability dot no longer pulses: the header lamp is the one ambient motion */
-.avail-dot{animation:none}
 
 /* ── focus rings: never animated, never delayed ── */
 :focus-visible{transition:none !important}
 
-/* ── the signature: one lamp beside the wordmark ──
-   Comes on once at load and settles to rest, like a dashboard self-test light.
-   Is the system alive. */
-.brand:has(.lamp){display:inline-flex;align-items:center}
-.lamp{display:inline-block;width:5px;height:5px;margin-left:7px;border-radius:50%;
-  background:currentColor;opacity:.22;vertical-align:middle;flex:none;
-  animation:lamp 1600ms var(--ease-exit) both}
-@keyframes lamp{0%{opacity:0}30%{opacity:.95}100%{opacity:.22}}
+/* the availability dot pulses; it is the one ambient motion, and reduced motion stops it */
+
 
 /* ── scroll reveal: opacity only, once. Where did this come from. ── */
 .reveal{opacity:0;transition:opacity var(--t-enter) var(--ease-enter)}

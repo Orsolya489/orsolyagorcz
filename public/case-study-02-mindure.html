@@ -2098,9 +2098,10 @@ a{color:inherit}
    right edge. Nothing is centred in the page. */
 @media (min-width:1024px){
   .sec > *:not(.sec-label){grid-column:2}
+  /* the comparison sliders and the flows keep the full width they were drawn for */
+  .sec > .cmp,.sec > .duo{grid-column:1 / -1}
 }
 .fig img{margin-inline:0}
-.cmp-stage,.cmp-cols{margin-inline:0;width:100%}
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
 <link rel="stylesheet" href="/site-motion.css">

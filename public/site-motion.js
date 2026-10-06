@@ -24,14 +24,6 @@
     setTimeout(function(){ root.classList.remove('mt-swap'); }, 320);
   }, true);
 
-  /* the lamp, beside the wordmark */
-  var brand = document.querySelector('.brand');
-  if (brand) {
-    var lamp = document.createElement('span');
-    lamp.className = 'lamp'; lamp.setAttribute('aria-hidden', 'true');
-    brand.appendChild(lamp);
-  }
-
   /* figures below the fold fade in once; anything already on screen stays as it is */
   if ('IntersectionObserver' in window && !reduced()) {
     var io = new IntersectionObserver(function(es){
