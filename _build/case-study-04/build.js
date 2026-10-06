@@ -43,7 +43,7 @@ function v5svg(){
   };
   const t = (cls, x, y, s, anchor) => '<text class="' + cls + '" x="' + r(x) + '" y="' + r(y) + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + s + '</text>';
   let o = '';
-  o += '<svg class="v-min" style="--v-min:720px" viewBox="0 0 900 670" role="img" aria-labelledby="v5t v5d">';
+  o += '<svg class="v-min" style="--v-min:720px" viewBox="0 0 900 470" role="img" aria-labelledby="v5t v5d">';
   o += '<title id="v5t">How much disruption is enough?</title>';
   o += '<desc id="v5d">Three senses, each placed on a scale from missed to startles with the shipped setting marked. Colour rises from the bottom edge as a tint, higher for a warning than for a caution, while sound plays two soft rising tones only for accuracy warnings. Touch gives two short taps for warnings, far shorter than the buzz of a call.</desc>';
   o += '<defs>' +
@@ -67,14 +67,10 @@ function v5svg(){
     c.lo.forEach((s,i) => { o += t('v5-ex', L, 228 + i*19, s); });
     c.hi.forEach((s,i) => { o += t('v5-ex', R, 228 + i*19, s, 'end'); });
     o += '<path class="hair" d="M' + r(mx) + ' 186 V 270" stroke-dasharray="2 3"/>';
-    o += '<rect class="v5-box" x="' + c.x + '" y="270" width="280" height="270" rx="10"/>';
+    o += '<rect class="v5-box" x="' + c.x + '" y="270" width="280" height="190" rx="10"/>';
     o += t('v5-what', cx, 420, c.what[0], 'middle');
     o += t('v5-what', cx, 441, c.what[1], 'middle');
-    o += '<path class="hair" d="M' + (cx-26) + ' 458 H ' + (cx+26) + '"/>';
-    c.why.forEach((s,i) => { o += t('v5-why', cx, 481 + i*19, s, 'middle'); });
-    o += '<rect class="v5-vbox" x="' + c.x + '" y="556" width="280" height="108" rx="10"/>';
-    o += t('v5-vh', c.x + 18, 582, 'For sensitive users');
-    c.vul.forEach((s,i) => { o += t('v5-vt', c.x + 18, 606 + i*20, s); });
+    /* only what reads the visual: the setting, named; the reasons live in the prose */
   });
   // colour: two screens, the tint rising from the bottom edge; a warning rises higher
   [[16,'Caution','caution','v5gc',.36,P.warn],[152,'Warning','alert','v5ga',.56,P.alert]].forEach(([x,word,tone,grad,frac,icon]) => {
@@ -123,6 +119,14 @@ function rfig(id){
   return f;
 }
 let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfig('R5');
+/* R2: the questions come off the tiles; each says only what it was about, then the chart and the finding */
+{
+  const TOPICS = ['Losing track in long chats','Who interprets uncertain answers','Bias: expected vs. effect on trust','A gentle real-time signal'];
+  let n = 0;
+  R2 = R2.replace(/<p class="tq">[\s\S]*?<\/p>/g, () => '<p class="tk">' + TOPICS[n++] + '</p>');
+  must(n === 4, 'R2 questions ' + n);
+  R2 = once(R2, 'Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording', 'Fig. R2 · n = 83 (Hungarian 71, English 12)', 'R2 header');
+}
 const wrapScroll = (f, svgId) => {
   const a = f.indexOf('<svg id="' + svgId + '"'); must(a > 0, 'svg ' + svgId);
   const z = f.indexOf('</svg>', a) + '</svg>'.length;
@@ -198,6 +202,8 @@ script = once(script, '<b>Also alert — and deliberately silent.</b>', '<b>Also
 script = once(script, 'but the alert holds.</b>', 'but the warning holds.</b>', 'drive note 5a');
 script = once(script, 'Alert only releases below 55', 'A warning only releases below 55', 'drive note 5b');
 script = once(script, 'but alert exits below 55', 'but a warning exits below 55', 'drive why 5');
+/* the drive: each turn keeps only its bold lead */
+script = script.replace(/("note":"<b>[^<]*<\/b>)[^"]*"/g, '$1"');
 const TOGGLE = `/* V10: one diagram, two states. Without script both states stay on the page. */
 [].slice.call(document.querySelectorAll('.v10')).forEach(function(fig){
   var tg=fig.querySelector('.v10-tg');

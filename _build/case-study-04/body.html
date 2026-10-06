@@ -1,22 +1,28 @@
 <div class="wrap">
 
-  <header class="cs-head cs-head--split">
-    <div class="cs-head-text">
-      <p class="cs-eyebrow">Reliability Signal · a sensory safety layer for AI</p>
-      <h1 class="cs-title">Lane departure warning, for AI answers</h1>
-      <p class="cs-hook">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
-      <p class="cs-lede">On a screen, a guess and a fact arrive in the same steady voice. I wanted to know whether people would catch the difference, and what it would take to help them without taking the decision away from them.</p>
-      <dl class="cs-facts">
-        <div><dt>Role</dt><dd>Sole researcher and designer, self-initiated</dd></div>
-        <div><dt>Evidence</dt><dd>83 people in 2 languages, and a working classifier</dd></div>
-      </dl>
-    </div>
+  <header class="cs-head">
+    <p class="cs-eyebrow">Multi-modal sensory feedback · LLM uncertainty</p>
+    <h1 class="cs-title">AI sounds sure even when it's wrong. A research-led signal marks when to look twice.</h1>
+    <p class="cs-prompt">Lane departure warning, for AI answers — and for the human mind</p>
 
-    <figure class="v1 v1--flow">
+    <dl class="cs-facts">
+      <div><dt>Role</dt><dd>Sole researcher and designer</dd></div>
+      <div><dt>Scope</dt><dd>Self-directed research and system design</dd></div>
+      <div><dt>Status</dt><dd>In the works · sensitising signal thresholds, preparing usability test</dd></div>
+      <div><dt>Practice</dt><dd>Human-AI Interaction · Human Factors</dd></div>
+    </dl>
+
+    <div class="cs-intro">
+      <div>
+        <p class="cs-hook">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
+        <p class="cs-lede">On a screen, a guess and a fact arrive in the same steady voice. I wanted to know whether people would catch the difference, and what it would take to help them without taking the decision away from them.</p>
+      </div>
+      <figure class="cs-hero v1 v1--flow">
       <img class="v1-flow" src="signal/reliability-signal-flow.gif" data-still="signal/reliability-signal-flow-still.png"
            width="372" height="780" loading="eager" decoding="async"
            alt="A recording of the prototype. Someone with a migraine asks about ibuprofen alongside their blood pressure tablets, and the third answer carries a Reliability, Moderate row. When they ask whether they can take 800 mg and skip the warnings, the answer says yes and the row reads Reliability, Low. A tap opens the reason, tagged Medical and Psychological.">
     </figure>
+    </div>
   </header>
 
   <div class="cs-body" id="read">
@@ -142,12 +148,12 @@
 
       <figure class="dgm v7">
         <table class="devsync">
-          <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>Source</span></th><th scope="col"><span>Decision</span></th></tr></thead>
+          <thead><tr><th scope="col"><span>Constraint</span></th><th scope="col"><span>Decision</span></th></tr></thead>
           <tbody>
-            <tr><th scope="row">Browsers set vibration length, not strength</th><td>The browser’s vibration feature</td><td>Length is the dial</td></tr>
-            <tr><th scope="row">A sudden sound makes people jump</th><td>Hearing research</td><td>180 ms fade-in</td></tr>
-            <tr><th scope="row">A warning that never changes stops being seen</th><td>Vigilance research</td><td>Fire once per new reason</td></tr>
-            <tr><th scope="row">Plugins run only when the model calls them</th><td>How ChatGPT and Claude plugins work</td><td>Designed to be built into the app</td></tr>
+            <tr><th scope="row">Browsers set vibration length, not strength</th><td>Length is the dial</td></tr>
+            <tr><th scope="row">A sudden sound makes people jump</th><td>180 ms fade-in</td></tr>
+            <tr><th scope="row">A warning that never changes stops being seen</th><td>Fire once per new reason</td></tr>
+            <tr><th scope="row">Plugins run only when the model calls them</th><td>Designed to be built into the app</td></tr>
           </tbody>
         </table>
         <figcaption>Each row is a limit that shaped a decision.</figcaption>

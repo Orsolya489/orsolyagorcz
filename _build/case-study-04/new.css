@@ -218,3 +218,23 @@
   #road .rd-lanes{left:auto;right:0}
   #road .rd-rail{left:0;right:calc(var(--road-w) + var(--gutter))}
 }
+
+/* the drive: the turn is named by its lead; the filter line is gone */
+#rdWhy{display:none}
+
+/* ═══ the head, in the same order as Tribe and Mindure ═══
+   eyebrow, title, prompt, the four facts, then the paragraph beside the
+   recording. The recording is clipped to the phone's own corners, so none of
+   the page colour it was filmed on shows around it. */
+.cs-head .cs-title{max-width:22ch}
+.cs-head .cs-prompt{white-space:normal}
+.cs-hero.v1--flow{margin:0;align-items:center}
+.v1-flow{border-radius:11.83% / 5.64%}
+@media (max-width:767px){ .v1-flow{height:auto;width:min(100%,300px)} }
+/* four facts in one row, as on Tribe and Mindure */
+@media (min-width:901px){
+  .cs-facts{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .cs-facts div:nth-child(3n+1){padding-left:var(--gutter);border-left:1px solid var(--edge)}
+  .cs-facts div:nth-child(4n+1){padding-left:0;border-left:0}
+}
+@media (max-width:600px){ .cs-facts div:nth-child(n){padding-left:0;border-left:0} }

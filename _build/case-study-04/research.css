@@ -82,3 +82,6 @@
   .r5-list{display:block}
   .r5-key{display:flex}
 }
+
+/* R2 tile topic: what the question was about, as an eyebrow */
+.rfig .tk{margin:0;font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
