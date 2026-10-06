@@ -3,10 +3,12 @@
    The choice is remembered; the accessibility panel's Analytics row changes it. */
 (function(){
   /* ── the two IDs. Leave either empty and that tool never loads. ── */
-  var GA_ID = '';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
+  var GA_ID = 'G-9JFQBK829V';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
   var CLARITY_ID = '';   /* Microsoft Clarity project ID, e.g. abcd1234ef */
 
   var KEY = 'og-consent';
+  /* the banner names only the tools that are switched on */
+  var TOOLS = [GA_ID && 'Google Analytics', CLARITY_ID && 'Microsoft Clarity'].filter(Boolean).join(' and ');
   if (!GA_ID && !CLARITY_ID) return;
 
   function get(){ try { return localStorage.getItem(KEY); } catch (e) { return null; } }
@@ -60,7 +62,7 @@
     banner.setAttribute('role', 'region');
     banner.setAttribute('aria-label', 'Analytics consent');
     banner.innerHTML =
-      '<p class="consent-t">This site uses Google Analytics and Microsoft Clarity to see how its pages are read. Nothing is collected unless you accept.</p>' +
+      '<p class="consent-t">This site uses ' + TOOLS + ' to see how its pages are read. Nothing is collected unless you accept.</p>' +
       '<div class="consent-b">' +
         '<button type="button" class="btn" data-c="denied">Decline</button>' +
         '<button type="button" class="btn btn--on" data-c="granted">Accept</button>' +
