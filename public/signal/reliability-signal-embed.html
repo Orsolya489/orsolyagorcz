@@ -465,7 +465,7 @@ button,input{font-family:inherit;}
           <div class="dme"><span class="av">AK</span><span>Anna Kovács</span></div>
         </nav>
         <div class="scrim" id="scrim"></div>
-        <div class="sheet" id="settings" role="dialog" aria-modal="true" aria-labelledby="set-h"></div>
+        <div class="sheet" id="settings" role="dialog" aria-modal="true"></div>
       </div>
     </div>
   </div>
@@ -2500,6 +2500,7 @@ button,input{font-family:inherit;}
     function row(ic,n,d,ctl){ return '<div class="row"><span class="ic">'+icon(ic)+'</span><div class="t"><div class="n">'+n+'</div><div class="d">'+d+'</div></div>'+ctl+'</div>'; }
     function render(){
       const p = pending, dis = p.scope!=='on', word = p.scope==='paused'?'Paused':p.scope==='off'?'Off':'Always on', el = $('settings');
+      el.setAttribute('aria-labelledby', 'set-h');
       el.innerHTML =
         '<div class="top"><span class="orb'+(p.scope==='on'?'':' off')+'" style="width:22px;height:22px"><span class="base"></span></span>'+
         '<div class="tt"><div class="n" id="set-h">Reliability Signal</div><div class="s">Sensory safety layer for AI</div></div>'+
