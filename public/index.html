@@ -11,10 +11,10 @@
 <meta property="og:url" content="https://orsolyagorcz.com/">
 <meta property="og:title" content="Orsolya G. — I design how AI systems earn trust in safety-critical environments">
 <meta property="og:description" content="AI Product Designer working in human factors and human-AI interaction. I design how AI systems earn trust in safety-critical environments.">
-<meta property="og:image" content="https://orsolyagorcz.com/og/og-home.png">
+<meta property="og:image" content="https://orsolyagorcz.com/og/og-home-logo.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tribe, Mindure and Ness product interfaces">
+<meta property="og:image:alt" content="Orsolya G. wordmark">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -236,10 +236,10 @@ a{color:inherit}
   100%{box-shadow:0 0 0 0 rgba(60,143,102,0)}}
 [data-motion="reduced"] .avail-dot{animation:none}
 @media (prefers-reduced-motion:reduce){.avail-dot{animation:none}}
-/* it still fits at 390, just: the label sheds its padding before it sheds
+/* on one line it fits down to 360: the label sheds its padding before it sheds
    itself, and only goes when the line would break */
 @media (max-width:560px){.avail{padding:calc(var(--control)*.16) calc(var(--control)*.28);gap:.45em}}
-@media (max-width:380px){.avail{display:none}}
+@media (max-width:359px){.avail{display:none}}
 .c-tr{top:var(--gutter);right:var(--margin)}
 .c-bc{top:var(--gutter);left:50%;translate:-50% 0}
 /* The footer is the one block these must not cover: it carries the ways to
@@ -1082,10 +1082,6 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 .site-foot .btn[data-tip]::after{top:auto;bottom:calc(100% + 8px);translate:-50% 4px}
 .site-foot .btn[data-tip]:focus-visible::after{translate:-50% 0}
 @media (hover:hover){ .site-foot .btn[data-tip]:hover::after{translate:-50% 0} }
-/* on a phone the row is wider than the card, so both corners rejoin the flow */
-@media (max-width:767px){
-  .contact-loc{white-space:normal}
-}
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:800;background:rgba(25,21,23,.92);display:flex;
@@ -1190,7 +1186,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 @media (min-width:768px){ .hero .t-hero{max-width:none} .t-hero .hl{display:block;white-space:nowrap}
   .hero-sub{max-width:none} .hero-sub .hl{display:block;white-space:nowrap} }
 /* the availability line under the logo reads as one line */
-@media (min-width:768px){ .c-tl .avail-t{flex-direction:row;gap:.35em} .c-tl .avail-t i::before{content:"·";margin-right:.35em} }
+.c-tl .avail-t{flex-direction:row;gap:.35em} .c-tl .avail-t i::before{content:"·";margin-right:.35em}
 /* both parts of the availability line in the same colour */
 .avail-t i{color:inherit}
 /* the availability line as a filled label in the card tone, with the pulsing dot */
@@ -1229,10 +1225,8 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   .site-foot .foot-btns{grid-column:1 / -1;grid-row:3;justify-self:start;margin-left:-10px}
   .site-foot .foot-note,.site-foot .foot-mark{grid-row:4}
 }
-@media (min-width:768px){
-  .foot-mid .avail-t{flex-direction:row;gap:.35em}
-  .foot-mid .avail-t i::before{content:"·";margin-right:.35em}
-}
+.foot-mid .avail-t{flex-direction:row;gap:.35em}
+.foot-mid .avail-t i::before{content:"·";margin-right:.35em}
 /* credential cards: a readable title, description and source */
 .lens-name{font-size:calc(19px * var(--tscale));line-height:1.3}
 .lens-apply,.lens-apply span{font-size:calc(15px * var(--tscale));line-height:1.6}
