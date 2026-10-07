@@ -98,8 +98,77 @@
     rowBtn.classList.toggle('btn--on', on);
   }
 
+  /* ── named events. Sent to both tools, and only once the visitor has accepted. ── */
+  function track(name, params){
+    if (!loaded || get() !== 'granted') return;
+    params = params || {};
+    if (GA_ID && window.gtag) gtag('event', name, params);
+    if (CLARITY_ID && window.clarity) {
+      window.clarity('event', name);
+      Object.keys(params).forEach(function(k){ window.clarity('set', name + '_' + k, String(params[k])); });
+    }
+  }
+  window.ogTrack = track;
+  var where = function(el){
+    return el.closest('.c-tr, .c-tl, .chrome-shell') ? 'header' : el.closest('.site-foot') ? 'footer' : el.closest('#panel') ? 'panel' : 'page';
+  };
+  var page = location.pathname.replace(/^\//, '') || 'home';
+
+  function wire(){
+    /* clicks, delegated, so later-built controls are covered too */
+    document.addEventListener('click', function(e){
+      var el = e.target.closest('a, button, [role="link"]'); if (!el) return;
+      var href = el.getAttribute('href') || el.getAttribute('data-href') || '';
+      if (/drive\.google\.com/.test(href)) track('resume_open', { location: where(el), page: page });
+      else if (el.id === 'mailBtn' || el.id === 'mailCopy') track('email_copy', { location: where(el), page: page });
+      else if (/linkedin\.com/.test(href)) track('social_click', { network: 'linkedin', location: where(el), page: page });
+      else if (/github\.com/.test(href)) track('social_click', { network: 'github', location: where(el), page: page });
+      else if (/^\/case-study-/.test(href)) track('case_study_open', { case_study: href.replace('/', ''), from: el.closest('.card') ? 'home card' : el.closest('.next') ? 'next list' : 'link', page: page });
+      else if (/figma\.site|reliability-signal-embed/.test(href)) track('prototype_interact', { prototype: /figma/.test(href) ? 'mindure' : 'signal', how: 'opened', page: page });
+      else if (el.id === 'noiseBtn' || el.id === 'noiseBtnM') setTimeout(function(){ if (el.getAttribute('aria-pressed') === 'true') track('noise_on', { page: page }); }, 0);
+      else if (el.closest('#panel') && (el.hasAttribute('data-text') || el.id === 'contrastBtn' || el.id === 'motionBtn'))
+        setTimeout(function(){
+          track('accessibility_change', { setting: el.hasAttribute('data-text') ? 'text size' : el.id === 'contrastBtn' ? 'high contrast' : 'reduce motion',
+            value: el.hasAttribute('data-text') ? el.getAttribute('data-text') : (el.getAttribute('aria-pressed') === 'true' ? 'on' : 'off'), page: page });
+        }, 0);
+    });
+    /* home cards also open on Enter */
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Enter') return;
+      var c = e.target.closest && e.target.closest('.card[data-href]');
+      if (c) track('case_study_open', { case_study: c.getAttribute('data-href').replace('/', ''), from: 'home card', page: page });
+    });
+    /* Signal's prototype, used in place: focus moving into its frame */
+    window.addEventListener('blur', function(){
+      var f = document.activeElement;
+      if (f && f.tagName === 'IFRAME' && /reliability-signal-embed/.test(f.src) && !f._tracked) {
+        f._tracked = true; track('prototype_interact', { prototype: 'signal', how: 'used in page', page: page });
+      }
+    });
+    /* sections: once each, when a section reaches the middle of the screen */
+    if ('IntersectionObserver' in window) {
+      var name = function(s){
+        return s.getAttribute('data-bar') || ({ home: 'Home', work: 'In depth', more: 'In brief', about: 'About', road: 'The drive' })[s.id] || (s.classList.contains('site-foot') ? 'Footer' : s.id);
+      };
+      /* a section counts once it reaches the middle of the screen, or once most of
+         it is in view: the last section and the footer never reach the middle */
+      var seen = [];
+      var hit = function(es){
+        es.forEach(function(e){
+          if (!e.isIntersecting || seen.indexOf(e.target) > -1) return;
+          seen.push(e.target);
+          track('section_view', { section: name(e.target), page: page });
+        });
+      };
+      var mid = new IntersectionObserver(hit, { rootMargin: '-45% 0px -45% 0px' });
+      var most = new IntersectionObserver(function(es){ hit(es.filter(function(e){ return e.intersectionRatio >= .6; })); }, { threshold: .6 });
+      [].forEach.call(document.querySelectorAll('.sec[id], #home, #work, #more, #about, .site-foot, #road'), function(s){ mid.observe(s); most.observe(s); });
+    }
+  }
+
   function start(){
     addRow();
+    wire();
     var c = get();
     if (c === 'granted') load();
     else if (c !== 'denied') showBanner();
