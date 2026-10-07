@@ -132,12 +132,6 @@
             value: el.hasAttribute('data-text') ? el.getAttribute('data-text') : (el.getAttribute('aria-pressed') === 'true' ? 'on' : 'off'), page: page });
         }, 0);
     });
-    /* home cards also open on Enter */
-    document.addEventListener('keydown', function(e){
-      if (e.key !== 'Enter') return;
-      var c = e.target.closest && e.target.closest('.card[data-href]');
-      if (c) track('case_study_open', { case_study: c.getAttribute('data-href').replace('/', ''), from: 'home card', page: page });
-    });
     /* Signal's prototype, used in place: focus moving into its frame */
     window.addEventListener('blur', function(){
       var f = document.activeElement;

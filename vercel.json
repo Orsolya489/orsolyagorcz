@@ -4,12 +4,141 @@
   "installCommand": "",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/case-study-03-ness", "destination": "/", "permanent": false },
-    { "source": "/tribe/tribe-case-study-2026.html", "destination": "/case-study-01-tribe", "permanent": true },
-    { "source": "/tribe/tribe-case-study-2026", "destination": "/case-study-01-tribe", "permanent": true },
-    { "source": "/case-study-mindure-v3.html", "destination": "/case-study-02-mindure", "permanent": true },
-    { "source": "/case-study-mindure-v3", "destination": "/case-study-02-mindure", "permanent": true },
-    { "source": "/ness/ness-creative-therapy.html", "destination": "/", "permanent": false },
-    { "source": "/ness/ness-creative-therapy", "destination": "/", "permanent": false }
+    {
+      "source": "/case-study-03-ness",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tribe/tribe-case-study-2026.html",
+      "destination": "/case-study-01-tribe",
+      "permanent": true
+    },
+    {
+      "source": "/tribe/tribe-case-study-2026",
+      "destination": "/case-study-01-tribe",
+      "permanent": true
+    },
+    {
+      "source": "/case-study-mindure-v3.html",
+      "destination": "/case-study-02-mindure",
+      "permanent": true
+    },
+    {
+      "source": "/case-study-mindure-v3",
+      "destination": "/case-study-02-mindure",
+      "permanent": true
+    },
+    {
+      "source": "/ness/ness-creative-therapy.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/ness/ness-creative-therapy",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/case-study-tribe",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/system",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/orsolya-gorcz-cv-2026",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/tribe/tribe-case-study-2026-v2",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/tribe/tribe-case-study-2026-v3",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/tribe/tribe-case-study-final",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/ness/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/signal/builds/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/signal/conversation-simulator",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/signal/milestones",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/signal/reliability-signal-embed",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
   ]
 }

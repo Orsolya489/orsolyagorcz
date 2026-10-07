@@ -184,10 +184,10 @@ head = once(head, '<title>Feeling the Machine Hesitate — making AI uncertainty
 head = once(head, '<meta name="description" content="A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.">', '<meta name="description" content="' + DESC + '">', 'description');
 head = once(head, '<meta property="og:title" content="Feeling the Machine Hesitate — making AI uncertainty perceptible">', '<meta property="og:title" content="' + TITLE + '">', 'og:title');
 head = once(head, '<meta property="og:description" content="A multimodal signalling system that makes AI uncertainty, ethical friction and bias perceptible in real time — before the user has already acted on the answer.">', '<meta property="og:description" content="' + DESC + '">', 'og:description');
-head = once(head, 'https://orsolyagorcz.com/signal/signal_mockup_warning_nobackground.png', 'https://orsolyagorcz.com/signal/reliability-signal-mockup.png', 'og:image');
-head = once(head, '<meta property="og:image:width" content="680">', '<meta property="og:image:width" content="924">', 'og w');
-head = once(head, '<meta property="og:image:height" content="1380">', '<meta property="og:image:height" content="2000">', 'og h');
-head = head.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="A phone chat in its warning state, with a Reliability, Low row under an answer about ibuprofen and the reason opened beneath it.">');
+head = once(head, 'https://orsolyagorcz.com/signal/signal_mockup_warning_nobackground.png', 'https://orsolyagorcz.com/og/og-signal.png', 'og:image');
+head = once(head, '<meta property="og:image:width" content="680">', '<meta property="og:image:width" content="1200">', 'og w');
+head = once(head, '<meta property="og:image:height" content="1380">', '<meta property="og:image:height" content="630">', 'og h');
+head = head.replace(/<meta property="og:image:alt" content="[^"]*">/, '<meta property="og:image:alt" content="The Signal case study card: an AI answer that may be true or invented, a signal that reaches human judgment, and a phone chat in its warning state.">');
 head = once(head, '</style>', fs.readFileSync(HERE + '/new.css', 'utf8') + fs.readFileSync(HERE + '/research.css', 'utf8') + '</style>', 'style end');
 /* the phone layer every page shares: after the page's own styles, so it wins on a phone */
 head = once(head, '</head>', '<link rel="stylesheet" href="/site-mobile.css">\n</head>', 'mobile css');
@@ -280,8 +280,9 @@ script = script.slice(0, d0) + TOGGLE + script.slice(d1);
 
 const out = head + chrome + body + '\n\n' + script + '\n<script src="/site-mobile.js" defer></script>\n</body>\n</html>\n';
 /* the site's motion contract (data-motion full|reduced) and its shared files */
-fs.writeFileSync(REPO + '/public/case-study-04-signal.html', require('../surface-swap.js')(require('../motion-rename.js')(out))
-  .replace('<link rel="stylesheet" href="/site-ui.css">', '<link rel="stylesheet" href="/site-ui.css">\n<link rel="stylesheet" href="/site-header.css">'));;
+fs.writeFileSync(REPO + '/public/case-study-04-signal.html', require('../seo-jsonld.js')(require('../surface-swap.js')(require('../motion-rename.js')(out))
+  .replace('<link rel="stylesheet" href="/site-ui.css">', '<link rel="stylesheet" href="/site-ui.css">\n<link rel="stylesheet" href="/site-header.css">')
+  .replace(/(<link rel="canonical" href="[^"]*">)/, '$1\n<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">')));
 console.log('page bytes', out.length);
 
 /* ── the embed keeps two columns down to 700px, so it fits the frame on the page ── */
