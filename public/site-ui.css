@@ -145,8 +145,15 @@ tr,th,td{border-color:var(--stroke)}
   background:var(--fill-on);border-color:var(--fill-on);color:var(--text-on)}
 .say:focus-visible{background:var(--fill-on);color:var(--text-on)}
 
-/* ── tabs: the segment under the pointer takes the hover fill ── */
-@media (hover:hover){ .tab:not([aria-selected="true"]):hover{background-color:transparent;background-image:linear-gradient(var(--fill-hover),var(--fill-hover));color:var(--ink)} }
+/* ── tabs: the segment under the pointer takes the hover fill, drawn as the
+   same pill as the active indicator (inset 3px top and bottom, full width of
+   the segment) so hover and active are exactly the same size ── */
+.tab::before{content:"";position:absolute;inset:3px 0;z-index:-1;border-radius:var(--r-pill);
+  background:var(--fill-hover);opacity:0;transition:opacity var(--out) var(--ease)}
+@media (hover:hover){
+  .tab:not([aria-selected="true"]):hover{background:none;color:var(--ink)}
+  .tab:not([aria-selected="true"]):hover::before{opacity:1;transition-duration:var(--in)}
+}
 
 /* ── cards that are links: the hairline steps up on hover ── */
 @media (hover:hover){
