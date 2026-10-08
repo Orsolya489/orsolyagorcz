@@ -1,50 +1,52 @@
 /* site-consent.js — analytics. Shared by every page.
-   Google Analytics 4 and Microsoft Clarity are on by default, with no banner
-   and no switch. A visitor who switched them off earlier (stored as "denied")
-   stays off. Clarity is told a visitor consented only when they once switched
-   Analytics on themselves, never by default. */
+   Umami: cookieless and anonymous, so there is no banner and no switch. It
+   counts page views on its own; the named events below say what was used.
+   It only counts on orsolyagorcz.com, never on a local copy. A visitor who
+   switched analytics off under the old setup (stored as "denied") stays off.
+   Google Analytics and Microsoft Clarity are gone; the cookies they left in
+   returning visitors' browsers are cleared once, here. */
 (function(){
-  /* ── the two IDs. Leave either empty and that tool never loads. ── */
-  var GA_ID = 'G-9JFQBK829V';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
-  var CLARITY_ID = 'ytkbn367fz';   /* Microsoft Clarity project ID, e.g. abcd1234ef */
-
+  var UMAMI_ID = 'ce8869a4-e6de-4e27-a39d-59f6baad15ad';
+  var DOMAIN = 'orsolyagorcz.com';
   var KEY = 'og-consent';
-  if (!GA_ID && !CLARITY_ID) return;
 
   function get(){ try { return localStorage.getItem(KEY); } catch (e) { return null; } }
-  /* on unless the visitor switched it off */
   function on(){ return get() !== 'denied'; }
+
+  /* the old tools' cookies, on this domain and its parent */
+  document.cookie.split(';').forEach(function(c){
+    var n = c.split('=')[0].trim();
+    if (/^(_ga|_gid|_gat|_clck|_clsk|CLID|ANONCHK|MR|MUID|SM)/.test(n)) {
+      [location.hostname, '.' + location.hostname.replace(/^www\./, '')].forEach(function(d){
+        document.cookie = n + '=; Max-Age=0; path=/; domain=' + d;
+      });
+      document.cookie = n + '=; Max-Age=0; path=/';
+    }
+  });
 
   var loaded = false;
   function load(){
     if (loaded) return; loaded = true;
-    if (GA_ID) {
-      window['ga-disable-' + GA_ID] = false;
-      var g = document.createElement('script'); g.async = true;
-      g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
-      document.head.appendChild(g);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function(){ dataLayer.push(arguments); };
-      gtag('js', new Date());
-      gtag('config', GA_ID, { anonymize_ip: true });
-    }
-    if (CLARITY_ID) {
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, 'clarity', 'script', CLARITY_ID);
-      if (get() === 'granted') window.clarity('consent');
-    }
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://cloud.umami.is/script.js';
+    s.setAttribute('data-website-id', UMAMI_ID);
+    s.setAttribute('data-domains', DOMAIN);
+    document.head.appendChild(s);
   }
-  /* ── named events. Sent to both tools while Analytics is on. ── */
+
+  /* ── named events. Queued until Umami has loaded, then sent in order. ── */
+  var queue = [];
+  function flush(){
+    if (!window.umami || typeof window.umami.track !== 'function') return false;
+    while (queue.length) { var q = queue.shift(); window.umami.track(q[0], q[1]); }
+    return true;
+  }
   function track(name, params){
     if (!loaded || !on()) return;
-    params = params || {};
-    if (GA_ID && window.gtag) gtag('event', name, params);
-    if (CLARITY_ID && window.clarity) {
-      window.clarity('event', name);
-      Object.keys(params).forEach(function(k){ window.clarity('set', name + '_' + k, String(params[k])); });
+    queue.push([name, params || {}]);
+    if (!flush()) {
+      var tries = 0, t = setInterval(function(){ if (flush() || ++tries > 40) clearInterval(t); }, 250);
     }
   }
   window.ogTrack = track;
@@ -61,7 +63,6 @@
       if (/drive\.google\.com/.test(href)) track('resume_open', { location: where(el), page: page });
       else if (el.id === 'mailBtn' || el.id === 'mailCopy') track('email_copy', { location: where(el), page: page });
       else if (/linkedin\.com/.test(href)) track('social_click', { network: 'linkedin', location: where(el), page: page });
-      else if (/github\.com/.test(href)) track('social_click', { network: 'github', location: where(el), page: page });
       else if (/^\/case-study-/.test(href)) track('case_study_open', { case_study: href.replace('/', ''), from: el.closest('.card') ? 'home card' : el.closest('.next') ? 'next list' : 'link', page: page });
       else if (/figma\.site|reliability-signal-embed/.test(href)) track('prototype_interact', { prototype: /figma/.test(href) ? 'mindure' : 'signal', how: 'opened', page: page });
       else if (el.id === 'noiseBtn' || el.id === 'noiseBtnM') setTimeout(function(){ if (el.getAttribute('aria-pressed') === 'true') track('noise_on', { page: page }); }, 0);
