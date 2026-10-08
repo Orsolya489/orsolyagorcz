@@ -1,4 +1,4 @@
-// Renders the three v11-*.html concept screens (from v11-gen.js) to PNG at 2x,
+// Renders the three v11-*.html concept screens (from v11-gen.js) to WebP at 2x,
 // with a transparent background so the phone's rounded corners stay clean.
 //   node v11-render.js [outDir]     default outDir: public/signal
 // Needs Chrome at the usual Windows path.
@@ -23,8 +23,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   for (const k of ['chatgpt', 'claude', 'gemini']) {
     await send('Page.navigate', { url: 'file:///' + path.join(HERE, 'v11-' + k + '.html').replace(/\\/g, '/') });
     await sleep(900);
-    const s = await send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 390, height: 844, scale: 1 } });
-    const f = path.join(OUT, 'concept-' + k + '.png');
+    const s = await send('Page.captureScreenshot', { format: 'webp', quality: 88, clip: { x: 0, y: 0, width: 390, height: 844, scale: 1 } });
+    const f = path.join(OUT, 'concept-' + k + '.webp');
     fs.writeFileSync(f, Buffer.from(s.result.data, 'base64')); console.log('wrote', f);
   }
   ws.close(); ch.kill(); process.exit(0);

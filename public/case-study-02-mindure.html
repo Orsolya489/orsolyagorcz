@@ -97,7 +97,7 @@ body{
   font-family:var(--serif);font-size:var(--body);line-height:1.7;
   -webkit-font-smoothing:antialiased;
 }
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 /* ── no stranded last words ──
    A heading that ends on one word reads as a mistake before it reads as a
    sentence; a paragraph that does costs a saccade carrying nothing. Headings
@@ -883,6 +883,11 @@ a{color:inherit}
   letter-spacing:.07em;text-transform:uppercase;
   padding:.3em .9em;border-radius:var(--r-pill);
   color:var(--ink);background:var(--page);box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+/* each label is clipped with its own image, so the seam covers the label of
+   the side it hides and only the side in view is named */
+.cmp-clip{position:absolute;inset:0;z-index:2;pointer-events:none}
+.cmp-clip--l{clip-path:inset(0 calc(100% - var(--x)) 0 0)}
+.cmp-clip--r{clip-path:inset(0 0 0 var(--x))}
 /* position only - both halves are labelled the same way */
 .cmp-tag--l{left:var(--stack)}
 .cmp-tag--r{right:var(--stack)}
@@ -958,7 +963,8 @@ a{color:inherit}
 .duo-row .plane--venn,.duo-row .plane--scatter{max-width:none;margin-inline:0}
 /* the legend is a column of its own now, under the heading rather than beside
    the field, so it stops competing with the drawing for the same row */
-.duo-txt .sm-note{flex-direction:column;gap:.55em}
+.sm-legend{display:flex;flex-direction:column;gap:var(--stack)}
+.sm-legend .sm-note{flex-direction:column;gap:.55em}
 /* the four cards are the right-hand item in their row, so they sit where the
    drawings sit rather than filling the measure */
 .duo-row > .quad{align-self:center}
@@ -970,13 +976,6 @@ a{color:inherit}
   .duo-row{grid-template-columns:1fr;gap:var(--stack)}
   .duo-foot{margin-top:0}
   .sm{grid-template-columns:1fr}
-}
-/* as in Signal: the left column holds only the section title. The findings sit in
-   the right column, each heading and its paragraph above its drawing. */
-@media (min-width:1024px){
-  .duo-col{gap:calc(var(--section)*.6)}
-  .duo .duo-row{grid-template-columns:1fr;gap:var(--stack)}
-  .duo .duo-row > .quad{align-self:start}
 }
 
 /* ═══ overlapping-set and scatter drawings ═══
@@ -2113,6 +2112,19 @@ a{color:inherit}
   .sec > *:not(.sec-label){grid-column:2}
   /* the comparison sliders keep the full width they were drawn for */
   .sec > .cmp{grid-column:1 / -1}
+  /* as in Signal: the left column holds titles only. The findings, the table of
+     what each section may do and the resource links share the section's two
+     columns, so every sub-heading sits in the title column, level with its
+     paragraph and drawing in the reading column. */
+  .sec > .duo,.sec > .duo-row{grid-column:1 / -1}
+  .duo,.duo-col{display:grid;grid-template-columns:subgrid;row-gap:calc(var(--section)*.6)}
+  .duo-col{grid-column:1 / -1}
+  .duo-row,.duo-row--wide,.duo-foot{grid-column:1 / -1;display:grid;grid-template-columns:subgrid;
+    column-gap:var(--gutter);row-gap:var(--stack);align-items:start}
+  .duo-row .duo-txt{display:contents}
+  .duo-row .duo-h,.duo-foot .duo-h{grid-column:1}
+  .duo-row .duo-txt > :not(.duo-h),.duo-row > :not(.duo-txt),.duo-foot > :not(.duo-h){grid-column:2}
+  .duo-row > .quad{align-self:start}
 }
 .fig img{margin-inline:0}
 </style>
@@ -2389,108 +2401,112 @@ a{color:inherit}
             <div class="duo-txt">
               <h3 class="duo-h">Human sense-making under uncertainty</h3>
               <p class="duo-p">Each dot is a signal arriving. The box is what one person can hold and act on at once — and it is already full. The volume outside it is not unusual; what fails is the assumption that someone will sort it.</p>
-              <ul class="sm-key">
-                <li><i class="sm-sw sm-d1"></i>Planning pressure</li>
-                <li><i class="sm-sw sm-d2"></i>Personal capacity</li>
-                <li><i class="sm-sw sm-d3"></i>Economy &amp; automation</li>
-                <li><i class="sm-sw sm-d4"></i>Market &amp; skills</li>
-              </ul>
-              <p class="sm-note"><span><i class="sm-sw sm-in"></i>Dots inside &#8594; manageable load</span><span><i class="sm-sw sm-out"></i>Dots outside &#8594; overload</span></p>
             </div>
-            <div class="plane plane--scatter">
-              <svg class="md" viewBox="0 0 640 400" role="img" aria-labelledby="sT sD">
-                <title id="sT">Sense-making under uncertainty</title>
-                <desc id="sD">A field of dots in four series — planning pressure, personal capacity, economy and automation, market and skills. A rounded box in the middle is packed full of them: that is one person’s workable load, already at its limit. The dots scattered beyond the box are the signals that arrive anyway and have nowhere to go — the overload.</desc>
-                <rect class="sm-box" x="232" y="104" width="196" height="172" rx="18"/>
-                <circle class="sm-d1" cx="319" cy="170" r="7"/>
-                <circle class="sm-d2" cx="370" cy="217" r="7"/>
-                <circle class="sm-d3" cx="339" cy="122" r="7"/>
-                <circle class="sm-d4" cx="284" cy="180" r="7"/>
-                <circle class="sm-d1" cx="385" cy="220" r="7"/>
-                <circle class="sm-d2" cx="365" cy="214" r="7"/>
-                <circle class="sm-d3" cx="396" cy="128" r="7"/>
-                <circle class="sm-d4" cx="341" cy="229" r="7"/>
-                <circle class="sm-d1" cx="398" cy="151" r="7"/>
-                <circle class="sm-d2" cx="357" cy="164" r="7"/>
-                <circle class="sm-d3" cx="268" cy="166" r="7"/>
-                <circle class="sm-d4" cx="318" cy="138" r="7"/>
-                <circle class="sm-d1" cx="294" cy="220" r="7"/>
-                <circle class="sm-d2" cx="302" cy="256" r="7"/>
-                <circle class="sm-d3" cx="299" cy="159" r="7"/>
-                <circle class="sm-d4" cx="332" cy="210" r="7"/>
-                <circle class="sm-d1" cx="305" cy="185" r="7"/>
-                <circle class="sm-d2" cx="271" cy="208" r="7"/>
-                <circle class="sm-d3" cx="313" cy="195" r="7"/>
-                <circle class="sm-d4" cx="339" cy="143" r="7"/>
-                <circle class="sm-d1" cx="262" cy="146" r="7"/>
-                <circle class="sm-d2" cx="308" cy="241" r="7"/>
-                <circle class="sm-d3" cx="340" cy="147" r="7"/>
-                <circle class="sm-d4" cx="285" cy="204" r="7"/>
-                <circle class="sm-d1" cx="401" cy="222" r="7"/>
-                <circle class="sm-d2" cx="371" cy="230" r="7"/>
-                <circle class="sm-d3" cx="290" cy="146" r="7"/>
-                <circle class="sm-d4" cx="368" cy="200" r="7"/>
-                <circle class="sm-d1" cx="404" cy="241" r="7"/>
-                <circle class="sm-d2" cx="275" cy="240" r="7"/>
-                <circle class="sm-d3" cx="248" cy="184" r="7"/>
-                <circle class="sm-d4" cx="396" cy="224" r="7"/>
-                <circle class="sm-d1" cx="274" cy="179" r="7"/>
-                <circle class="sm-d2" cx="319" cy="232" r="7"/>
-                <circle class="sm-d3" cx="263" cy="120" r="7"/>
-                <circle class="sm-d4" cx="311" cy="208" r="7"/>
-                <circle class="sm-d1" cx="259" cy="162" r="7"/>
-                <circle class="sm-d2" cx="402" cy="142" r="7"/>
-                <circle class="sm-d3" cx="310" cy="139" r="7"/>
-                <circle class="sm-d4" cx="341" cy="221" r="7"/>
-                <circle class="sm-d1" cx="305" cy="192" r="7"/>
-                <circle class="sm-d2" cx="362" cy="189" r="7"/>
-                <circle class="sm-d3" cx="353" cy="190" r="7"/>
-                <circle class="sm-d4" cx="333" cy="133" r="7"/>
-                <circle class="sm-d1" cx="363" cy="244" r="7"/>
-                <circle class="sm-d2" cx="412" cy="175" r="7"/>
-                <circle class="sm-d3" cx="281" cy="161" r="7"/>
-                <circle class="sm-d4" cx="381" cy="186" r="7"/>
-                <circle class="sm-d1" cx="321" cy="192" r="7"/>
-                <circle class="sm-d2" cx="410" cy="222" r="7"/>
-                <circle class="sm-d3" cx="278" cy="122" r="7"/>
-                <circle class="sm-d4" cx="376" cy="153" r="7"/>
-                <circle class="sm-d1" cx="282" cy="173" r="7"/>
-                <circle class="sm-d2" cx="341" cy="262" r="7"/>
-                <circle class="sm-d3" cx="193" cy="270" r="7"/>
-                <circle class="sm-d4" cx="199" cy="69" r="7"/>
-                <circle class="sm-d1" cx="477" cy="256" r="7"/>
-                <circle class="sm-d2" cx="207" cy="250" r="7"/>
-                <circle class="sm-d3" cx="216" cy="279" r="7"/>
-                <circle class="sm-d4" cx="458" cy="252" r="7"/>
-                <circle class="sm-d1" cx="412" cy="303" r="7"/>
-                <circle class="sm-d2" cx="276" cy="336" r="7"/>
-                <circle class="sm-d3" cx="247" cy="91" r="7"/>
-                <circle class="sm-d4" cx="486" cy="325" r="7"/>
-                <circle class="sm-d1" cx="456" cy="119" r="7"/>
-                <circle class="sm-d2" cx="321" cy="83" r="7"/>
-                <circle class="sm-d3" cx="346" cy="78" r="7"/>
-                <circle class="sm-d4" cx="241" cy="321" r="7"/>
-                <circle class="sm-d1" cx="419" cy="292" r="7"/>
-                <circle class="sm-d2" cx="182" cy="257" r="7"/>
-                <circle class="sm-d3" cx="389" cy="287" r="7"/>
-                <circle class="sm-d4" cx="187" cy="199" r="7"/>
-                <circle class="sm-d1" cx="441" cy="262" r="7"/>
-                <circle class="sm-d2" cx="474" cy="148" r="7"/>
-                <circle class="sm-d3" cx="197" cy="218" r="7"/>
-                <circle class="sm-d4" cx="449" cy="210" r="7"/>
-                <circle class="sm-d1" cx="472" cy="117" r="7"/>
-                <circle class="sm-d2" cx="441" cy="266" r="7"/>
-                <circle class="sm-d3" cx="373" cy="285" r="7"/>
-                <circle class="sm-d4" cx="211" cy="88" r="7"/>
-                <circle class="sm-d1" cx="456" cy="100" r="7"/>
-                <circle class="sm-d2" cx="394" cy="70" r="7"/>
-                <circle class="sm-d3" cx="466" cy="260" r="7"/>
-                <circle class="sm-d4" cx="318" cy="300" r="7"/>
-                <circle class="sm-d1" cx="353" cy="336" r="7"/>
-                <circle class="sm-d2" cx="174" cy="55" r="7"/>
-                <circle class="sm-d3" cx="213" cy="314" r="7"/>
-                <circle class="sm-d4" cx="337" cy="86" r="7"/>
-              </svg>
+            <div class="sm">
+              <div class="sm-legend">
+                <ul class="sm-key">
+                  <li><i class="sm-sw sm-d1"></i>Planning pressure</li>
+                  <li><i class="sm-sw sm-d2"></i>Personal capacity</li>
+                  <li><i class="sm-sw sm-d3"></i>Economy &amp; automation</li>
+                  <li><i class="sm-sw sm-d4"></i>Market &amp; skills</li>
+                </ul>
+                <p class="sm-note"><span><i class="sm-sw sm-in"></i>Dots inside &#8594; manageable load</span><span><i class="sm-sw sm-out"></i>Dots outside &#8594; overload</span></p>
+              </div>
+              <div class="plane plane--scatter">
+                <svg class="md" viewBox="0 0 640 400" role="img" aria-labelledby="sT sD">
+                  <title id="sT">Sense-making under uncertainty</title>
+                  <desc id="sD">A field of dots in four series — planning pressure, personal capacity, economy and automation, market and skills. A rounded box in the middle is packed full of them: that is one person’s workable load, already at its limit. The dots scattered beyond the box are the signals that arrive anyway and have nowhere to go — the overload.</desc>
+                  <rect class="sm-box" x="232" y="104" width="196" height="172" rx="18"/>
+                  <circle class="sm-d1" cx="319" cy="170" r="7"/>
+                  <circle class="sm-d2" cx="370" cy="217" r="7"/>
+                  <circle class="sm-d3" cx="339" cy="122" r="7"/>
+                  <circle class="sm-d4" cx="284" cy="180" r="7"/>
+                  <circle class="sm-d1" cx="385" cy="220" r="7"/>
+                  <circle class="sm-d2" cx="365" cy="214" r="7"/>
+                  <circle class="sm-d3" cx="396" cy="128" r="7"/>
+                  <circle class="sm-d4" cx="341" cy="229" r="7"/>
+                  <circle class="sm-d1" cx="398" cy="151" r="7"/>
+                  <circle class="sm-d2" cx="357" cy="164" r="7"/>
+                  <circle class="sm-d3" cx="268" cy="166" r="7"/>
+                  <circle class="sm-d4" cx="318" cy="138" r="7"/>
+                  <circle class="sm-d1" cx="294" cy="220" r="7"/>
+                  <circle class="sm-d2" cx="302" cy="256" r="7"/>
+                  <circle class="sm-d3" cx="299" cy="159" r="7"/>
+                  <circle class="sm-d4" cx="332" cy="210" r="7"/>
+                  <circle class="sm-d1" cx="305" cy="185" r="7"/>
+                  <circle class="sm-d2" cx="271" cy="208" r="7"/>
+                  <circle class="sm-d3" cx="313" cy="195" r="7"/>
+                  <circle class="sm-d4" cx="339" cy="143" r="7"/>
+                  <circle class="sm-d1" cx="262" cy="146" r="7"/>
+                  <circle class="sm-d2" cx="308" cy="241" r="7"/>
+                  <circle class="sm-d3" cx="340" cy="147" r="7"/>
+                  <circle class="sm-d4" cx="285" cy="204" r="7"/>
+                  <circle class="sm-d1" cx="401" cy="222" r="7"/>
+                  <circle class="sm-d2" cx="371" cy="230" r="7"/>
+                  <circle class="sm-d3" cx="290" cy="146" r="7"/>
+                  <circle class="sm-d4" cx="368" cy="200" r="7"/>
+                  <circle class="sm-d1" cx="404" cy="241" r="7"/>
+                  <circle class="sm-d2" cx="275" cy="240" r="7"/>
+                  <circle class="sm-d3" cx="248" cy="184" r="7"/>
+                  <circle class="sm-d4" cx="396" cy="224" r="7"/>
+                  <circle class="sm-d1" cx="274" cy="179" r="7"/>
+                  <circle class="sm-d2" cx="319" cy="232" r="7"/>
+                  <circle class="sm-d3" cx="263" cy="120" r="7"/>
+                  <circle class="sm-d4" cx="311" cy="208" r="7"/>
+                  <circle class="sm-d1" cx="259" cy="162" r="7"/>
+                  <circle class="sm-d2" cx="402" cy="142" r="7"/>
+                  <circle class="sm-d3" cx="310" cy="139" r="7"/>
+                  <circle class="sm-d4" cx="341" cy="221" r="7"/>
+                  <circle class="sm-d1" cx="305" cy="192" r="7"/>
+                  <circle class="sm-d2" cx="362" cy="189" r="7"/>
+                  <circle class="sm-d3" cx="353" cy="190" r="7"/>
+                  <circle class="sm-d4" cx="333" cy="133" r="7"/>
+                  <circle class="sm-d1" cx="363" cy="244" r="7"/>
+                  <circle class="sm-d2" cx="412" cy="175" r="7"/>
+                  <circle class="sm-d3" cx="281" cy="161" r="7"/>
+                  <circle class="sm-d4" cx="381" cy="186" r="7"/>
+                  <circle class="sm-d1" cx="321" cy="192" r="7"/>
+                  <circle class="sm-d2" cx="410" cy="222" r="7"/>
+                  <circle class="sm-d3" cx="278" cy="122" r="7"/>
+                  <circle class="sm-d4" cx="376" cy="153" r="7"/>
+                  <circle class="sm-d1" cx="282" cy="173" r="7"/>
+                  <circle class="sm-d2" cx="341" cy="262" r="7"/>
+                  <circle class="sm-d3" cx="193" cy="270" r="7"/>
+                  <circle class="sm-d4" cx="199" cy="69" r="7"/>
+                  <circle class="sm-d1" cx="477" cy="256" r="7"/>
+                  <circle class="sm-d2" cx="207" cy="250" r="7"/>
+                  <circle class="sm-d3" cx="216" cy="279" r="7"/>
+                  <circle class="sm-d4" cx="458" cy="252" r="7"/>
+                  <circle class="sm-d1" cx="412" cy="303" r="7"/>
+                  <circle class="sm-d2" cx="276" cy="336" r="7"/>
+                  <circle class="sm-d3" cx="247" cy="91" r="7"/>
+                  <circle class="sm-d4" cx="486" cy="325" r="7"/>
+                  <circle class="sm-d1" cx="456" cy="119" r="7"/>
+                  <circle class="sm-d2" cx="321" cy="83" r="7"/>
+                  <circle class="sm-d3" cx="346" cy="78" r="7"/>
+                  <circle class="sm-d4" cx="241" cy="321" r="7"/>
+                  <circle class="sm-d1" cx="419" cy="292" r="7"/>
+                  <circle class="sm-d2" cx="182" cy="257" r="7"/>
+                  <circle class="sm-d3" cx="389" cy="287" r="7"/>
+                  <circle class="sm-d4" cx="187" cy="199" r="7"/>
+                  <circle class="sm-d1" cx="441" cy="262" r="7"/>
+                  <circle class="sm-d2" cx="474" cy="148" r="7"/>
+                  <circle class="sm-d3" cx="197" cy="218" r="7"/>
+                  <circle class="sm-d4" cx="449" cy="210" r="7"/>
+                  <circle class="sm-d1" cx="472" cy="117" r="7"/>
+                  <circle class="sm-d2" cx="441" cy="266" r="7"/>
+                  <circle class="sm-d3" cx="373" cy="285" r="7"/>
+                  <circle class="sm-d4" cx="211" cy="88" r="7"/>
+                  <circle class="sm-d1" cx="456" cy="100" r="7"/>
+                  <circle class="sm-d2" cx="394" cy="70" r="7"/>
+                  <circle class="sm-d3" cx="466" cy="260" r="7"/>
+                  <circle class="sm-d4" cx="318" cy="300" r="7"/>
+                  <circle class="sm-d1" cx="353" cy="336" r="7"/>
+                  <circle class="sm-d2" cx="174" cy="55" r="7"/>
+                  <circle class="sm-d3" cx="213" cy="314" r="7"/>
+                  <circle class="sm-d4" cx="337" cy="86" r="7"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -2589,7 +2605,7 @@ a{color:inherit}
            section is allowed to do. Ahead of them it was an answer to a question
            the reader had not been asked yet. -->
       <figure class="fig fig--full">
-        <img src="Mindure/casestudy1_deshboard_responsibility_map_6.png" loading="lazy" decoding="async"
+        <img width="2528" height="1536" src="Mindure/casestudy1_deshboard_responsibility_map_6.webp" loading="lazy" decoding="async"
              alt="Dashboard responsibility map showing each section’s permitted scope and constraints">
       </figure>
     </section>
@@ -2603,13 +2619,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Overview</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0844">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_overview_1.png" loading="lazy" decoding="async" alt="AI-generated dashboard overview showing ten scored modules simultaneously">
+          <img class="cmp-under" width="1901" height="912" src="Mindure/casestudy1_ai_output_overview_1.webp" loading="lazy" decoding="async" alt="AI-generated dashboard overview showing ten scored modules simultaneously">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_overview_1.png" loading="lazy" decoding="async" alt="">
+            <img width="1900" height="905" src="Mindure/casestudy1_human_in_the_loop_overview_1.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Overview — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2636,13 +2652,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Personal insights</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0846">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_personal_insights_2.png" loading="lazy" decoding="async" alt="AI-generated personal insights showing percentage scores on cognitive traits">
+          <img class="cmp-under" width="1900" height="869" src="Mindure/casestudy1_ai_output_personal_insights_2.webp" loading="lazy" decoding="async" alt="AI-generated personal insights showing percentage scores on cognitive traits">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_personal_insights_2.png" loading="lazy" decoding="async" alt="">
+            <img width="1897" height="910" src="Mindure/casestudy1_human_in_the_loop_personal_insights_2.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Personal insights — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2669,13 +2685,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Career actions</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0915">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_career_actions_3.png" loading="lazy" decoding="async" alt="AI-generated career actions showing prescribed tasks with exact times and effort labels">
+          <img class="cmp-under" width="1897" height="907" src="Mindure/casestudy1_ai_output_career_actions_3.webp" loading="lazy" decoding="async" alt="AI-generated career actions showing prescribed tasks with exact times and effort labels">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_career_actions_3.png" loading="lazy" decoding="async" alt="">
+            <img width="1900" height="865" src="Mindure/casestudy1_human_in_the_loop_career_actions_3.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Career actions — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2702,13 +2718,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Market &amp; economy</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0789">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_market&economy_4.png" loading="lazy" decoding="async" alt="AI-generated market dashboard showing live economic indicators updating in real time">
+          <img class="cmp-under" width="1896" height="912" src="Mindure/casestudy1_ai_output_market&economy_4.webp" loading="lazy" decoding="async" alt="AI-generated market dashboard showing live economic indicators updating in real time">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_market&economy_4.png" loading="lazy" decoding="async" alt="">
+            <img width="1898" height="912" src="Mindure/casestudy1_human_in_the_loop_market&economy_4.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Market and economy — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2735,13 +2751,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Skills builder</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0800">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_skills_builder_5.png" loading="lazy" decoding="async" alt="AI-generated skills builder showing a rigid linear learning sequence with no visible reasoning">
+          <img class="cmp-under" width="1897" height="912" src="Mindure/casestudy1_ai_output_skills_builder_5.webp" loading="lazy" decoding="async" alt="AI-generated skills builder showing a rigid linear learning sequence with no visible reasoning">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_skills_builder_5.png" loading="lazy" decoding="async" alt="">
+            <img width="1897" height="912" src="Mindure/casestudy1_human_in_the_loop_skills_builder_5.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Skills builder — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2768,13 +2784,13 @@ a{color:inherit}
       <figure class="cmp">
         <h3 class="cmp-h">Strategic planning</h3>
         <div class="cmp-stage" style="--x:50%;--ar:2.0732">
-          <img class="cmp-under" src="Mindure/casestudy1_ai_output_strategic_planning_6.png" loading="lazy" decoding="async" alt="AI-generated planning showing a daily calendar with exact time blocks commanded by the algorithm">
+          <img class="cmp-under" width="1897" height="915" src="Mindure/casestudy1_ai_output_strategic_planning_6.webp" loading="lazy" decoding="async" alt="AI-generated planning showing a daily calendar with exact time blocks commanded by the algorithm">
           <div class="cmp-over" aria-hidden="true">
-            <img src="Mindure/casestudy1_human_in_the_loop_strategic_planning_6.png" loading="lazy" decoding="async" alt="">
+            <img width="1902" height="908" src="Mindure/casestudy1_human_in_the_loop_strategic_planning_6.webp" loading="lazy" decoding="async" alt="">
           </div>
           <span class="cmp-seam" aria-hidden="true"><i></i></span>
-          <span class="cmp-tag cmp-tag--l">Raw AI output</span>
-          <span class="cmp-tag cmp-tag--r">Human-in-the-loop</span>
+          <span class="cmp-clip cmp-clip--l"><span class="cmp-tag cmp-tag--l">Raw AI output</span></span>
+          <span class="cmp-clip cmp-clip--r"><span class="cmp-tag cmp-tag--r">Human-in-the-loop</span></span>
           <input class="cmp-range" type="range" min="0" max="100" value="50" step="0.1"
                  aria-label="Strategic planning — drag to wipe between the raw AI output and the redesign">
         </div>
@@ -2815,6 +2831,20 @@ a{color:inherit}
     </section>
 
   </div>
+
+  <footer class="cs-foot">
+    <p class="sec-label">More case studies</p>
+    <ul class="next">
+      <li><a href="/case-study-04-signal">
+        <span class="next-n">01</span>
+        <span class="next-t">AI sounds sure even when it's wrong. A research-led signal marks when to look twice.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+      <li><a href="/case-study-01-tribe">
+        <span class="next-n">02</span>
+        <span class="next-t">Building enough safety for someone to type the thing they actually want.</span>
+        <span class="next-go" aria-hidden="true">↗</span></a></li>
+    </ul>
+  </footer>
 
 </div>
 

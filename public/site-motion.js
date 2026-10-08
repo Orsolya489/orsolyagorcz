@@ -47,3 +47,16 @@
     });
   }
 })();
+
+/* ── images: a placeholder until each one arrives (styled in site-ui.css) ── */
+(function(){
+  function mark(img){
+    if (!img.getAttribute('src') || (img.complete && img.naturalWidth)) return;
+    img.setAttribute('data-loading', '');
+    var done = function(){ img.removeAttribute('data-loading'); };
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+  }
+  function scan(){ [].forEach.call(document.images, mark); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan); else scan();
+})();

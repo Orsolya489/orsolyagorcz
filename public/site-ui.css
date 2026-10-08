@@ -233,3 +233,16 @@ a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focu
   .btn:not(.btn--on):not([data-done]):not(.noise-btn):hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover))}
   .noise:not([data-on="true"]):hover{background-image:linear-gradient(var(--fill-hover),var(--fill-hover))}
 }
+
+/* ═══ loading: a quiet placeholder until an image arrives ═══
+   site-motion.js marks every image that has not loaded yet with data-loading
+   and clears it on load or error. The box is already reserved (width and
+   height on the tag), so the placeholder holds the image's exact place: the
+   recess tone, with one slow pass of the card tone across it. Still for
+   reduced motion. */
+img[data-loading]{color:transparent;background-color:var(--recess);
+  background-image:linear-gradient(100deg,transparent 30%,var(--card) 50%,transparent 70%);
+  background-size:220% 100%;background-repeat:no-repeat;animation:img-wait 1.8s ease-in-out infinite}
+@keyframes img-wait{from{background-position:130% 0}to{background-position:-30% 0}}
+[data-motion="reduced"] img[data-loading]{animation:none;background-image:none}
+@media (prefers-reduced-motion:reduce){img[data-loading]{animation:none;background-image:none}}
