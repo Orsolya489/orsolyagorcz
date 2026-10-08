@@ -116,6 +116,8 @@ p,li,dd,figcaption,blockquote,.sec-lede,.cs-lede{
   letter-spacing:-.006em;color:var(--ink);margin:0 0 1.3em;
   max-width:58ch;text-wrap:pretty}
 @media (max-width:1023px){.cs-hook{max-width:none}}
+/* the hook follows the three numbers it refers to */
+.stats + .cs-hook{margin-top:var(--section)}
 a{color:inherit}
 
 /* ═══ shared shell ═══ */
@@ -968,6 +970,13 @@ a{color:inherit}
   .duo-row{grid-template-columns:1fr;gap:var(--stack)}
   .duo-foot{margin-top:0}
   .sm{grid-template-columns:1fr}
+}
+/* as in Signal: the left column holds only the section title. The findings sit in
+   the right column, each heading and its paragraph above its drawing. */
+@media (min-width:1024px){
+  .duo-col{gap:calc(var(--section)*.6)}
+  .duo .duo-row{grid-template-columns:1fr;gap:var(--stack)}
+  .duo .duo-row > .quad{align-self:start}
 }
 
 /* ═══ overlapping-set and scatter drawings ═══
@@ -2102,8 +2111,8 @@ a{color:inherit}
    right edge. Nothing is centred in the page. */
 @media (min-width:1024px){
   .sec > *:not(.sec-label){grid-column:2}
-  /* the comparison sliders and the flows keep the full width they were drawn for */
-  .sec > .cmp,.sec > .duo{grid-column:1 / -1}
+  /* the comparison sliders keep the full width they were drawn for */
+  .sec > .cmp{grid-column:1 / -1}
 }
 .fig img{margin-inline:0}
 </style>
@@ -2208,7 +2217,6 @@ a{color:inherit}
       <div><dt>Status</dt><dd>Concept</dd></div>
     </dl>
 
-    <p class="cs-hook">Being afraid for your job changes how you read. Attention narrows, working memory fills, and the sense that you still get to decide starts to thin. That is the state these three numbers meet you in — and most career tools answer it with more of them.</p>
     <!-- The numbers are the ones that stood in 2025, when this was designed, each
          with the 2026 reading of the same question under it. Dating them the other
          way round - a 2026 survey cited as the reason for a 2025 decision - would
@@ -2245,6 +2253,8 @@ a{color:inherit}
         </div>
       </div>
     </div>
+
+    <p class="cs-hook">Being afraid for your job changes how you read. Attention narrows, working memory fills, and the sense that you still get to decide starts to thin. That is the state these three numbers meet you in — and most career tools answer it with more of them.</p>
 
     <!-- The prototype, recorded. Everything inside the frame is the running
          prototype - its own cursor, its own hover states, its own timing. Only

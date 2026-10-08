@@ -43,7 +43,7 @@ function v5svg(){
   };
   const t = (cls, x, y, s, anchor) => '<text class="' + cls + '" x="' + r(x) + '" y="' + r(y) + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + '>' + s + '</text>';
   let o = '';
-  o += '<svg class="v-min" style="--v-min:720px" viewBox="0 0 900 470" role="img" aria-labelledby="v5t v5d">';
+  o += '<svg class="v-min" style="--v-min:720px" viewBox="0 0 900 530" role="img" aria-labelledby="v5t v5d">';
   o += '<title id="v5t">How much disruption is enough?</title>';
   o += '<desc id="v5d">Three senses, each placed on a scale from missed to startles with the shipped setting marked. Colour rises from the bottom edge as a tint, higher for a warning than for a caution, while sound plays two soft rising tones only for accuracy warnings. Touch gives two short taps for warnings, far shorter than the buzz of a call.</desc>';
   o += '<defs>' +
@@ -54,28 +54,28 @@ function v5svg(){
     const cx = c.x + 140, L = c.x + 8, R = c.x + 272, mx = L + (R - L) * c.pos;
     o += t('v5-ch', c.x, 18, c.label);
     [[52,14],[64,22]].forEach(([dx,h]) => {
-      o += '<path class="v5-reach" d="M' + (cx-dx+6) + ' ' + (78-h) + ' Q ' + (cx-dx-4) + ' 78, ' + (cx-dx+6) + ' ' + (78+h) + '"/>';
-      o += '<path class="v5-reach" d="M' + (cx+dx-6) + ' ' + (78-h) + ' Q ' + (cx+dx+4) + ' 78, ' + (cx+dx-6) + ' ' + (78+h) + '"/>';
+      o += '<path class="v5-reach" d="M' + (cx-dx+6) + ' ' + (90-h) + ' Q ' + (cx-dx-4) + ' 90, ' + (cx-dx+6) + ' ' + (90+h) + '"/>';
+      o += '<path class="v5-reach" d="M' + (cx+dx-6) + ' ' + (90-h) + ' Q ' + (cx+dx+4) + ' 90, ' + (cx+dx-6) + ' ' + (90+h) + '"/>';
     });
-    o += glyph(P[c.icon], cx, 78, 56, 'v5-icon');
-    o += t('v5-goal', cx, 150, c.goal, 'middle');
-    o += '<rect class="v5-track" x="' + L + '" y="176" width="' + (R-L) + '" height="8" rx="4"/>';
-    o += '<rect class="v5-mark" x="' + r(mx-28) + '" y="176" width="56" height="8" rx="4"/>';
-    o += '<path class="v5-mark" d="M' + r(mx) + ' 171 l-6 -9 h12 z"/>';
-    o += t('v5-end', L, 206, 'Missed');
-    o += t('v5-end', R, 206, 'Startles', 'end');
-    c.lo.forEach((s,i) => { o += t('v5-ex', L, 228 + i*19, s); });
-    c.hi.forEach((s,i) => { o += t('v5-ex', R, 228 + i*19, s, 'end'); });
-    o += '<path class="hair" d="M' + r(mx) + ' 186 V 270" stroke-dasharray="2 3"/>';
-    o += '<rect class="v5-box" x="' + c.x + '" y="270" width="280" height="190" rx="10"/>';
-    o += t('v5-what', cx, 420, c.what[0], 'middle');
-    o += t('v5-what', cx, 441, c.what[1], 'middle');
+    o += glyph(P[c.icon], cx, 90, 56, 'v5-icon');
+    o += t('v5-goal', cx, 170, c.goal, 'middle');
+    o += '<rect class="v5-track" x="' + L + '" y="200" width="' + (R-L) + '" height="8" rx="4"/>';
+    o += '<rect class="v5-mark" x="' + r(mx-28) + '" y="200" width="56" height="8" rx="4"/>';
+    o += '<path class="v5-mark" d="M' + r(mx) + ' 195 l-6 -9 h12 z"/>';
+    o += t('v5-end', L, 234, 'Missed');
+    o += t('v5-end', R, 234, 'Startles', 'end');
+    c.lo.forEach((s,i) => { o += t('v5-ex', L, 258 + i*21, s); });
+    c.hi.forEach((s,i) => { o += t('v5-ex', R, 258 + i*21, s, 'end'); });
+    o += '<path class="hair" d="M' + r(mx) + ' 210 V 330" stroke-dasharray="2 3"/>';
+    o += '<rect class="v5-box" x="' + c.x + '" y="330" width="280" height="190" rx="10"/>';
+    o += t('v5-what', cx, 480, c.what[0], 'middle');
+    o += t('v5-what', cx, 501, c.what[1], 'middle');
     /* only what reads the visual: the setting, named; the reasons live in the prose */
   });
   // colour: two answers on screen, the tint rising from the bottom edge; a guide marks each tint's top,
   // so the warning's greater height reads without the hue
   {
-    const y = 286, w = 112, h = 100;
+    const y = 346, w = 112, h = 100;
     [[16,'Caution','caution','v5gc',.34,P.warn],[152,'Warning','alert','v5ga',.58,P.alert]].forEach(([x,word,tone,grad,frac,icon]) => {
       const th = r(h*frac), top = r(y+h-th);
       o += '<rect class="v5-scr" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="8"/>';
@@ -89,32 +89,32 @@ function v5svg(){
   }
   // sound: pitch over time. Two tones, the second higher, each fading in over 180 ms before it holds
   {
-    const X0 = 336, X1 = 566, base = 378;
+    const X0 = 336, X1 = 566, base = 438;
     o += '<path class="hair" d="M' + X0 + ' ' + base + ' H ' + X1 + '"/>';
     o += t('v5-ax', X1, base + 14, 'time', 'end');
     const tone = (x, yTop, hz) => {
       o += '<path fill="none" class="k-alert" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" d="M' + x + ' ' + base + ' L ' + (x+34) + ' ' + yTop + ' H ' + (x+86) + ' L ' + (x+96) + ' ' + base + '"/>';
       o += t('v5-ax', x+60, yTop - 8, hz, 'middle');
     };
-    tone(352, 342, '523 Hz');
-    tone(456, 310, '698 Hz');
+    tone(352, 402, '523 Hz');
+    tone(456, 370, '698 Hz');
     o += '<path class="hair" d="M352 ' + (base+8) + ' V ' + (base+12) + ' H 386 V ' + (base+8) + '"/>';
     o += t('v5-ax', 369, base + 24, '180 ms', 'middle');
   }
   // touch: one time axis for both. Two 22 ms taps against the long buzz of a call
   {
     const X0 = 704, W = 172, ms = W/1000;
-    o += t('v5-lab', 638, 330, 'Warning');
-    o += '<rect class="c-alert" x="' + X0 + '" y="318" width="' + r(22*ms) + '" height="16" rx="1"/>';
-    o += '<rect class="c-alert" x="' + r(X0 + 82*ms) + '" y="318" width="' + r(22*ms) + '" height="16" rx="1"/>';
-    o += t('v5-ax', r(X0 + 120*ms), 330, '2 × 22 ms');
-    o += t('v5-lab', 638, 366, 'Call buzz');
-    o += '<rect x="' + X0 + '" y="354" width="' + W + '" height="16" rx="2" fill="none" stroke="var(--fig-soft)" stroke-width="1.4" stroke-dasharray="3 3"/>';
-    o += '<path class="hair" d="M' + X0 + ' 386 H ' + (X0+W) + '"/>';
+    o += t('v5-lab', 638, 390, 'Warning');
+    o += '<rect class="c-alert" x="' + X0 + '" y="378" width="' + r(22*ms) + '" height="16" rx="1"/>';
+    o += '<rect class="c-alert" x="' + r(X0 + 82*ms) + '" y="378" width="' + r(22*ms) + '" height="16" rx="1"/>';
+    o += t('v5-ax', r(X0 + 120*ms), 390, '2 × 22 ms');
+    o += t('v5-lab', 638, 426, 'Call buzz');
+    o += '<rect x="' + X0 + '" y="414" width="' + W + '" height="16" rx="2" fill="none" stroke="var(--fig-soft)" stroke-width="1.4" stroke-dasharray="3 3"/>';
+    o += '<path class="hair" d="M' + X0 + ' 446 H ' + (X0+W) + '"/>';
     [[0,'0'],[500,'0.5 s'],[1000,'1 s']].forEach(([v,l]) => {
       const x = r(X0 + v*ms);
-      o += '<path class="hair" d="M' + x + ' 383 V 389"/>';
-      o += t('v5-ax', x, 402, l, v === 0 ? 'start' : (v === 1000 ? 'end' : 'middle'));
+      o += '<path class="hair" d="M' + x + ' 443 V 449"/>';
+      o += t('v5-ax', x, 462, l, v === 0 ? 'start' : (v === 1000 ? 'end' : 'middle'));
     });
   }
   o += '</svg>';

@@ -120,6 +120,12 @@
 .v9-grid tbody th{width:22%;font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--muted);border-left:0}
 .v9-grid td{font-size:var(--body);line-height:1.5;color:var(--ink);background:var(--page)}
+/* a 2x2 matrix: only the four questions are boxed; the column and row names sit
+   outside the box, and the empty corner stays empty */
+.v9-grid th{border:0}
+.v9-grid thead td{background:none}
+.v9-grid thead th{padding-bottom:.7em}
+.v9-grid tbody th{padding-left:0}
 @media (max-width:640px){
   .v9-grid,.v9-grid thead,.v9-grid tbody,.v9-grid tr,.v9-grid th,.v9-grid td{display:block;width:auto}
   .v9-grid thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
@@ -147,6 +153,8 @@
 .v11 img{display:block;width:100%;height:auto}
 .v11 figcaption{margin-top:.8em;text-align:center;font-family:var(--sans);font-weight:500;
   font-size:var(--micro);color:var(--ink)}
+/* each screen is named above it, since the apps do not name themselves in the header */
+.v11 figure > figcaption:first-child{margin:0 0 .8em}
 @media (max-width:640px){ .v11{grid-template-columns:1fr;max-width:320px} }
 
 /* ═══ V8, the prototype ═══ */

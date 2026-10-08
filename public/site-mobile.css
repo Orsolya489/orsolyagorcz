@@ -126,6 +126,8 @@
 }
 @media (max-width:767px){
   .c-bc{left:var(--margin) !important;right:var(--margin) !important;width:auto;translate:none}
+  /* the accessibility panel opens on the same margin as the button under it */
+  .panel{left:var(--margin) !important;right:var(--margin) !important;width:auto}
 }
 /* the case-study header bar is a flex row on a phone; its logo starts on the margin too */
 @media (max-width:900px){
