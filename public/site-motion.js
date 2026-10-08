@@ -60,3 +60,25 @@
   function scan(){ [].forEach.call(document.images, mark); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan); else scan();
 })();
+
+/* ── case-study header: the progress rail ends where the last section name
+   ends, not at the edge of the column. Re-measured when the window, the
+   fonts or the text size change. ── */
+(function(){
+  function init(){
+    var rail = document.querySelector('.csbar-rail'), ol = document.querySelector('.cs-route ol');
+    if (!rail || !ol || !ol.lastElementChild) return;
+    var last = ol.lastElementChild;
+    function fit(){
+      rail.style.width = '';
+      if (!rail.offsetWidth) return;
+      var w = last.getBoundingClientRect().right - rail.getBoundingClientRect().left;
+      if (w > 0 && w < rail.offsetWidth) rail.style.width = Math.round(w) + 'px';
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(last);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
