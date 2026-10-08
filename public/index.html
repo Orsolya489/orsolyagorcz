@@ -159,20 +159,21 @@ a{color:inherit}
 .btn--sel{background:rgba(25,21,23,.10);border-color:transparent}
 .btn svg{width:var(--ico);height:var(--ico);flex:0 0 auto}
 /* hover bubble — the icon carries the action, this names it */
-.btn[data-tip]{position:relative}
-.btn[data-tip]::after{
+/* the bubble is shared by icon buttons and the Resume text button */
+:is(.btn,.btn-text)[data-tip]{position:relative}
+:is(.btn,.btn-text)[data-tip]::after{
   content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;
   translate:-50% -4px;
   background:var(--ink);color:var(--page);
   font-weight:500;font-size:var(--micro);line-height:1;
-  letter-spacing:0;text-transform:lowercase;white-space:nowrap;
+  letter-spacing:0;text-transform:none;white-space:nowrap;
   padding:.62em .9em;border-radius:var(--r-pill);
   opacity:0;pointer-events:none;z-index:1;
   transition:opacity var(--out) var(--ease),translate var(--out) var(--ease);
 }
-.btn[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+:is(.btn,.btn-text)[data-tip]:focus-visible::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
 @media (hover:hover){
-  .btn[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
+  :is(.btn,.btn-text)[data-tip]:hover::after{opacity:1;translate:-50% 0;transition-duration:var(--in)}
 }
 /* the last control sits on the margin, so its bubble hangs from the right */
 .c-tr > *:last-child[data-tip]::after{left:auto;right:0;translate:0 -4px}
@@ -1303,7 +1304,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 </nav>
 
 <div class="chrome c-tr">
-  <a class="btn-text" href="https://drive.google.com/file/d/1THkjevDeDlKmEmDH_vO6K-lBH-zUOrkj/view?usp=sharing" target="_blank" rel="noopener">
+  <a class="btn-text" href="https://drive.google.com/file/d/1THkjevDeDlKmEmDH_vO6K-lBH-zUOrkj/view?usp=sharing" target="_blank" rel="noopener" data-tip="Open resume in Google Drive">
     <span>Resume</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
   </a>
