@@ -459,12 +459,12 @@ a{color:inherit}
    width rather than left to wrap, because the divider has to be dropped from
    whichever item starts a row and that is only knowable if the column count
    is known. */
-.cs-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+.cs-facts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
   margin:calc(var(--stack)*1.2) 0 0;padding:0}
 .cs-facts div{display:flex;flex-direction:column;gap:.35em;min-width:0;
   padding-left:var(--gutter);border-left:1px solid var(--edge)}
-/* the first of each row sits on the text margin, so it takes no rule */
-.cs-facts div:nth-child(4n+1){padding-left:0;border-left:0}
+/* five facts, one row; the first sits on the text margin, so it takes no rule */
+.cs-facts div:nth-child(5n+1){padding-left:0;border-left:0}
 .cs-facts dt{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .cs-facts dd{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
