@@ -1,8 +1,8 @@
 /* site-consent.js — analytics. Shared by every page.
-   Google Analytics 4 and Microsoft Clarity are on by default, with no banner.
-   A visitor can switch them off in the accessibility panel's Analytics row; the
-   choice is remembered. Clarity is told a visitor consented only when they
-   switched Analytics on themselves, never by default. */
+   Google Analytics 4 and Microsoft Clarity are on by default, with no banner
+   and no switch. A visitor who switched them off earlier (stored as "denied")
+   stays off. Clarity is told a visitor consented only when they once switched
+   Analytics on themselves, never by default. */
 (function(){
   /* ── the two IDs. Leave either empty and that tool never loads. ── */
   var GA_ID = 'G-9JFQBK829V';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
@@ -12,7 +12,6 @@
   if (!GA_ID && !CLARITY_ID) return;
 
   function get(){ try { return localStorage.getItem(KEY); } catch (e) { return null; } }
-  function set(v){ try { localStorage.setItem(KEY, v); } catch (e) {} }
   /* on unless the visitor switched it off */
   function on(){ return get() !== 'denied'; }
 
@@ -38,47 +37,6 @@
       if (get() === 'granted') window.clarity('consent');
     }
   }
-  /* withdrawing: stop GA, clear the cookies both tools set, and reload so
-     nothing already running keeps going */
-  function revoke(){
-    if (GA_ID) window['ga-disable-' + GA_ID] = true;
-    document.cookie.split(';').forEach(function(c){
-      var n = c.split('=')[0].trim();
-      if (/^(_ga|_gid|_gat|_clck|_clsk|CLID|ANONCHK|MR|MUID|SM)/.test(n)) {
-        [location.hostname, '.' + location.hostname.replace(/^www\./, '')].forEach(function(d){
-          document.cookie = n + '=; Max-Age=0; path=/; domain=' + d;
-        });
-        document.cookie = n + '=; Max-Age=0; path=/';
-      }
-    });
-    if (loaded) location.reload();
-  }
-
-  function choose(v){
-    set(v); sync();
-    if (v === 'granted') load(); else revoke();
-  }
-
-  /* ── the panel row ── */
-  var row, rowBtn;
-  function addRow(){
-    var panel = document.getElementById('panel'); if (!panel || row) return;
-    row = document.createElement('div'); row.className = 'prow';
-    row.innerHTML = '<span>Analytics</span><button class="btn" type="button" aria-pressed="false">Off</button>';
-    rowBtn = row.querySelector('button');
-    rowBtn.addEventListener('click', function(){ choose(on() ? 'denied' : 'granted'); });
-    var note = panel.querySelector('.pnote');
-    panel.insertBefore(row, note || null);
-    sync();
-  }
-  function sync(){
-    if (!rowBtn) return;
-    var o = on();
-    rowBtn.setAttribute('aria-pressed', o ? 'true' : 'false');
-    rowBtn.textContent = o ? 'On' : 'Off';
-    rowBtn.classList.toggle('btn--on', o);
-  }
-
   /* ── named events. Sent to both tools while Analytics is on. ── */
   function track(name, params){
     if (!loaded || !on()) return;
@@ -142,7 +100,6 @@
   }
 
   function start(){
-    addRow();
     wire();
     if (on()) load();
   }

@@ -2652,14 +2652,27 @@ function spy(){
   /* reading position: a little above the middle, so the bar turns over as a
      section arrives rather than when its last line leaves */
   var line=window.scrollY+window.innerHeight*0.28,at=0;
+  /* short closing sections sit below the furthest point the reading line can
+     reach. The line catches up on them as the page is scrolled, so the bottom
+     of the page lands on the last section and the bar reads full. */
+  var maxY=Math.max(1,docH-window.innerHeight),short=tops[tops.length-1]+1-(maxY+window.innerHeight*0.28);
+  if(short>0)line+=short*Math.min(1,window.scrollY/maxY);
   for(var i=0;i<tops.length;i++){if(tops[i]<=line)at=i;}
   var name=secs[at].getAttribute('data-bar')||'';
   for(var r=0;r<routeLinks.length;r++)
     routeLinks[r].setAttribute('data-here',r===at?'true':'false');
   if(barCount)barCount.textContent=(at+1)+' / '+secs.length;
-  /* how far through the article, not how far through the window: the last
-     section should read as full when it is reached, not when the page ends */
-  if(barFill)barFill.style.width=Math.round((at+1)/secs.length*100)+'%';
+  /* how far through the article, not how far through the window. Empty at the
+     top: a section fills as the reading line passes through it, and the last
+     one reads as full when it is reached, not when the page ends */
+  if(barFill){
+    var fill=0;
+    if(line>=tops[0]){
+      var frac=at+1<tops.length?Math.max(0,Math.min(1,(line-tops[at])/(tops[at+1]-tops[at]))):1;
+      fill=(at+frac)/secs.length;
+    }
+    barFill.style.width=(fill*100).toFixed(2)+'%';
+  }
 }
 window.addEventListener('scroll',spy,{passive:true});
 window.addEventListener('resize',function(){measure();spy();});
