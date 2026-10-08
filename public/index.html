@@ -1792,7 +1792,7 @@ flow();
 (function(){
   var STEP=560, QUIET=120, EDGE=0.5, GESTURE=200;
   var lock=false, animating=false, quiet=null, raf=null, stops=null;
-  var kind=null, kindT=null;
+  var kind=null, kindT=null, landNow=null;
   var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function blocked(){
@@ -1857,7 +1857,9 @@ flow();
        Suspend it for the duration and put it back afterwards. */
     var prev=root.style.scrollBehavior;
     root.style.scrollBehavior='auto';
-    function land(){root.style.scrollBehavior=prev;raf=null;animating=false;hush();}
+    function land(){root.style.scrollBehavior=prev;raf=null;animating=false;landNow=null;hush();}
+    /* handing the page over mid-step: stop where it is and let go at once */
+    landNow=function(){if(raf)cancelAnimationFrame(raf);root.style.scrollBehavior=prev;raf=null;animating=false;lock=false;landNow=null;};
     (function tick(now){
       var t=(now-t0)/STEP; if(t>1)t=1;
       window.scrollTo(0, from+d*ease(t));
@@ -1870,14 +1872,21 @@ flow();
   function classify(e){
     var mode=e.deltaMode;
     if(mode===1||mode===2) return 'mouse';
-    var w=e.wheelDeltaY, d=e.deltaY;
-    return (w && w%120===0 && Math.abs(d)>=40) ? 'mouse' : 'pad';
+    var w=Math.abs(e.wheelDeltaY||0), d=Math.abs(e.deltaY);
+    /* a notch: whole 120-unit steps with a large delta - but never the 3:1
+       ratio Chrome reports for a Mac trackpad, whose flicks can land on 120 */
+    return (w && w%120===0 && d>=40 && Math.abs(w-3*d)>0.5) ? 'mouse' : 'pad';
   }
-  /* a gesture keeps the kind of its first event until the wheel goes quiet */
+  /* A gesture keeps the kind of its first event until the wheel goes quiet -
+     unless it turns out to be a touchpad after all: a gesture taken for a
+     mouse that then sends touchpad movement becomes a touchpad gesture on the
+     spot, and any step in flight stops so the fingers have the page. */
   function gesture(e){
     clearTimeout(kindT);
     kindT=setTimeout(function(){kind=null;},GESTURE);
-    if(!kind) kind=classify(e);
+    var now=classify(e);
+    if(!kind) kind=now;
+    else if(kind==='mouse' && now==='pad'){ kind='pad'; if(landNow) landNow(); else lock=false; }
     return kind;
   }
 
