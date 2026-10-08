@@ -165,17 +165,6 @@ tr,th,td{border-color:var(--stroke)}
 a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focus-visible,input:focus-visible,summary:focus-visible{
   outline:2px solid var(--ring);outline-offset:3px}
 
-/* ═══ the analytics consent banner ═══
-   Bottom left, clear of the floating buttons on the right and of the phone's
-   tab bar; a surface like the cards, the two choices as equal buttons. */
-.consent{position:fixed;z-index:700;left:var(--margin);bottom:max(var(--gutter), env(safe-area-inset-bottom));
-  max-width:min(440px, calc(100vw - var(--margin)*2));display:flex;flex-direction:column;gap:12px;
-  padding:16px 18px;border-radius:var(--r-lg);background:var(--card);
-  box-shadow:inset 0 0 0 1px var(--stroke),var(--shadow-2)}
-.consent-t{margin:0;font-family:var(--serif);font-size:calc(14px * var(--tscale));line-height:1.5;color:var(--body-c)}
-.consent-b{display:flex;gap:var(--gap-btn);justify-content:flex-end}
-@media (max-width:767px){
-  .consent{left:16px;right:16px;max-width:none;bottom:calc(max(16px, env(safe-area-inset-bottom)) + var(--control) + 12px)}
 }
 
 
@@ -230,7 +219,7 @@ a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focu
   --surface-card:color-mix(in srgb, var(--page) 70%, var(--card));
   --shadow-module:0 1px 2px rgba(25,21,23,.04),0 10px 28px -14px rgba(25,21,23,.16);
 }
-.stack-cards .card,.cw-card,.lens-card,.panel,.consent,
+.stack-cards .card,.cw-card,.lens-card,.panel,
 .dgm,.gap-card,.ann,.carousel,.quad-card,.proto-frame,.claim-c,.rfig .tile,.rfig .st,.arch-side{
   background-color:var(--surface-card);border-radius:var(--r-lg);
   box-shadow:inset 0 0 0 1px var(--stroke),var(--shadow-module)}

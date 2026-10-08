@@ -1,18 +1,20 @@
-/* site-consent.js — analytics, only with consent. Shared by every page.
-   Google Analytics 4 and Microsoft Clarity load only after a visitor accepts.
-   The choice is remembered; the accessibility panel's Analytics row changes it. */
+/* site-consent.js — analytics. Shared by every page.
+   Google Analytics 4 and Microsoft Clarity are on by default, with no banner.
+   A visitor can switch them off in the accessibility panel's Analytics row; the
+   choice is remembered. Clarity is told a visitor consented only when they
+   switched Analytics on themselves, never by default. */
 (function(){
   /* ── the two IDs. Leave either empty and that tool never loads. ── */
   var GA_ID = 'G-9JFQBK829V';        /* Google Analytics 4 Measurement ID, e.g. G-XXXXXXXXXX */
   var CLARITY_ID = 'ytkbn367fz';   /* Microsoft Clarity project ID, e.g. abcd1234ef */
 
   var KEY = 'og-consent';
-  /* the banner names only the tools that are switched on */
-  var TOOLS = [GA_ID && 'Google Analytics', CLARITY_ID && 'Microsoft Clarity'].filter(Boolean).join(' and ');
   if (!GA_ID && !CLARITY_ID) return;
 
   function get(){ try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function set(v){ try { localStorage.setItem(KEY, v); } catch (e) {} }
+  /* on unless the visitor switched it off */
+  function on(){ return get() !== 'denied'; }
 
   var loaded = false;
   function load(){
@@ -33,7 +35,7 @@
         t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, 'clarity', 'script', CLARITY_ID);
-      window.clarity('consent');
+      if (get() === 'granted') window.clarity('consent');
     }
   }
   /* withdrawing: stop GA, clear the cookies both tools set, and reload so
@@ -52,29 +54,8 @@
     if (loaded) location.reload();
   }
 
-  /* ── the banner ── */
-  var banner;
-  function hideBanner(){ if (banner) { banner.remove(); banner = null; } }
-  function showBanner(){
-    if (banner) return;
-    banner = document.createElement('div');
-    banner.className = 'consent';
-    banner.setAttribute('role', 'region');
-    banner.setAttribute('aria-label', 'Analytics consent');
-    banner.innerHTML =
-      '<p class="consent-t">This site uses ' + TOOLS + ' to see how its pages are read. Nothing is collected unless you accept.</p>' +
-      '<div class="consent-b">' +
-        '<button type="button" class="btn" data-c="denied">Decline</button>' +
-        '<button type="button" class="btn btn--on" data-c="granted">Accept</button>' +
-      '</div>';
-    banner.addEventListener('click', function(e){
-      var b = e.target.closest('[data-c]'); if (!b) return;
-      choose(b.getAttribute('data-c'));
-    });
-    document.body.appendChild(banner);
-  }
   function choose(v){
-    set(v); hideBanner(); sync();
+    set(v); sync();
     if (v === 'granted') load(); else revoke();
   }
 
@@ -85,22 +66,22 @@
     row = document.createElement('div'); row.className = 'prow';
     row.innerHTML = '<span>Analytics</span><button class="btn" type="button" aria-pressed="false">Off</button>';
     rowBtn = row.querySelector('button');
-    rowBtn.addEventListener('click', function(){ choose(get() === 'granted' ? 'denied' : 'granted'); });
+    rowBtn.addEventListener('click', function(){ choose(on() ? 'denied' : 'granted'); });
     var note = panel.querySelector('.pnote');
     panel.insertBefore(row, note || null);
     sync();
   }
   function sync(){
     if (!rowBtn) return;
-    var on = get() === 'granted';
-    rowBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    rowBtn.textContent = on ? 'On' : 'Off';
-    rowBtn.classList.toggle('btn--on', on);
+    var o = on();
+    rowBtn.setAttribute('aria-pressed', o ? 'true' : 'false');
+    rowBtn.textContent = o ? 'On' : 'Off';
+    rowBtn.classList.toggle('btn--on', o);
   }
 
-  /* ── named events. Sent to both tools, and only once the visitor has accepted. ── */
+  /* ── named events. Sent to both tools while Analytics is on. ── */
   function track(name, params){
-    if (!loaded || get() !== 'granted') return;
+    if (!loaded || !on()) return;
     params = params || {};
     if (GA_ID && window.gtag) gtag('event', name, params);
     if (CLARITY_ID && window.clarity) {
@@ -163,9 +144,7 @@
   function start(){
     addRow();
     wire();
-    var c = get();
-    if (c === 'granted') load();
-    else if (c !== 'denied') showBanner();
+    if (on()) load();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
