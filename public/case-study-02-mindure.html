@@ -931,10 +931,10 @@ a{color:inherit}
 .duo .quad,.duo .reslinks{grid-column:auto;max-width:none;margin-top:0}
 /* narrower than the drawings beside the other two headings: four short labels
    do not need the full column, and at 880 they read as four empty rooms */
-.duo-row .quad{max-width:440px;gap:var(--stack);margin-inline:0}
+.duo-row .quad{max-width:520px;gap:var(--stack) var(--gutter);margin-inline:0}
 /* each domain drawn from standard shapes: ink lines at the system weight, a
    soft recess fill for the subject, solid ink for what is active */
-.quad-i{width:72px;height:72px;color:var(--ink);display:block;margin-bottom:.9em}
+.quad-i{width:96px;height:96px;color:var(--ink);display:block;margin-bottom:.9em}
 .quad-i *{stroke-width:1.5px;vector-effect:non-scaling-stroke}
 .quad-i .qi-on{fill:currentColor}
 .quad-i .qi-soft{fill:var(--recess)}
@@ -2129,7 +2129,8 @@ a{color:inherit}
   .duo-row .duo-txt{display:contents}
   .duo-row .duo-h,.duo-foot .duo-h{grid-column:1}
   .duo-row .duo-txt > :not(.duo-h),.duo-row > :not(.duo-txt),.duo-foot > :not(.duo-h){grid-column:2}
-  .duo-row > .quad{align-self:start}
+  /* the four drawings sit in the middle of the reading column */
+  .duo-row > .quad{align-self:start;justify-self:center;width:100%}
 }
 .fig img{margin-inline:0}
 </style>
