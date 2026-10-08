@@ -971,9 +971,14 @@ a{color:inherit}
 /* the legend is a column of its own now, under the heading rather than beside
    the field, so it stops competing with the drawing for the same row */
 .sm-legend{display:flex;flex-direction:column;gap:var(--stack)}
-/* side by side, the drawing leads and its key reads on the right */
+/* the canvas is trimmed to the dots, so the drawing starts on the column edge */
+.sm .plane--scatter{aspect-ratio:auto;height:auto}
+.sm .plane--scatter svg{display:block;width:100%;height:auto}
+/* side by side, the drawing leads and its key reads right beside it: one group
+   on the left edge of the reading column, the dots at their drawn size */
 @media (min-width:901px){
-  .sm{grid-template-columns:minmax(0,1fr) auto}
+  .sm{grid-template-columns:auto auto;justify-content:start;column-gap:calc(var(--gutter)*1.5)}
+  .sm .plane--scatter{width:345px}
   .sm > .sm-legend{order:2}
 }
 .sm-legend .sm-note{flex-direction:column;gap:.55em}
@@ -2423,7 +2428,7 @@ a{color:inherit}
                 <p class="sm-note"><span><i class="sm-sw sm-in"></i>Dots inside &#8594; manageable load</span><span><i class="sm-sw sm-out"></i>Dots outside &#8594; overload</span></p>
               </div>
               <div class="plane plane--scatter">
-                <svg class="md" viewBox="0 0 640 400" role="img" aria-labelledby="sT sD">
+                <svg class="md" viewBox="159 40 342 311" role="img" aria-labelledby="sT sD">
                   <title id="sT">Sense-making under uncertainty</title>
                   <desc id="sD">A field of dots in four series — planning pressure, personal capacity, economy and automation, market and skills. A rounded box in the middle is packed full of them: that is one person’s workable load, already at its limit. The dots scattered beyond the box are the signals that arrive anyway and have nowhere to go — the overload.</desc>
                   <rect class="sm-box" x="232" y="104" width="196" height="172" rx="18"/>
