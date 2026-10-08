@@ -165,8 +165,6 @@ tr,th,td{border-color:var(--stroke)}
 a:focus-visible,button:focus-visible,[role="link"]:focus-visible,[tabindex]:focus-visible,input:focus-visible,summary:focus-visible{
   outline:2px solid var(--ring);outline-offset:3px}
 
-}
-
 
 /* ═══ component tiers — emphasis follows role, never the page it is on ═══
    primary control    ink fill, page text                     .btn--on
