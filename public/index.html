@@ -1770,16 +1770,21 @@ window.addEventListener('resize',queueFlow);
 flow();
 
 /* wheel stepping through the work section
-   One gesture puts the next case study in the middle of the screen. Only the
-   wheel is intercepted - touch, keyboard and the scrollbar stay native, so
-   there is always a way past. Momentum is swallowed while a step is in
-   flight, which is what keeps a trackpad flick worth exactly one card
-   instead of four. The section releases at both ends: once there is no
-   further stop in the direction of travel we stop calling preventDefault
-   and the page scrolls on into the hero or the About section. */
+   One notch of a mouse wheel puts the next case study in the middle of the
+   screen. Only a mouse wheel is intercepted - touchpads, touch, keyboard and
+   the scrollbar stay native, so there is always a way past. A touchpad sends
+   an unbroken stream of small deltas, so the quiet that ends a step never
+   came and the page froze (Firefox, Brave); touchpad gestures are left alone.
+   Each gesture is judged by its first event: a mouse wheel reports lines
+   (Firefox) or whole 120-unit notches with a large delta (Chromium, Safari);
+   anything else - small pixel deltas - is a touchpad or a free-spinning
+   wheel, and scrolls natively. When unsure, native wins. The section
+   releases at both ends: once there is no further stop in the direction of
+   travel we stop calling preventDefault and the page scrolls on. */
 (function(){
-  var STEP=560, QUIET=120, EDGE=0.5;
+  var STEP=560, QUIET=120, EDGE=0.5, GESTURE=200;
   var lock=false, animating=false, quiet=null, raf=null, stops=null;
+  var kind=null, kindT=null;
   var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function blocked(){
@@ -1852,7 +1857,24 @@ flow();
     })(performance.now());
   }
 
+  /* deltaMode is read before deltaY on purpose: Firefox reports a mouse wheel
+     in lines only when a page asks for the mode first */
+  function classify(e){
+    var mode=e.deltaMode;
+    if(mode===1||mode===2) return 'mouse';
+    var w=e.wheelDeltaY, d=e.deltaY;
+    return (w && w%120===0 && Math.abs(d)>=40) ? 'mouse' : 'pad';
+  }
+  /* a gesture keeps the kind of its first event until the wheel goes quiet */
+  function gesture(e){
+    clearTimeout(kindT);
+    kindT=setTimeout(function(){kind=null;},GESTURE);
+    if(!kind) kind=classify(e);
+    return kind;
+  }
+
   window.addEventListener('wheel',function(e){
+    if(gesture(e)!=='mouse') return;                         /* touchpad: native */
     if(e.ctrlKey) return;                                    /* browser zoom */
     if(blocked()) return;
     if(!e.deltaY || Math.abs(e.deltaY)<Math.abs(e.deltaX)) return;
