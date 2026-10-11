@@ -113,6 +113,10 @@ tr,th,td{border-color:var(--stroke)}
   .btn-text:hover svg{translate:2px -2px}
 }
 @media (max-width:767px){ .btn-text{font-size:12px} }
+/* a download: the arrow is sized off the label, so it stands as tall as the
+   capitals, and on hover it moves the way it points - down */
+.btn-text--down svg{width:1.15em;height:1.15em}
+@media (hover:hover){ .btn-text--down:hover svg{translate:0 2px} }
 /* a text button that opens something points down, and up once it is open */
 .btn-text[aria-expanded] svg{translate:none !important;transition:rotate var(--t-instant) var(--ease-enter)}
 .btn-text[aria-expanded="true"] svg{rotate:180deg}
