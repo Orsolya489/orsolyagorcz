@@ -853,6 +853,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
    right and 11% from the bottom - so it needs a deeper crop than the portrait */
 #cwp-cv .cw-media{overflow:hidden;border-radius:var(--r-lg);max-height:var(--cw-fit, none)}
 #cwp-cv .cw-media img{transform:scale(1.19);transform-origin:top left;border-radius:0}
+/* the facts under each brief: a small key / value table */
+.cw-facts{margin:var(--stack) 0 0;padding:0;display:grid;grid-template-columns:max-content minmax(0,1fr);border-top:1px solid var(--edge)}
+.cw-facts div{display:contents}
+.cw-facts dt,.cw-facts dd{padding:.6em 0;border-bottom:1px solid var(--edge);font-size:var(--micro);line-height:1.45}
+.cw-facts dt{padding-right:var(--gutter);font-family:var(--sans);font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.cw-facts dd{margin:0;font-family:var(--sans);color:var(--ink)}
 .cw-link{display:inline-flex;align-items:center;min-height:var(--control);margin-top:var(--stack);
   font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.22em;transition:text-decoration-color var(--out) var(--ease),color var(--out) var(--ease)}
@@ -1567,6 +1573,12 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner cw-inner--wide">
         <div class="cw-body">
           <p class="t-body">Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
+          <dl class="cw-facts">
+            <div><dt>What</dt><dd>Bracelet design for camera straps</dd></div>
+            <div><dt>Status</dt><dd>Shipped and manufactured</dd></div>
+            <div><dt>Year</dt><dd>2024</dd></div>
+            <div><dt>Context</dt><dd>Zooom Productions</dd></div>
+          </dl>
         </div>
         <div class="cw-media cw-trio">
           <img width="3166" height="4096" src="snippets_leica__technical_drawing_1.webp" alt="Leica technical drawing, variant one" loading="lazy" decoding="async">
@@ -1577,12 +1589,23 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
       <div class="cw-panel" id="cwp-pz" role="region" aria-labelledby="cw-pz"><div class="cw-inner">
         <div class="cw-body">
           <p class="t-body">No prior users. Wireframed entry flow, dashboard architecture, and deep business analytics from first principles — cognitive load, trust, orientation under uncertainty.</p>
+          <dl class="cw-facts">
+            <div><dt>What</dt><dd>Low-fi wireframes, from business registration to a full dashboard with deep analytics</dd></div>
+            <div><dt>Year</dt><dd>2025</dd></div>
+            <div><dt>Context</dt><dd>Client work</dd></div>
+          </dl>
         </div>
         <div class="cw-media"><iframe class="cw-embed" title="Puzled B2B registration flow, Figma prototype" src="https://embed.figma.com/design/n4DM2W93BK7IbBhUS6SfbC/Business-Registration?node-id=1-998&amp;embed-host=share" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
       </div></div>
       <div class="cw-panel" id="cwp-cv" role="region" aria-labelledby="cw-cv"><div class="cw-inner">
         <div class="cw-body">
           <p class="t-body">Making legal frameworks and public grants approachable for the families who need them the most — but get lost before they ever reach the application.</p>
+          <dl class="cw-facts">
+            <div><dt>What</dt><dd>Built end to end in WordPress</dd></div>
+            <div><dt>Status</dt><dd>Fully shipped</dd></div>
+            <div><dt>Year</dt><dd>2026</dd></div>
+            <div><dt>Context</dt><dd>For Our Families Foundation · client work, freelance</dd></div>
+          </dl>
             <a class="cw-link" href="https://csaladjainkertalapitvany.hu/" target="_blank" rel="noopener">Visit live site ↗</a>
         </div>
         <div class="cw-media"><img width="1408" height="736" src="workcard3_thumbnail.webp" alt="Grant eligibility interface" loading="lazy" decoding="async"></div>
@@ -1649,7 +1672,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   <footer class="site-foot">
     <div class="wrap">
     <div class="foot-end">
-      <p class="foot-note">© 2026 Orsolya Gorcz</p>
+      <p class="foot-note">© 2026 Orsolya Gorcz – built in Claude Code</p>
       <div class="foot-mid">
         <span class="contact-loc avail"><span class="avail-dot" aria-hidden="true"></span><span class="avail-t">Szombathely, Hungary<i>open to relocation</i></span></span>
         <p class="foot-line">Open to full-time and project based contract opportunities.</p>
