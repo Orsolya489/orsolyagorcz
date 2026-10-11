@@ -1094,6 +1094,17 @@ a{color:inherit}
   .said{gap:calc(var(--section)*.4)}
 }
 
+/* the spec: four pages, two by two, each opening its PDF. Equal white tiles so
+   landscape and portrait pages sit together; the page is shown whole. */
+.spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter);margin-top:var(--stack)}
+.spec-tile{display:flex;flex-direction:column;gap:.6em;text-decoration:none;color:var(--ink)}
+.spec-shot{display:block;aspect-ratio:4/3;padding:10px;background:#fff;border-radius:var(--r-lg);
+  box-shadow:inset 0 0 0 1px var(--edge);overflow:hidden}
+.spec-shot img{width:100%;height:100%;object-fit:contain}
+.spec-name{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.02em;color:var(--body-c)}
+@media (hover:hover){ .spec-tile:hover .spec-shot{box-shadow:inset 0 0 0 1px var(--edge-ctrl)} .spec-tile:hover .spec-name{color:var(--ink)} }
+.spec-tile:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:var(--r-lg)}
+
 /* ═══ foot ═══ */
 .cs-foot{border-top:1px solid var(--edge);padding:var(--section) 0 calc(var(--section)*.5)}
 .cs-foot .sec-label{margin-bottom:var(--stack)}
@@ -2224,6 +2235,21 @@ a{color:inherit}
         </div>
       </div>
 
+      <table class="devsync">
+        <thead>
+          <tr><th scope="col"><span>Input</span></th><th scope="col"><span>What it says</span></th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Offensive or inappropriate: swearing, shaming, sexual, aggressive, racist</th><td data-l="What it says">“Let’s keep it respectful. Try rephrasing your intent.”</td></tr>
+          <tr><th scope="row">Numbers only, invalid characters, no real words</th><td data-l="What it says">“Invalid characters. Please describe your intent in plain words.”</td></tr>
+          <tr><th scope="row">Over 50 characters</th><td data-l="What it says">“Keep it simple — a short sentence is enough. You can add tags to make your search more accurate.”</td></tr>
+          <tr><th scope="row">Misspelling, as in <em>sqashing</em></th><td data-l="What it says">“Did you mean squashing?”</td></tr>
+        </tbody>
+      </table>
+      <div class="sec-copy">
+        <p>Four failure modes, four messages, and the one handling offensive input doesn’t scold the person who typed it.</p>
+      </div>
+
       <p class="eyebrow-b">Processing → match — decision flow</p>
       <div class="flow">
         <div class="flow-row flow-row--one">
@@ -2250,7 +2276,7 @@ a{color:inherit}
           <div class="flow-node flow-node--r">
           <div class="ann">
             <div class="ann-t">Used once, then gone</div>
-            <p class="ann-b">GPS ask arrives mid-processing — the only moment it reads as practical, not invasive. My call: delete location post-match and use aggregated data for analytics — to increase user safety and trust.</p>
+            <p class="ann-b">Timed to appear after step two completes, not on load — the reason for the request is on screen before the request is made. My call: delete location post-match and use aggregated data for analytics — to increase user safety and trust.</p>
           </div>
           <div class="flow-shot">
             <span class="chip">02 · Location access</span>
@@ -2374,6 +2400,25 @@ a{color:inherit}
       </div>
       <div class="sec-copy">
         <p>Once the wireframes, structures, user flows, design system and core features were prototyped, we decided to continue the build with vibe coding.</p>
+        <p>I built Tribe’s design system too. The full spec, as PDFs:</p>
+      </div>
+      <div class="spec-grid">
+        <a class="spec-tile" href="/tribe/spec/tribe-design-system.pdf" target="_blank" rel="noopener">
+          <span class="spec-shot"><img src="/tribe/spec/preview-design-system.webp" width="2000" height="1220" loading="lazy" decoding="async" alt="Tribe design system: typography scale, corner radius, the four brand colours and the icon set."></span>
+          <span class="spec-name">Design system <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="spec-tile" href="/tribe/spec/tribe-components-mvp.pdf" target="_blank" rel="noopener">
+          <span class="spec-shot"><img src="/tribe/spec/preview-components.png" width="1166" height="1626" loading="lazy" decoding="async" alt="Tribe component behaviour notes for the landing, processing, match results, no-match, chat and menu screens."></span>
+          <span class="spec-name">Components <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="spec-tile" href="/tribe/spec/tribe-colour-system.pdf" target="_blank" rel="noopener">
+          <span class="spec-shot"><img src="/tribe/spec/preview-colour-system.webp" width="2000" height="1021" loading="lazy" decoding="async" alt="Tribe colour system: surface, chalk, terra and sage shades, plus error, success and system colours, each with its token and usage."></span>
+          <span class="spec-name">Colour system <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="spec-tile" href="/tribe/spec/tribe-grid-and-breakpoints.pdf" target="_blank" rel="noopener">
+          <span class="spec-shot"><img src="/tribe/spec/preview-grid-and-breakpoints.webp" width="2000" height="1220" loading="lazy" decoding="async" alt="Tribe mobile grid and spacing: 390px screen, 4 columns, 24px margin, 16px gutter, and the spacing scale from 4 to 40."></span>
+          <span class="spec-name">Grid and breakpoints <span aria-hidden="true">↗</span></span>
+        </a>
       </div>
     </section>
 
@@ -2976,5 +3021,9 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
 <script src="/site-mobile.js" defer></script>
 <script src="/site-motion.js" defer></script>
 <script src="/site-consent.js" defer></script>
+
+<!-- Removed in the Tribe additions pass (kept for reference, not shown):
+     - §5 · 02 Location access annotation, first sentence: "GPS ask arrives mid-processing — the only moment it reads as practical, not invasive."
+-->
 </body>
 </html>
