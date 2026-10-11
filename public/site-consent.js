@@ -60,7 +60,7 @@
     document.addEventListener('click', function(e){
       var el = e.target.closest('a, button, [role="link"]'); if (!el) return;
       var href = el.getAttribute('href') || el.getAttribute('data-href') || '';
-      if (/drive\.google\.com/.test(href)) track('resume_open', { location: where(el), page: page });
+      if (/drive\.google\.com/.test(href)) track('resume_download', { location: where(el), page: page });
       else if (el.id === 'mailBtn' || el.id === 'mailCopy') track('email_copy', { location: where(el), page: page });
       else if (/linkedin\.com/.test(href)) track('social_click', { network: 'linkedin', location: where(el), page: page });
       else if (/^\/case-study-/.test(href)) track('case_study_open', { case_study: href.replace('/', ''), from: el.closest('.card') ? 'home card' : el.closest('.next') ? 'next list' : 'link', page: page });
