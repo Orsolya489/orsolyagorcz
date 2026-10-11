@@ -827,9 +827,11 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   display:grid;grid-template-columns:1fr 1.2fr;gap:var(--gutter);align-items:start}
 .cw-panel[data-open="true"] .cw-inner{padding-top:var(--stack)}
 .cw-media img{width:100%;height:auto;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--edge)}
-/* Leica shows three variants of one part, so they need to be comparable at a
-   glance - this panel drops the side-by-side split and gives the drawings the
-   full column, three across. */
+/* Leica: three variants of one part, side by side next to the copy; each
+   opens larger on click (the page lightbox) */
+.cw-zoom{display:block;flex:0 1 calc((100% - 40px)/3);min-width:0;padding:0;border:0;background:none;cursor:zoom-in;border-radius:var(--r-lg)}
+.cw-zoom:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.cw-trio .cw-zoom img{width:100%;max-width:100%;height:auto;max-height:none}
 .cw-inner--wide{grid-template-columns:1fr}
 .cw-inner--wide .cw-body{max-width:72ch}
 /* Flex, not a 3-column grid: when the height cap binds on a short window a
@@ -848,7 +850,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
   border-radius:0;box-shadow:none}
 .cw-embed{display:block;width:100%;height:min(clamp(320px, 44vh, 520px), var(--cw-fit, 100vh));
   border:1px solid var(--edge);border-radius:var(--r-lg);background:var(--recess)}
-@media (max-width:767px){.cw-trio{flex-direction:column}.cw-trio img{max-width:100%}}
+
 /* watermark sits further in on this one - 1408x736, sparkle about 5% from the
    right and 11% from the bottom - so it needs a deeper crop than the portrait */
 #cwp-cv .cw-media{overflow:hidden;border-radius:var(--r-lg);max-height:var(--cw-fit, none)}
@@ -1559,7 +1561,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
         </button>
         <button class="cw-card" id="cw-pz" aria-expanded="false" aria-controls="cwp-pz">
           <span class="cw-eyebrow">Client Work · Puzled · 0→1</span>
-          <span class="cw-title">B2B Registration + Dashboard</span>
+          <span class="cw-title">From a business’s first sign-up to a full analytics dashboard, with no users to learn from.</span>
           <span class="cw-thumb"><img width="2001" height="2001" src="Puzled_logo_light_background-08.webp" alt="" loading="lazy" decoding="async"></span>
           <span class="cw-ico" aria-hidden="true"></span>
         </button>
@@ -1570,7 +1572,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
           <span class="cw-ico" aria-hidden="true"></span>
         </button>
     </div>
-      <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner cw-inner--wide">
+      <div class="cw-panel" id="cwp-lc" role="region" aria-labelledby="cw-lc"><div class="cw-inner">
         <div class="cw-body">
           <p class="t-body">Three design variants resolving the same manufacturing constraints differently — logo clearance, hole radius, corner tolerance. Proof that design decisions have physical consequences.</p>
           <dl class="cw-facts">
@@ -1581,9 +1583,9 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
           </dl>
         </div>
         <div class="cw-media cw-trio">
-          <img width="3166" height="4096" src="snippets_leica__technical_drawing_1.webp" alt="Leica technical drawing, variant one" loading="lazy" decoding="async">
-          <img width="3166" height="4096" src="snippets_leica__technical_drawing_2.webp" alt="Leica technical drawing, variant two" loading="lazy" decoding="async">
-          <img width="3166" height="4096" src="snippets_leica__technical_drawing_3.webp" alt="Leica technical drawing, variant three" loading="lazy" decoding="async">
+          <button type="button" class="cw-zoom" aria-label="Open Leica variant 1 larger" data-full="snippets_leica__technical_drawing_1.webp"><img width="3166" height="4096" src="snippets_leica__technical_drawing_1.webp" alt="Leica technical drawing, variant one" loading="lazy" decoding="async"></button>
+          <button type="button" class="cw-zoom" aria-label="Open Leica variant 2 larger" data-full="snippets_leica__technical_drawing_2.webp"><img width="3166" height="4096" src="snippets_leica__technical_drawing_2.webp" alt="Leica technical drawing, variant two" loading="lazy" decoding="async"></button>
+          <button type="button" class="cw-zoom" aria-label="Open Leica variant 3 larger" data-full="snippets_leica__technical_drawing_3.webp"><img width="3166" height="4096" src="snippets_leica__technical_drawing_3.webp" alt="Leica technical drawing, variant three" loading="lazy" decoding="async"></button>
         </div>
       </div></div>
       <div class="cw-panel" id="cwp-pz" role="region" aria-labelledby="cw-pz"><div class="cw-inner">
