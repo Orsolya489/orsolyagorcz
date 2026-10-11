@@ -62,18 +62,24 @@
 })();
 
 /* ── case-study header: the progress rail ends where the last section name
-   ends, not at the edge of the column. Re-measured when the window, the
-   fonts or the text size change. ── */
+   ends, not at the edge of the column, and the section counter steps aside
+   once the names grow into it (a larger text size). Re-measured when the
+   window, the fonts or the text size change. ── */
 (function(){
   function init(){
     var rail = document.querySelector('.csbar-rail'), ol = document.querySelector('.cs-route ol');
     if (!rail || !ol || !ol.lastElementChild) return;
-    var last = ol.lastElementChild;
+    var last = ol.lastElementChild, count = document.querySelector('.csbar-count');
     function fit(){
       rail.style.width = '';
+      if (count) count.style.visibility = '';
       if (!rail.offsetWidth) return;
-      var w = last.getBoundingClientRect().right - rail.getBoundingClientRect().left;
+      var lr = last.getBoundingClientRect();
+      var w = lr.right - rail.getBoundingClientRect().left;
       if (w > 0 && w < rail.offsetWidth) rail.style.width = Math.round(w) + 'px';
+      /* the names and the counter share the right end of the bar: when they
+         would meet, the counter goes - the names say where you are anyway */
+      if (count && count.offsetWidth && lr.right + 12 > count.getBoundingClientRect().left) count.style.visibility = 'hidden';
     }
     fit();
     window.addEventListener('resize', fit);

@@ -1741,6 +1741,8 @@ function bloom(a,b){
 }
 function flow(){flowing=false;
   var vh=window.innerHeight,narrow=window.innerWidth<768,off=motionOff();
+  /* high contrast keeps the movement but never the fade: text stays full black */
+  var hc=root.getAttribute('data-contrast')==='high';
   var rot=narrow?0:12,lift=narrow?26:48,q,a,b;
   for(var i=0;i<slots.length;i++){
     var c=slots[i].querySelector('.card'),st=c.style;
@@ -1750,7 +1752,7 @@ function flow(){flowing=false;
        into the value that produces it */
     q=ramp(slots[i].getBoundingClientRect(),vh);a=q[0];b=q[1];
     st.transform='rotateX('+(rot*a).toFixed(2)+'deg) translateY('+(lift*a).toFixed(1)+'px) scale('+(1-.055*a-.035*b).toFixed(4)+')';
-    st.opacity=(1-.5*a-.28*b).toFixed(3);
+    st.opacity=hc?'':(1-.5*a-.28*b).toFixed(3);
     st.filter=bloom(a,b);}
   /* Also shipped travels as one unit, measured off the row rather than each
      card, so the three arrive together instead of the middle one leading.
@@ -1765,7 +1767,7 @@ function flow(){flowing=false;
       q=ramp(cwRow.getBoundingClientRect(),vh);a=q[0];b=q[1];
       /* perspective per card, not on the row, so each keeps its own centre */
       tf='perspective(1800px) rotateX('+(rot*a).toFixed(2)+'deg) translateY('+(lift*a).toFixed(1)+'px) scale('+(1-.055*a-.035*b).toFixed(4)+')';
-      op=(1-.5*a-.28*b).toFixed(3);
+      op=hc?'':(1-.5*a-.28*b).toFixed(3);
       fl=bloom(a,b);
     }
     for(var j=0;j<cwFlow.length;j++){
@@ -1960,7 +1962,8 @@ document.querySelectorAll('[data-text]').forEach(function(b){b.addEventListener(
 var cb=document.getElementById('contrastBtn');
 cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')==='high';
   if(on)root.removeAttribute('data-contrast');else root.setAttribute('data-contrast','high');
-  cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'Off':'On';cb.classList.toggle('btn--on',!on);});
+  cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'Off':'On';cb.classList.toggle('btn--on',!on);
+  if(typeof queueFlow==='function')queueFlow();});
 
 /* motion — overrides the system preference in both directions */
 var mb=document.getElementById('motionBtn');

@@ -253,3 +253,16 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 @keyframes img-wait{from{background-position:130% 0}to{background-position:-30% 0}}
 [data-motion="reduced"] img[data-loading]{animation:none;background-image:none}
 @media (prefers-reduced-motion:reduce){img[data-loading]{animation:none;background-image:none}}
+
+/* ═══ high contrast: true black on true white ═══
+   Each page's own [data-contrast="high"] block only pulls its greys up to the
+   ink; this one, more specific, takes the whole palette to its extremes, so
+   text, rules and icons are #000 on #FFF everywhere. The one saturated value
+   (the availability dot) keeps its hue: it reports a state. */
+:root[data-contrast="high"]{
+  --page:#FFFFFF; --card:#FFFFFF; --recess:#F0F0F0;
+  --ink:#000000; --body-c:#000000; --muted:#000000; --line:#000000; --line-soft:#4D4D4D;
+  --edge:rgba(0,0,0,.55); --edge-ctrl:rgba(0,0,0,.8); --lattice:rgba(0,0,0,.16);
+  --glass:rgba(255,255,255,.96);
+  --surface-card:#FFFFFF; --fill-hover:rgba(0,0,0,.10)
+}
