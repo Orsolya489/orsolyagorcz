@@ -3,10 +3,12 @@
    counts page views on its own; the named events below say what was used.
    It only counts on orsolyagorcz.com, never on a local copy. A visitor who
    switched analytics off under the old setup (stored as "denied") stays off.
-   Google Analytics and Microsoft Clarity are gone; the cookies they left in
-   returning visitors' browsers are cleared once, here. */
+   TWIPLA adds heatmaps alongside it, cookieless too, and also only on the live
+   domain. Google Analytics and Microsoft Clarity are gone; the cookies they
+   left in returning visitors' browsers are cleared once, here. */
 (function(){
   var UMAMI_ID = 'ce8869a4-e6de-4e27-a39d-59f6baad15ad';
+  var TWIPLA_ID = '4b00bdeb-c64c-11f1-9c4b-960004340fd3';
   var DOMAIN = 'orsolyagorcz.com';
   var KEY = 'og-consent';
 
@@ -33,6 +35,11 @@
     s.setAttribute('data-website-id', UMAMI_ID);
     s.setAttribute('data-domains', DOMAIN);
     document.head.appendChild(s);
+    /* TWIPLA heatmaps: its own snippet, unchanged except that it loads over
+       https and only on the live site, so local copies never report */
+    if (TWIPLA_ID && location.hostname.replace(/^www\./, '') === DOMAIN) {
+      (function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'https://app-worker.visitor-analytics.io/main.js',TWIPLA_ID,'va');
+    }
   }
 
   /* ── named events. Queued until Umami has loaded, then sent in order. ── */
