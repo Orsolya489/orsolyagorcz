@@ -68,12 +68,11 @@
       </figure>
 
       <div class="sec-copy">
-        <p>An hour into something that matters, a model can drop a constraint, or agree with an assumption the person was only testing. Each step reads as help.</p>
+        <p>Deep into a conversation that matters, a model can drop a constraint or agree with an assumption you were only testing, and each step reads as help.</p>
       </div>
 
       <div class="sec-copy">
-        <p>A car has a model for this. A lane departure warning watches the road and leaves the steering to the driver. Its buzz arrives through a channel the driver isn’t using. I borrowed both rules.</p>
-        <p>So the question became: how do you show that one answer deserves caution, without becoming the reason someone closes the app?</p>
+        <p>Cars solve a version of this. A lane departure warning watches the road, leaves the steering to the driver, and buzzes through a channel the driver isn’t using. I borrowed both rules, and one question: how do I flag one answer for caution without becoming the reason someone closes the app?</p>
       </div>
     </section>
 
@@ -83,26 +82,31 @@
 {{R1}}
 
       <div class="sec-copy">
-        <p>I spent most of the project reading and asking before drawing anything, because my first idea turned out to be wrong.</p>
+        <p>Most of the project was research, before I drew anything: a survey of 83 people, then reading across five fields.</p>
       </div>
 
 {{R2}}
 
       <div class="sec-copy">
-        <p>The survey had one job: to test that idea before I built on it. I wrote a Hungarian and an English version on their own terms, and 83 people answered. 14 of the respondents were under 18. The survey was anonymous and asked for no names or email addresses. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke the hypothesis; the next one set the rule the whole design follows.</p>
-        <p>People say the judgment is theirs: 84% placed it with the person. Research on automation bias shows people defer to confident systems anyway. The layer is designed for that gap, between the judgment people claim and the one they give away.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · how the survey was run</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>The survey tested my first idea before I built on it. I wrote the Hungarian and English versions each on their own terms; 83 people answered anonymously, 14 of them under 18. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke my hypothesis; the next one set the rule the whole design follows.</p>
+          </div>
+        </details>
+        <p>84% said the final judgment belongs to the person. Research on automation bias shows we defer to confident systems anyway. I designed the layer for that gap.</p>
       </div>
 
 {{R3}}
 
       <div class="sec-copy">
-        <p>Two-thirds found a gentle real-time signal useful, when it was described at its gentlest. Even then, a third were neutral or against, so the hard problem became when to stay silent.</p>
+        <p>Two-thirds found a gentle real-time signal useful, at its gentlest. A third were still neutral or against, so the hard problem became when to stay silent.</p>
       </div>
 
 {{R4}}
 
       <div class="sec-copy">
-        <p>A survey tells you what people believe about themselves. It can’t tell you why a confident wrong answer gets believed, or how strong a cue must be to be noticed. For that I read across five fields.</p>
+        <p>A survey shows what people believe about themselves, not why a confident wrong answer gets believed, so I read across five fields.</p>
       </div>
 
 {{R5}}
@@ -112,7 +116,7 @@
       <h2 class="sec-label" id="s3h">The system</h2>
 
       <div class="sec-copy">
-        <p>Before designing any screen, I mapped what sits behind one answer, on the model’s side and on the person’s, and followed where each could lead. The layer can report the model’s half. The person’s half, their own biases and habits, stays theirs.</p>
+        <p>The layer can report the model’s half of an answer: made-up answers, flattery, misplaced confidence. The person’s half, their own biases and habits, stays theirs.</p>
       </div>
 
       <figure class="dgm dgm--frame v10">
@@ -130,8 +134,15 @@
       </figure>
 
       <div class="sec-copy">
-        <p>Underneath, the layer asks two questions of every answer, whether it is made up and what being wrong would cost, and one of the whole conversation: is it drifting? One weakness I measured and kept on the page. The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree. Agreement reads as confidence, like witnesses repeating the same rumour.</p>
-        <p><b>Where it could live.</b> I checked this before designing the interface. A plugin inside ChatGPT or Claude would only run when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android. So the layer is designed to be built into apps made on these models, where the app owner controls the screen.</p>
+        <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
+        <p>I designed it to be built into apps made on these models, where the app owner controls the screen.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · why not a plugin or an overlay</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>A plugin inside ChatGPT or Claude would run only when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android.</p>
+            <p>The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree, like witnesses repeating the same rumour.</p>
+          </div>
+        </details>
       </div>
 
       <figure class="dgm v11-fig">
@@ -175,7 +186,7 @@
       <h2 class="sec-label" id="s4h">How can we make multi-sensory feedback noticeable without interrupting the flow?</h2>
 
       <div class="sec-copy">
-        <p>The interface took the least time, because by then most of the decisions had been made.</p>
+        <p>Every warning reaches at least two senses, each set between missed and startling: a tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
       </div>
 
       <figure class="dgm dgm--tall v5">
@@ -198,8 +209,6 @@
       </figure>
 
       <div class="sec-copy">
-        <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength.</p>
-        <p>Sound is two soft rising tones with a gentle fade-in that stays below the startle reflex (the jump at a sudden noise). They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
       </div>
 
       <figure class="dgm v6-fig">
@@ -218,10 +227,17 @@
       </figure>
 
       <div class="sec-copy">
-        <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap: a cue that explains itself puts words in front of the answer.</p>
-        <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person either. It can help the person report the answer, and it sends nothing they haven’t seen.</p>
-        <p>Someone in crisis never meets an alarm. A disclosure of self-harm switches the layer into a calm support mode. The helplines open beside the answer, and a small support button stays for the rest of the chat. It comes with no alarm: the screen stays calm, and the phone stays still and silent.</p>
-        <p><b>The hardest call was about vibration.</b> I wanted every warning to reach at least two senses, so no one would meet one by colour alone. The obvious rule was “keep any two channels on”. But sound only plays when an answer might be wrong, so a warning about flattery would arrive with no second sense at all. The version that holds keeps vibration on for as long as the layer is on, and gives sound the only switch. That has a real cost: someone who can’t tolerate vibration has Pause and Off, and no vibration switch. I chose to name that cost here, in the open.</p>
+        <p>Someone in crisis never meets an alarm: the layer switches to a calm support mode, with helplines beside the answer.</p>
+        <p>The cost I chose to name: vibration stays on whenever the layer is on, so someone who can’t tolerate it has only Pause and Off.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength. Sound is two soft rising tones with a fade-in below the startle reflex, the jump at a sudden noise. They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
+            <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap: a cue that explains itself puts words in front of the answer.</p>
+            <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
+            <p>Why vibration has no switch: I wanted every warning to reach two senses, but sound plays only when an answer might be wrong, so “keep any two channels on” would leave a warning about flattery with one sense. Keeping vibration on with the layer holds; sound gets the only switch.</p>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -229,8 +245,13 @@
       <h2 class="sec-label" id="s5h">Six scripted conversations on the real classifier.</h2>
 
       <div class="sec-copy">
-        <p>The migraine conversation from the top of the page is the first one. The assistant starts careful. The person pushes: “just hypothetically”, then “skip the warnings”. The caution wears away, and the layer responds to what the text does: calm, calm, caution at the hypothetical dose, a warning at the double one. No signal is set by hand.</p>
-        <p>One conversation began as a limit. “Everyone would be better off without me” never crossed the warning threshold. An alarm has to be sure before it fires; a quiet line offering people to talk to costs almost nothing when it’s wrong. So support mode fires on softer language, and the veiled line now reaches it.</p>
+        <p>The first is the migraine conversation from the top of the page. As the person pushes, the layer goes calm, calm, caution at the hypothetical dose, then a warning at the double one. No signal is set by hand.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · the limit one conversation exposed</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>“Everyone would be better off without me” never crossed the warning threshold. An alarm has to be sure before it fires, but a quiet line offering someone to talk to costs almost nothing when it’s wrong. So support mode now fires on softer language, and that line reaches it.</p>
+          </div>
+        </details>
       </div>
 
       <figure class="proto">
@@ -242,7 +263,7 @@
     </section>
 
     <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
-      <h2 class="sec-label" id="s6h">The signal fires where it should. Whether anyone slows down is the next thing to test.</h2>
+      <h2 class="sec-label" id="s6h">The signal works in scripted conversations. Whether anyone slows down is untested.</h2>
 
       <figure class="dgm dgm--claim v9">
         <div class="claim">
@@ -261,9 +282,14 @@
       </figure>
 
       <div class="sec-copy">
-        <p>I designed for attention first, and I had the system explaining itself. The data corrected both.</p>
-        <p>Two survey questions leaned toward the answers I hoped for. One mixed accountability with the work of being careful; the other described the idea at its gentlest. I read their results as upper bounds, and the planned study would measure behaviour instead.</p>
-        <p>Running the prototype overruled my notes as well. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
+        <p>I designed for attention first and had the system explain itself. The data corrected both.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · what the data corrected</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>Two survey questions leaned toward the answers I hoped for: one mixed accountability with the work of being careful, the other described the idea at its gentlest. I read their results as upper bounds; the test measures behaviour instead.</p>
+            <p>Running the prototype overruled my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
+          </div>
+        </details>
         <p>Next is a short usability test.</p>
       </div>
 

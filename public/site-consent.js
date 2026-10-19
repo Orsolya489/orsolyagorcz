@@ -79,6 +79,13 @@
             value: el.hasAttribute('data-text') ? el.getAttribute('data-text') : (el.getAttribute('aria-pressed') === 'true' ? 'on' : 'off'), page: page });
         }, 0);
     });
+    /* "Read more" opened: which detail, in which section. toggle does not bubble, so listen while capturing */
+    document.addEventListener('toggle', function(e){
+      var d = e.target;
+      if (!d || !d.matches || !d.matches('details.more') || !d.open) return;
+      var s = d.closest('[data-bar]'), w = d.querySelector('.more-what');
+      track('read_more', { section: s ? s.getAttribute('data-bar') : '', topic: w ? w.textContent.replace(/^\s*·\s*/, '') : '', page: page });
+    }, true);
     /* Signal's prototype, used in place: focus moving into its frame */
     window.addEventListener('blur', function(){
       var f = document.activeElement;

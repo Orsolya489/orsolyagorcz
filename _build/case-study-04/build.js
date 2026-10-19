@@ -143,12 +143,39 @@ function rfig(id){
   return f;
 }
 let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfig('R5');
-/* R2: the questions come off the tiles; each says only what it was about, then the chart and the finding */
+/* R2: the four survey cards, each readable on its own - a plain title, a chart
+   with every part named (no squeezed labels, scale ends spelled out), the number
+   with its unit, and one finding. Same raw counts as research-figures.html. */
 {
-  const TOPICS = ['Losing track in long chats','Who interprets uncertain answers','Bias: expected vs. effect on trust','A gentle real-time signal'];
-  let n = 0;
-  R2 = R2.replace(/<p class="tq">[\s\S]*?<\/p>/g, () => '<p class="tk">' + TOPICS[n++] + '</p>');
-  must(n === 4, 'R2 questions ' + n);
+  const key = items => '<ul class="r2-key">' + items.map(([n, l, c]) => '<li><i class="' + c + '"></i><b>' + n + '</b> ' + l + '</li>').join('') + '</ul>';
+  const stack = (items, total, label) => '<div class="r2-stack" role="img" aria-label="' + label + '">' + items.map(([n, , c]) => '<i class="' + c + '" style="flex:' + n + '"></i>').join('') + '</div>' + key(items);
+  const tile = (title, chart, num, unit, finding) =>
+    '<div class="tile"><p class="tk">' + title + '</p><div class="tc">' + chart + '</div>' +
+    '<div class="tr"><span class="tn">' + num + (unit ? '<small> ' + unit + '</small>' : '') + '</span><span class="tf">' + finding + '</span></div></div>';
+
+  const lost = [29, 22, 13, 6, 0];
+  const cols = '<div class="r2-cols" role="img" aria-label="How often people lose track in long chats, 1 to 5: ' + lost.map((n, i) => (i + 1) + ': ' + n).join(', ') + '">' +
+    lost.map((n, i) => '<span class="r2-col"><b>' + n + '</b><i style="--v:' + (n / 29) + '"></i><em>' + (i + 1) + '</em></span>').join('') + '</div>' +
+    '<p class="r2-scale"><span>less often</span><span>more often</span></p>';
+
+  const judge = [[41, 'definitely the person', 's1'], [29, 'mostly the person', 's2'], [9, 'mostly the AI', 's4'], [4, 'definitely the AI', 's5']];
+  const signal = [[29, 'useful', 's1'], [25, 'useful for some topics', 's2'], [17, 'neutral', 's3'], [7, 'distracting', 's4'], [4, 'no signals', 's5']];
+
+  const bar = (label, v) => '<div class="r2-row"><span class="r2-l">' + label + '</span><span class="r2-track"><i style="--v:' + ((v - 1) / 4) + '"></i></span><b>' + v.toFixed(2) + '</b></div>';
+  const pair = '<div class="r2-pair" role="img" aria-label="On a 1 to 5 scale: how much people consider bias, 4.02; how much it changes their trust, 2.80">' +
+    bar('How much they consider bias', 4.02) + bar('How much it changes their trust', 2.80) + '</div>' +
+    '<p class="r2-scale"><span>1 · low</span><span>high · 5</span></p>';
+
+  const tiles = [
+    tile('How often people lose track in long chats', cols, '1.94', 'of 5', 'I expected people to lose track. Most rarely do, so my starting hypothesis was wrong.'),
+    tile('Who should interpret an uncertain answer', stack(judge, 83, 'Who should interpret an uncertain answer: 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI'), '84%', '', 'say the person should, not the AI.'),
+    tile('Bias: how expected, and how much it moves trust', pair, '4.02', 'vs 2.80', 'People expect bias, yet it changes their trust much less.'),
+    tile('Would a gentle real-time signal help?', stack(signal, 82, 'A gentle real-time signal: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals'), '66%', '', 'find it useful, described at its gentlest. A third were neutral or against.')
+  ].join('\n');
+
+  const a = R2.indexOf('<div class="tiles">'), z = R2.lastIndexOf('</div>') + '</div>'.length;
+  must(a > 0 && z > a, 'R2 tiles');
+  R2 = R2.slice(0, a) + '<div class="tiles">\n' + tiles + '\n</div>' + R2.slice(z);
   R2 = once(R2, 'Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording', 'Fig. R2 · n = 83 (Hungarian 71, English 12)', 'R2 header');
 }
 const wrapScroll = (f, svgId) => {
