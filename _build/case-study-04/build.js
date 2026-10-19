@@ -148,18 +148,22 @@ let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfi
    under the cards, so nothing is lost. Same raw counts as research-figures.html. */
 {
   const bar = (v, label) => '<div class="r2-bar" role="img" aria-label="' + label + '"><i style="--v:' + v + '"></i></div>';
+  /* a little shape: mini columns, or one bar split into its answers; two end labels, no key */
+  const ends = (l, r) => '<p class="r2-ends"><span>' + l + '</span><span>' + r + '</span></p>';
+  const cols = (vals, label) => '<div class="r2-mini" role="img" aria-label="' + label + '">' + vals.map(v => '<i style="--v:' + (v / Math.max(...vals)) + '"></i>').join('') + '</div>';
+  const split = (parts, label) => '<div class="r2-split" role="img" aria-label="' + label + '">' + parts.map(([n, c]) => '<i class="' + c + '" style="flex:' + n + '"></i>').join('') + '</div>';
   const tile = (topic, num, line, chart) =>
     '<div class="tile r2-tile"><p class="tk">' + topic + '</p><p class="r2-num">' + num + '</p><p class="r2-line">' + line + '</p>' + chart + '</div>';
   const tiles = [
     tile('Losing track in long chats', '1.94<small> of 5</small>', 'People rarely lose track. My starting hypothesis was wrong.',
-      bar(1.94 / 5, 'Average 1.94 on a scale of 1 to 5')),
+      cols([29, 22, 13, 6, 0], 'Answers from 1, less often, to 5, more often: 29, 22, 13, 6, 0') + ends('less often', 'more often')),
     tile('Who should judge an uncertain answer', '84%', 'say the person should, not the AI.',
-      bar(0.84, '70 of 83 said the person')),
+      split([[41, 's1'], [29, 's2'], [9, 's4'], [4, 's5']], '41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI') + ends('the person', 'the AI')),
     tile('Bias and trust', '4.02 <small>vs</small> 2.80', 'People expect bias, yet it changes their trust much less.',
       '<div class="r2-two">' + bar(4.02 / 5, 'How much they consider bias: 4.02 of 5') + '<span>expected</span>' +
       bar(2.80 / 5, 'How much it changes their trust: 2.80 of 5') + '<span>moves trust</span></div>'),
     tile('A gentle real-time signal', '66%', 'find it useful. A third were neutral or against.',
-      bar(0.66, '54 of 82 found it useful'))
+      split([[29, 's1'], [25, 's2'], [17, 's3'], [7, 's4'], [4, 's5']], '29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals') + ends('useful', 'against'))
   ].join('\n');
   const full = '<details class="more r2-more"><summary><span>Read more</span><span class="more-what"> · the full answers</span>' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>' +

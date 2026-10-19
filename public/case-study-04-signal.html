@@ -3087,6 +3087,15 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .r2-two{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;margin-top:6px}
 .r2-two .r2-bar{margin:0}
 .r2-two span{font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.r2-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;align-items:end;height:34px;margin-top:6px}
+.r2-mini i{display:block;height:calc(var(--v) * 100%);min-height:2px;background:var(--ink);border-radius:2px}
+.r2-split{display:flex;gap:2px;height:8px;border-radius:4px;overflow:hidden;margin-top:6px}
+.r2-split i{display:block;background:var(--ink)}
+.r2-split .s2{opacity:.62}
+.r2-split .s3{background:var(--line-soft)}
+.r2-split .s4{background:var(--line-soft);opacity:.6}
+.r2-split .s5{background:var(--line-soft);opacity:.32}
+.r2-ends{display:flex;justify-content:space-between;margin:4px 0 0;font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .r2-more{margin-top:14px}
 .r2-full{margin:0;padding-left:1.1em;font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--body-c)}
 .r2-full li{margin:0 0 .4em}
@@ -3375,10 +3384,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <figure class="rfig" id="R2">
  <p class="fk">Fig. R2 · n = 83 (Hungarian 71, English 12)</p><h3 class="ft">Survey</h3>
  <div class="tiles">
-<div class="tile r2-tile"><p class="tk">Losing track in long chats</p><p class="r2-num">1.94<small> of 5</small></p><p class="r2-line">People rarely lose track. My starting hypothesis was wrong.</p><div class="r2-bar" role="img" aria-label="Average 1.94 on a scale of 1 to 5"><i style="--v:0.388"></i></div></div>
-<div class="tile r2-tile"><p class="tk">Who should judge an uncertain answer</p><p class="r2-num">84%</p><p class="r2-line">say the person should, not the AI.</p><div class="r2-bar" role="img" aria-label="70 of 83 said the person"><i style="--v:0.84"></i></div></div>
+<div class="tile r2-tile"><p class="tk">Losing track in long chats</p><p class="r2-num">1.94<small> of 5</small></p><p class="r2-line">People rarely lose track. My starting hypothesis was wrong.</p><div class="r2-mini" role="img" aria-label="Answers from 1, less often, to 5, more often: 29, 22, 13, 6, 0"><i style="--v:1"></i><i style="--v:0.7586206896551724"></i><i style="--v:0.4482758620689655"></i><i style="--v:0.20689655172413793"></i><i style="--v:0"></i></div><p class="r2-ends"><span>less often</span><span>more often</span></p></div>
+<div class="tile r2-tile"><p class="tk">Who should judge an uncertain answer</p><p class="r2-num">84%</p><p class="r2-line">say the person should, not the AI.</p><div class="r2-split" role="img" aria-label="41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI"><i class="s1" style="flex:41"></i><i class="s2" style="flex:29"></i><i class="s4" style="flex:9"></i><i class="s5" style="flex:4"></i></div><p class="r2-ends"><span>the person</span><span>the AI</span></p></div>
 <div class="tile r2-tile"><p class="tk">Bias and trust</p><p class="r2-num">4.02 <small>vs</small> 2.80</p><p class="r2-line">People expect bias, yet it changes their trust much less.</p><div class="r2-two"><div class="r2-bar" role="img" aria-label="How much they consider bias: 4.02 of 5"><i style="--v:0.8039999999999999"></i></div><span>expected</span><div class="r2-bar" role="img" aria-label="How much it changes their trust: 2.80 of 5"><i style="--v:0.5599999999999999"></i></div><span>moves trust</span></div></div>
-<div class="tile r2-tile"><p class="tk">A gentle real-time signal</p><p class="r2-num">66%</p><p class="r2-line">find it useful. A third were neutral or against.</p><div class="r2-bar" role="img" aria-label="54 of 82 found it useful"><i style="--v:0.66"></i></div></div>
+<div class="tile r2-tile"><p class="tk">A gentle real-time signal</p><p class="r2-num">66%</p><p class="r2-line">find it useful. A third were neutral or against.</p><div class="r2-split" role="img" aria-label="29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals"><i class="s1" style="flex:29"></i><i class="s2" style="flex:25"></i><i class="s3" style="flex:17"></i><i class="s4" style="flex:7"></i><i class="s5" style="flex:4"></i></div><p class="r2-ends"><span>useful</span><span>against</span></p></div>
 </div>
 <details class="more r2-more"><summary><span>Read more</span><span class="more-what"> · the full answers</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="more-b"><ul class="r2-full"><li><b>Losing track in long chats</b>, 1 (less often) to 5 (more often): 29 · 22 · 13 · 6 · 0</li><li><b>Who should judge an uncertain answer:</b> 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI</li><li><b>Bias</b>, 1 to 5: how much they consider it 4.02; how much it changes their trust 2.80</li><li><b>A gentle real-time signal</b>, described at its gentlest: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals</li></ul></div></details>
 </figure>
