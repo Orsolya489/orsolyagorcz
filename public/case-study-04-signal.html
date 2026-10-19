@@ -3077,31 +3077,20 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .dgm.v5{background:none !important;box-shadow:none !important;padding:0 !important;border-radius:0}
 .dgm .v5-ax{font-size:12px;fill:var(--muted)}
 
-/* R2 survey cards: plain charts with every part named */
-.rfig .tn small{font-family:var(--sans);font-size:13px;color:var(--muted);letter-spacing:.02em}
-.r2-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end;height:96px}
-.r2-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
-.r2-col i{display:block;width:100%;height:calc(var(--v) * 58px);min-height:1px;background:var(--ink);border-radius:2px}
-.r2-col b,.r2-col em{font-family:var(--sans);font-style:normal;font-weight:500;font-size:12px;color:var(--muted)}
-.r2-col b{color:var(--ink)}
-.r2-scale{display:flex;justify-content:space-between;margin:6px 0 0;font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.r2-stack{display:flex;gap:2px;height:22px;border-radius:4px;overflow:hidden}
-.r2-stack i,.r2-key i{display:block;background:var(--ink)}
-.r2-key{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-family:var(--sans);font-size:12px;line-height:1.35;color:var(--body-c)}
-.r2-key li{display:flex;align-items:baseline;gap:6px}
-.r2-key i{flex:0 0 auto;width:9px;height:9px;border-radius:2px;transform:translateY(1px)}
-.r2-key b{font-weight:600;color:var(--ink)}
-.r2-stack .s2,.r2-key .s2{opacity:.62}
-.r2-stack .s3,.r2-key .s3{background:var(--line-soft)}
-.r2-stack .s4,.r2-key .s4{background:var(--line-soft);opacity:.6}
-.r2-stack .s5,.r2-key .s5{background:var(--line-soft);opacity:.32}
-.r2-pair{display:flex;flex-direction:column;gap:12px}
-.r2-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;gap:10px}
-.r2-l{font-family:var(--sans);font-size:12px;line-height:1.3;color:var(--body-c)}
-.r2-track{display:block;height:10px;border-radius:5px;background:var(--recess);overflow:hidden}
-.r2-track i{display:block;height:100%;width:calc(var(--v) * 100%);background:var(--ink);border-radius:5px}
-.r2-row b{font-family:var(--sans);font-weight:600;font-size:12px;color:var(--ink)}
-
+/* R2 survey cards: a topic, one number, one sentence, one thin bar */
+.rfig .r2-tile{gap:8px}
+.r2-num{margin:4px 0 0;font-family:var(--serif);font-size:34px;line-height:1;color:var(--ink)}
+.r2-num small{font-family:var(--sans);font-size:14px;color:var(--muted)}
+.r2-line{margin:0;font-family:var(--serif);font-size:15px;line-height:1.4;color:var(--ink-2,var(--body-c))}
+.r2-bar{height:6px;border-radius:3px;background:var(--recess);overflow:hidden;margin-top:6px}
+.r2-bar i{display:block;height:100%;width:calc(var(--v) * 100%);background:var(--ink);border-radius:3px}
+.r2-two{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;margin-top:6px}
+.r2-two .r2-bar{margin:0}
+.r2-two span{font-family:var(--sans);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.r2-more{margin-top:14px}
+.r2-full{margin:0;padding-left:1.1em;font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--body-c)}
+.r2-full li{margin:0 0 .4em}
+.r2-full b{font-weight:600;color:var(--ink)}
 /* Read more: the detail behind a click, styled like the site's text buttons */
 .more{margin:.2em 0 1.1em}
 .more summary{list-style:none;display:inline-flex;align-items:center;gap:.45em;min-height:var(--control);cursor:pointer;
@@ -3386,11 +3375,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <figure class="rfig" id="R2">
  <p class="fk">Fig. R2 · n = 83 (Hungarian 71, English 12)</p><h3 class="ft">Survey</h3>
  <div class="tiles">
-<div class="tile"><p class="tk">How often people lose track in long chats</p><div class="tc"><div class="r2-cols" role="img" aria-label="How often people lose track in long chats, 1 to 5: 1: 29, 2: 22, 3: 13, 4: 6, 5: 0"><span class="r2-col"><b>29</b><i style="--v:1"></i><em>1</em></span><span class="r2-col"><b>22</b><i style="--v:0.7586206896551724"></i><em>2</em></span><span class="r2-col"><b>13</b><i style="--v:0.4482758620689655"></i><em>3</em></span><span class="r2-col"><b>6</b><i style="--v:0.20689655172413793"></i><em>4</em></span><span class="r2-col"><b>0</b><i style="--v:0"></i><em>5</em></span></div><p class="r2-scale"><span>less often</span><span>more often</span></p></div><div class="tr"><span class="tn">1.94<small> of 5</small></span><span class="tf">I expected people to lose track. Most rarely do, so my starting hypothesis was wrong.</span></div></div>
-<div class="tile"><p class="tk">Who should interpret an uncertain answer</p><div class="tc"><div class="r2-stack" role="img" aria-label="Who should interpret an uncertain answer: 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI"><i class="s1" style="flex:41"></i><i class="s2" style="flex:29"></i><i class="s4" style="flex:9"></i><i class="s5" style="flex:4"></i></div><ul class="r2-key"><li><i class="s1"></i><b>41</b> definitely the person</li><li><i class="s2"></i><b>29</b> mostly the person</li><li><i class="s4"></i><b>9</b> mostly the AI</li><li><i class="s5"></i><b>4</b> definitely the AI</li></ul></div><div class="tr"><span class="tn">84%</span><span class="tf">say the person should, not the AI.</span></div></div>
-<div class="tile"><p class="tk">Bias: how expected, and how much it moves trust</p><div class="tc"><div class="r2-pair" role="img" aria-label="On a 1 to 5 scale: how much people consider bias, 4.02; how much it changes their trust, 2.80"><div class="r2-row"><span class="r2-l">How much they consider bias</span><span class="r2-track"><i style="--v:0.7549999999999999"></i></span><b>4.02</b></div><div class="r2-row"><span class="r2-l">How much it changes their trust</span><span class="r2-track"><i style="--v:0.44999999999999996"></i></span><b>2.80</b></div></div><p class="r2-scale"><span>1 · low</span><span>high · 5</span></p></div><div class="tr"><span class="tn">4.02<small> vs 2.80</small></span><span class="tf">People expect bias, yet it changes their trust much less.</span></div></div>
-<div class="tile"><p class="tk">Would a gentle real-time signal help?</p><div class="tc"><div class="r2-stack" role="img" aria-label="A gentle real-time signal: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals"><i class="s1" style="flex:29"></i><i class="s2" style="flex:25"></i><i class="s3" style="flex:17"></i><i class="s4" style="flex:7"></i><i class="s5" style="flex:4"></i></div><ul class="r2-key"><li><i class="s1"></i><b>29</b> useful</li><li><i class="s2"></i><b>25</b> useful for some topics</li><li><i class="s3"></i><b>17</b> neutral</li><li><i class="s4"></i><b>7</b> distracting</li><li><i class="s5"></i><b>4</b> no signals</li></ul></div><div class="tr"><span class="tn">66%</span><span class="tf">find it useful, described at its gentlest. A third were neutral or against.</span></div></div>
+<div class="tile r2-tile"><p class="tk">Losing track in long chats</p><p class="r2-num">1.94<small> of 5</small></p><p class="r2-line">People rarely lose track. My starting hypothesis was wrong.</p><div class="r2-bar" role="img" aria-label="Average 1.94 on a scale of 1 to 5"><i style="--v:0.388"></i></div></div>
+<div class="tile r2-tile"><p class="tk">Who should judge an uncertain answer</p><p class="r2-num">84%</p><p class="r2-line">say the person should, not the AI.</p><div class="r2-bar" role="img" aria-label="70 of 83 said the person"><i style="--v:0.84"></i></div></div>
+<div class="tile r2-tile"><p class="tk">Bias and trust</p><p class="r2-num">4.02 <small>vs</small> 2.80</p><p class="r2-line">People expect bias, yet it changes their trust much less.</p><div class="r2-two"><div class="r2-bar" role="img" aria-label="How much they consider bias: 4.02 of 5"><i style="--v:0.8039999999999999"></i></div><span>expected</span><div class="r2-bar" role="img" aria-label="How much it changes their trust: 2.80 of 5"><i style="--v:0.5599999999999999"></i></div><span>moves trust</span></div></div>
+<div class="tile r2-tile"><p class="tk">A gentle real-time signal</p><p class="r2-num">66%</p><p class="r2-line">find it useful. A third were neutral or against.</p><div class="r2-bar" role="img" aria-label="54 of 82 found it useful"><i style="--v:0.66"></i></div></div>
 </div>
+<details class="more r2-more"><summary><span>Read more</span><span class="more-what"> · the full answers</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="more-b"><ul class="r2-full"><li><b>Losing track in long chats</b>, 1 (less often) to 5 (more often): 29 · 22 · 13 · 6 · 0</li><li><b>Who should judge an uncertain answer:</b> 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI</li><li><b>Bias</b>, 1 to 5: how much they consider it 4.02; how much it changes their trust 2.80</li><li><b>A gentle real-time signal</b>, described at its gentlest: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals</li></ul></div></details>
 </figure>
 
       <div class="sec-copy">

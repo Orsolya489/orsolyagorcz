@@ -143,39 +143,35 @@ function rfig(id){
   return f;
 }
 let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfig('R5');
-/* R2: the four survey cards, each readable on its own - a plain title, a chart
-   with every part named (no squeezed labels, scale ends spelled out), the number
-   with its unit, and one finding. Same raw counts as research-figures.html. */
+/* R2: the four survey cards, cut to what reads at a glance - a topic, one big
+   number, one sentence and one thin bar. The full answers sit behind "Read more"
+   under the cards, so nothing is lost. Same raw counts as research-figures.html. */
 {
-  const key = items => '<ul class="r2-key">' + items.map(([n, l, c]) => '<li><i class="' + c + '"></i><b>' + n + '</b> ' + l + '</li>').join('') + '</ul>';
-  const stack = (items, total, label) => '<div class="r2-stack" role="img" aria-label="' + label + '">' + items.map(([n, , c]) => '<i class="' + c + '" style="flex:' + n + '"></i>').join('') + '</div>' + key(items);
-  const tile = (title, chart, num, unit, finding) =>
-    '<div class="tile"><p class="tk">' + title + '</p><div class="tc">' + chart + '</div>' +
-    '<div class="tr"><span class="tn">' + num + (unit ? '<small> ' + unit + '</small>' : '') + '</span><span class="tf">' + finding + '</span></div></div>';
-
-  const lost = [29, 22, 13, 6, 0];
-  const cols = '<div class="r2-cols" role="img" aria-label="How often people lose track in long chats, 1 to 5: ' + lost.map((n, i) => (i + 1) + ': ' + n).join(', ') + '">' +
-    lost.map((n, i) => '<span class="r2-col"><b>' + n + '</b><i style="--v:' + (n / 29) + '"></i><em>' + (i + 1) + '</em></span>').join('') + '</div>' +
-    '<p class="r2-scale"><span>less often</span><span>more often</span></p>';
-
-  const judge = [[41, 'definitely the person', 's1'], [29, 'mostly the person', 's2'], [9, 'mostly the AI', 's4'], [4, 'definitely the AI', 's5']];
-  const signal = [[29, 'useful', 's1'], [25, 'useful for some topics', 's2'], [17, 'neutral', 's3'], [7, 'distracting', 's4'], [4, 'no signals', 's5']];
-
-  const bar = (label, v) => '<div class="r2-row"><span class="r2-l">' + label + '</span><span class="r2-track"><i style="--v:' + ((v - 1) / 4) + '"></i></span><b>' + v.toFixed(2) + '</b></div>';
-  const pair = '<div class="r2-pair" role="img" aria-label="On a 1 to 5 scale: how much people consider bias, 4.02; how much it changes their trust, 2.80">' +
-    bar('How much they consider bias', 4.02) + bar('How much it changes their trust', 2.80) + '</div>' +
-    '<p class="r2-scale"><span>1 · low</span><span>high · 5</span></p>';
-
+  const bar = (v, label) => '<div class="r2-bar" role="img" aria-label="' + label + '"><i style="--v:' + v + '"></i></div>';
+  const tile = (topic, num, line, chart) =>
+    '<div class="tile r2-tile"><p class="tk">' + topic + '</p><p class="r2-num">' + num + '</p><p class="r2-line">' + line + '</p>' + chart + '</div>';
   const tiles = [
-    tile('How often people lose track in long chats', cols, '1.94', 'of 5', 'I expected people to lose track. Most rarely do, so my starting hypothesis was wrong.'),
-    tile('Who should interpret an uncertain answer', stack(judge, 83, 'Who should interpret an uncertain answer: 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI'), '84%', '', 'say the person should, not the AI.'),
-    tile('Bias: how expected, and how much it moves trust', pair, '4.02', 'vs 2.80', 'People expect bias, yet it changes their trust much less.'),
-    tile('Would a gentle real-time signal help?', stack(signal, 82, 'A gentle real-time signal: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals'), '66%', '', 'find it useful, described at its gentlest. A third were neutral or against.')
+    tile('Losing track in long chats', '1.94<small> of 5</small>', 'People rarely lose track. My starting hypothesis was wrong.',
+      bar(1.94 / 5, 'Average 1.94 on a scale of 1 to 5')),
+    tile('Who should judge an uncertain answer', '84%', 'say the person should, not the AI.',
+      bar(0.84, '70 of 83 said the person')),
+    tile('Bias and trust', '4.02 <small>vs</small> 2.80', 'People expect bias, yet it changes their trust much less.',
+      '<div class="r2-two">' + bar(4.02 / 5, 'How much they consider bias: 4.02 of 5') + '<span>expected</span>' +
+      bar(2.80 / 5, 'How much it changes their trust: 2.80 of 5') + '<span>moves trust</span></div>'),
+    tile('A gentle real-time signal', '66%', 'find it useful. A third were neutral or against.',
+      bar(0.66, '54 of 82 found it useful'))
   ].join('\n');
-
-  const a = R2.indexOf('<div class="tiles">'), z = R2.lastIndexOf('</div>') + '</div>'.length;
-  must(a > 0 && z > a, 'R2 tiles');
-  R2 = R2.slice(0, a) + '<div class="tiles">\n' + tiles + '\n</div>' + R2.slice(z);
+  const full = '<details class="more r2-more"><summary><span>Read more</span><span class="more-what"> · the full answers</span>' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>' +
+    '<div class="more-b"><ul class="r2-full">' +
+    '<li><b>Losing track in long chats</b>, 1 (less often) to 5 (more often): 29 · 22 · 13 · 6 · 0</li>' +
+    '<li><b>Who should judge an uncertain answer:</b> 41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI</li>' +
+    '<li><b>Bias</b>, 1 to 5: how much they consider it 4.02; how much it changes their trust 2.80</li>' +
+    '<li><b>A gentle real-time signal</b>, described at its gentlest: 29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals</li>' +
+    '</ul></div></details>';
+  const t0 = R2.indexOf('<div class="tiles">'), t1 = R2.lastIndexOf('</div>') + '</div>'.length;
+  must(t0 > 0 && t1 > t0, 'R2 tiles');
+  R2 = R2.slice(0, t0) + '<div class="tiles">\n' + tiles + '\n</div>\n' + full + R2.slice(t1);
   R2 = once(R2, 'Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording', 'Fig. R2 · n = 83 (Hungarian 71, English 12)', 'R2 header');
 }
 const wrapScroll = (f, svgId) => {
