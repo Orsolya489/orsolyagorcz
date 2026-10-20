@@ -302,3 +302,11 @@
 /* the layer diagram: no outer card. The toggle and the possible outcomes sit on
    the page; the dashed layer box is the only frame */
 .dgm.v10{background:none !important;box-shadow:none !important;padding:0 !important;border-radius:0}
+
+/* decisions, as on Tribe: chose X over Y, because Z - and what it cost, in the red
+   the page uses for what was given up */
+.dec-p{margin:var(--stack) 0;font-size:calc(var(--body)*1.06);line-height:1.6;
+  color:var(--ink);padding-left:var(--gutter);border-left:2px solid var(--ink)}
+.dec-lab{display:block;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:calc(var(--stack)*.45)}
+.dec-p .dec-cost{color:var(--red-ink)}

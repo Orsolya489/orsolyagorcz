@@ -94,7 +94,8 @@
             <p>The survey tested my first idea before I built on it. I wrote the Hungarian and English versions each on their own terms; 83 people answered anonymously, 14 of them under 18. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke my hypothesis; the next one set the rule the whole design follows.</p>
           </div>
         </details>
-        <p>84% said the final judgment belongs to the person. Research on automation bias shows we defer to confident systems anyway. I designed the layer for that gap.</p>
+        <p>84% said the final judgment belongs to the person. Research on automation bias shows we defer to confident systems anyway.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to design for the gap between the judgment people claim and the one they give away, over designing for attention in long chats, because the survey showed people rarely lose track but defer to confident systems anyway. Cost: <span class="dec-cost">a third were neutral or against any signal, so it has to stay silent most of the time</span>.</p>
       </div>
 
 {{R3}}
@@ -116,7 +117,7 @@
       <h2 class="sec-label" id="s3h">The system</h2>
 
       <div class="sec-copy">
-        <p>The layer can report the model’s half of an answer: made-up answers, flattery, misplaced confidence. The person’s half, their own biases and habits, stays theirs.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to report only the model’s half of an answer, made-up answers, flattery and misplaced confidence, over flagging the person’s own biases too, because a signal can’t report someone’s own bias to them. Cost: <span class="dec-cost">five outcomes get lighter, but four keep their full weight</span>.</p>
       </div>
 
       <figure class="dgm dgm--frame v10">
@@ -135,11 +136,10 @@
 
       <div class="sec-copy">
         <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
-        <p>I designed it to be built into apps made on these models, where the app owner controls the screen.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to build the layer into apps made on these models, over a plugin or a phone overlay, because a plugin runs only when the model calls it, so the system being checked would decide when it gets checked, and an overlay is blocked on iPhone. Cost: <span class="dec-cost">it only reaches people where an app owner builds it in</span>.</p>
         <details class="more">
-          <summary><span>Read more</span><span class="more-what"> · why not a plugin or an overlay</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <summary><span>Read more</span><span class="more-what"> · why agreement reads as confidence</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
-            <p>A plugin inside ChatGPT or Claude would run only when the model decided to call it, so the system being checked would choose when it gets checked. An overlay on the phone is blocked on iPhone and needs screen-reading permissions on Android.</p>
             <p>The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree, like witnesses repeating the same rumour.</p>
           </div>
         </details>
@@ -227,15 +227,14 @@
       </figure>
 
       <div class="sec-copy">
-        <p>Someone in crisis never meets an alarm: the layer switches to a calm support mode, with helplines beside the answer.</p>
-        <p>The cost I chose to name: vibration stays on whenever the layer is on, so someone who can’t tolerate it has only Pause and Off.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose a calm support mode over an alarm for someone in crisis, because a tone is the wrong response to someone in distress: the helplines open beside the answer, and the phone stays still and silent. Cost: <span class="dec-cost">it fires on softer language, so it will sometimes appear when it isn’t needed</span>.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to keep vibration on whenever the layer is on and give sound the only switch, over “keep any two channels on”, because sound plays only when an answer might be wrong, so a warning about flattery would reach a single sense. Cost: <span class="dec-cost">someone who can’t tolerate vibration has only Pause and Off</span>.</p>
         <details class="more">
           <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
             <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength. Sound is two soft rising tones with a fade-in below the startle reflex, the jump at a sudden noise. They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
             <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap: a cue that explains itself puts words in front of the answer.</p>
             <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
-            <p>Why vibration has no switch: I wanted every warning to reach two senses, but sound plays only when an answer might be wrong, so “keep any two channels on” would leave a warning about flattery with one sense. Keeping vibration on with the layer holds; sound gets the only switch.</p>
           </div>
         </details>
       </div>
