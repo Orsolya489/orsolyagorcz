@@ -1421,15 +1421,15 @@ a{color:inherit}
 .car-btn:disabled{opacity:.22;pointer-events:none}
 .car-bottom{padding:1em var(--stack);border-top:1px solid var(--edge)}
 .car-desc{font-size:var(--micro);line-height:1.6;color:var(--body-c);min-height:2.6em}
-/* The dot you see is 7px; the thing you press is 28. A 7px target is under
-   half the 24px WCAG minimum and unusable with a thumb, but a 28px dot would
+/* The dot you see is 7px; the thing you press is larger. A 7px target is under
+   half the 24px WCAG minimum and unusable with a thumb, but a big dot would
    be a row of buttons instead of a position indicator - so the button carries
    the target and paints the dot inside itself. */
-.car-dots{display:flex;gap:2px;margin-top:.5em;margin-left:-6px}
-/* The dot is the mark; the button around it is the target. Kept visually
-   28px by drawing the dot inside a control-sized hit area rather than by
-   growing the dot itself. */
-.car-dot{width:var(--control);height:var(--control);padding:0;border:0;background:none;cursor:pointer;
+.car-dots{display:flex;gap:0;margin-top:.5em;margin-left:-8px}
+/* The dot is the mark; the button around it is the target: 24px wide, the
+   WCAG minimum, so the dots sit close as one indicator, and the full control
+   height to press. */
+.car-dot{width:24px;height:var(--control);padding:0;border:0;background:none;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center}
 .car-dot::before{content:"";width:7px;height:7px;border-radius:var(--r-pill);
   background:var(--line-soft);

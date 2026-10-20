@@ -110,6 +110,10 @@
     if (lenis || root.getAttribute('data-motion') === 'reduced') return;
     lenis = new window.Lenis({
       autoRaf: true,
+      /* the glide runs on after the wheel stops, so a full native step per
+         notch overshoots: a shorter step, settling a little sooner */
+      wheelMultiplier: 0.6,
+      lerp: 0.12,
       respectReducedMotion: false,
       /* Signal's wide diagrams scroll sideways under a touchpad, as before */
       allowNestedScroll: true,
