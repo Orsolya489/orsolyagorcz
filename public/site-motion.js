@@ -88,3 +88,59 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+
+/* ── case studies: smooth wheel scrolling (Lenis). Only on the case studies;
+   home keeps its own card stepping. Wheel and touchpad only: touch screens
+   keep their native scroll. Follows the Reduce motion switch, which already
+   carries the system setting, so it is built and taken down as that changes.
+   Section links still land under the header (Lenis reads scroll-margin-top). ── */
+(function(){
+  var root = document.documentElement;
+  if (!document.querySelector('.cs-body')) return;
+  var lenis = null, loading = false;
+  var css = document.createElement('style');
+  css.textContent =
+    'html.lenis,html.lenis body{height:auto}' +
+    'html.lenis{scroll-behavior:auto !important}' +
+    '.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:clip}' +
+    '.lenis [data-lenis-prevent]{overscroll-behavior:contain}' +
+    '.lenis.lenis-smooth iframe{pointer-events:none}';
+  document.head.appendChild(css);
+  function build(){
+    if (lenis || root.getAttribute('data-motion') === 'reduced') return;
+    lenis = new window.Lenis({
+      autoRaf: true,
+      respectReducedMotion: false,
+      /* Signal's wide diagrams scroll sideways under a touchpad, as before */
+      allowNestedScroll: true,
+      /* the settings panel, an open lightbox and anything marked keep their own scroll */
+      prevent: function(n){ return !!(n.closest && n.closest('#panel, dialog[open], [data-lenis-prevent]')); }
+    });
+  }
+  function sync(){
+    if (root.getAttribute('data-motion') === 'reduced') { if (lenis) { lenis.destroy(); lenis = null; } return; }
+    if (window.Lenis) return build();
+    if (loading) return;
+    loading = true;
+    var s = document.createElement('script');
+    s.src = 'https://unpkg.com/lenis@1.3.27/dist/lenis.min.js';
+    s.integrity = 'sha384-R18XzqnxvVLEF+BYfhpmDx30v7eP83fAckyfoRzK7/Uf6nGqufcmsk0eAKo7S3RU';
+    s.crossOrigin = 'anonymous';
+    s.onload = build;
+    document.head.appendChild(s);
+  }
+  /* links to a section on the page glide there, as they did with smooth
+     scroll-behavior, and the address still shows the section. Pointer clicks
+     only: from the keyboard the browser's own jump also moves focus there. */
+  document.addEventListener('click', function(e){
+    if (!lenis || !e.detail || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    var t = a && a.getAttribute('href').length > 1 && document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+    if (!t) return;
+    e.preventDefault();
+    history.pushState(null, '', a.getAttribute('href'));
+    lenis.scrollTo(t);
+  });
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-motion'] });
+  sync();
+})();
