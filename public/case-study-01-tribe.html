@@ -1670,6 +1670,8 @@ a{color:inherit}
    right edge. Nothing is centred in the page. */
 @media (min-width:1024px){
   .sec > *:not(.sec-label){grid-column:2}
+  /* the chip-validation stepper is the exception: it takes the full width */
+  .sec > .carousel{grid-column:1 / -1}
 }
 .fig img{margin-inline:0}
 .cmp-stage,.cmp-cols{margin-inline:0;width:100%}
