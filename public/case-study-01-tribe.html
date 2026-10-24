@@ -2995,7 +2995,8 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
     for(var k=0;k<dots.length;k++)dots[k].setAttribute('aria-current',k===cur?'true':'false');
   }
   function fit(){
-    if(!img.naturalWidth)return;
+    /* Sized from SHOT, not from the loaded image, so the stepper has its real
+       size before the lazy image arrives instead of jumping when it does. */
     /* Room is measured rather than guessed: the stage box less its own padding,
        the two buttons and the two gaps between them and the strip. A slack
        constant here was costing the frames about 30px of width for nothing. */
@@ -3028,7 +3029,7 @@ SHOT.fx=function(i){return (SHOT.x0+i*SHOT.pitch)/SHOT.w*100;};
   prev.addEventListener('click',function(){go(cur-1);});
   next.addEventListener('click',function(){go(cur+1);});
   window.addEventListener('resize',fit);
-  if(img.complete&&img.naturalWidth)fit(); else img.addEventListener('load',fit);
+  fit();
 })();
 })();
 </script>
