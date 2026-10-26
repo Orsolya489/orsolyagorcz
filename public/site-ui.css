@@ -282,7 +282,7 @@ img[data-loading]{color:transparent;background-color:var(--recess);
    text, so inside a frame it steps down to #5E5356 (5.2:1), and --line-soft to
    #817775 (3.3:1, over the 3:1 floor for graphics). High contrast keeps its own
    values and drops the ruling for a single firm edge. */
-.cs-body .sec > .vframe,.cs-head > .vframe{grid-column:1 / -1;justify-self:center;width:calc(100% - 3cm);min-width:0;
+.cs-body .sec > .vframe,.cs-head > .vframe{grid-column:1 / -1;justify-self:stretch;width:100%;min-width:0;
   margin:var(--section,64px) 0 0;position:relative;border-radius:var(--r-lg,16px);
   padding:clamp(28px,4.2vw,64px);
   --muted:#5E5356;--line-soft:#817775;
@@ -367,3 +367,18 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 /* a label above a full-frame visual spans with it */
 .vframe > .eyebrow-b:has(+ .carousel),.vframe > .eyebrow-b:has(+ .cmp){max-width:none}
 .vframe .car-top,.vframe .car-bottom{padding-inline:0}
+/* lists of constraints, limits and failure modes inside a frame are numbered,
+   so a row can be pointed to: 01, 02, 03 before each row's heading */
+.vframe table.devsync tbody{counter-reset:row}
+.vframe table.devsync tbody tr{counter-increment:row}
+.vframe table.devsync tbody:has(tr + tr) th[scope="row"]::before{content:counter(row,decimal-leading-zero);
+  display:block;margin-bottom:.3em;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  letter-spacing:.07em;color:var(--muted)}
+/* the answer in each numbered row starts level with the row's heading, not its number */
+@media (min-width:768px){
+  .vframe table.devsync tbody:has(tr + tr) td::before{content:"";display:block;
+    height:calc(var(--micro) * 1.4 + var(--micro) * .3)}
+}
+/* a scale of levels is not a list: Signal's warning levels stay unnumbered */
+.vframe .v5-levels table.devsync tbody th[scope="row"]::before,
+.vframe .v5-levels table.devsync tbody td::before{content:none}

@@ -3119,8 +3119,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
 /* decisions: one block per section, what and why only, set apart as the
    clearest thing in it - a card with an ink rule down its left edge */
-.dec{margin:calc(var(--stack)*1.4) 0;padding:calc(var(--stack)*1.1) calc(var(--gutter)*1.1);
-  background:var(--card);border-radius:16px;box-shadow:inset 0 0 0 1px var(--line-soft),inset 3px 0 0 var(--ink)}
+.dec{margin:calc(var(--stack)*1.4) 0;padding:0 0 0 var(--gutter);background:none;border-left:2px solid var(--ink)}
 .dec-lab{margin:0 0 calc(var(--stack)*.6);font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .dec-i + .dec-i{margin-top:calc(var(--stack)*.9);padding-top:calc(var(--stack)*.9);border-top:1px solid var(--line-soft)}
@@ -3129,16 +3128,15 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 .dec-why{margin-top:.45em;font-size:var(--body);line-height:1.55;color:var(--body-c)}
 .dec-what span,.dec-why span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-/* two columns: the card reaches out by its own padding, so the writing inside
-   starts and ends on the same lines as every paragraph in the column */
-@media (min-width:1024px){.sec-copy .dec{margin-inline:calc(var(--gutter)*-1.1);max-width:none;width:auto}}
+/* the rule sits on the paragraphs' left edge and the block ends where they end */
+.sec-copy .dec{max-width:none;width:auto}
 
 /* the drive: framed like every other visual, at the same width, with its
    heading turned into guidance above the frame. The pinned stage is the frame,
    so the road stays on screen while the page scrolls past it. Its fades take the
    frame's ground, and the muted greys step down as in every frame. */
 .road{grid-template-columns:1fr;row-gap:var(--stack)}
-.rd-head,.rd-scroll{grid-column:1;width:calc(100% - 3cm);margin-inline:auto}
+.rd-head,.rd-scroll{grid-column:1;width:100%;margin-inline:0}
 .rd-head{position:static;padding-bottom:0}
 .rd-h{font-family:var(--sans);font-weight:400;font-size:var(--body);line-height:1.6;color:var(--body-c);max-width:60ch}
 .rd-stage{border-radius:var(--r-lg,16px);--muted:#5E5356;--line-soft:#817775;
@@ -3158,6 +3156,13 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 /* the road stops short of the frame's right edge, by the frame's own margin */
 @media (min-width:768px){#road .rd-stage .rd-lanes{right:clamp(28px,4.2vw,64px)}
   #road .rd-stage .rd-rail{left:clamp(28px,4.2vw,64px);right:calc(var(--road-w) + var(--gutter) + clamp(28px,4.2vw,64px))}}
+/* the road takes half the frame, the conversation the other half */
+@media (min-width:768px){#road .rd-stage{--road-w:calc((100cqw - 2 * clamp(28px,4.2vw,64px) - var(--gutter)) / 2)}}
+/* two decisions in one block are numbered, so each can be pointed to */
+.dec{counter-reset:dec}
+.dec-i{counter-increment:dec}
+.dec:has(.dec-i + .dec-i) .dec-i::before{content:counter(dec,decimal-leading-zero);display:block;
+  margin-bottom:.5em;font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.07em;color:var(--ink)}
 
 /* ═══ the research figures, R1–R5 ═══
    Ported from research-figures.html. They carry no colours of their own: the
