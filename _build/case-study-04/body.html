@@ -83,15 +83,16 @@
       <h2 class="sec-label" id="s2h">84% said the judgment is theirs, yet research shows people trust confident AI anyway.</h2>
 
       <div class="sec-copy">
+        <p>Two-thirds found a gentle real-time signal useful, at its gentlest. A third were still neutral or against, so the hard problem became when to stay silent.</p>
+        <p>A survey shows what people believe about themselves, not why a confident wrong answer gets believed, so I read across five fields.</p>
+        <div class="dec" role="note" aria-label="The decision"><p class="dec-lab">The decision</p><div class="dec-i"><p class="dec-what"><span>What</span>Design for the gap between the judgment people claim and the judgment they hand over.</p><p class="dec-why"><span>Why</span>People rarely lose track in long chats, yet research shows they defer to confident answers.</p></div></div>
         <details class="more">
           <summary><span>Read more</span><span class="more-what"> · how the survey was run</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
             <p>The survey tested my first idea before I built on it. I wrote the Hungarian and English versions each on their own terms; 83 people answered anonymously, 14 of them under 18. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke my hypothesis; the next one set the rule the whole design follows.</p>
           </div>
         </details>
-        <div class="dec" role="note" aria-label="The decision"><p class="dec-lab">The decision</p><div class="dec-i"><p class="dec-what"><span>What</span>Design for the gap between the judgment people claim and the judgment they hand over.</p><p class="dec-why"><span>Why</span>People rarely lose track in long chats, yet research shows they defer to confident answers.</p></div></div>
-        <p>Two-thirds found a gentle real-time signal useful, at its gentlest. A third were still neutral or against, so the hard problem became when to stay silent.</p>
-        <p>A survey shows what people believe about themselves, not why a confident wrong answer gets believed, so I read across five fields.</p>
+{{R2MORE}}
       </div>
 
 {{R2}}
@@ -109,8 +110,8 @@
       <h2 class="sec-label" id="s3h">So I designed a signal inside the chat app that flags made-up, flattering or overconfident answers.</h2>
 
       <div class="sec-copy">
-        <div class="dec" role="note" aria-label="The decisions"><p class="dec-lab">The decisions</p><div class="dec-i"><p class="dec-what"><span>What</span>Flag only the model’s side of an answer: made-up answers, flattery and misplaced confidence.</p><p class="dec-why"><span>Why</span>A signal can’t report someone’s own bias back to them.</p></div><div class="dec-i"><p class="dec-what"><span>What</span>Build it into the chat app, over a plugin or a phone overlay.</p><p class="dec-why"><span>Why</span>A plugin runs only when the model calls it, and iPhone blocks overlays.</p></div></div>
         <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
+        <div class="dec" role="note" aria-label="The decisions"><p class="dec-lab">The decisions</p><div class="dec-i"><p class="dec-what"><span>What</span>Flag only the model’s side of an answer: made-up answers, flattery and misplaced confidence.</p><p class="dec-why"><span>Why</span>A signal can’t report someone’s own bias back to them.</p></div><div class="dec-i"><p class="dec-what"><span>What</span>Build it into the chat app, over a plugin or a phone overlay.</p><p class="dec-why"><span>Why</span>A plugin runs only when the model calls it, and iPhone blocks overlays.</p></div></div>
         <details class="more">
           <summary><span>Read more</span><span class="more-what"> · why agreement reads as confidence</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
@@ -177,7 +178,6 @@
 
       <div class="sec-copy">
         <p>A tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
-
         <div class="dec" role="note" aria-label="The decisions"><p class="dec-lab">The decisions</p><div class="dec-i"><p class="dec-what"><span>What</span>A calm support mode for someone in crisis, over an alarm.</p><p class="dec-why"><span>Why</span>A warning tone is the wrong response to someone in distress.</p></div><div class="dec-i"><p class="dec-what"><span>What</span>Vibration stays on, and sound is the only switch.</p><p class="dec-why"><span>Why</span>Sound plays only when an answer may be wrong, so other warnings would reach just one sense.</p></div></div>
         <details class="more">
           <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
@@ -254,6 +254,7 @@
 
       <div class="sec-copy">
         <p>I designed for attention first and had the system explain itself. The data sharpened both.</p>
+        <p>Next is a short usability test: a 10-minute online study with 20–30 people. Two groups see the same eight AI answers, four right and four wrong; one group also sees the signal. I’ll measure how often people act on a wrong answer and how often they ignore a right one, then whether they noticed the signal, understood it, and found it in the way. It’s a pilot, so I’ll report the raw counts, not significance. Later, a field pilot will measure one number: how many people switch it off after two weeks.</p>
         <details class="more">
           <summary><span>Read more</span><span class="more-what"> · what the data sharpened</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
@@ -261,7 +262,6 @@
             <p>Running the prototype refined my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
           </div>
         </details>
-        <p>Next is a short usability test: a 10-minute online study with 20–30 people. Two groups see the same eight AI answers, four right and four wrong; one group also sees the signal. I’ll measure how often people act on a wrong answer and how often they ignore a right one, then whether they noticed the signal, understood it, and found it in the way. It’s a pilot, so I’ll report the raw counts, not significance. Later, a field pilot will measure one number: how many people switch it off after two weeks.</p>
       </div>
 
       <figure class="dgm dgm--claim v9">

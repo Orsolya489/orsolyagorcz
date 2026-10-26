@@ -1622,6 +1622,9 @@ a{color:inherit}
 /* a decision sets its type 1.06x larger, so the same measure in its own ch
    is 66 / 1.06: it ends where the prose around it ends */
 .dec-p{max-width:62.25ch}
+/* two columns: the rule steps out into the gutter, so the decision text starts
+   and ends on the same lines as the paragraphs around it */
+@media (min-width:1024px){.sec-copy .dec-p{margin-left:calc(-1*var(--gutter) - 2px);max-width:calc(62.25ch + var(--gutter) + 2px)}}
 
 @media (max-width:1023px){
   .cs-body{grid-template-columns:1fr}

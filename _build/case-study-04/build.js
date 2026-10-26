@@ -143,6 +143,8 @@ function rfig(id){
   return f;
 }
 let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfig('R5');
+/* R2's full answers are a Read more, and every Read more ends its section, so it leaves the figure */
+let R2MORE = '';
 /* R2: the four survey cards, cut to what reads at a glance - a topic, one big
    number, one sentence and one thin bar. The full answers sit behind "Read more"
    under the cards, so nothing is lost. Same raw counts as research-figures.html. */
@@ -175,7 +177,8 @@ let R1 = rfig('R1'), R2 = rfig('R2'), R3 = rfig('R3'), R4 = rfig('R4'), R5 = rfi
     '</ul></div></details>';
   const t0 = R2.indexOf('<div class="tiles">'), t1 = R2.lastIndexOf('</div>') + '</div>'.length;
   must(t0 > 0 && t1 > t0, 'R2 tiles');
-  R2 = R2.slice(0, t0) + '<div class="tiles">\n' + tiles + '\n</div>\n' + full + R2.slice(t1);
+  R2 = R2.slice(0, t0) + '<div class="tiles">\n' + tiles + '\n</div>\n' + R2.slice(t1);
+  R2MORE = full;
   R2 = once(R2, 'Fig. R2 · n = 83 (Hungarian 71, English 12) · English wording', 'Fig. R2 · n = 83 (Hungarian 71, English 12)', 'R2 header');
 }
 const wrapScroll = (f, svgId) => {
@@ -246,6 +249,7 @@ body = once(body, '{{ROAD}}', '    ' + ROAD, 'ROAD');
 body = once(body, '{{V5}}', v5svg(), 'V5');
 body = once(body, '{{R1}}', R1, 'R1');
 body = once(body, '{{R2}}', R2, 'R2');
+body = once(body, '{{R2MORE}}', R2MORE, 'R2MORE');
 body = once(body, '{{R3}}', R3, 'R3');
 body = once(body, '{{R4}}', R4, 'R4');
 body = once(body, '{{R5}}', R5, 'R5');

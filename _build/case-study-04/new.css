@@ -315,3 +315,6 @@
 .dec-why{margin-top:.45em;font-size:var(--body);line-height:1.55;color:var(--body-c)}
 .dec-what span,.dec-why span{font-family:var(--sans);font-weight:500;font-size:var(--micro);
   letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+/* two columns: the card reaches out by its own padding, so the writing inside
+   starts and ends on the same lines as every paragraph in the column */
+@media (min-width:1024px){.sec-copy .dec{margin-inline:calc(var(--gutter)*-1.1);max-width:none;width:auto}}

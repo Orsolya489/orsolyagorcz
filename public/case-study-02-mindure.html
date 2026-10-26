@@ -799,9 +799,11 @@ a{color:inherit}
    Every pixel above the slider is a pixel the slider cannot have, since the
    whole block is held to one window - the script measures whatever the heading
    and the two sides come to and hands the rest to the picture. */
-.cmp-h{margin:0 0 var(--stack);padding-bottom:.7em;
-  font-weight:500;font-size:calc(var(--body)*1.2);line-height:1.25;
-  letter-spacing:-.005em;color:var(--ink);border-bottom:1px solid var(--edge)}
+/* the module name labels the comparison under it, set like the other figure
+   labels: large serif titles are kept for sections that have a paragraph beside them */
+.cmp-h{margin:0 0 var(--stack);padding-bottom:.8em;
+  font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.4;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--edge)}
 /* under the picture now: the reader sees the difference first and reads the
    account of it second, which is the order the section argues in */
 /* One block under the picture, split down the middle - not two blocks that
@@ -2141,6 +2143,14 @@ a{color:inherit}
   .duo-row .duo-txt > :not(.duo-h),.duo-row > :not(.duo-txt),.duo-foot > :not(.duo-h){grid-column:2}
   .duo-row > .quad{align-self:start}
 }
+/* a heading that names a list or a table is a label, not a title: it sits on top
+   of what it names, in the reading column, set like the other figure labels, so
+   every title in the left column has a paragraph beside it */
+.duo-h.duo-h--label{max-width:none;font-family:var(--sans);font-weight:500;font-size:var(--micro);line-height:1.4;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0;padding-bottom:.8em;border-bottom:1px solid var(--edge)}
+@media (min-width:1024px){
+  .duo-row .duo-h.duo-h--label,.duo-foot .duo-h.duo-h--label{grid-column:2}
+}
 .fig img{margin-inline:0}
 </style>
 <link rel="stylesheet" href="/site-mobile.css">
@@ -2352,6 +2362,9 @@ a{color:inherit}
         <p class="sec-lede">Across the four fields, three findings about stress, from human factors research, became constraints the interface had to meet.</p>
         <p>Each one rules something out. If attention narrows under threat, urgency cannot be used to prompt action. If load has a ceiling, completeness stops being a virtue at the point the ceiling is reached. If automated judgement erodes autonomy, a score is a verdict dressed up as an insight.</p>
         <p>Together, they decided more of this interface than any of my preferences did.</p>
+        <p>Career anxiety doesn’t come from a lack of motivation. It comes when an unstable market, a person’s limited capacity and high-stakes decisions all meet, and the person can no longer make sense of it.</p>
+        <p>When signals don’t connect, users face stress and uncertainty.</p>
+        <p>In the drawing below, each dot is a signal arriving. The box is what one person can hold and act on at once, and it is already full. That much volume outside it is normal. What fails is the assumption that someone will sort it.</p>
       </div>
 
       <div class="gap-cards" role="group" aria-label="Three findings from human factors research">
@@ -2379,8 +2392,7 @@ a{color:inherit}
         <div class="duo-col">
           <div class="duo-row">
             <div class="duo-txt">
-              <h3 class="duo-h">Why are even capable people struggling right now?</h3>
-              <p class="duo-p">Career anxiety doesn’t come from a lack of motivation. It comes when an unstable market, a person’s limited capacity and high-stakes decisions all meet, and the person can no longer make sense of it.</p>
+              <h3 class="duo-h duo-h--label">Why are even capable people struggling right now?</h3>
             </div>
             <div class="plane plane--venn">
               <svg class="md" viewBox="98 48 424 394" preserveAspectRatio="xMinYMid meet" role="img" aria-labelledby="vT vD">
@@ -2409,8 +2421,7 @@ a{color:inherit}
         <div class="duo-col">
           <div class="duo-row">
             <div class="duo-txt">
-              <h3 class="duo-h">Career orientation spans multiple, disconnected domains</h3>
-              <p class="duo-p">When signals don’t connect, users face stress and uncertainty.</p>
+              <h3 class="duo-h duo-h--label">Career orientation spans multiple, disconnected domains</h3>
             </div>
             <div class="quad">
               <div class="quad-card"><svg class="quad-i" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="10" y="10" width="12" height="12" rx="3"/><rect x="26" y="10" width="12" height="12" rx="3" class="qi-on"/><rect x="42" y="10" width="12" height="12" rx="3"/><rect x="10" y="26" width="12" height="12" rx="3"/><rect x="26" y="26" width="12" height="12" rx="3"/><rect x="42" y="26" width="12" height="12" rx="3" class="qi-on"/><rect x="10" y="42" width="12" height="12" rx="3" class="qi-on"/><rect x="26" y="42" width="12" height="12" rx="3"/><rect x="42" y="42" width="12" height="12" rx="3"/></svg><p class="quad-t">Market signals</p></div>
@@ -2422,8 +2433,7 @@ a{color:inherit}
 
           <div class="duo-row">
             <div class="duo-txt">
-              <h3 class="duo-h">Human sense-making under uncertainty</h3>
-              <p class="duo-p">Each dot is a signal arriving. The box is what one person can hold and act on at once, and it is already full. That much volume outside it is normal. What fails is the assumption that someone will sort it.</p>
+              <h3 class="duo-h duo-h--label">Human sense-making under uncertainty</h3>
             </div>
             <div class="sm">
               <div class="sm-legend">
@@ -2535,7 +2545,7 @@ a{color:inherit}
         </div>
 
         <div class="duo-foot">
-          <h3 class="duo-h">Resource links</h3>
+          <h3 class="duo-h duo-h--label">Resource links</h3>
           <ul class="reslinks">
             <li>The Age of Employment Uncertainty — <a href="https://www.apa.org/" target="_blank" rel="noopener">American Psychological Association &#8594;</a></li>
             <li>Fragmented information &amp; sense-making — <a href="https://en.wikipedia.org/wiki/Sensemaking" target="_blank" rel="noopener">Wikipedia &#8594;</a></li>
@@ -2613,7 +2623,7 @@ a{color:inherit}
 
       <div class="duo-row duo-row--wide">
         <div class="duo-txt">
-          <h3 class="duo-h">What each section may and may not do</h3>
+          <h3 class="duo-h duo-h--label">What each section may and may not do</h3>
         </div>
           <table class="devsync">
             <thead><tr><th scope="col">Section</th><th scope="col">Responsible for</th><th scope="col">Not responsible for</th></tr></thead>
