@@ -3329,7 +3329,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
   <div class="cs-body" id="read">
 
     <section class="sec" id="s1" data-bar="The problem" aria-labelledby="s1h">
-      <h2 class="sec-label" id="s1h">The model drifts, and nothing on screen changes.</h2>
+      <h2 class="sec-label" id="s1h">AI chat answers can drift into wrong advice, and nothing on screen warns you.</h2>
 
       <figure class="dgm dgm--tall">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v2t"><svg class="v-min" style="--v-min:560px" viewBox="0 0 760 460" role="img" aria-labelledby="v2t v2d">
@@ -3378,7 +3378,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     </section>
 
     <section class="sec" id="s2" data-bar="The research" aria-labelledby="s2h">
-      <h2 class="sec-label" id="s2h">About four-fifths of the project was research.</h2>
+      <h2 class="sec-label" id="s2h">84% said the judgment is theirs, yet research shows people trust confident AI anyway.</h2>
 
 <figure class="rfig" id="R1">
  <p class="fk">Fig. R1</p><h3 class="ft">Time</h3>
@@ -3392,7 +3392,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 <figure class="rfig" id="R2">
  <p class="fk">Fig. R2 · n = 83 (Hungarian 71, English 12)</p><h3 class="ft">Survey</h3>
  <div class="tiles">
-<div class="tile r2-tile"><p class="tk">Losing track in long chats</p><p class="r2-num">1.94<small> of 5</small></p><p class="r2-line">People rarely lose track. My starting hypothesis was wrong.</p><div class="r2-mini" role="img" aria-label="Answers from 1, less often, to 5, more often: 29, 22, 13, 6, 0"><i style="--v:1"></i><i style="--v:0.7586206896551724"></i><i style="--v:0.4482758620689655"></i><i style="--v:0.20689655172413793"></i><i style="--v:0"></i></div><p class="r2-ends"><span>less often</span><span>more often</span></p></div>
+<div class="tile r2-tile"><p class="tk">Losing track in long chats</p><p class="r2-num">1.94<small> of 5</small></p><p class="r2-line">People rarely lose track, which reshaped my starting hypothesis.</p><div class="r2-mini" role="img" aria-label="Answers from 1, less often, to 5, more often: 29, 22, 13, 6, 0"><i style="--v:1"></i><i style="--v:0.7586206896551724"></i><i style="--v:0.4482758620689655"></i><i style="--v:0.20689655172413793"></i><i style="--v:0"></i></div><p class="r2-ends"><span>less often</span><span>more often</span></p></div>
 <div class="tile r2-tile"><p class="tk">Who should judge an uncertain answer</p><p class="r2-num">84%</p><p class="r2-line">say the person should, not the AI.</p><div class="r2-split" role="img" aria-label="41 definitely the person, 29 mostly the person, 9 mostly the AI, 4 definitely the AI"><i class="s1" style="flex:41"></i><i class="s2" style="flex:29"></i><i class="s4" style="flex:9"></i><i class="s5" style="flex:4"></i></div><p class="r2-ends"><span>the person</span><span>the AI</span></p></div>
 <div class="tile r2-tile"><p class="tk">Bias and trust</p><p class="r2-num">4.02 <small>vs</small> 2.80</p><p class="r2-line">People expect bias, yet it changes their trust much less.</p><div class="r2-two"><div class="r2-bar" role="img" aria-label="How much they consider bias: 4.02 of 5"><i style="--v:0.8039999999999999"></i></div><span>expected</span><div class="r2-bar" role="img" aria-label="How much it changes their trust: 2.80 of 5"><i style="--v:0.5599999999999999"></i></div><span>moves trust</span></div></div>
 <div class="tile r2-tile"><p class="tk">A gentle real-time signal</p><p class="r2-num">66%</p><p class="r2-line">find it useful. A third were neutral or against.</p><div class="r2-split" role="img" aria-label="29 useful, 25 useful for some topics, 17 neutral, 7 distracting, 4 no signals"><i class="s1" style="flex:29"></i><i class="s2" style="flex:25"></i><i class="s3" style="flex:17"></i><i class="s4" style="flex:7"></i><i class="s5" style="flex:4"></i></div><p class="r2-ends"><span>useful</span><span>against</span></p></div>
@@ -3407,7 +3407,6 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
             <p>The survey tested my first idea before I built on it. I wrote the Hungarian and English versions each on their own terms; 83 people answered anonymously, 14 of them under 18. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke my hypothesis; the next one set the rule the whole design follows.</p>
           </div>
         </details>
-        <p>84% said the final judgment belongs to the person. Research on automation bias shows we defer to confident systems anyway.</p>
         <p class="dec-p"><span class="dec-lab">The decision</span>Chose to design for the gap between the judgment people claim and the one they give away, over designing for attention in long chats, because the survey showed people rarely lose track but defer to confident systems anyway. Cost: <span class="dec-cost">a third were neutral or against any signal, so it has to stay silent most of the time</span>.</p>
       </div>
 
@@ -3455,7 +3454,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     </section>
 
     <section class="sec" id="s3" data-bar="The system" aria-labelledby="s3h">
-      <h2 class="sec-label" id="s3h">The system</h2>
+      <h2 class="sec-label" id="s3h">So I designed a signal inside the chat app that flags made-up, flattering or overconfident answers.</h2>
 
       <div class="sec-copy">
         <p class="dec-p"><span class="dec-lab">The decision</span>Chose to report only the model’s half of an answer, made-up answers, flattery and misplaced confidence, over flagging the person’s own biases too, because a signal can’t report someone’s own bias to them. Cost: <span class="dec-cost">five outcomes get lighter, but four keep their full weight</span>.</p>
@@ -3690,10 +3689,10 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     </section>
 
     <section class="sec" id="s4" data-bar="The design" aria-labelledby="s4h">
-      <h2 class="sec-label" id="s4h">How can we make multi-sensory feedback noticeable without interrupting the flow?</h2>
+      <h2 class="sec-label" id="s4h">Each warning reaches two senses, colour and vibration, so it is noticed without startling anyone.</h2>
 
       <div class="sec-copy">
-        <p>Every warning reaches at least two senses, each set between missed and startling: a tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
+        <p>A tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
       </div>
 
       <figure class="dgm dgm--tall v5">
@@ -3740,15 +3739,15 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
             <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength. Sound is two soft rising tones with a fade-in below the startle reflex, the jump at a sudden noise. They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
-            <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap: a cue that explains itself puts words in front of the answer.</p>
-            <p>The words carry as much care as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
+            <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap, because a cue that explains itself puts words in front of the answer.</p>
+            <p>I chose the words as carefully as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
           </div>
         </details>
       </div>
     </section>
 
     <section class="sec" id="s5" data-bar="The prototype" aria-labelledby="s5h">
-      <h2 class="sec-label" id="s5h">Six scripted conversations on the real classifier.</h2>
+      <h2 class="sec-label" id="s5h">I built a working prototype, and testing it made it safer: support for people in distress now triggers sooner.</h2>
 
       <div class="sec-copy">
         <p>The first is the migraine conversation from the top of the page. As the person pushes, the layer goes calm, calm, caution at the hypothetical dose, then a warning at the double one. No signal is set by hand.</p>
@@ -3769,13 +3768,13 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
     </section>
 
     <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
-      <h2 class="sec-label" id="s6h">The signal works in scripted conversations. Whether anyone slows down is untested.</h2>
+      <h2 class="sec-label" id="s6h">It works in scripted tests, and a usability test with real people comes next.</h2>
 
       <figure class="dgm dgm--claim v9">
         <div class="claim">
           <div class="claim-c is-m"><h4>Measured</h4><p>what it does</p></div>
           <div class="claim-c is-a"><h4>Argued</h4><p>why it’s shaped this way</p></div>
-          <div class="claim-c is-u"><h4>Unproven</h4><p>that anyone checks more</p></div>
+          <div class="claim-c is-u"><h4>Next to test</h4><p>whether people check more</p></div>
         </div>
         <table class="v9-grid">
           <thead><tr><td></td><th scope="col">Flagged</th><th scope="col">Not flagged</th></tr></thead>
@@ -3788,12 +3787,12 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </figure>
 
       <div class="sec-copy">
-        <p>I designed for attention first and had the system explain itself. The data corrected both.</p>
+        <p>I designed for attention first and had the system explain itself. The data sharpened both.</p>
         <details class="more">
-          <summary><span>Read more</span><span class="more-what"> · what the data corrected</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <summary><span>Read more</span><span class="more-what"> · what the data sharpened</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <div class="more-b">
             <p>Two survey questions leaned toward the answers I hoped for: one mixed accountability with the work of being careful, the other described the idea at its gentlest. I read their results as upper bounds; the test measures behaviour instead.</p>
-            <p>Running the prototype overruled my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
+            <p>Running the prototype refined my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
           </div>
         </details>
         <p>Next is a short usability test: a 10-minute online study with 20–30 people. Two groups see the same eight AI answers, four right and four wrong; one group also sees the signal. I’ll measure how often people act on a wrong answer and how often they ignore a right one, then whether they noticed the signal, understood it, and found it in the way. It’s a pilot, so I’ll report the raw counts, not significance. Later, a field pilot will measure one number: how many people switch it off after two weeks.</p>
