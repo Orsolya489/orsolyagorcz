@@ -270,3 +270,82 @@ img[data-loading]{color:transparent;background-color:var(--recess);
   --glass:rgba(255,255,255,.96);
   --surface-card:#FFFFFF; --fill-hover:rgba(0,0,0,.10)
 }
+
+/* ═══ case studies: every visual sits in a frame ═══
+   The same recess the home cards put behind their diagrams: --recess, a fine
+   square ruling in --lattice, a thin ink wash and a soft inner shadow. Every
+   frame is as wide as Mindure's comparison sliders - the full content width
+   less 3cm, centred - and goes edge to edge on a phone. A frame may hold
+   several visuals that make one argument; a visual carrying a lot of text gets
+   its own.
+   On this ground --muted measures 4.3:1, under the 4.5:1 AA floor for body-size
+   text, so inside a frame it steps down to #5E5356 (5.2:1), and --line-soft to
+   #817775 (3.3:1, over the 3:1 floor for graphics). High contrast keeps its own
+   values and drops the ruling for a single firm edge. */
+.cs-body .sec > .vframe{grid-column:1 / -1;justify-self:center;width:calc(100% - 3cm);min-width:0;
+  margin:var(--section,64px) 0 0;position:relative;border-radius:var(--r-lg,16px);
+  padding:clamp(20px,2.6vw,44px);
+  --muted:#5E5356;--line-soft:#817775;
+  background-color:var(--recess);
+  background-image:
+    linear-gradient(var(--lattice) 1px,transparent 1px),
+    linear-gradient(90deg,var(--lattice) 1px,transparent 1px),
+    linear-gradient(rgba(25,21,23,.03),rgba(25,21,23,.03));
+  background-size:clamp(16px,1.5vw,24px) clamp(16px,1.5vw,24px),clamp(16px,1.5vw,24px) clamp(16px,1.5vw,24px),100% 100%;
+  background-position:center center,center center,0 0;
+  box-shadow:inset 0 0 14px rgba(25,21,23,.09),inset 0 0 0 1px var(--edge)}
+.cs-body .sec > .vframe + .vframe{margin-top:var(--stack,24px)}
+/* what sits inside takes the frame's width and spacing, not the grid's */
+.vframe > *{grid-column:auto;max-width:none;margin-block:0}
+.vframe > * + *{margin-top:clamp(28px,3.4vw,56px)}
+.vframe > .eyebrow-b + *,.vframe > .duo-h--label + *{margin-top:var(--stack,24px)}
+.vframe > .tf-close{margin-top:var(--stack,24px)}
+/* a figure that drew its own card now sits on the frame instead */
+.vframe .dgm{background:none;box-shadow:none;padding:0}
+.vframe .rfig{border-top:0;padding-top:0}
+/* Mindure's paired visuals: one under the other, each with its label */
+.vframe .duo,.vframe .duo-col,.vframe .duo-row{display:block}
+.vframe .duo-col + .duo-col,.vframe .duo-row + .duo-row{margin-top:clamp(28px,3.4vw,56px)}
+.vframe .duo-row > * + *{margin-top:var(--stack,24px)}
+:root[data-contrast="high"] .cs-body .sec > .vframe{--muted:var(--ink);--line-soft:var(--line);
+  background-image:none;box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+@media (max-width:767px){
+  .cs-body .sec > .vframe{width:100%;padding:16px}
+}
+/* Mindure's sliders: the frame is the size the slider was; the slider fills it */
+.vframe .cmp{margin:0}
+.vframe .cmp-stage{width:100%}
+/* Mindure's resource links, now part of the text: a plain stack, not the old grid */
+.sec-copy .duo-foot{display:flex;flex-direction:column;gap:12px}
+.sec-copy .duo-foot > *{grid-column:auto}
+.vframe .cmp-cols{width:100%}
+/* Mindure: one frame, three readings of the problem. The Venn and the
+   sense-making field side by side, the four domains in one line under them;
+   one column on narrow screens */
+@media (min-width:1024px){
+  .vframe .duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(32px,4vw,64px);row-gap:clamp(36px,4vw,64px);align-items:start}
+  .vframe .duo-col{display:contents}
+  .vframe .duo-col + .duo-col,.vframe .duo-row + .duo-row{margin-top:0}
+  .vframe .duo-row:has(.plane--venn){grid-column:1;grid-row:1}
+  .vframe .duo-row:has(.sm){grid-column:2;grid-row:1}
+  .vframe .duo-row:has(> .quad){grid-column:1 / -1;grid-row:2}
+  .vframe .duo-row > .quad{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none}
+  /* the field and its key share half the frame, so both may shrink */
+  .vframe .duo .sm{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);justify-content:stretch;column-gap:clamp(16px,2vw,32px);align-items:center}
+  .vframe .duo .sm .plane--scatter{width:auto;min-width:0}
+}
+
+/* the closing line under a figure was --line-soft, a graphics colour that
+   cannot carry text (3.1:1 here); inside a frame it takes the text grey */
+.vframe .tf-close p{color:var(--muted)}
+/* labels that sit on a connector line mask it with the ground they stand on */
+.vframe .conn b{background:var(--recess)}
+/* a thumbnail of an original image inside a frame: small, framed like a print,
+   its open-full-size button always showing, the caption beside it */
+.vframe .fig--thumb{position:relative;display:flex;align-items:center;gap:var(--stack,24px);
+  width:fit-content;max-width:100%;margin-inline:0}
+.vframe .fig--thumb img{width:clamp(160px,22vw,280px);height:auto;margin:0;border-radius:10px;
+  box-shadow:0 0 0 1px var(--edge-ctrl),0 6px 18px rgba(25,21,23,.10)}
+.vframe .fig--thumb figcaption{margin:0;max-width:24ch;font-size:var(--micro);line-height:1.5;color:var(--muted)}
+.vframe .fig--thumb .zoom{opacity:1;top:8px;right:auto;left:calc(clamp(160px,22vw,280px) - 8px);translate:-100% 0}
+@media (max-width:600px){.vframe .fig--thumb{flex-direction:column;align-items:flex-start}}
