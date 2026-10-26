@@ -387,3 +387,12 @@ img[data-loading]{color:transparent;background-color:var(--recess);
    names the same thing: the version that was accepted */
 .vframe > .eyebrow-b:has(+ .carousel){width:fit-content;margin-inline:0;border:0;
   padding:.3em .9em;border-radius:var(--r-pill,999px);background:var(--ink);color:var(--page)}
+/* Tribe's problem map: its box takes the drawing's own shape instead of the
+   generic plane's, and inside a frame it keeps the frame's spacing, not the
+   section-sized gap it was given on the page */
+@media (min-width:901px){.vframe .plane--map{aspect-ratio:1280 / 500}}
+/* at 900px and under the map scrolls sideways at a legible size, so its box
+   takes the drawing's height; the desktop shape rule was outranking that */
+@media (max-width:900px){.fig .plane--map{aspect-ratio:auto}}
+.vframe > .fig.fig--map:first-child{margin-top:0}
+.vframe > * + .fig.fig--map{margin-top:clamp(28px,3.4vw,56px)}
