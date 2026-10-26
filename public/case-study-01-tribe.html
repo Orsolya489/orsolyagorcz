@@ -1619,6 +1619,9 @@ a{color:inherit}
    Declared after the components themselves so it wins at equal specificity. */
 .dec-p,.devsync,.pushed,.said,.blueprint,.eyebrow-b,.tf-close{
   grid-column:1 / -1;max-width:66ch}
+/* a decision sets its type 1.06x larger, so the same measure in its own ch
+   is 66 / 1.06: it ends where the prose around it ends */
+.dec-p{max-width:62.25ch}
 
 @media (max-width:1023px){
   .cs-body{grid-template-columns:1fr}
@@ -1870,6 +1873,7 @@ a{color:inherit}
   <div class="cs-body" id="read">
 
     <section class="sec" id="s1" data-bar="Overview" aria-labelledby="s1h">
+
       <h2 class="sec-label" id="s1h">Tribe is a social app where AI matches strangers who want to do the same thing, from one prompt instead of a profile.</h2>
 
       <div class="sec-copy">
@@ -1880,6 +1884,7 @@ a{color:inherit}
       <!-- three human states between intent and connection, each mapped to the
            design response it earned - the interaction-gap diagram's own content,
            set as HTML rather than left as a picture of it -->
+
       <div class="gap-cards" role="group" aria-label="Three human states and their design responses">
         <div class="gap-card">
           <p class="gap-t">Intent + vulnerability</p>
@@ -1899,17 +1904,22 @@ a{color:inherit}
           <span class="gap-pill">→ XAI confidence badges</span>
         </div>
       </div>
+
     </section>
 
     <section class="sec" id="s2" data-bar="Problem framing" aria-labelledby="s2h">
+
       <h2 class="sec-label" id="s2h">Other social apps compete for attention. Tribe needed people to trust its AI enough to type honestly.</h2>
+
       <div class="sec-copy">
         <p class="sec-lede">The brief was an intent-based social network for Budapest. Once I had mapped the competitors, the real question was how to get someone to type what they actually want, unedited, into a field that matches them with strangers.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose intent-first (one prompt, no profile) over engagement-first (profiles, browse, swipe), because people needed a safer way to connect, not more time in the app. Cost: <span class="dec-cost">managed friction: a harder first screen than a profile grid</span>.</p>
       </div>
 
       <!-- Both tracks, both KPIs and both friction lines are the source page's
            own words. Drawn on one canvas at one scale, because the argument is
            that the second track carries on where the first one stops. -->
+
       <div class="versus">
         <div class="arch-side is-market">
           <p class="vs-e">The market</p>
@@ -1941,14 +1951,13 @@ a{color:inherit}
         </div>
       </div>
 
-      <p class="dec-p"><span class="dec-lab">The decision</span>Chose intent-first (one prompt, no profile) over engagement-first (profiles, browse, swipe), because people needed a safer way to connect, not more time in the app. Cost: <span class="dec-cost">managed friction: a harder first screen than a profile grid</span>.</p>
-
       <!-- The framework as a map rather than a table: one problem on the left,
            the five things a person feels fanning out of it, each running across
            to what the system does about it, and the five responses converging
            into the outcome. Set in the same hairline vocabulary as the other
            diagrams - dashed for a relationship, solid for the path that matters,
            ink for the pair the product turns on. -->
+
       <figure class="fig fig--map">
         <div class="plane plane--map">
           <svg class="pmap" viewBox="0 0 1280 500" role="img" aria-labelledby="pmT pmD">
@@ -2018,32 +2027,41 @@ a{color:inherit}
         <p>The search box is a psychological safety problem.</p>
         <p>So Tribe is designed for the moment before someone types the query.</p>
       </div>
+
     </section>
 
     <section class="sec" id="s3" data-bar="Research" aria-labelledby="s3h">
+
       <h2 class="sec-label" id="s3h">Using human factors, I mapped the three moments where people feel exposed, before designing any screen.</h2>
+
       <div class="sec-copy">
         <p class="sec-lede">I used human factors as the frame. The interaction gap diagram was my first deliverable: it gives each of the three states a design response, and it became the brief for every decision after it.</p>
         <p class="hmw">“The product’s job is psychological safety — enough of it that someone types the thing they actually want.”</p>
       </div>
+
       <figure class="fig">
         <img src="tribe/Human-AI_Interaction_gap_design_solutions.webp" width="5160" height="2862" loading="lazy" decoding="async"
              alt="Human-AI interaction gap — three vulnerability states mapped to design responses: Smart Echo Input, XAI teachable wait, XAI confidence badges">
       </figure>
+
     </section>
 
     <section class="sec" id="s4" data-bar="System logic" aria-labelledby="s4h">
+
       <h2 class="sec-label" id="s4h">I designed the failure states first, no match and exit, because that is where trust breaks.</h2>
+
       <div class="sec-copy">
         <p class="sec-lede">Each decision answers one moment where trust could break before it has formed.</p>
         <p>The edge cases carried the most weight: the no-match screen, the breathe chat and the safety exit.</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to design the fallbacks before the happy path, over finalising the happy-path UI first, because the edge cases decide the product’s character. Cost: <span class="dec-cost">slower to a first screen anyone could look at</span>.</p>
       </div>
-      <p class="dec-p"><span class="dec-lab">The decision</span>Chose to design the fallbacks before the happy path, over finalising the happy-path UI first, because the edge cases decide the product’s character. Cost: <span class="dec-cost">slower to a first screen anyone could look at</span>.</p>
 
       <!-- Moved out of the masthead. It answers "how does this work", which is
            a later question than "what is this" - and the masthead now answers
            the earlier one with the product itself. -->
+
       <figure class="fig fig--system">
+
       <!-- Rebuilt as a three-lane architecture view, replacing the single-row
            "five stages" reading. That row put a human state (validation gap /
            privacy hesitation) in the same visual class as backend mechanisms
@@ -2059,6 +2077,7 @@ a{color:inherit}
            a human-layer event again, not a system one - the arrow into it
            comes from below because trust is earned by what surfaces, not
            computed directly. -->
+
       <div class="plane plane--path"><svg class="s2" viewBox="0 -5 1690 690" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="s3t s3d">
         <title id="s3t">How intent becomes a meetup, across three layers</title>
         <desc id="s3d">A three-lane architecture diagram. The human layer runs left to right: intent input, privacy hesitation, calibrated trust, real-world meetup. The UI layer runs beneath it: prompt field, validation signal, progressive disclosure. The system layer runs beneath that: NLP engine, semantic matching. Intent input drops down to prompt field; privacy hesitation drops down to validation signal; validation signal drops down to the NLP engine. Semantic matching rises up into progressive disclosure, which itself rises up into calibrated trust - the only two upward arrows in the diagram, showing the system's result surfacing back to the person.</desc>
@@ -2140,19 +2159,32 @@ a{color:inherit}
         <img src="tribe/Functional_Sitemap___User_Flow_Hybrid_method.webp" width="5345" height="3068" alt="Functional sitemap and user flow hybrid — full IA, screen states, decision points, and safety exit branches" loading="lazy" decoding="async">
         <figcaption>A sitemap and user flow in one. I mapped every screen state, decision point and safety exit before any visual design.</figcaption>
       </figure>
+
       <figure class="fig">
         <img src="tribe/happypath-fallback.webp" width="6045" height="2930" alt="Core happy path — 10 screens from home to post-meet feedback, plus three fallback states: no match, match declined, all matches exhausted" loading="lazy" decoding="async">
         <figcaption>The core happy path (screens 1–10) and three fallback states, with the key states noted for each screen.</figcaption>
       </figure>
+
     </section>
 
     <section class="sec" id="s5" data-bar="Solutions" aria-labelledby="s5h">
+
       <h2 class="sec-label" id="s5h">I won the case for live checks on what people type, because the AI can only match clear intent.</h2>
+
       <div class="sec-copy">
         <p class="sec-lede">I designed three generations of input validation. The developers raised two concerns, that the redundancies risked misreading people and that the API calls cost too much. Gen 3 answered both and was accepted once I made the case for it, and the match logic, processing states and safety exits were built around it.</p>
         <p class="hmw">How might we teach users what’s needed for prompting that leads to better match quality?</p>
+        <p class="dec-p"><span class="dec-lab">The decision</span>Chose Gen 3, real-time NLP chip validation, over Gen 2, AI metadata extraction, because match quality is the entire product bet: vague input, bad matches, no Tribe. Cost: <span class="dec-cost">harder to build, and it took a clear case to get it accepted</span>.</p>
+        <p>Each of the four failure modes gets its own message. The one for offensive input doesn’t scold the person who typed it.</p>
+        <h3>Users can have only one chat at a time, so I designed two safe ways to leave.</h3>
+        <p>I limited it on purpose, because people take a single chat more seriously: when choices are limited, people value what they have.</p>
+        <p>The two exits are the Breathe Chat, a 24-hour pause, and the Safety Exit. Without them, a single chat would be a trap. It is also a bet against dopamine loops: no infinite scroll and no variable reward.</p>
+        <p>Once the wireframes, structures, user flows, design system and core features were prototyped, we decided to continue the build with vibe coding.</p>
+        <p>I built Tribe’s design system too. The full spec:</p>
       </div>
+
       <p class="eyebrow-b">Input validation — three generations</p>
+
       <div class="gens">
         <div class="gen">
           <img class="shot" src="tribe/Gen1-%20manual%20tags%20added%20by%20the%20user.webp" width="430" height="932" loading="lazy" decoding="async"
@@ -2203,9 +2235,8 @@ a{color:inherit}
         </tbody>
       </table>
 
-      <p class="dec-p"><span class="dec-lab">The decision</span>Chose Gen 3, real-time NLP chip validation, over Gen 2, AI metadata extraction, because match quality is the entire product bet: vague input, bad matches, no Tribe. Cost: <span class="dec-cost">harder to build, and it took a clear case to get it accepted</span>.</p>
-
       <p class="eyebrow-b">Accepted version — chip validation in action</p>
+
       <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Chip validation — 9 states">
         <div class="car-top">
           <span class="car-label">Chip validation — 9 states</span>
@@ -2243,11 +2274,9 @@ a{color:inherit}
           <tr><th scope="row">Misspelling, as in <em>sqashing</em></th><td data-l="What it says">“Did you mean squashing?”</td></tr>
         </tbody>
       </table>
-      <div class="sec-copy">
-        <p>Each of the four failure modes gets its own message. The one for offensive input doesn’t scold the person who typed it.</p>
-      </div>
 
       <p class="eyebrow-b">Processing → match — decision flow</p>
+
       <div class="flow">
         <div class="flow-row flow-row--one">
           <div class="flow-node flow-node--l">
@@ -2316,12 +2345,6 @@ a{color:inherit}
           </div>
           </div>
         </div>
-      </div>
-
-      <div class="sec-copy copy-2">
-        <h3>Users can have only one chat at a time, so I designed two safe ways to leave.</h3>
-        <p>I limited it on purpose, because people take a single chat more seriously: when choices are limited, people value what they have.</p>
-        <p>The two exits are the Breathe Chat, a 24-hour pause, and the Safety Exit. Without them, a single chat would be a trap. It is also a bet against dopamine loops: no infinite scroll and no variable reward.</p>
       </div>
 
       <div class="flow">
@@ -2395,10 +2418,7 @@ a{color:inherit}
           </div>
         </div>
       </div>
-      <div class="sec-copy">
-        <p>Once the wireframes, structures, user flows, design system and core features were prototyped, we decided to continue the build with vibe coding.</p>
-        <p>I built Tribe’s design system too. The full spec:</p>
-      </div>
+
       <div class="spec-grid">
         <a class="spec-tile" href="/tribe/spec/preview-design-system.webp" target="_blank" rel="noopener">
           <span class="spec-shot" style="--fx:2%;--fy:9%;--z:1.5"><img src="/tribe/spec/preview-design-system.webp" width="2000" height="1220" loading="lazy" decoding="async" alt="Tribe design system: typography scale, corner radius, the four brand colours and the icon set."></span>
@@ -2425,10 +2445,21 @@ a{color:inherit}
           <span class="spec-name">Annotated wireframes <span aria-hidden="true">↗</span></span>
         </a>
       </div>
+
     </section>
 
     <section class="sec" id="s6" data-bar="Reflection" aria-labelledby="s6h">
+
+      <h2 class="sec-label" id="s6h">The design moved into a vibe-coded build. Next time I’d bring in real users earlier, so their answers shape the input checks.</h2>
+
+      <div class="sec-copy">
+        <p class="sec-lede">I would send a questionnaire before drawing any screen. I would still push back on anything that doesn’t serve the user, because every constraint that survived the dev sync had a human reason behind it.</p>
+        <p>The one metric I would track is how prompt quality relates to match quality. Whether the two move together would tell me if the core idea holds.</p>
+
+      </div>
+
       <!-- the verdict on the work, at the head of the section that reflects on it -->
+
       <div class="said">
         <blockquote>
           <p>“This is very, very high level. I like it a lot.”</p>
@@ -2439,16 +2470,11 @@ a{color:inherit}
           <cite>— AI Engineer &amp; Neuroscientist, Tribe</cite>
         </blockquote>
       </div>
-      <h2 class="sec-label" id="s6h">The design moved into a vibe-coded build. Next time I’d bring in real users earlier, so their answers shape the input checks.</h2>
-      <div class="sec-copy">
-        <p class="sec-lede">I would send a questionnaire before drawing any screen. I would still push back on anything that doesn’t serve the user, because every constraint that survived the dev sync had a human reason behind it.</p>
-        <p>The one metric I would track is how prompt quality relates to match quality. Whether the two move together would tell me if the core idea holds.</p>
-
-      </div>
 
       <!-- the heading belongs to the table, not to the copy above it: it names
            what the table is, and the eyebrow marks it as proposed rather than
            performed - the distinction the source page draws -->
+
       <div class="blueprint">
         <h3>
           <button class="bp-toggle" id="bpBtn" aria-expanded="false" aria-controls="bpPanel">
@@ -2461,6 +2487,7 @@ a{color:inherit}
         </h3>
         <div class="bp-panel" id="bpPanel" data-open="false" role="region" aria-labelledby="bpBtn">
           <div class="bp-inner">
+
       <table class="phases">
         <thead>
           <tr>

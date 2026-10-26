@@ -28,7 +28,14 @@
   <div class="cs-body" id="read">
 
     <section class="sec" id="s1" data-bar="The problem" aria-labelledby="s1h">
+
       <h2 class="sec-label" id="s1h">AI chat answers can drift into wrong advice, and nothing on screen warns you.</h2>
+
+      <div class="sec-copy">
+        <p>Deep into a conversation that matters, a model can drop a constraint or agree with an assumption you were only testing, and each step reads as help.</p>
+        <p>Cars solve a version of this. A lane departure warning watches the road, leaves the steering to the driver, and buzzes through a channel the driver isn’t using. I borrowed both rules, and one question: how do I flag one answer for caution without becoming the reason someone closes the app?</p>
+        <p>Most of the project was research, before I drew anything: a survey of 83 people, then reading across five fields.</p>
+      </div>
 
       <figure class="dgm dgm--tall">
         <div class="dgm-scroll" tabindex="0" role="group" aria-labelledby="v2t"><svg class="v-min" style="--v-min:560px" viewBox="0 0 760 460" role="img" aria-labelledby="v2t v2d">
@@ -67,25 +74,13 @@
         <figcaption>Belief forms between the answer landing and the reading. A cue after that comes too late, like a sign after the bend.</figcaption>
       </figure>
 
-      <div class="sec-copy">
-        <p>Deep into a conversation that matters, a model can drop a constraint or agree with an assumption you were only testing, and each step reads as help.</p>
-      </div>
+{{R1}}
 
-      <div class="sec-copy">
-        <p>Cars solve a version of this. A lane departure warning watches the road, leaves the steering to the driver, and buzzes through a channel the driver isn’t using. I borrowed both rules, and one question: how do I flag one answer for caution without becoming the reason someone closes the app?</p>
-      </div>
     </section>
 
     <section class="sec" id="s2" data-bar="The research" aria-labelledby="s2h">
+
       <h2 class="sec-label" id="s2h">84% said the judgment is theirs, yet research shows people trust confident AI anyway.</h2>
-
-{{R1}}
-
-      <div class="sec-copy">
-        <p>Most of the project was research, before I drew anything: a survey of 83 people, then reading across five fields.</p>
-      </div>
-
-{{R2}}
 
       <div class="sec-copy">
         <details class="more">
@@ -94,29 +89,34 @@
             <p>The survey tested my first idea before I built on it. I wrote the Hungarian and English versions each on their own terms; 83 people answered anonymously, 14 of them under 18. Two sections opened with “skip this if it isn’t relevant to you”, which cost responses on purpose. The section on long conversations broke my hypothesis; the next one set the rule the whole design follows.</p>
           </div>
         </details>
-        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to design for the gap between the judgment people claim and the one they give away, over designing for attention in long chats, because the survey showed people rarely lose track but defer to confident systems anyway. Cost: <span class="dec-cost">a third were neutral or against any signal, so it has to stay silent most of the time</span>.</p>
-      </div>
-
-{{R3}}
-
-      <div class="sec-copy">
+        <div class="dec" role="note" aria-label="The decision"><p class="dec-lab">The decision</p><div class="dec-i"><p class="dec-what"><span>What</span>Design for the gap between the judgment people claim and the judgment they hand over.</p><p class="dec-why"><span>Why</span>People rarely lose track in long chats, yet research shows they defer to confident answers.</p></div></div>
         <p>Two-thirds found a gentle real-time signal useful, at its gentlest. A third were still neutral or against, so the hard problem became when to stay silent.</p>
-      </div>
-
-{{R4}}
-
-      <div class="sec-copy">
         <p>A survey shows what people believe about themselves, not why a confident wrong answer gets believed, so I read across five fields.</p>
       </div>
 
+{{R2}}
+
+{{R3}}
+
+{{R4}}
+
 {{R5}}
+
     </section>
 
     <section class="sec" id="s3" data-bar="The system" aria-labelledby="s3h">
+
       <h2 class="sec-label" id="s3h">So I designed a signal inside the chat app that flags made-up, flattering or overconfident answers.</h2>
 
       <div class="sec-copy">
-        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to report only the model’s half of an answer, made-up answers, flattery and misplaced confidence, over flagging the person’s own biases too, because a signal can’t report someone’s own bias to them. Cost: <span class="dec-cost">five outcomes get lighter, but four keep their full weight</span>.</p>
+        <div class="dec" role="note" aria-label="The decisions"><p class="dec-lab">The decisions</p><div class="dec-i"><p class="dec-what"><span>What</span>Flag only the model’s side of an answer: made-up answers, flattery and misplaced confidence.</p><p class="dec-why"><span>Why</span>A signal can’t report someone’s own bias back to them.</p></div><div class="dec-i"><p class="dec-what"><span>What</span>Build it into the chat app, over a plugin or a phone overlay.</p><p class="dec-why"><span>Why</span>A plugin runs only when the model calls it, and iPhone blocks overlays.</p></div></div>
+        <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · why agreement reads as confidence</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree, like witnesses repeating the same rumour.</p>
+          </div>
+        </details>
       </div>
 
       <figure class="dgm dgm--frame v10">
@@ -132,17 +132,6 @@
         </div>
         <figcaption>Five outcomes get lighter. Four keep their full weight, because a signal can’t unsend a message.</figcaption>
       </figure>
-
-      <div class="sec-copy">
-        <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
-        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to build the layer into apps made on these models, over a plugin or a phone overlay, because a plugin runs only when the model calls it, so the system being checked would decide when it gets checked, and an overlay is blocked on iPhone. Cost: <span class="dec-cost">it only reaches people where an app owner builds it in</span>.</p>
-        <details class="more">
-          <summary><span>Read more</span><span class="more-what"> · why agreement reads as confidence</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="more-b">
-            <p>The layer asks the model the same question three times. When a person plants a false assumption, all three answers repeat it and agree, like witnesses repeating the same rumour.</p>
-          </div>
-        </details>
-      </div>
 
       <figure class="dgm v11-fig">
         <div class="v11">
@@ -177,15 +166,27 @@
         </table>
         <figcaption>Each row is a limit that shaped a decision.</figcaption>
       </figure>
+
     </section>
 
 {{ROAD}}
 
     <section class="sec" id="s4" data-bar="The design" aria-labelledby="s4h">
+
       <h2 class="sec-label" id="s4h">Each warning reaches two senses, colour and vibration, so it is noticed without startling anyone.</h2>
 
       <div class="sec-copy">
         <p>A tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
+
+        <div class="dec" role="note" aria-label="The decisions"><p class="dec-lab">The decisions</p><div class="dec-i"><p class="dec-what"><span>What</span>A calm support mode for someone in crisis, over an alarm.</p><p class="dec-why"><span>Why</span>A warning tone is the wrong response to someone in distress.</p></div><div class="dec-i"><p class="dec-what"><span>What</span>Vibration stays on, and sound is the only switch.</p><p class="dec-why"><span>Why</span>Sound plays only when an answer may be wrong, so other warnings would reach just one sense.</p></div></div>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength. Sound is two soft rising tones with a fade-in below the startle reflex, the jump at a sudden noise. They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
+            <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap, because a cue that explains itself puts words in front of the answer.</p>
+            <p>I chose the words as carefully as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
+          </div>
+        </details>
       </div>
 
       <figure class="dgm dgm--tall v5">
@@ -207,9 +208,6 @@
         <figcaption>The more danger, the more senses, all at once.</figcaption>
       </figure>
 
-      <div class="sec-copy">
-      </div>
-
       <figure class="dgm v6-fig">
         <div class="v6">
           <ul class="orbs" aria-label="Orb states">
@@ -225,21 +223,10 @@
         <figcaption>A switch appears only where there is a real choice.</figcaption>
       </figure>
 
-      <div class="sec-copy">
-        <p class="dec-p"><span class="dec-lab">The decision</span>Chose a calm support mode over an alarm for someone in crisis, because a tone is the wrong response to someone in distress: the helplines open beside the answer, and the phone stays still and silent. Cost: <span class="dec-cost">it fires on softer language, so it will sometimes appear when it isn’t needed</span>.</p>
-        <p class="dec-p"><span class="dec-lab">The decision</span>Chose to keep vibration on whenever the layer is on and give sound the only switch, over “keep any two channels on”, because sound plays only when an answer might be wrong, so a warning about flattery would reach a single sense. Cost: <span class="dec-cost">someone who can’t tolerate vibration has only Pause and Off</span>.</p>
-        <details class="more">
-          <summary><span>Read more</span><span class="more-what"> · how each sense was tuned</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="more-b">
-            <p>Colour is a tint rising from the bottom edge, paired with a shape and words. Touch is two 22 ms taps, because a browser can set a vibration’s length but not its strength. Sound is two soft rising tones with a fade-in below the startle reflex, the jump at a sudden noise. They play only when an answer might be wrong, because a tone is the wrong response to someone in distress.</p>
-            <p>The orb turns once at the start of a conversation, as a self-test, then stays still. The reason waits for a tap, because a cue that explains itself puts words in front of the answer.</p>
-            <p>I chose the words as carefully as the colours. Every headline describes what the answer did, never the person: “The answer takes the user’s side after hearing only their account.” The layer never reports on the person; it can help them report the answer, and it sends nothing they haven’t seen.</p>
-          </div>
-        </details>
-      </div>
     </section>
 
     <section class="sec" id="s5" data-bar="The prototype" aria-labelledby="s5h">
+
       <h2 class="sec-label" id="s5h">I built a working prototype, and testing it made it safer: support for people in distress now triggers sooner.</h2>
 
       <div class="sec-copy">
@@ -258,10 +245,24 @@
         </div>
         <a class="proto-link" href="/signal/reliability-signal-embed" target="_blank" rel="noopener">Open the prototype</a>
       </figure>
+
     </section>
 
     <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
+
       <h2 class="sec-label" id="s6h">It works in scripted tests, and a usability test with real people comes next.</h2>
+
+      <div class="sec-copy">
+        <p>I designed for attention first and had the system explain itself. The data sharpened both.</p>
+        <details class="more">
+          <summary><span>Read more</span><span class="more-what"> · what the data sharpened</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <p>Two survey questions leaned toward the answers I hoped for: one mixed accountability with the work of being careful, the other described the idea at its gentlest. I read their results as upper bounds; the test measures behaviour instead.</p>
+            <p>Running the prototype refined my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
+          </div>
+        </details>
+        <p>Next is a short usability test: a 10-minute online study with 20–30 people. Two groups see the same eight AI answers, four right and four wrong; one group also sees the signal. I’ll measure how often people act on a wrong answer and how often they ignore a right one, then whether they noticed the signal, understood it, and found it in the way. It’s a pilot, so I’ll report the raw counts, not significance. Later, a field pilot will measure one number: how many people switch it off after two weeks.</p>
+      </div>
 
       <figure class="dgm dgm--claim v9">
         <div class="claim">
@@ -279,17 +280,6 @@
         <figcaption>Four kinds of answer, one question each.</figcaption>
       </figure>
 
-      <div class="sec-copy">
-        <p>I designed for attention first and had the system explain itself. The data sharpened both.</p>
-        <details class="more">
-          <summary><span>Read more</span><span class="more-what"> · what the data sharpened</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <div class="more-b">
-            <p>Two survey questions leaned toward the answers I hoped for: one mixed accountability with the work of being careful, the other described the idea at its gentlest. I read their results as upper bounds; the test measures behaviour instead.</p>
-            <p>Running the prototype refined my notes too. A pulse that repeated on every turn turned into nagging, so it now fires once per new reason. And the colour step between calm and caution measured 1.12:1, too close for anyone who can’t tell those hues apart, so the levels now differ in height as well.</p>
-          </div>
-        </details>
-        <p>Next is a short usability test: a 10-minute online study with 20–30 people. Two groups see the same eight AI answers, four right and four wrong; one group also sees the signal. I’ll measure how often people act on a wrong answer and how often they ignore a right one, then whether they noticed the signal, understood it, and found it in the way. It’s a pilot, so I’ll report the raw counts, not significance. Later, a field pilot will measure one number: how many people switch it off after two weeks.</p>
-      </div>
     </section>
 
   </div>
