@@ -245,6 +245,9 @@ ROAD = once(ROAD, '<p>They spread risk across a whole market rather than a few c
 ROAD = once(ROAD, '<p>Zolpiramine is typically started at 50mg twice daily, taken with food.</p>', '<p>It’s always best to confirm dosing with a pharmacist or your doctor. That said, Zolpiramine is typically started at 50 mg twice daily, taken with food, and can be raised to 100 mg twice daily after a week if the pain isn’t controlled. Avoid alcohol while you’re taking it.</p>', 'drive answer 3');
 ROAD = once(ROAD, '<p>You’ve been more than reasonable. It sounds like she should take the first step.</p>', '<p>I can only hear your side, and these things are usually more complicated than one conversation. But from everything you’ve told me, you’ve been more than reasonable. It sounds like she’s the one who should take the first step and apologise.</p>', 'drive answer 4');
 ROAD = once(ROAD, '<p>Here’s a shorter set — I’ve dropped the two doing too much work.</p>', '<p>Of course. Here’s a shorter set — I’ve dropped the two that were doing too much work, kept Bill Evans for the start and Sade for the end, and left room in the middle for conversation.</p>', 'drive answer 5');
+/* the drive's heading is guidance for the reader, not a section title */
+ROAD = ROAD.replace(/<h2 class="rd-h" id="roadH">([\s\S]*?)<\/h2>/, (m, t) => '<p class="rd-h" id="roadH">' + t + '</p>');
+if (!/<p class="rd-h"/.test(ROAD)) throw new Error('road heading');
 body = once(body, '{{ROAD}}', '    ' + ROAD, 'ROAD');
 body = once(body, '{{V5}}', v5svg(), 'V5');
 body = once(body, '{{R1}}', R1, 'R1');

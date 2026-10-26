@@ -318,3 +318,29 @@
 /* two columns: the card reaches out by its own padding, so the writing inside
    starts and ends on the same lines as every paragraph in the column */
 @media (min-width:1024px){.sec-copy .dec{margin-inline:calc(var(--gutter)*-1.1);max-width:none;width:auto}}
+
+/* the drive: framed like every other visual, at the same width, with its
+   heading turned into guidance above the frame. The pinned stage is the frame,
+   so the road stays on screen while the page scrolls past it. Its fades take the
+   frame's ground, and the muted greys step down as in every frame. */
+.road{grid-template-columns:1fr;row-gap:var(--stack)}
+.rd-head,.rd-scroll{grid-column:1;width:calc(100% - 3cm);margin-inline:auto}
+.rd-head{position:static;padding-bottom:0}
+.rd-h{font-family:var(--sans);font-weight:400;font-size:var(--body);line-height:1.6;color:var(--body-c);max-width:60ch}
+.rd-stage{border-radius:var(--r-lg,16px);--muted:#5E5356;--line-soft:#817775;
+  background-color:var(--recess);
+  background-image:
+    linear-gradient(var(--lattice) 1px,transparent 1px),
+    linear-gradient(90deg,var(--lattice) 1px,transparent 1px),
+    linear-gradient(rgba(25,21,23,.03),rgba(25,21,23,.03));
+  background-size:clamp(16px,1.5vw,24px) clamp(16px,1.5vw,24px),clamp(16px,1.5vw,24px) clamp(16px,1.5vw,24px),100% 100%;
+  background-position:center center,center center,0 0;
+  box-shadow:inset 0 0 14px rgba(25,21,23,.09),inset 0 0 0 1px var(--edge)}
+.rd-stage::before{background:linear-gradient(var(--recess),transparent)}
+:root[data-contrast=high] .rd-stage{--muted:var(--ink);--line-soft:var(--line);background-image:none;box-shadow:inset 0 0 0 1px var(--edge-ctrl)}
+@media (max-width:767px){.rd-head,.rd-scroll{width:100%}}
+/* inside the frame the conversation keeps the frame's inner margin */
+@media (min-width:768px){#road .rd-stage .rd-rail{left:clamp(20px,2.6vw,44px)}}
+/* the road stops short of the frame's right edge, by the frame's own margin */
+@media (min-width:768px){#road .rd-stage .rd-lanes{right:clamp(28px,4.2vw,64px)}
+  #road .rd-stage .rd-rail{left:clamp(28px,4.2vw,64px);right:calc(var(--road-w) + var(--gutter) + clamp(28px,4.2vw,64px))}}
