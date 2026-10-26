@@ -187,6 +187,8 @@ const wrapScroll = (f, svgId) => {
   return f.slice(0, a) + '<div class="rfig-scroll">' + f.slice(a, z) + '</div>' + f.slice(z);
 };
 R1 = wrapScroll(R1, 'svgR1');
+/* R1 sits in the header, under the page title, so its title is the next level down */
+R1 = once(R1, '<h3 class="ft">Time</h3>', '<h2 class="ft">Time</h2>', 'R1 heading level');
 R4 = wrapScroll(R4, 'svgR4');
 R3 = once(R3, '</figure>', ' <figcaption>Eight of 81 written answers; the Hungarian ones are my translations.</figcaption>\n</figure>', 'R3 caption');
 {
@@ -248,8 +250,15 @@ ROAD = once(ROAD, '<p>Here’s a shorter set — I’ve dropped the two doing to
 /* the drive's heading is guidance for the reader, not a section title */
 ROAD = ROAD.replace(/<h2 class="rd-h" id="roadH">([\s\S]*?)<\/h2>/, (m, t) => '<p class="rd-h" id="roadH">' + t + '</p>');
 if (!/<p class="rd-h"/.test(ROAD)) throw new Error('road heading');
+/* the drive's label is its visual title, set like every other one */
+ROAD = once(ROAD, '<p class="rd-k">One drive, five moments</p>', '<h3 class="rd-k vf-title" id="vt-one-drive-five-moments">One drive, five moments</h3>', 'road title');
 body = once(body, '{{ROAD}}', '    ' + ROAD, 'ROAD');
 body = once(body, '{{V5}}', v5svg(), 'V5');
+/* the research figures' headings ask what each one answers */
+R1 = once(R1, '<h2 class="ft">Time</h2>', '<h2 class="ft">How much research came before the first screen?</h2>', 'R1 title');
+R2 = once(R2, '<h3 class="ft">Survey</h3>', '<h3 class="ft">What do 83 people expect from an AI that might be wrong?</h3>', 'R2 title');
+R4 = once(R4, '<h3 class="ft">Literature</h3>', '<h3 class="ft">What does research say about trusting confident machines?</h3>', 'R4 title');
+R5 = once(R5, '<h3 class="ft">Synthesis</h3>', '<h3 class="ft">Which rules did the research hand the design?</h3>', 'R5 title');
 body = once(body, '{{R1}}', R1, 'R1');
 body = once(body, '{{R2}}', R2, 'R2');
 body = once(body, '{{R2MORE}}', R2MORE, 'R2MORE');
