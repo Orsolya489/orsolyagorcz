@@ -396,3 +396,59 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 @media (max-width:900px){.fig .plane--map{aspect-ratio:auto}}
 .vframe > .fig.fig--map:first-child{margin-top:0}
 .vframe > * + .fig.fig--map{margin-top:clamp(28px,3.4vw,56px)}
+
+/* ═══ case studies: one vertical rhythm ═══
+   Spacing says what belongs together (Gestalt proximity): the closer two
+   things sit, the more they read as one. So the gaps form a scale on an 8px
+   grid, each level about twice the one below, which is the step a reader needs
+   to see a boundary at a glance instead of working it out:
+     label to its visual         16      the label is part of the drawing
+     visual to visual (in frame) 48      one argument, several pictures
+     frame to frame              24      each frame's edge already groups it
+     text to its visuals         48      the visuals belong to the text above
+     section to section          192     a new topic: the page breathes
+   On a phone the same steps scale down to 8 / 32 / 16 / 32 / 96. */
+:root{
+  --gap-label:clamp(8px,1.1vw,16px);
+  --gap-visual:clamp(16px,1.7vw,24px);
+  --gap-text-visual:clamp(32px,3.4vw,48px);
+  --gap-section:clamp(96px,13.4vw,192px)
+}
+.cs-head{padding-bottom:var(--gap-section)}
+.cs-head > .vframe{margin-top:var(--gap-text-visual)}
+.cs-body .sec{row-gap:0;padding-bottom:var(--gap-section)}
+.cs-body .sec:last-of-type{padding-bottom:0}
+.cs-body .sec > .sec-copy + .vframe{margin-top:var(--gap-text-visual)}
+.cs-body .sec > .vframe + .vframe{margin-top:var(--gap-visual)}
+/* inside a frame: pictures a step apart, a label held to what it names */
+.vframe > * + *{margin-top:var(--gap-text-visual)}
+.vframe > .eyebrow-b + *,.vframe > .duo-h--label + *,.vframe .duo-row > * + *,.vframe > .tf-close{margin-top:var(--gap-label)}
+.vframe .duo{row-gap:var(--gap-text-visual)}
+/* the drive: its guidance is text, the road its visual */
+.cs-body .road{row-gap:var(--gap-text-visual);margin-bottom:var(--gap-section)}
+/* one column: the title sits on its text, as a heading sits on its paragraph */
+@media (max-width:1023px){
+  .cs-body .sec > .sec-label + .sec-copy{margin-top:var(--stack,24px)}
+}
+/* the gap is measured from the last line of text, so nothing trails after it */
+.cs-body .sec-copy > :last-child{margin-bottom:0}
+/* Inside a text block the same logic runs one level down. Paragraphs follow
+   each other at the paragraph gap; a set-apart block - a decision, a pull
+   quote - stands a clear step further off on both sides; the Read more links
+   close the block one step after the text and sit together as one list. */
+:root{--gap-block:clamp(24px,2.3vw,32px)}
+.cs-body .sec-copy > :is(.dec,.dec-p,.hmw){margin-top:var(--gap-block);margin-bottom:0}
+.cs-body .sec-copy > :is(.dec,.dec-p,.hmw) + *{margin-top:var(--gap-block)}
+.cs-body .sec-copy > details.more{margin:var(--gap-label) 0 0}
+.cs-body .sec-copy > :not(details.more) + details.more{margin-top:var(--gap-block)}
+.cs-body .sec-copy > details.more + details.more{margin-top:0}
+.cs-body .sec-copy > details.more[open]{margin-bottom:var(--gap-label)}
+/* two columns: the title and its text share a first baseline, so they read as
+   one line across the page rather than two blocks that happen to start close */
+@media (min-width:1024px){
+  .cs-body .sec > .sec-label,.cs-body .sec > .sec-copy{align-self:first baseline}
+}
+/* a sub-heading opens a new run of text: a clear step above, held close to
+   what it introduces; a fold or a list of links is a set-apart block */
+.cs-body .sec-copy > h3{margin-top:calc(var(--gap-block) * 1.5)}
+.cs-body .sec-copy > :is(.blueprint,.duo-foot){margin-top:var(--gap-block)}
