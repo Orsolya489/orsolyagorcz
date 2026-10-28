@@ -3291,12 +3291,13 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
          far the whole thing runs. Tertiary on purpose. -->
     <nav class="cs-route" aria-label="Sections in this case study">
       <ol>
-        <li><a href="#s1">The problem</a></li>
-        <li><a href="#s2">The research</a></li>
-        <li><a href="#s3">The system</a></li>
-        <li><a href="#s4">The design</a></li>
-        <li><a href="#s5">The prototype</a></li>
-        <li><a href="#s6">What’s next</a></li>
+        <li><a href="#s1">Overview</a></li>
+        <li><a href="#s2">The problem</a></li>
+        <li><a href="#s3">The research</a></li>
+        <li><a href="#s4">The system</a></li>
+        <li><a href="#s5">The design</a></li>
+        <li><a href="#s6">The prototype</a></li>
+        <li><a href="#s7">What’s next</a></li>
       </ol>
     </nav>
   </nav>
@@ -3356,6 +3357,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       <div>
         <p class="cs-hook">Signal is a reliability layer built into AI chat apps. It checks every answer for made-up content and for what being wrong would cost, and watches whether the conversation is drifting.</p>
         <p class="cs-lede">On a screen, uncertainty and certainty look the same. At what cost? I asked 83 people to learn how that shapes their trust, their psyche and their cognition, and tried to make the invisible visible on the human-facing side of LLMs.</p>
+        <p class="cs-lede">It’s late and the pharmacy is closed. Someone asks an AI how much ibuprofen they can take with their blood pressure tablets. The first answer is careful. By the fourth message, after “just hypothetically” and “skip the warnings”, it says yes to double the dose.</p>
       </div>
       <figure class="cs-hero v1 v1--flow">
       <img class="v1-flow" src="signal/reliability-signal-flow.gif" data-still="signal/reliability-signal-flow-still.png"
@@ -3375,9 +3377,21 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 
   <div class="cs-body" id="read">
 
-    <section class="sec" id="s1" data-bar="The problem" aria-labelledby="s1h">
+    <section class="sec" id="s1" data-bar="Overview" aria-labelledby="s1h">
 
-      <h2 class="sec-label" id="s1h">AI answers drift, and nothing warns you.</h2>
+      <h2 class="sec-label" id="s1h">Colour, touch and sound mark when to look twice.</h2>
+
+      <div class="sec-copy">
+        <p class="sec-lede">Signal marks an answer that might be made up, flattering or overconfident, and notices when a long conversation starts to drift.</p>
+        <p>A row under the answer shows a colour, a shape and a word. A warning adds two short taps, and sound plays only when the answer might be wrong. A tap shows the reason, and the person still decides.</p>
+        <p>It is designed to be built into the chat apps people already use, so it works on every answer without the person having to ask.</p>
+      </div>
+
+    </section>
+
+    <section class="sec" id="s2" data-bar="The problem" aria-labelledby="s2h">
+
+      <h2 class="sec-label" id="s2h">AI answers drift, and nothing warns you.</h2>
 
       <div class="sec-copy">
         <p>Deep into a conversation that matters, a model can drop a constraint or agree with an assumption you were only testing, and each step reads as help.</p>
@@ -3431,9 +3445,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s2" data-bar="The research" aria-labelledby="s2h">
+    <section class="sec" id="s3" data-bar="The research" aria-labelledby="s3h">
 
-      <h2 class="sec-label" id="s2h">People claim the judgment, then trust confident AI.</h2>
+      <h2 class="sec-label" id="s3h">People claim the judgment, then trust confident AI.</h2>
 
       <div class="sec-copy">
         <p>Two-thirds found a gentle real-time signal useful, at its gentlest. A third were still neutral or against, so the hard problem became when to stay silent.</p>
@@ -3522,9 +3536,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s3" data-bar="The system" aria-labelledby="s3h">
+    <section class="sec" id="s4" data-bar="The system" aria-labelledby="s4h">
 
-      <h2 class="sec-label" id="s3h">An in-app signal that flags risky answers.</h2>
+      <h2 class="sec-label" id="s4h">An in-app signal that flags risky answers.</h2>
 
       <div class="sec-copy">
         <p>It asks every answer whether it’s made up and what being wrong would cost, and asks the whole conversation whether it’s drifting. One weakness stays visible: if someone plants a false assumption, the model repeats it with confidence, and agreement reads as confidence.</p>
@@ -3778,9 +3792,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s4" data-bar="The design" aria-labelledby="s4h">
+    <section class="sec" id="s5" data-bar="The design" aria-labelledby="s5h">
 
-      <h2 class="sec-label" id="s4h">Two senses: noticeable and calm.</h2>
+      <h2 class="sec-label" id="s5h">Two senses: noticeable and calm.</h2>
 
       <div class="sec-copy">
         <p>A tint with a shape and a word, two 22 ms taps, and two soft tones only when an answer might be wrong.</p>
@@ -3847,9 +3861,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s5" data-bar="The prototype" aria-labelledby="s5h">
+    <section class="sec" id="s6" data-bar="The prototype" aria-labelledby="s6h">
 
-      <h2 class="sec-label" id="s5h">Testing made the prototype safer.</h2>
+      <h2 class="sec-label" id="s6h">Testing made the prototype safer.</h2>
 
       <div class="sec-copy">
         <p>I built a working prototype and ran six scripted conversations through the real classifier.</p>
@@ -3877,9 +3891,9 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
       </div>
     </section>
 
-    <section class="sec" id="s6" data-bar="What’s next" aria-labelledby="s6h">
+    <section class="sec" id="s7" data-bar="What’s next" aria-labelledby="s7h">
 
-      <h2 class="sec-label" id="s6h">Works in scripted tests. Real users next.</h2>
+      <h2 class="sec-label" id="s7h">Works in scripted tests. Real users next.</h2>
 
       <div class="sec-copy">
         <p>I designed for attention first and had the system explain itself. The data sharpened both.</p>
