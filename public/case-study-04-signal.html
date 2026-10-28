@@ -3113,6 +3113,13 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
 @media (hover:hover){ .more summary:hover > span:first-child{text-decoration-color:var(--ink)} }
 .more-b{padding:.2em 0 .4em}
 .more-b p{margin:0 0 1em}
+/* the appendix: a reference list read by scanning, so each entry hangs on its
+   first line and a grade sits after the entries that are not peer-reviewed */
+.refs{list-style:none;margin:0;padding:0}
+.refs li{padding-left:1.4em;text-indent:-1.4em;font-size:calc(var(--body) * .9);line-height:1.55;color:var(--body-c,var(--ink))}
+.refs li + li{margin-top:.7em}
+.refs a{color:inherit;text-decoration:underline;text-decoration-color:var(--stroke-ctrl);text-underline-offset:.2em;overflow-wrap:anywhere}
+.refs .ref-grade{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 /* the layer diagram: no outer card. The toggle and the possible outcomes sit on
    the page; the dashed layer box is the only frame */
 .dgm.v10{background:none !important;box-shadow:none !important;padding:0 !important;border-radius:0}
@@ -3298,6 +3305,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
         <li><a href="#s5">The design</a></li>
         <li><a href="#s6">The prototype</a></li>
         <li><a href="#s7">What’s next</a></li>
+        <li><a href="#s8">Appendix</a></li>
       </ol>
     </nav>
   </nav>
@@ -3930,6 +3938,94 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
           <figcaption>Four kinds of answer, one question each.</figcaption>
         </figure>
       </div>
+    </section>
+
+    <section class="sec" id="s8" data-bar="Appendix" aria-labelledby="s8h">
+
+      <h2 class="sec-label" id="s8h">Appendix: the sources, by field.</h2>
+
+      <div class="sec-copy">
+        <p>The 43 sources behind the research, in the five fields of Fig. R4. Peer-reviewed work carries the argument; preprints, vendor reports and policy documents are marked, because they corroborate it or supply usage figures that aren’t published elsewhere. The survey of 83 people is my own primary data.</p>
+        <details class="more">
+          <summary><span>Cognitive psychology</span><span class="more-what"> · 7 sources · automation bias, trust and reliance</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <ol class="refs">
+              <li>Lee, J.D. &amp; See, K.A. (2004). Trust in automation: designing for appropriate reliance. <i>Human Factors</i> 46(1), 50–80.</li>
+              <li>Gaube, S., et al. (2021). Do as AI say: susceptibility in deployment of clinical decision-aids. <i>npj Digital Medicine</i> 4, 31.</li>
+              <li>Bansal, G., et al. (2021). Does the whole exceed its parts? The effect of AI explanations on complementary team performance. <i>CHI 2021</i>.</li>
+              <li>Klingbeil, A., et al. (2024). Trust and reliance on AI. <i>Computers in Human Behavior</i> 149, 107925.</li>
+              <li>Lee, H.-P., et al. (2025). The impact of generative AI on critical thinking: self-reported reductions in cognitive effort and confidence effects from a survey of knowledge workers. <i>CHI 2025</i>.</li>
+              <li>Cao, Y. &amp; Lizano, P. (2026). User vulnerability in artificial intelligence-based mental health interventions. <i>Brain-X</i>, e70052.</li>
+              <li>Cheng, M., et al. (2026). Sycophantic AI decreases prosocial intentions and promotes dependence. <i>Science</i> 391, eaec8352.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="more">
+          <summary><span>Human factors</span><span class="more-what"> · 3 sources · automation levels, vigilance, AI in ergonomics</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <ol class="refs">
+              <li>Mackworth, N.H. (1948). The breakdown of vigilance during prolonged visual search. <i>Quarterly Journal of Experimental Psychology</i> 1(1), 6–21.</li>
+              <li>Parasuraman, R., Sheridan, T.B. &amp; Wickens, C.D. (2000). A model for types and levels of human interaction with automation. <i>IEEE Transactions on Systems, Man, and Cybernetics A</i> 30(3), 286–297.</li>
+              <li>Petrat, D. (2021). Artificial intelligence in human factors and ergonomics: an overview of the current state of research. <i>Discover Artificial Intelligence</i> 1, 3.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="more">
+          <summary><span>Psychophysics</span><span class="more-what"> · 3 sources · noticeable difference, signal detection</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <ol class="refs">
+              <li>Fechner, G.T. (1860). <i>Elemente der Psychophysik</i>.</li>
+              <li>Green, D.M. &amp; Swets, J.A. (1966). <i>Signal Detection Theory and Psychophysics</i>. Wiley.</li>
+              <li>Sorkin, R.D. &amp; Woods, D.D. (1985). Systems with human monitors: a signal detection analysis. <i>Human–Computer Interaction</i> 1(1), 49–75.</li>
+            </ol>
+          </div>
+        </details>
+        <details class="more">
+          <summary><span>AI systems</span><span class="more-what"> · 24 sources · hallucination, sycophancy, drift, uncertainty</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <ol class="refs">
+              <li>Kadavath, S., et al. (2022). Language models (mostly) know what they know. <a href="https://arxiv.org/abs/2207.05221" target="_blank" rel="noopener">arxiv.org/abs/2207.05221</a> <span class="ref-grade">preprint</span></li>
+              <li>Perez, E., et al. (2022). Discovering language model behaviors with model-written evaluations. <a href="https://arxiv.org/abs/2212.09251" target="_blank" rel="noopener">arxiv.org/abs/2212.09251</a> <span class="ref-grade">preprint</span></li>
+              <li>Hu, S., et al. (2023). Won’t get fooled again: answering questions with false premises. <i>ACL 2023</i>.</li>
+              <li>Laban, P., et al. (2023). FlipFlop: “Are you sure?” challenges cause reversals. <a href="https://arxiv.org/abs/2311.08596" target="_blank" rel="noopener">arxiv.org/abs/2311.08596</a> <span class="ref-grade">preprint</span></li>
+              <li>Manakul, P., Liusie, A. &amp; Gales, M. (2023). SelfCheckGPT: zero-resource black-box hallucination detection. <i>EMNLP 2023</i>.</li>
+              <li>Sharma, M., et al. (2023). Towards understanding sycophancy in language models. <i>ICLR 2024</i>. <a href="https://arxiv.org/abs/2310.13548" target="_blank" rel="noopener">arxiv.org/abs/2310.13548</a></li>
+              <li>Xiong, M., et al. (2023). Can LLMs express their uncertainty? <i>ICLR 2024</i>. <a href="https://arxiv.org/abs/2306.13063" target="_blank" rel="noopener">arxiv.org/abs/2306.13063</a></li>
+              <li>Bai, X., et al. (2024). Measuring implicit bias in explicitly unbiased large language models. <i>PNAS</i>.</li>
+              <li>Dahl, M., Magesh, V., Suzgun, M. &amp; Ho, D.E. (2024). Large legal fictions: profiling legal hallucinations in large language models. <i>Journal of Legal Analysis</i> 16(1), 64–93.</li>
+              <li>Farquhar, S., Kossen, J., Kuhn, L. &amp; Gal, Y. (2024). Detecting hallucinations in large language models using semantic entropy. <i>Nature</i> 630, 625–630. <a href="https://doi.org/10.1038/s41586-024-07421-0" target="_blank" rel="noopener">doi.org/10.1038/s41586-024-07421-0</a></li>
+              <li>Kossen, J., et al. (2024). Semantic entropy probes. <a href="https://arxiv.org/abs/2406.15927" target="_blank" rel="noopener">arxiv.org/abs/2406.15927</a> <span class="ref-grade">preprint</span></li>
+              <li>RRV, A., et al. (2024). Chaos with keywords. <a href="https://arxiv.org/abs/2406.03827" target="_blank" rel="noopener">arxiv.org/abs/2406.03827</a> <span class="ref-grade">preprint</span></li>
+              <li>Zhu, Y., et al. (2024). KG-FPQ: knowledge-graph-based false premise questions. <a href="https://arxiv.org/abs/2407.05868" target="_blank" rel="noopener">arxiv.org/abs/2407.05868</a> <span class="ref-grade">preprint</span></li>
+              <li>Chen, S., et al. (2025). When helpfulness backfires: LLMs and the risk of false medical information due to sycophantic behavior. <i>npj Digital Medicine</i> 8, 605. <a href="https://doi.org/10.1038/s41746-025-02008-z" target="_blank" rel="noopener">doi.org/10.1038/s41746-025-02008-z</a></li>
+              <li>Cheng, M., et al. (2025). ELEPHANT: measuring social sycophancy. <a href="https://arxiv.org/abs/2505.13995" target="_blank" rel="noopener">arxiv.org/abs/2505.13995</a> <span class="ref-grade">preprint</span></li>
+              <li>Fanous, A., et al. (2025). SycEval: evaluating LLM sycophancy. <i>AAAI/ACM AIES 2025</i>. <a href="https://arxiv.org/abs/2502.08177" target="_blank" rel="noopener">arxiv.org/abs/2502.08177</a></li>
+              <li>Hong, J., et al. (2025). SYCON Bench: measuring sycophancy in multi-turn conversation. <i>EMNLP 2025 Findings</i>.</li>
+              <li>Laban, P., Hayashi, H., Zhou, Y. &amp; Neville, J. (2025). LLMs get lost in multi-turn conversation. <a href="https://arxiv.org/abs/2505.06120" target="_blank" rel="noopener">arxiv.org/abs/2505.06120</a> <span class="ref-grade">preprint</span></li>
+              <li>Liu, et al. (2025). TRUTH DECAY. <a href="https://arxiv.org/abs/2503.11656" target="_blank" rel="noopener">arxiv.org/abs/2503.11656</a> <span class="ref-grade">preprint</span></li>
+              <li>Magesh, V., et al. (2025). Hallucination-free? Assessing the reliability of leading AI legal research tools. <i>Journal of Empirical Legal Studies</i>.</li>
+              <li>Omar, M., Klang, E., et al. (2025). Multi-model assurance analysis showing large language models are highly vulnerable to adversarial hallucination attacks during clinical decision support. <i>Communications Medicine</i> 5, 330. <a href="https://doi.org/10.1038/s43856-025-01021-3" target="_blank" rel="noopener">doi.org/10.1038/s43856-025-01021-3</a></li>
+              <li>Pandit, S., et al. (2025). MedHallu: a comprehensive benchmark for detecting medical hallucinations. <i>EMNLP 2025</i>.</li>
+              <li>Chatterji, A., et al. (2025). How people use ChatGPT. NBER Working Paper 34255. <span class="ref-grade">working paper, vendor-authored</span></li>
+              <li>Anthropic (2025–2026). Anthropic Economic Index. <span class="ref-grade">vendor research</span></li>
+            </ol>
+          </div>
+        </details>
+        <details class="more">
+          <summary><span>AI ethics and policy</span><span class="more-what"> · 6 sources · design guidelines, bias, vulnerable users</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="more-b">
+            <ol class="refs">
+              <li>Amershi, S., et al. (2019). Guidelines for human-AI interaction. <i>CHI 2019</i>.</li>
+              <li>Hanna, M.G., et al. (2025). Ethical and bias considerations in artificial intelligence/machine learning. <i>Modern Pathology</i> 38(3), 100686. <a href="https://doi.org/10.1016/j.modpat.2024.100686" target="_blank" rel="noopener">doi.org/10.1016/j.modpat.2024.100686</a></li>
+              <li>Hofmann, B. (2025). Biases in AI: acknowledging and addressing the inevitable ethical issues. <i>Frontiers in Digital Health</i> 7, 1614105. <a href="https://doi.org/10.3389/fdgth.2025.1614105" target="_blank" rel="noopener">doi.org/10.3389/fdgth.2025.1614105</a></li>
+              <li>Illinois Public Act 104-0054 (2025). Wellness and Oversight for Psychological Resources Act. <span class="ref-grade">statute</span></li>
+              <li>US Federal Trade Commission (2025). Section 6(b) orders to seven companies. <span class="ref-grade">regulatory</span></li>
+              <li>OpenAI (2025). Strengthening ChatGPT’s responses in sensitive conversations. <span class="ref-grade">vendor blog</span></li>
+            </ol>
+          </div>
+        </details>
+      </div>
+
     </section>
 
   </div>

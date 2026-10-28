@@ -474,6 +474,8 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 .vframe > .vf-title{width:100%;max-width:min(100%,890px);margin-inline:auto}
 .vframe > * + .vf-title{margin-top:var(--gap-text-visual)}
 .vframe > .vf-title:has(+ table){max-width:min(100%,760px)}
+/* the carousel runs the frame's full width, so its title starts on that edge */
+.vframe > .vf-title:has(~ .carousel){max-width:none}
 
 /* ═══ a visual and its words ═══
    Every visual comes with its own short title and paragraph. Proximity does the

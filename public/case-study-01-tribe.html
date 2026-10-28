@@ -2209,7 +2209,6 @@ a{color:inherit}
 
       <div class="sec-copy">
         <p class="sec-lede">I designed three generations of input validation. The developers raised two concerns, that the redundancies risked misreading people and that the API calls cost too much. Gen 3 answered both and was accepted once I made the case for it, and the match logic, processing states and safety exits were built around it.</p>
-        <p class="hmw">How might we teach users what’s needed for prompting that leads to better match quality?</p>
         <p class="dec-p"><span class="dec-lab">The decision</span>Chose Gen 3, real-time NLP chip validation, over Gen 2, AI metadata extraction, because match quality is the entire product bet: vague input, bad matches, no Tribe. Cost: <span class="dec-cost">harder to build, and it took a clear case to get it accepted</span>.</p>
       </div>
 
@@ -2285,7 +2284,8 @@ a{color:inherit}
         <p>As the person types, a chip lights up for what, when and where. When all three are confident, the button unlocks.</p>
       </div>
 
-      <div class="vframe" role="group" aria-label="Accepted version — chip validation in action">
+      <div class="vframe" role="group" aria-labelledby="vt-teach-prompting">
+        <h4 class="vf-title" id="vt-teach-prompting">How might we teach users what’s needed for prompting that leads to better match quality?</h4>
         <p class="eyebrow-b">Accepted version — chip validation in action</p>
 
         <div class="carousel" role="group" aria-roledescription="carousel" aria-label="Chip validation — 9 states">

@@ -299,6 +299,13 @@
 @media (hover:hover){ .more summary:hover > span:first-child{text-decoration-color:var(--ink)} }
 .more-b{padding:.2em 0 .4em}
 .more-b p{margin:0 0 1em}
+/* the appendix: a reference list read by scanning, so each entry hangs on its
+   first line and a grade sits after the entries that are not peer-reviewed */
+.refs{list-style:none;margin:0;padding:0}
+.refs li{padding-left:1.4em;text-indent:-1.4em;font-size:calc(var(--body) * .9);line-height:1.55;color:var(--body-c,var(--ink))}
+.refs li + li{margin-top:.7em}
+.refs a{color:inherit;text-decoration:underline;text-decoration-color:var(--stroke-ctrl);text-underline-offset:.2em;overflow-wrap:anywhere}
+.refs .ref-grade{font-family:var(--sans);font-weight:500;font-size:var(--micro);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 /* the layer diagram: no outer card. The toggle and the possible outcomes sit on
    the page; the dashed layer box is the only frame */
 .dgm.v10{background:none !important;box-shadow:none !important;padding:0 !important;border-radius:0}

@@ -230,7 +230,7 @@ let chrome = src.slice(BODY_AT, src.indexOf('<div class="wrap">', BODY_AT));
    noise script already drives a #noiseBtnM when there is one */
 chrome = once(chrome, '<p class="pnote">', '<div class="prow prow--m"><span>Noise for focus</span><button class="btn" id="noiseBtnM" aria-label="Play noise for focus" aria-pressed="false">Off</button></div>\n    <p class="pnote">', 'panel noise row');
 const [oi, oj] = between(chrome, '<ol>', '</ol>');
-chrome = chrome.slice(0, oi) + '<ol>\n        <li><a href="#s1">Overview</a></li>\n        <li><a href="#s2">The problem</a></li>\n        <li><a href="#s3">The research</a></li>\n        <li><a href="#s4">The system</a></li>\n        <li><a href="#s5">The design</a></li>\n        <li><a href="#s6">The prototype</a></li>\n        <li><a href="#s7">What’s next</a></li>\n      </ol>' + chrome.slice(oj + 5);
+chrome = chrome.slice(0, oi) + '<ol>\n        <li><a href="#s1">Overview</a></li>\n        <li><a href="#s2">The problem</a></li>\n        <li><a href="#s3">The research</a></li>\n        <li><a href="#s4">The system</a></li>\n        <li><a href="#s5">The design</a></li>\n        <li><a href="#s6">The prototype</a></li>\n        <li><a href="#s7">What’s next</a></li>\n        <li><a href="#s8">Appendix</a></li>\n      </ol>' + chrome.slice(oj + 5);
 
 /* ── body ── */
 let body = fs.readFileSync(HERE + '/body.html', 'utf8');
