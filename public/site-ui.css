@@ -474,4 +474,28 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 .vframe > .vf-title{width:100%;max-width:min(100%,890px);margin-inline:auto}
 .vframe > * + .vf-title{margin-top:var(--gap-text-visual)}
 .vframe > .vf-title:has(+ table){max-width:min(100%,760px)}
+
+/* ═══ a visual and its words ═══
+   Every visual comes with its own short title and paragraph. Proximity does the
+   grouping: the paragraph sits a short step above its frame, nearer to it than
+   to anything else, and a gap three times as wide separates one pair from the
+   next, so each paragraph is read as belonging to the picture under it. The
+   title sits in the heading rail beside its paragraph, one size under the
+   section title, so the rail reads down the page as its outline.
+     paragraph to its visual   32   the words belong to the picture below
+     pair to pair              96   a new point inside the same topic
+     section to section       192   a new topic
+   On a phone: 24 / 64 / 96, the title held 12 above its paragraph. */
+:root{--gap-own:clamp(24px,2.3vw,32px);--gap-pair:clamp(64px,6.7vw,96px)}
+.cs-body .sec > .sub-label{grid-column:1;margin:var(--gap-pair) 0 0;max-width:24ch;
+  font-family:var(--serif);font-weight:500;font-size:calc(var(--body) * 1.3);line-height:1.3;
+  letter-spacing:-.005em;color:var(--ink)}
+.cs-body .sec > .sub-copy{margin-top:var(--gap-pair)}
+.cs-body .sec > .sub-copy + .vframe{margin-top:var(--gap-own)}
+@media (min-width:1024px){
+  .cs-body .sec > .sub-label,.cs-body .sec > .sub-copy{align-self:first baseline}
+}
+@media (max-width:1023px){
+  .cs-body .sec > .sub-label + .sub-copy{margin-top:calc(var(--gap-label) * 1.5)}
+}
 .vframe > .vf-title + .fig.fig--map{margin-top:var(--gap-label)}

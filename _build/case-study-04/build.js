@@ -256,9 +256,9 @@ body = once(body, '{{ROAD}}', '    ' + ROAD, 'ROAD');
 body = once(body, '{{V5}}', v5svg(), 'V5');
 /* the research figures' headings ask what each one answers */
 R1 = once(R1, '<h2 class="ft">Time</h2>', '<h2 class="ft">How much research came before the first screen?</h2>', 'R1 title');
-R2 = once(R2, '<h3 class="ft">Survey</h3>', '<h3 class="ft">What do 83 people expect from an AI that might be wrong?</h3>', 'R2 title');
-R4 = once(R4, '<h3 class="ft">Literature</h3>', '<h3 class="ft">What does research say about trusting confident machines?</h3>', 'R4 title');
-R5 = once(R5, '<h3 class="ft">Synthesis</h3>', '<h3 class="ft">Which rules did the research hand the design?</h3>', 'R5 title');
+R2 = once(R2, '<h3 class="ft">Survey</h3>', '<h4 class="ft">What do 83 people expect from an AI that might be wrong?</h4>', 'R2 title');
+R4 = once(R4, '<h3 class="ft">Literature</h3>', '<h4 class="ft">What does research say about trusting confident machines?</h4>', 'R4 title');
+R5 = once(R5, '<h3 class="ft">Synthesis</h3>', '<h4 class="ft">Which rules did the research hand the design?</h4>', 'R5 title');
 body = once(body, '{{R1}}', R1, 'R1');
 body = once(body, '{{R2}}', R2, 'R2');
 body = once(body, '{{R2MORE}}', R2MORE, 'R2MORE');
