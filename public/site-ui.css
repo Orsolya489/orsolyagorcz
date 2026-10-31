@@ -476,6 +476,13 @@ img[data-loading]{color:transparent;background-color:var(--recess);
 .vframe > .vf-title:has(+ table){max-width:min(100%,760px)}
 /* the carousel runs the frame's full width, so its title starts on that edge */
 .vframe > .vf-title:has(~ .carousel){max-width:none}
+/* Mindure's sliders: the title held a label step above the screens like every
+   other visual, with a quiet pointer beside it - the account of each screen is
+   under the picture, and without it the slider reads as the whole story */
+.vframe .cmp-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  column-gap:var(--gap-visual);row-gap:4px;margin-bottom:var(--gap-label)}
+.vframe .cmp-note{margin:0;font-family:var(--sans);font-weight:500;font-size:var(--micro);
+  line-height:1.4;letter-spacing:.04em;color:var(--muted)}
 
 /* ═══ a visual and its words ═══
    Every visual comes with its own short title and paragraph. Proximity does the
