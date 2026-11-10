@@ -4201,15 +4201,18 @@ if(noiseWrap){
     setNoise(b.getAttribute("aria-pressed")!=="true");
   });
 });
-/* Noise left on on another page. Browsers hold sound until the visitor
-   interacts with the page, so it starts on the first click, tap or key -
-   unless that first press is the noise switch itself, which then decides. */
+/* Noise left on on another page keeps playing here: it starts as the page
+   loads, and the switch says On. Chrome and Edge let it sound at once,
+   because the visitor has already clicked on this site; a stricter browser
+   holds it, and the first click, tap or key releases it - unless that
+   press is the switch itself, which then turns it off as it says. */
 try{if(localStorage.getItem('og-noise')==='on'){
+  setNoise(true);
   var wakeOn=['click','keydown','touchend'];
   var wake=function(e){wakeOn.forEach(function(t){document.removeEventListener(t,wake,true);});
     if(e.target&&e.target.closest&&e.target.closest('#noiseBtn,#noiseBtnM'))return;
-    var nb=noiseBtn||noiseBtnM;if(nb&&nb.getAttribute('aria-pressed')!=='true')setNoise(true);};
-  wakeOn.forEach(function(t){document.addEventListener(t,wake,true);});
+    if(ac&&src&&ac.state!=='running')ac.resume();};
+  if(!ac||ac.state!=='running')wakeOn.forEach(function(t){document.addEventListener(t,wake,true);});
 }}catch(e){}
 if(vol)vol.addEventListener("input",function(){
   try{localStorage.setItem('og-vol',vol.value)}catch(e){}
