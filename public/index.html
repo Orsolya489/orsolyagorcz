@@ -1299,7 +1299,7 @@ section{scroll-margin-top:calc(var(--control) + var(--gutter) + 12px)}
 <link rel="stylesheet" href="/site-mobile.css">
 <link rel="stylesheet" href="/site-motion.css">
 <link rel="stylesheet" href="/site-ui.css">
-<script>/* the contrast choice carries across pages: applied before first paint */try{if(localStorage.getItem('og-contrast')==='high')document.documentElement.setAttribute('data-contrast','high')}catch(e){}</script>
+<script>/* the panel's choices carry across pages: applied before first paint */try{var s=localStorage,r=document.documentElement,m=s.getItem('og-motion'),t=s.getItem('og-tscale');if(s.getItem('og-contrast')==='high')r.setAttribute('data-contrast','high');if(m==='reduced')r.setAttribute('data-motion','reduced');else if(m==='full')r.setAttribute('data-motion','full');if(t)r.style.setProperty('--tscale',t)}catch(e){}</script>
 </head>
 <body>
 <div class="wrap" id="top"><a class="skip" href="#main">Skip to content</a></div>
@@ -1980,11 +1980,12 @@ document.addEventListener('click',function(e){
   if(panel.contains(e.target)||e.target.closest('#a11yBtn,#a11yBtnM'))return;closePanel();});
 
 /* text size */
-var scale=1;
+var scale=+root.style.getPropertyValue('--tscale')||1;
 document.querySelectorAll('[data-text]').forEach(function(b){b.addEventListener('click',function(){
   var k=b.getAttribute('data-text');
   if(k==='+')scale=Math.min(1.4,scale+.1);else if(k==='-')scale=Math.max(.85,scale-.1);else scale=1;
-  root.style.setProperty('--tscale',scale.toFixed(2));follow();});});
+  root.style.setProperty('--tscale',scale.toFixed(2));
+  try{if(scale===1)localStorage.removeItem('og-tscale');else localStorage.setItem('og-tscale',scale.toFixed(2))}catch(e){}follow();});});
 
 /* contrast */
 var cb=document.getElementById('contrastBtn');
@@ -1999,15 +2000,17 @@ cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')
 var mb=document.getElementById('motionBtn');
 mb.addEventListener('click',function(){var off=motionOff();
   if(off)root.setAttribute('data-motion','full');else root.setAttribute('data-motion','reduced');
+  try{localStorage.setItem('og-motion',off?'full':'reduced')}catch(e){}
   mb.setAttribute('aria-pressed',off?'false':'true');mb.textContent=off?'Off':'On';
   /* stack() was the sticky-stacking pass this section used before the scroll
      flow replaced it; it no longer exists, and the call was throwing on every
      press. queueFlow() is its replacement: it re-settles the cards for the
      state just switched into, without waiting for the next scroll. */
   mb.classList.toggle('btn--on',!off);queueFlow();});
-if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+if((function(){try{return localStorage.getItem('og-motion')}catch(e){}})()!=='full'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
   root.setAttribute('data-motion','reduced');mb.setAttribute('aria-pressed','true');
   mb.textContent='On';mb.classList.add('btn--on');}
+if(root.getAttribute('data-motion')==='reduced'){mb.setAttribute('aria-pressed','true');mb.textContent='On';mb.classList.add('btn--on');}
 
 /* Name pronunciation. There is no recording yet, so the browser speaks the
    respelling - the same syllables the button shows. To use a real recording
@@ -2106,6 +2109,7 @@ var noiseWrap=document.getElementById("noise"),
     noiseBtn=document.getElementById("noiseBtn"),
     vol=document.getElementById("vol"),
     noiseBtnM=document.getElementById("noiseBtnM");
+try{var vol0=localStorage.getItem('og-vol');if(vol&&vol0)vol.value=vol0;}catch(e){}
 function level(){return (vol?+vol.value:8)/100*0.6;}
 function startNoise(){
   var C=window.AudioContext||window.webkitAudioContext;if(!C)return false;
@@ -2153,6 +2157,7 @@ function stopNoise(){
 function setNoise(on){
   if(on&&!startNoise())return;
   if(!on)stopNoise();
+  try{if(on)localStorage.setItem('og-noise','on');else localStorage.removeItem('og-noise')}catch(e){}
   [noiseBtn,noiseBtnM].forEach(function(b){
     if(!b)return;
     b.setAttribute("aria-pressed",on?"true":"false");
@@ -2209,7 +2214,18 @@ if(noiseWrap){
     setNoise(b.getAttribute("aria-pressed")!=="true");
   });
 });
+/* Noise left on on another page. Browsers hold sound until the visitor
+   interacts with the page, so it starts on the first click, tap or key -
+   unless that first press is the noise switch itself, which then decides. */
+try{if(localStorage.getItem('og-noise')==='on'){
+  var wakeOn=['click','keydown','touchend'];
+  var wake=function(e){wakeOn.forEach(function(t){document.removeEventListener(t,wake,true);});
+    if(e.target&&e.target.closest&&e.target.closest('#noiseBtn,#noiseBtnM'))return;
+    var nb=noiseBtn||noiseBtnM;if(nb&&nb.getAttribute('aria-pressed')!=='true')setNoise(true);};
+  wakeOn.forEach(function(t){document.addEventListener(t,wake,true);});
+}}catch(e){}
 if(vol)vol.addEventListener("input",function(){
+  try{localStorage.setItem('og-vol',vol.value)}catch(e){}
   if(gain&&ac)gain.gain.setTargetAtTime(level(),ac.currentTime,0.02);
 });
 
