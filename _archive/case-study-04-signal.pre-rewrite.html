@@ -2809,6 +2809,7 @@ span.fill{display:inline;background:none;border:0;padding:0;border-radius:0}
   .sec > .voices{grid-column:1}
 }
 </style>
+<script>/* the contrast choice carries across pages: applied before first paint */try{if(localStorage.getItem('og-contrast')==='high')document.documentElement.setAttribute('data-contrast','high')}catch(e){}</script>
 </head>
 <body>
 
@@ -4464,8 +4465,10 @@ document.querySelectorAll('[data-text]').forEach(function(b){b.addEventListener(
 
 /* contrast */
 var cb=document.getElementById('contrastBtn');
+if(root.getAttribute('data-contrast')==='high'){cb.setAttribute('aria-pressed','true');cb.textContent='On';cb.classList.add('btn--on');}
 cb.addEventListener('click',function(){var on=root.getAttribute('data-contrast')==='high';
   if(on)root.removeAttribute('data-contrast');else root.setAttribute('data-contrast','high');
+  try{if(on)localStorage.removeItem('og-contrast');else localStorage.setItem('og-contrast','high')}catch(e){}
   cb.setAttribute('aria-pressed',on?'false':'true');cb.textContent=on?'Off':'On';
   cb.classList.toggle('btn--on',!on);});
 
